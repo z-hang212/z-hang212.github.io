@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>冀农鲜 | 河北特色家禽垂直平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #1e2a32;
+            line-height: 1.4;
+            padding-bottom: 70px;
+        }
+
+        /* 小程序风格容器 */
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #f8f9fa;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* 顶部导航 */
+        .header {
+            background: linear-gradient(135deg, #2d6a4f 0%, #1b4d3e 100%);
+            padding: 18px 16px 12px 16px;
+            color: white;
+            border-radius: 0 0 20px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 12px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            font-size: 14px;
+            font-weight: 400;
+            background: #f4a26133;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 6px;
+        }
+
+        .icons {
+            display: flex;
+            gap: 18px;
+        }
+
+        .icons span {
+            font-size: 20px;
+        }
+
+        .search-bar {
+            background: white;
+            border-radius: 30px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        /* 轮播banner模拟 */
+        .banner {
+            margin: 12px 16px;
+            background: linear-gradient(120deg, #e9c46a, #f4a261);
+            border-radius: 20px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #2d3e2b;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .banner-text h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .banner-text p {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        .badge {
+            background: #2d6a4f;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* 功能入口 */
+        .grid-menu {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            background: white;
+            margin: 12px 16px;
+            padding: 16px 8px;
+            border-radius: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .menu-item {
+            text-align: center;
+        }
+
+        .menu-icon {
+            background: #eef4e6;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            border-radius: 28px;
+            font-size: 24px;
+        }
+
+        .menu-item span:last-child {
+            font-size: 12px;
+            color: #2d3e50;
+            font-weight: 500;
+        }
+
+        /* 慢直播模块 */
+        .live-card {
+            background: white;
+            margin: 12px 16px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+
+        .live-header {
+            padding: 14px 16px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .live-video {
+            background: #2c3e2f;
+            height: 180px;
+            position: relative;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500"><rect width="800" height="500" fill="%233b5e3b"/><circle cx="400" cy="250" r="40" fill="%236b8e23" opacity="0.7"/><path d="M300 280 L500 280 L450 340 L350 340 Z" fill="%23deb887" opacity="0.8"/><text x="380" y="380" fill="white" font-size="20">🐔 林下散养 · 实时画面</text></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .live-tag {
+            background: #e63946;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: bold;
+            position: absolute;
+            top: 12px;
+            left: 12px;
+        }
+
+        /* 商品列表标题 */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 16px 8px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* 商品卡片 */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 0 16px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            transition: transform 0.1s;
+        }
+
+        .product-img {
+            background: #e9f0e6;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            position: relative;
+        }
+
+        .trace-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .product-info {
+            padding: 12px;
+        }
+
+        .product-title {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .origin {
+            font-size: 10px;
+            color: #7f8c8d;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .price {
+            color: #e76f51;
+            font-weight: 800;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+
+        .price small {
+            font-size: 11px;
+            font-weight: normal;
+            color: #95a5a6;
+        }
+
+        .btn-buy {
+            background: #2d6a4f;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 8px 0;
+            border-radius: 30px;
+            margin-top: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* B端专区 */
+        .b2b-card {
+            background: #1e3a2f;
+            margin: 20px 16px;
+            border-radius: 24px;
+            padding: 18px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .b2b-text h4 {
+            font-size: 18px;
+        }
+
+        .b2b-btn {
+            background: #f4a261;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            color: #2d3e2b;
+        }
+
+        /* 溯源查询演示 */
+        .trace-demo {
+            background: white;
+            margin: 16px;
+            border-radius: 24px;
+            padding: 16px;
+        }
+
+        .trace-header {
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .trace-code {
+            background: #f1f3f5;
+            padding: 12px;
+            border-radius: 16px;
+            font-family: monospace;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-scan {
+            background: #2d6a4f;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            border: none;
+        }
+
+        /* 底部tab栏 */
+        .bottom-tab {
+            position: fixed;
+            bottom: 0;
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 16px 20px;
+            border-top: 1px solid #ececec;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.02);
+        }
+
+        .tab-item {
+            text-align: center;
+            font-size: 12px;
+            color: #8e9aaf;
+        }
+
+        .tab-item.active {
+            color: #2d6a4f;
+            font-weight: 600;
+        }
+
+        .tab-item span:first-child {
+            font-size: 22px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* 模拟弹窗 */
+        .toast-msg {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e2a32e6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 13px;
+            z-index: 200;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- 头部 -->
+    <div class="header">
+        <div class="header-top">
+            <div class="logo">冀农鲜<span>溯源·直供</span></div>
+            <div class="icons">
+                <span>🔍</span>
+                <span>🛒</span>
+            </div>
+        </div>
+        <div class="search-bar">
+            <span>🔎</span> 搜索太行鸡/土鸡蛋/散养套餐
+        </div>
+    </div>
+
+    <!-- banner 区域 -->
+    <div class="banner">
+        <div class="banner-text">
+            <h3>🛡️ 区块链溯源 · 一鸡一码</h3>
+            <p>国家级遗传资源 · 太行鸡直供</p>
+        </div>
+        <div class="badge">产地直发 ></div>
+    </div>
+
+    <!-- 功能入口 -->
+    <div class="grid-menu">
+        <div class="menu-item" data-action="trace">
+            <div class="menu-icon">📱</div>
+            <span>扫码溯源</span>
+        </div>
+        <div class="menu-item" data-action="b2b">
+            <div class="menu-icon">🏢</div>
+            <span>B端集采</span>
+        </div>
+        <div class="menu-item" data-action="live">
+            <div class="menu-icon">📹</div>
+            <span>慢直播</span>
+        </div>
+        <div class="menu-item" data-action="member">
+            <div class="menu-icon">🌿</div>
+            <span>云认养</span>
+        </div>
+    </div>
+
+    <!-- 慢直播入口模块 -->
+    <div class="live-card" id="liveSection">
+        <div class="live-header">
+            <span>🐓 林下慢直播 · 太行山散养基地</span>
+            <span style="color:#2d6a4f;">⚡ 实时 ></span>
+        </div>
+        <div class="live-video">
+            <div class="live-tag">🔴 LIVE 实时画面</div>
+        </div>
+        <div style="padding: 12px; font-size:12px; color:#2d4a2d; background:#fef9e6; border-radius:0 0 20px 20px;">
+            ✅ 当前基地：石家庄赞皇扩繁基地 | 散养天数 ≥180天 | 无抗认证
+        </div>
+    </div>
+
+    <!-- 热销商品 特色太行鸡系列 -->
+    <div class="section-title">
+        <span>🔥 明星产品 · 太行鸡</span>
+        <span style="font-size:13px;">查看更多 &gt;</span>
+    </div>
+    <div class="product-grid">
+        <div class="product-card">
+            <div class="product-img">
+                🐔
+                <div class="trace-badge" data-trace="TJ10123001">🔗 扫码溯源</div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">太行鸡·老母鸡</div>
+                <div class="origin">📍 赞皇生态散养 | 500天以上</div>
+                <div class="price">¥128 <small>/ 只 (净膛约2.2斤)</small></div>
+                <button class="btn-buy" data-product="太行鸡老母鸡">立即购买</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">
+                🥚
+                <div class="trace-badge" data-trace="EGG2356">🔗 扫码溯源</div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">太行绿壳蛋</div>
+                <div class="origin">🥚 无抗认证 · 叶黄素丰富</div>
+                <div class="price">¥39.9 <small>/ 20枚礼盒</small></div>
+                <button class="btn-buy" data-product="太行绿壳蛋">立即购买</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">
+                🍗
+                <div class="trace-badge" data-trace="CJ11234">🔗 扫码溯源</div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">华北柴鸡·童子鸡</div>
+                <div class="origin">散养120天 · 肉质细嫩</div>
+                <div class="price">¥78 <small>/ 整只</small></div>
+                <button class="btn-buy" data-product="华北柴鸡童子鸡">立即购买</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">
+                🥘
+                <div class="trace-badge" data-trace="GIFT998">🔗 扫码溯源</div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">滋补炖汤套餐</div>
+                <div class="origin">太行鸡块+菌菇包+红枣枸杞</div>
+                <div class="price">¥158 <small>/ 2-3人份</small></div>
+                <button class="btn-buy" data-product="滋补炖汤套餐">立即购买</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- B端商户专区 -->
+    <div class="b2b-card">
+        <div class="b2b-text">
+            <h4>🏪 B端商户专供</h4>
+            <p style="font-size:12px; opacity:0.9;">中小餐馆 · 食堂 · 卤味厂 · 降本15%以上</p>
+            <p style="font-size:11px; margin-top:6px;">✅ 账期支持 · 冷链直送 · 溯源保障</p>
+        </div>
+        <button class="b2b-btn" id="b2bBtn">📦 申请集采报价</button>
+    </div>
+
+    <!-- 溯源体验区（核心亮点） -->
+    <div class="trace-demo">
+        <div class="trace-header">
+            <span>🔗 区块链精准溯源体验</span>
+            <span style="font-size:12px; background:#eef2e6; padding:2px 8px; border-radius:16px;">国家级追溯平台对接</span>
+        </div>
+        <div class="trace-code">
+            <span>溯源ID: TJ10123001 (太行鸡脚环码)</span>
+            <button class="btn-scan" id="demoTraceBtn">查看档案</button>
+        </div>
+        <div style="margin-top: 12px; background:#F9F5EB; border-radius: 16px; padding: 12px; font-size: 12px; display: none;" id="traceDetailPanel">
+            <div style="display: flex; justify-content: space-between;"><span>🐣 品种: 太行鸡(纯种)</span><span>🏞️ 基地: 赞皇县天然养殖基地</span></div>
+            <div style="margin-top: 8px;"><span>📅 养殖周期: 520天 · 散养环境: 林下低密度</span></div>
+            <div>🌾 饲料: 玉米+豆粕+林间虫草 | 无抗证明: 2025-03-21 检测合格</div>
+            <div>🔪 屠宰: 赞皇定点屠宰厂 (2025-05-10) · 冷链运输: 冀A·冷链专车</div>
+            <div>✅ 8大类26项信息完整上链 | 不可篡改</div>
+        </div>
+        <p style="font-size:10px; color:#7f8c8d; margin-top: 12px;">⚡ 扫码即见养殖、免疫、屠宰、冷链全流程 | 让每一口都安心</p>
+    </div>
+
+    <!-- 云认养活动入口 -->
+    <div style="background: #e6f2ed; margin: 16px; border-radius: 28px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+            <strong>🌱 云认养 · 199元/只太行鸡</strong>
+            <div style="font-size: 11px;">180天后获得成品鸡+12枚鲜鸡蛋+慢直播陪伴</div>
+        </div>
+        <button id="adoptBtn" style="background: #f4a261; border: none; padding: 6px 18px; border-radius: 40px; font-weight: bold;">马上认养</button>
+    </div>
+
+    <!-- 底部tab栏模拟小程序 -->
+    <div class="bottom-tab">
+        <div class="tab-item active"><span>🏠</span><div>首页</div></div>
+        <div class="tab-item"><span>🔍</span><div>溯源</div></div>
+        <div class="tab-item"><span>🛒</span><div>商城</div></div>
+        <div class="tab-item"><span>👤</span><div>我的</div></div>
+    </div>
+</div>
+<div id="toastMsg" class="toast-msg">提示信息</div>
+
+
+</body>
+</html>
