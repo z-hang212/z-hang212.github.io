@@ -360,7 +360,7 @@
         setTimeout(() => { toast.style.opacity = '0'; }, 1800);
     }
     document.getElementById('homeBtn').addEventListener('click', () => {
-        window.location.href = '溯源主页.html';
+        window.location.href = 'https://z-hang212.github.io/Home.html';
     });
     document.getElementById('backBtn').addEventListener('click', () => {
         window.history.back();
@@ -371,14 +371,17 @@
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', () => {
             const nav = item.getAttribute('data-nav');
-            if (nav === 'home') window.location.href = '新首页.html';
+            if (nav === 'home') window.location.href = 'https://z-hang212.github.io/Home.html';
             else if (nav === 'trace') showMsg('🔍 您已在商品溯源页面');
             else if (nav === 'cart') showMsg('🛒 购物车功能即将开放');
-            else showMsg('👤 个人中心建设中');
+            else if (nav === 'profile') {
+                showMsg('👤 您已进入个人中心');
+                window.location.href = 'https://z-hang212.github.io/my.html';
+            }
         });
     });
     document.getElementById('backToTraceBtn').addEventListener('click', () => {
-        window.location.href = '溯源主页.html';
+        window.location.href = 'https://z-hang212.github.io/blackHome.html';
     });
     console.log('冀农鲜·华北柴鸡童子鸡 8大类26项区块链溯源档案已加载');
 </script>

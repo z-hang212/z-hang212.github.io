@@ -990,16 +990,14 @@
     item.addEventListener('click', () => {
         const nav = item.getAttribute('data-nav');
         if (nav === 'home') {
-            // 方案1：刷新页面（推荐，确保所有状态重置）
+            showMsg('首页已刷新');
             window.location.reload();
-            // 方案2：滚动到顶部（不刷新页面）
-            // window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if (nav === 'trace') {
             window.location.href = 'https://z-hang212.github.io/blackHome.html';  
         } else if (nav === 'cart') {
             showMsg('🛒 购物车功能即将开放');
         } else if (nav === 'profile') {
-            showMsg('👤 个人中心建设中');
+            window.location.href = 'https://z-hang212.github.io/my.html';
         }
     });
 });

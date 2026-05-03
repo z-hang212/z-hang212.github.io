@@ -554,10 +554,14 @@
     <div class="order-wrap">
         <div class="order-header">
             <span class="order-title">我的订单</span>
-            <span class="order-more" id="allOrdersBtn">全部 &gt;</span>
+            <!-- 默认状态下全部的字体为选中状态的字体 -->
+
+            <span class="order-more" id="allOrdersBtn" >全部 &gt;</span>
         </div>
         <div class="order-tabs">
-            <div class="tab-item" data-status="all">全部</div>
+            <div class="tab-item active" data-status="all">全部</div>
+            <!-- <div class="tab-item" data-status="all">全部</div> -->
+
             <div class="tab-item" data-status="pending">待付款</div>
             <div class="tab-item" data-status="shipped">待收货</div>
             <div class="tab-item" data-status="done">已完成</div>
