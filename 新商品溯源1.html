@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>冀农鲜 | 太行老母鸡·8大类26项区块链溯源档案</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #eef5ea;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+            color: #1e2f2a;
+        }
+        .trace-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f8fbf5;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(76, 109, 56, 0.08);
+            padding-bottom: 30px;
+        }
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f5faf0 100%);
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            border-bottom: 1px solid #cfe3c2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        .logo-icon { font-size: 28px; }
+        .logo-main {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(125deg, #2c6e3c, #5c9e4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .back-home {
+            font-size: 20px;
+            cursor: pointer;
+            color: #2c6e3c;
+            display: flex;
+            gap: 16px;
+        }
+        .back-home span { cursor: pointer; }
+        .product-card {
+            background: white;
+            margin: 16px;
+            border-radius: 28px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #d9e8cf;
+        }
+        .product-img {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 12px;
+            background: #ebf4e4;
+            border-radius: 70px;
+            overflow: hidden;
+        }
+        .product-img img { width: 100%; height: 100%; object-fit: cover; }
+        .product-name { font-size: 22px; font-weight: 800; color: #1a4c1a; }
+        .product-batch {
+            font-family: monospace;
+            background: #f4faf0;
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+        .price-tag { color: #e67e22; font-weight: 800; font-size: 20px; margin: 8px 0; }
+        .price-tag small { font-size: 14px; font-weight: normal; color: #95a57c; }
+        .blockchain-bar {
+            background: #eef3e9;
+            border-radius: 20px;
+            padding: 10px 16px;
+            margin: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #2c6e3c;
+            border: 1px solid #d4e8c8;
+        }
+        /* 八大类卡片样式 */
+        .trace-category {
+            background: white;
+            margin: 12px 16px;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid #e2efd8;
+        }
+        .category-header {
+            background: #f0f7ec;
+            padding: 14px 18px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #1e4620;
+            border-bottom: 1px solid #d9e8cf;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .category-header span:first-child { font-size: 22px; }
+        .info-grid {
+            padding: 14px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            padding: 6px 0;
+            border-bottom: 1px dashed #eef3e8;
+        }
+        .info-label { font-weight: 600; color: #486b3c; }
+        .info-value { color: #2c3b26; font-family: monospace; font-size: 12px; text-align: right; }
+        .hash-badge {
+            background: #f3f8ef;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-family: monospace;
+            font-size: 10px;
+        }
+        .btn-buy {
+            background: #2d6a4f;
+            color: white;
+            border: none;
+            width: calc(100% - 32px);
+            margin: 5px 16px;
+            padding: 14px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            max-width: 500px;
+            width: 100%;
+            background: #ffffffec;
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 16px 18px;
+            border-top: 1px solid #ddebd2;
+        }
+        .nav-item {
+            text-align: center;
+            font-size: 12px;
+            color: #809c70;
+            cursor: pointer;
+        }
+        .nav-item.active { color: #2d6a4f; font-weight: 600; }
+        .nav-item span:first-child { font-size: 22px; display: block; }
+        .toast-msg {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c4633e6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 13px;
+            z-index: 200;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .footer-space { height: 40px; }
+    </style>
+</head>
+<body>
+<div class="trace-container">
+    <div class="header">
+        <div class="logo-area">
+            <span class="logo-icon">🌿</span>
+            <span class="logo-main">冀农鲜</span>
+        </div>
+        <div class="back-home">
+            <span id="homeBtn">🏠</span>
+            <span id="backBtn">←</span>
+        </div>
+    </div>
+
+    <!-- 商品信息卡片 -->
+    <div class="product-card">
+        <div class="product-img">
+            <img src="https://i.ibb.co/hJQP5Z9J/20260503092519-253-18.jpg" alt="太行老母鸡">
+        </div>
+        <div class="product-name">太行老母鸡 · 500天散养</div>
+        <div class="product-batch">🔗 溯源码: TJ512301</div>
+        <div class="price-tag">¥128 <small>/净膛2.2斤</small></div>
+    </div>
+
+    <!-- 区块链标识 -->
+    <div class="blockchain-bar">
+        <span>⛓️ 蚂蚁链存证</span>
+        <span>✓ 8大类26项信息</span>
+        <span>🔒 不可篡改</span>
+        <span>📅 上链时间: 2025-05-19</span>
+    </div>
+
+    <!-- ========== 8大类26项溯源信息 ========== -->
+
+    <!-- 1. 养殖信息 -->
+    <div class="trace-category">
+        <div class="category-header">
+            <span>🏠</span> 1. 养殖信息
+        </div>
+        <div class="info-grid">
+            <div class="info-row"><span class="info-label">品种</span><span class="info-value">太行鸡（国家级畜禽遗传资源）</span></div>
+            <div class="info-row"><span class="info-label">基地名称</span><span class="info-value">赞皇县太行鸡原种保护基地</span></div>
+            <div class="info-row"><span class="info-label">基地地址</span><span class="info-value">河北省石家庄市赞皇县西龙门乡</span></div>
+            <div class="info-row"><span class="info-label">养殖周期</span><span class="info-value">520天（2024-03-10 至 2025-05-18）</span></div>
+            <div class="info-row"><span class="info-label">散养环境</span><span class="info-value">林下生态散养 · 密度25只/亩</span></div>
+        </div>
+    </div>
+
+    <!-- 2. 饲养信息 -->
+    <div class="trace-category">
+        <div class="category-header">
+            <span>🌾</span> 2. 饲养信息
+        </div>
+        <div class="info-grid">
+            <div class="info-row"><span class="info-label">饲料类型</span><span class="info-value">玉米65% + 豆粕25% + 虫草10%</span></div>
+            <div class="info-row"><span class="info-label">无抗证明</span><span class="info-value">SGS无抗认证 · 证书号WT240522</span></div>
+            <div class="info-row"><span class="info-label">防疫记录</span><span class="info-value">ND/AI疫苗 · 2024-09-15 / 2025-03-20</span></div>
+            <div class="info-row"><span class="info-label">用药记录</span><span class="info-value">无抗生素用药 · 停药期已满30天</span></div>
+        </div>
+    </div>
+
+    <!-- 3. 检测信息 -->
+    <div class="trace-category">
+        <div class="category-header">
+            <span>🔬</span> 3. 检测信息
+        </div>
+        <div class="info-grid">
+            <div class="info-row"><span class="info-label">宰前检疫</span><span class="info-value">官方兽医检疫合格 · 2025-05-17</span></div>
+            <div class="info-row"><span class="info-label">宰后检验</span><span class="info-value">胴体合格 · 内脏无病变</span></div>
+            <div class="info-row"><span class="info-label">药残检测</span><span class="info-value">抗生素/激素未检出 · 报告WT240523</span></div>
+            <div class="info-row"><span class="info-label">重金属检测</span><span class="info-value">铅≤0.1mg/kg · 镉≤0.05mg/kg</span></div>
+        </div>
+    </div>
+
+    <!-- 4. 屠宰信息 -->
+    <div class="trace-category">
+        <div class="category-header">
+            <span>🔪</span> 4. 屠宰信息
+        </div>
+        <div class="info-grid">
+            <div class="info-row"><span class="info-label">屠宰时间</span><span class="info-value">2025-05-18 08:30 - 14:20</span></div>
+            <div class="info-row"><span class="info-label">屠宰厂资质</span><span class="info-value">赞皇县定点屠宰厂 · 许可证号ZX2024001</span></div>
+            <div class="info-row"><span class="info-label">操作人员</span><span class="info-value">张建国（工号ZJ008）· 检疫员王丽</span></div>
+            <div class="info-row"><span class="info-label">加工标准</span><span class="info-value">GB/T 17236-2019 畜禽屠宰操作规程</span></div>
+        </div>
+    </div>
+
+    <!-- 5. 分割信息 -->
+    <div class="trace-category">
+        <div class="category-header">
+            <span>✂️</span> 5. 分割信息
+        </div>
+        <div class="info-grid">
+            <div class="info-row"><span class="info-label">分割时间</span><span class="info-value">2025-05-18 15:00 - 17:30</span></div>
+            <div class="info-row"><span class="info-label">规格</span><span class="info-value">净膛整鸡 · 约2.2斤/只</span></div>
+            <div class="info-row"><span class="info-label">包装人员</span><span class="info-value">李芳（工号LF023）· 质检赵敏</span></div>
+            <div class="info-row"><span class="info-label">包装标准</span><span class="info-value">真空贴体包装 · 符合GB 4806.7</span></div>
+        </div>
+    </div>
+
+    <!-- 6. 仓储信息 -->
+    <div class="trace-category">
+        <div class="category-header">
+            <span>📦</span> 6. 仓储信息
+        </div>
+        <div class="info-grid">
+            <div class="info-row"><span class="info-label">入库时间</span><span class="info-value">2025-05-18 19:20</span></div>
+            <div class="info-row"><span class="info-label">仓储温度</span><span class="info-value">-18℃ ± 1℃ · 实时记录可查</span></div>
+            <div class="info-row"><span class="info-label">库位</span><span class="info-value">A区-03货架-12库位</span></div>
+            <div class="info-row"><span class="info-label">保质期</span><span class="info-value">-18℃冷冻保存12个月</span></div>
+        </div>
+    </div>
+
+    <!-- 7. 冷链信息 -->
+    <div class="trace-category">
+        <div class="category-header">
+            <span>🚛</span> 7. 冷链信息
+        </div>
+        <div class="info-grid">
+            <div class="info-row"><span class="info-label">冷链车号</span><span class="info-value">冀A·L928F</span></div>
+            <div class="info-row"><span class="info-label">司机</span><span class="info-value">王振国 · 联系电话 138****1234</span></div>
+            <div class="info-row"><span class="info-label">温控记录</span><span class="info-value">全程-1℃~1℃ · 温度曲线已上链</span></div>
+            <div class="info-row"><span class="info-label">运输轨迹</span><span class="info-value">赞皇 → 石家庄总仓 → 分拨中心</span></div>
+        </div>
+    </div>
+
+    <!-- 8. 流通信息 -->
+    <div class="trace-category">
+        <div class="category-header">
+            <span>🏪</span> 8. 流通信息
+        </div>
+        <div class="info-grid">
+            <div class="info-row"><span class="info-label">出库时间</span><span class="info-value">2025-05-19 06:30</span></div>
+            <div class="info-row"><span class="info-label">配送路线</span><span class="info-value">石家庄总仓 → 裕华区 → 长安区 → 桥西区</span></div>
+            <div class="info-row"><span class="info-label">签收人</span><span class="info-value">李记餐饮 · 张店长（已签收）</span></div>
+            <div class="info-row"><span class="info-label">到货时间</span><span class="info-value">2025-05-19 09:45</span></div>
+        </div>
+    </div>
+
+    <!-- 区块链存证标识 -->
+    <!-- <div class="trace-category" style="background: #fefce8;">
+        <div class="category-header">
+            <span>⛓️</span> 区块链存证信息
+        </div>
+        <div class="info-grid">
+            <div class="info-row"><span class="info-label">存证哈希</span><span class="info-value">0x8c4b9a7f2e1d3c5b...e30f</span></div>
+            <div class="info-row"><span class="info-label">区块高度</span><span class="info-value">#1123849</span></div>
+            <div class="info-row"><span class="info-label">上链时间</span><span class="info-value">2025-05-19 10:23:47 +08:00</span></div>
+            <div class="info-row"><span class="info-label">存证平台</span><span class="info-value">蚂蚁链 · 国家农产品追溯平台对接</span></div>
+        </div>
+    </div> -->
+
+    <button class="btn-buy" id="buyBtn">🛒 立即购买 · 冷链直达</button>
+   
+    <button class="btn-buy" id="backToTraceBtn">🔙 返回溯源主页</button>
+    <!-- 在这里留一行白，避免和底部栏重叠 -->
+     <div style="height: 1rem;"></div>
+       
+    <div class="footer-space"></div>
+
+    <!-- 底部导航栏 -->
+    <div class="bottom-nav">
+        <div class="nav-item" data-nav="home"><span>🏠</span><div>首页</div></div>
+        <div class="nav-item active" data-nav="trace"><span>🔍</span><div>溯源</div></div>
+        <div class="nav-item" data-nav="cart"><span>🛒</span><div>购物车</div></div>
+        <div class="nav-item" data-nav="profile"><span>👤</span><div>我的</div></div>
+    </div>
+</div>
+<div class="toast-msg" id="toastMsg">提示</div>
+
+<script>
+    const toast = document.getElementById('toastMsg');
+    function showMsg(msg) {
+        toast.innerText = msg;
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 1800);
+    }
+    document.getElementById('homeBtn').addEventListener('click', () => {
+        window.location.href = '溯源主页.html';
+    });
+    document.getElementById('backBtn').addEventListener('click', () => {
+        window.history.back();
+    });
+    document.getElementById('buyBtn').addEventListener('click', () => {
+        showMsg('🛒 已添加 太行老母鸡 至购物车，可溯源放心购');
+    });
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const nav = item.getAttribute('data-nav');
+            if (nav === 'home') window.location.href = '新首页.html';
+            else if (nav === 'trace') showMsg('🔍 您已在商品溯源页面');
+            else if (nav === 'cart') showMsg('🛒 购物车功能即将开放');
+            else showMsg('👤 个人中心建设中');
+        });
+    });
+    document.getElementById('backToTraceBtn').addEventListener('click', () => {
+        window.location.href = '溯源主页.html';
+    });
+    console.log('冀农鲜·太行老母鸡 8大类26项区块链溯源档案已加载');
+</script>
+
+</body>
+</html>
