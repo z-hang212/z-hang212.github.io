@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>冀农鲜 | 区块链溯源中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #eef5ea;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+            color: #1e2f2a;
+        }
+        .trace-home {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f8fbf5;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(76, 109, 56, 0.08);
+            padding-bottom: 70px;
+        }
+        /* 头部 */
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f5faf0 100%);
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            border-bottom: 1px solid #cfe3c2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        .logo-icon {
+            font-size: 28px;
+        }
+        .logo-main {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(125deg, #2c6e3c, #5c9e4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .logo-tag {
+            font-size: 10px;
+            background: #e0f0da;
+            padding: 2px 8px;
+            border-radius: 20px;
+            color: #2c6e3c;
+        }
+        .back-home {
+            font-size: 20px;
+            cursor: pointer;
+            color: #2c6e3c;
+            display: flex;
+            gap: 16px;
+        }
+        .back-home span {
+            cursor: pointer;
+        }
+        /* 扫码引导卡片 */
+        .scan-guide {
+            background: linear-gradient(135deg, #2c6e3c, #4c9f3c);
+            margin: 16px;
+            border-radius: 28px;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        .scan-guide h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .scan-guide p {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 16px;
+        }
+        .scan-input-area {
+            display: flex;
+            gap: 12px;
+            background: white;
+            border-radius: 60px;
+            padding: 4px;
+        }
+        .scan-input-area input {
+            flex: 1;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 60px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+            font-family: monospace;
+        }
+        .scan-input-area button {
+            background: #f4a261;
+            border: none;
+            padding: 0 20px;
+            border-radius: 60px;
+            font-weight: 700;
+            color: #2c4b1e;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .scan-tip {
+            font-size: 11px;
+            margin-top: 12px;
+            opacity: 0.8;
+        }
+        /* 区块链标识栏 */
+        .blockchain-bar {
+            background: #eef3e9;
+            border-radius: 20px;
+            padding: 10px 16px;
+            margin: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #2c6e3c;
+            border: 1px solid #d4e8c8;
+        }
+        /* 统计卡片 */
+        .stats-row {
+            display: flex;
+            gap: 12px;
+            margin: 12px 16px;
+        }
+        .stat-card {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 14px 0;
+            text-align: center;
+            border: 1px solid #e0f0da;
+        }
+        .stat-number {
+            font-size: 22px;
+            font-weight: 800;
+            color: #2f6b2f;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #7c9c6e;
+        }
+        /* 商品列表标题 */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin: 20px 16px 12px;
+        }
+        .section-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e4620;
+            border-left: 4px solid #4c9f3c;
+            padding-left: 12px;
+        }
+        .section-link {
+            font-size: 12px;
+            color: #6c8f5e;
+            cursor: pointer;
+        }
+        /* 商品网格 - 可扩展 */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 0 16px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.2s;
+            border: 1px solid #e7f0e0;
+            cursor: pointer;
+        }
+        .product-card:active {
+            transform: scale(0.98);
+        }
+        .product-img {
+            background: #ebf4e4;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 12px;
+        }
+        .product-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .product-batch {
+            font-size: 10px;
+            color: #748c64;
+            font-family: monospace;
+            background: #f4faf0;
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin: 6px 0;
+        }
+        .product-price {
+            color: #e67e22;
+            font-weight: 800;
+            font-size: 15px;
+        }
+        .trace-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #eaf6e3;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 9px;
+            color: #2c6e3c;
+            margin-top: 6px;
+        }
+        /* 空状态提示 */
+        .empty-tip {
+            text-align: center;
+            padding: 40px;
+            color: #95a57c;
+            font-size: 14px;
+        }
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            max-width: 500px;
+            width: 100%;
+            background: #ffffffec;
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 16px 18px;
+            border-top: 1px solid #ddebd2;
+        }
+        .nav-item {
+            text-align: center;
+            font-size: 12px;
+            color: #809c70;
+            cursor: pointer;
+        }
+        .nav-item.active {
+            color: #2d6a4f;
+            font-weight: 600;
+        }
+        .nav-item span:first-child {
+            font-size: 22px;
+            display: block;
+        }
+        .toast-msg {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c4633e6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 13px;
+            z-index: 200;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+<div class="trace-home">
+    <!-- 头部 -->
+    <div class="header">
+        <div class="logo-area">
+            <span class="logo-icon">🌿</span>
+            <span class="logo-main">冀农鲜</span>
+            <span class="logo-tag">区块链溯源</span>
+        </div>
+        <div class="back-home">
+            <span id="homeBtn">🏠</span>
+        </div>
+    </div>
+
+    <!-- 扫码引导卡片 -->
+    <div class="scan-guide">
+        <h2>🔍 扫码追溯源头</h2>
+        <p>扫描商品包装上的溯源码 / 输入批次号</p>
+        <div class="scan-input-area">
+            <input type="text" id="batchInput" placeholder="例: TJ512301 / EGG2201 / CJ3345" autocomplete="off">
+            <button id="searchBtn">查询</button>
+        </div>
+        <div class="scan-tip">✨ 支持太行老母鸡、绿壳蛋、童子鸡等所有冀农鲜产品</div>
+    </div>
+
+    <!-- 区块链标识 -->
+    <div class="blockchain-bar">
+        <span>⛓️ 蚂蚁链存证</span>
+        <span>✓ 数据不可篡改</span>
+        <span>🔒 一物一码</span>
+        <span>📈 已上链商品</span>
+    </div>
+
+    <!-- 统计卡片 -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-number" id="productCount">3</div>
+            <div class="stat-label">可溯源商品</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">26+</div>
+            <div class="stat-label">全维度溯源项</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">无抗认证</div>
+        </div>
+    </div>
+
+    <!-- 商品列表标题 -->
+    <div class="section-header">
+        <h3>📦 全部可溯源商品</h3>
+        <div class="section-link" id="viewAllLink">查看全部 ∨</div>
+    </div>
+
+    <!-- 商品网格容器（动态渲染） -->
+    <div class="product-grid" id="productGrid"></div>
+
+    <!-- 底部导航栏 -->
+    <div class="bottom-nav">
+        <div class="nav-item" data-nav="home"><span>🏠</span><div>首页</div></div>
+        <div class="nav-item active" data-nav="trace"><span>🔍</span><div>溯源</div></div>
+        <div class="nav-item" data-nav="cart"><span>🛒</span><div>购物车</div></div>
+        <div class="nav-item" data-nav="profile"><span>👤</span><div>我的</div></div>
+    </div>
+</div>
+
+<div class="toast-msg" id="toastMsg">提示</div>
+
+<script>
+    // ============================================================
+    // 商品溯源数据库（集中管理，方便扩展）
+    // 新增商品只需在此数组中添加对象即可，前端自动渲染
+    // ============================================================
+    const productDatabase = [
+        {
+            id: "p1",
+            name: "太行老母鸡 · 500天散养",
+            batch: "TJ512301",
+            price: "¥128",
+            unit: "净膛2.2斤",
+            imgUrl: "https://i.ibb.co/hJQP5Z9J/20260503092519-253-18.jpg",
+            detailPage: "新商品溯源1.html"   // 独立详情页路径
+        },
+        {
+            id: "p2",
+            name: "太行绿壳蛋礼盒",
+            batch: "EGG2201",
+            price: "¥39.9",
+            unit: "20枚礼盒装",
+            imgUrl: "https://i.ibb.co/FL93hMsS/20260503092520-254-18.jpg",
+            detailPage: "商品溯源2.html"
+        },
+        {
+            id: "p3",
+            name: "华北柴鸡 · 童子鸡",
+            batch: "CJ3345",
+            price: "¥78",
+            unit: "整只 · 净膛1.8斤",
+            imgUrl: "https://i.ibb.co/9HG77m1Y/20260503092521-255-18.jpg",
+            detailPage: "商品溯源3.html"
+        }
+        // ============================================================
+        // 🔧 未来扩展示例（取消注释即可添加新商品）：
+        // {
+        //     id: "p4",
+        //     name: "太行鸡炖汤套餐",
+        //     batch: "GIFTT01",
+        //     price: "¥158",
+        //     unit: "2-3人份",
+        //     imgUrl: "https://i.ibb.co/5WLfH8ZB/20260503092636-257-18.jpg",
+        //     detailPage: "商品溯源4.html"
+        // },
+        // {
+        //     id: "p5",
+        //     name: "散养土鸡蛋30枚",
+        //     batch: "TEDD8823",
+        //     price: "¥58",
+        //     unit: "30枚装",
+        //     imgUrl: "图片地址",
+        //     detailPage: "商品溯源5.html"
+        // }
+        // ============================================================
+    ];
+
+    // 批次号到商品的映射（快速查询）
+    const batchToProduct = {};
+    productDatabase.forEach(product => {
+        batchToProduct[product.batch] = product;
+    });
+
+    // DOM 元素
+    const productGrid = document.getElementById('productGrid');
+    const productCountSpan = document.getElementById('productCount');
+    const batchInput = document.getElementById('batchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const toast = document.getElementById('toastMsg');
+
+    // 显示提示
+    function showMsg(msg) {
+        toast.innerText = msg;
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+    }
+
+    // 跳转到商品详情页
+    function goToProductDetail(product) {
+        if (product.detailPage) {
+            window.location.href = product.detailPage;
+        } else {
+            // 如果未来商品没有独立页面，可以跳转到通用溯源页（带参数）
+            showMsg(`该商品详情页建设中，溯源码：${product.batch}`);
+        }
+    }
+
+    // 根据批次号查询并跳转
+    function searchByBatch(batch) {
+        if (!batch) {
+            showMsg('请输入溯源码');
+            return;
+        }
+        const upperBatch = batch.toUpperCase().trim();
+        const product = batchToProduct[upperBatch];
+        if (product) {
+            goToProductDetail(product);
+        } else {
+            showMsg(`未找到溯源码「${upperBatch}」的商品，请核对后重试`);
+        }
+    }
+
+    // 渲染商品网格（支持任意数量，自动适应两列布局）
+    function renderProductGrid() {
+        if (!productGrid) return;
+        
+        if (productDatabase.length === 0) {
+            productGrid.innerHTML = '<div class="empty-tip">暂无溯源商品，敬请期待</div>';
+            productCountSpan.innerText = '0';
+            return;
+        }
+        
+        productCountSpan.innerText = productDatabase.length;
+        
+        const gridHtml = productDatabase.map(product => `
+            <div class="product-card" data-batch="${product.batch}" data-id="${product.id}">
+                <div class="product-img">
+                    <img src="${product.imgUrl}" alt="${product.name}" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-title">${product.name}</div>
+                    <div class="product-batch">🔗 ${product.batch}</div>
+                    <div class="product-price">${product.price} <span style="font-size: 11px; color:#95a57c;">/${product.unit}</span></div>
+                    <div class="trace-badge">⛓️ 区块链存证 ✓</div>
+                </div>
+            </div>
+        `).join('');
+        
+        productGrid.innerHTML = gridHtml;
+        
+        // 绑定卡片点击事件
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const batch = card.getAttribute('data-batch');
+                const product = batchToProduct[batch];
+                if (product) {
+                    goToProductDetail(product);
+                }
+            });
+        });
+    }
+
+    // 页面初始化
+    renderProductGrid();
+
+    // 搜索按钮点击
+    searchBtn.addEventListener('click', () => {
+        searchByBatch(batchInput.value);
+    });
+
+    // 输入框回车搜索
+    batchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            searchByBatch(batchInput.value);
+        }
+    });
+
+    // 首页跳转
+    document.getElementById('homeBtn').addEventListener('click', () => {
+        window.location.href = '新首页.html';
+    });
+
+    // 查看全部（滚动到底部或提示）
+    const viewAllLink = document.getElementById('viewAllLink');
+    if (viewAllLink) {
+        viewAllLink.addEventListener('click', () => {
+            const grid = document.getElementById('productGrid');
+            if (grid) {
+                grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                showMsg(`共 ${productDatabase.length} 款可溯源商品`);
+            }
+        });
+    }
+
+    // 底部导航栏交互
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const nav = item.getAttribute('data-nav');
+            if (nav === 'home') {
+                window.location.href = '新首页.html';
+            } else if (nav === 'trace') {
+                showMsg('🔍 您已在溯源中心页面');
+            } else if (nav === 'cart') {
+                showMsg('🛒 购物车功能即将开放');
+            } else if (nav === 'profile') {
+                showMsg('👤 个人中心建设中');
+            }
+        });
+    });
+
+    // 控制台输出
+    console.log(`冀农鲜溯源中心已加载，共 ${productDatabase.length} 款可溯源商品`);
+</script>
+</body>
+</html>
