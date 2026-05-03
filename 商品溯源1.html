@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>冀农鲜 | 太行老母鸡·区块链溯源档案</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #eef5ea;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+            color: #1e2f2a;
+        }
+        .trace-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f8fbf5;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(76, 109, 56, 0.08);
+            padding-bottom: 30px;
+        }
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f5faf0 100%);
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            border-bottom: 1px solid #cfe3c2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        .logo-icon {
+            font-size: 28px;
+        }
+        .logo-main {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(125deg, #2c6e3c, #5c9e4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .back-home {
+            font-size: 20px;
+            cursor: pointer;
+            color: #2c6e3c;
+            display: flex;
+            gap: 16px;
+        }
+        .back-home span {
+            cursor: pointer;
+        }
+        .product-card {
+            background: white;
+            margin: 16px;
+            border-radius: 28px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #d9e8cf;
+        }
+        .product-img {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 12px;
+            background: #ebf4e4;
+            border-radius: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1a4c1a;
+        }
+        .product-batch {
+            font-family: monospace;
+            background: #f4faf0;
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+        .price-tag {
+            color: #e67e22;
+            font-weight: 800;
+            font-size: 20px;
+            margin: 8px 0;
+        }
+        .price-tag small {
+            font-size: 14px;
+            font-weight: normal;
+            color: #95a57c;
+        }
+        .blockchain-bar {
+            background: #eef3e9;
+            border-radius: 20px;
+            padding: 10px 16px;
+            margin: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #2c6e3c;
+            border: 1px solid #d4e8c8;
+        }
+        .timeline-card {
+            background: white;
+            margin: 12px 16px;
+            border-radius: 28px;
+            padding: 18px;
+            border: 1px solid #e2efd8;
+        }
+        .section-title {
+            font-weight: 700;
+            font-size: 16px;
+            border-left: 4px solid #4c9f3c;
+            padding-left: 12px;
+            margin-bottom: 18px;
+            color: #1e4620;
+        }
+        .timeline-step {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .timeline-step:last-child {
+            margin-bottom: 0;
+        }
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background: #eff7ea;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .step-content {
+            flex: 1;
+            border-bottom: 1px dashed #d4e2ca;
+            padding-bottom: 12px;
+        }
+        .timeline-step:last-child .step-content {
+            border-bottom: none;
+        }
+        .step-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: #1f3d1c;
+        }
+        .step-desc {
+            font-size: 12px;
+            color: #648c54;
+            margin-top: 4px;
+        }
+        .step-hash {
+            font-family: monospace;
+            font-size: 10px;
+            background: #f3f8ef;
+            padding: 3px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 6px;
+            color: #4d7540;
+        }
+        .step-time {
+            font-size: 10px;
+            color: #8aaa7a;
+            margin-top: 4px;
+        }
+        .cert-area {
+            background: #fefce8;
+            margin: 16px;
+            border-radius: 24px;
+            padding: 16px;
+            border: 1px solid #e8e0b0;
+        }
+        .cert-title {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: #8a6e2e;
+        }
+        .cert-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 12px;
+        }
+        .cert-item {
+            background: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: #2c6e3c;
+        }
+        .nutrition-grid {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #e0d8a8;
+        }
+        .nutrition-item {
+            text-align: center;
+        }
+        .nutrition-value {
+            font-weight: 800;
+            color: #2c6e3c;
+            font-size: 16px;
+        }
+        .nutrition-label {
+            font-size: 10px;
+            color: #8a7a4a;
+        }
+        .btn-buy {
+            background: #2d6a4f;
+            color: white;
+            border: none;
+            width: calc(100% - 32px);
+            margin: 5px 16px;
+            padding: 14px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .btn-buy:active {
+            transform: scale(0.98);
+            background: #1e4a35;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            max-width: 500px;
+            width: 100%;
+            background: #ffffffec;
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 16px 18px;
+            border-top: 1px solid #ddebd2;
+        }
+        .nav-item {
+            text-align: center;
+            font-size: 12px;
+            color: #809c70;
+            cursor: pointer;
+        }
+        .nav-item.active {
+            color: #2d6a4f;
+            font-weight: 600;
+        }
+        .nav-item span:first-child {
+            font-size: 22px;
+            display: block;
+        }
+        .toast-msg {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c4633e6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 13px;
+            z-index: 200;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+<div class="trace-container">
+    <div class="header">
+        <div class="logo-area">
+            <span class="logo-icon">🌿</span>
+            <span class="logo-main">冀农鲜</span>
+        </div>
+        <div class="back-home">
+            <span id="homeBtn">🏠</span>
+            <span id="backBtn">←</span>
+        </div>
+    </div>
+
+    <!-- 商品信息卡片 -->
+    <div class="product-card">
+        <div class="product-img">
+            <img src="https://i.ibb.co/hJQP5Z9J/20260503092519-253-18.jpg" alt="太行老母鸡">
+        </div>
+        <div class="product-name">太行老母鸡 · 500天散养</div>
+        <div class="product-batch">🔗 溯源码: TJ512301</div>
+        <div class="price-tag">¥128 <small>/净膛2.2斤</small></div>
+    </div>
+
+    <!-- 区块链标识 -->
+    <div class="blockchain-bar">
+        <span>⛓️ 蚂蚁链存证</span>
+        <span>✓ 数据不可篡改</span>
+        <span>🔒 一物一码</span>
+    </div>
+
+    <!-- 全流程溯源时间轴 -->
+    <div class="timeline-card">
+        <div class="section-title">📜 全生命周期区块链记录</div>
+        
+        <div class="timeline-step">
+            <div class="step-icon">🐣</div>
+            <div class="step-content">
+                <div class="step-title">种蛋孵化 · 国家级保种场</div>
+                <div class="step-desc">国家级太行鸡保种场 · 种蛋来源可追溯 · 孵化率96%以上</div>
+                <div class="step-time">📅 2024-03-10</div>
+                <div class="step-hash">🔗 0x7f3e2a1c...b4d2</div>
+            </div>
+        </div>
+
+        <div class="timeline-step">
+            <div class="step-icon">🌿</div>
+            <div class="step-content">
+                <div class="step-title">林下生态散养 · 500天</div>
+                <div class="step-desc">赞皇县天然养殖基地 · 低密度放养 · 辅喂玉米虫草 · 全程无抗</div>
+                <div class="step-time">📅 2024-03 ~ 2025-05</div>
+                <div class="step-hash">🔗 0x8c4b9a7f...e30f</div>
+            </div>
+        </div>
+
+        <div class="timeline-step">
+            <div class="step-icon">🧪</div>
+            <div class="step-content">
+                <div class="step-title">第三方无抗检测</div>
+                <div class="step-desc">SGS检测 · 抗生素未检出 · 激素未检出 · 报告号WT240522</div>
+                <div class="step-time">📅 2025-05-12</div>
+                <div class="step-hash">🔗 0xd93f2e12...c471</div>
+            </div>
+        </div>
+
+        <div class="timeline-step">
+            <div class="step-icon">🔪</div>
+            <div class="step-content">
+                <div class="step-title">人道屠宰 · 气调锁鲜</div>
+                <div class="step-desc">赞皇定点屠宰厂 · 清真屠宰资质 · 快速预冷排酸</div>
+                <div class="step-time">📅 2025-05-18</div>
+                <div class="step-hash">🔗 0xa44d7c12...f88b</div>
+            </div>
+        </div>
+
+        <div class="timeline-step">
+            <div class="step-icon">🚛</div>
+            <div class="step-content">
+                <div class="step-title">冷链运输 · 全程温控</div>
+                <div class="step-desc">冷链车冀A·L928F · 全程温度-1℃~1℃ · GPS轨迹可查</div>
+                <div class="step-time">📅 2025-05-18 22:00</div>
+                <div class="step-hash">🔗 0x3e69c2aa...114d</div>
+            </div>
+        </div>
+
+        <div class="timeline-step">
+            <div class="step-icon">🏬</div>
+            <div class="step-content">
+                <div class="step-title">冀农鲜云仓 · 配送到家</div>
+                <div class="step-desc">石家庄总仓发货 · 顺丰/京东冷链 · 次日达</div>
+                <div class="step-time">📅 2025-05-19</div>
+                <div class="step-hash">🔗 0xfba8321d...9e27</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 检测认证区域 -->
+    <div class="cert-area">
+        <div class="cert-title">
+            <span>📋</span> 品质认证与检测报告
+        </div>
+        <div class="cert-items">
+            <span class="cert-item">✅ 无抗产品认证</span>
+            <span class="cert-item">🏅 地理标志农产品</span>
+            <span class="cert-item">📄 动物检疫合格证</span>
+            <span class="cert-item">🔬 SGS检测报告</span>
+            <span class="cert-item">🌾 林下散养认证</span>
+            <span class="cert-item">💧 无激素声明</span>
+            <span class="cert-item">🥩 肌苷酸检测</span>
+        </div>
+        
+        <!-- 营养成分表 -->
+        <div class="nutrition-grid">
+            <div class="nutrition-item">
+                <div class="nutrition-value">23.6g</div>
+                <div class="nutrition-label">蛋白质/100g</div>
+            </div>
+            <div class="nutrition-item">
+                <div class="nutrition-value">8.5g</div>
+                <div class="nutrition-label">脂肪/100g</div>
+            </div>
+            <div class="nutrition-item">
+                <div class="nutrition-value">3.2mg</div>
+                <div class="nutrition-label">肌苷酸</div>
+            </div>
+            <div class="nutrition-item">
+                <div class="nutrition-value">500天</div>
+                <div class="nutrition-label">散养周期</div>
+            </div>
+        </div>
+        
+        <div style="font-size: 11px; color: #8a6e2e; margin-top: 12px; text-align: center;">
+            * 老母鸡富含胶质，适合煲汤慢炖2-3小时，汤色金黄，滋补养生
+        </div>
+    </div>
+
+    <!-- 推荐烹饪方式卡片 -->
+    <div class="timeline-card" style="margin-top: 0;">
+        <div class="section-title">🍳 推荐烹饪方式</div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <span style="background: #e8f0e3; padding: 6px 14px; border-radius: 30px; font-size: 12px;">🍲 滋补鸡汤</span>
+            <span style="background: #e8f0e3; padding: 6px 14px; border-radius: 30px; font-size: 12px;">🥣 香菇炖鸡</span>
+            <span style="background: #e8f0e3; padding: 6px 14px; border-radius: 30px; font-size: 12px;">🌿 药膳煲汤</span>
+            <span style="background: #e8f0e3; padding: 6px 14px; border-radius: 30px; font-size: 12px;">🍗 口水鸡</span>
+        </div>
+        <div style="font-size: 11px; color: #648c54; margin-top: 12px;">
+            ⭐ 太行老母鸡适合文火慢炖，建议搭配红枣、枸杞、山药，营养更佳
+        </div>
+    </div>
+
+    <button class="btn-buy" id="buyBtn">🛒 立即购买 · 冷链直达</button>
+    <button class="btn-buy" id="backBtn">🔙 返回溯源主页</button>
+    <!-- 在这里留一行白，避免和底部栏重叠 -->
+        <div style="height: 40px;"></div>
+
+
+    <!-- 底部导航栏 -->
+    <div class="bottom-nav">
+        <div class="nav-item" data-nav="home"><span>🏠</span><div>首页</div></div>
+        <div class="nav-item active" data-nav="trace"><span>🔍</span><div>溯源</div></div>
+        <div class="nav-item" data-nav="cart"><span>🛒</span><div>购物车</div></div>
+        <div class="nav-item" data-nav="profile"><span>👤</span><div>我的</div></div>
+    </div>
+</div>
+
+<div class="toast-msg" id="toastMsg">提示</div>
+
+<script>
+    const toast = document.getElementById('toastMsg');
+    function showMsg(msg) {
+        toast.innerText = msg;
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 1800);
+    }
+
+    document.getElementById('homeBtn').addEventListener('click', () => {
+        window.location.href = '新首页.html';
+    });
+    document.getElementById('backBtn').addEventListener('click', () => {
+        window.history.back();
+    });
+
+    document.getElementById('buyBtn').addEventListener('click', () => {
+        showMsg('🛒 已添加 太行老母鸡 至购物车，可溯源放心购');
+    });
+
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const nav = item.getAttribute('data-nav');
+            if (nav === 'home') {
+                window.location.href = '新首页.html';
+            } else if (nav === 'trace') {
+                showMsg('🔍 您已在商品溯源页面');
+            } else if (nav === 'cart') {
+                showMsg('🛒 购物车功能即将开放');
+            } else if (nav === 'profile') {
+                showMsg('👤 个人中心建设中');
+            }
+        });
+    });
+
+    console.log('冀农鲜·太行老母鸡 区块链溯源档案已加载，溯源码：TJ512301');
+</script>
+</body>
+</html>
