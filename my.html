@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>我的 | 冀农鲜 - 绿色生态溯源电商平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #eef5ea;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+            color: #1e2f2a;
+            padding-bottom: 70px;
+        }
+
+        /* 主容器 */
+        .profile-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f8fbf5;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(76, 109, 56, 0.08);
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f5faf0 100%);
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            border-bottom: 1px solid #cfe3c2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .logo-icon { font-size: 28px; }
+
+        .logo-main {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(125deg, #2c6e3c, #5c9e4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo-tag {
+            font-size: 10px;
+            background: #e0f0da;
+            padding: 2px 8px;
+            border-radius: 20px;
+            color: #2c6e3c;
+            font-weight: 500;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 18px;
+            font-size: 20px;
+            color: #2c6e3c;
+        }
+
+        /* 用户卡片 */
+        .user-card {
+            background: linear-gradient(135deg, #2c6e3c, #4a9e3e);
+            margin: 16px;
+            border-radius: 28px;
+            padding: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 6px 14px rgba(44, 110, 60, 0.2);
+        }
+
+        .avatar {
+            width: 70px;
+            height: 70px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .vip-tag {
+            background: #ffc107;
+            color: #2c6e3c;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .user-phone {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 6px;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        /* 快捷入口 - 网格 */
+        .func-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: white;
+            margin: 12px 16px;
+            padding: 14px 8px;
+            border-radius: 28px;
+            box-shadow: 0 4px 12px rgba(30, 60, 20, 0.04);
+            border: 1px solid #e0f0da;
+        }
+
+        .func-item {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .func-item:active { transform: scale(0.96); }
+
+        .func-icon {
+            background: #eaf6e3;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            border-radius: 30px;
+            font-size: 24px;
+            color: #2c6e3c;
+        }
+
+        .func-item span:last-child {
+            font-size: 11px;
+            font-weight: 500;
+            color: #2d4a2d;
+        }
+
+        /* 订单区域 */
+        .order-wrap {
+            background: white;
+            margin: 12px 16px;
+            border-radius: 28px;
+            padding: 16px;
+            border: 1px solid #e0f0da;
+            box-shadow: 0 4px 12px rgba(30, 60, 20, 0.04);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 16px;
+        }
+
+        .order-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e4620;
+            border-left: 3px solid #4c9f3c;
+            padding-left: 10px;
+        }
+
+        .order-more {
+            font-size: 12px;
+            color: #6c8f5e;
+            cursor: pointer;
+        }
+
+        /* 订单状态标签栏 */
+        .order-tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eef3e8;
+        }
+
+        .tab-item {
+            text-align: center;
+            font-size: 13px;
+            color: #809c70;
+            cursor: pointer;
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .tab-item.active {
+            color: #2c6e3c;
+            font-weight: 600;
+        }
+
+        .tab-item .badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: #e67e22;
+            color: white;
+            font-size: 10px;
+            padding: 1px 5px;
+            border-radius: 20px;
+            min-width: 16px;
+        }
+
+        /* 订单列表 */
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .order-card {
+            background: #fefdf8;
+            border-radius: 20px;
+            padding: 12px;
+            border: 1px solid #eef3e8;
+        }
+
+        .order-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        .order-num {
+            color: #6c8f5e;
+            font-family: monospace;
+        }
+
+        .order-status {
+            font-weight: 600;
+        }
+
+        .order-status.pending { color: #e67e22; }
+        .order-status.shipped { color: #2c6e3c; }
+        .order-status.done { color: #95a57c; }
+
+        .order-product {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .order-product-img {
+            width: 60px;
+            height: 60px;
+            background: #ebf4e4;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .order-product-info {
+            flex: 1;
+        }
+
+        .order-product-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e4620;
+        }
+
+        .order-product-spec {
+            font-size: 11px;
+            color: #95a57c;
+            margin-top: 4px;
+        }
+
+        .order-product-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #e67e22;
+        }
+
+        .order-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #eef3e8;
+        }
+
+        .order-btn {
+            background: #f4faf0;
+            border: 1px solid #cde0bd;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 12px;
+            color: #2c6e3c;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .order-btn:active { background: #e0f0da; }
+
+        .order-btn.primary {
+            background: #2c6e3c;
+            color: white;
+            border: none;
+        }
+
+        /* 物流进度条 */
+        .logistics-progress {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            padding: 0 5px;
+        }
+
+        .progress-item {
+            font-size: 10px;
+            color: #bcd0ae;
+            text-align: center;
+            flex: 1;
+        }
+
+        .progress-item.active {
+            color: #2c6e3c;
+            font-weight: 500;
+        }
+
+        .progress-line {
+            flex: 2;
+            height: 2px;
+            background: #e0f0da;
+            border-radius: 2px;
+        }
+
+        .progress-line.active {
+            background: #2c6e3c;
+        }
+
+        /* 设置区域 */
+        .settings-wrap {
+            background: white;
+            margin: 12px 16px;
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid #e0f0da;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #eef3e8;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+
+        .setting-item:active { background: #f8fbf5; }
+
+        .setting-item:last-child { border-bottom: none; }
+
+        .setting-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .setting-icon {
+            font-size: 20px;
+        }
+
+        .setting-name {
+            font-size: 14px;
+            color: #2d4a2d;
+        }
+
+        .setting-arrow {
+            color: #bcd0ae;
+            font-size: 16px;
+        }
+
+        /* 退出按钮 */
+        .logout-btn {
+            background: white;
+            margin: 12px 16px 24px;
+            border-radius: 60px;
+            padding: 14px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            color: #e67e22;
+            border: 1px solid #e0f0da;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .logout-btn:active {
+            background: #fef5e8;
+        }
+
+        /* 底部导航栏 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            max-width: 500px;
+            width: 100%;
+            background: #ffffffec;
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 16px 18px;
+            border-top: 1px solid #ddebd2;
+            z-index: 100;
+        }
+
+        .nav-item {
+            text-align: center;
+            font-size: 12px;
+            color: #809c70;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #2d6a4f;
+            font-weight: 600;
+        }
+
+        .nav-item span:first-child {
+            font-size: 22px;
+            display: block;
+        }
+
+        /* 提示消息 */
+        .toast-msg {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c4633e6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 13px;
+            z-index: 200;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <!-- 顶部导航栏 -->
+    <div class="header">
+        <div class="logo-area">
+            <span class="logo-icon">🌿</span>
+            <span class="logo-main">冀农鲜</span>
+            <span class="logo-tag">生态溯源</span>
+        </div>
+        <div class="action-icons">
+            <span>🔔</span>
+            <span>🛒</span>
+        </div>
+    </div>
+
+    <!-- 用户卡片 -->
+    <div class="user-card">
+        <div class="avatar">🌾</div>
+        <div class="user-info">
+            <div class="user-name">
+                生态农友 <span class="vip-tag">溯源会员</span>
+            </div>
+            <div class="user-phone">138****8888</div>
+            <div class="user-stats">
+                <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">优惠券</div></div>
+                <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">积分</div></div>
+                <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">足迹</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 快捷入口 -->
+    <div class="func-grid">
+        <div class="func-item" data-action="collection">
+            <div class="func-icon">❤️</div>
+            <span>我的收藏</span>
+        </div>
+        <div class="func-item" data-action="history">
+            <div class="func-icon">📖</div>
+            <span>浏览记录</span>
+        </div>
+        <div class="func-item" data-action="address">
+            <div class="func-icon">📍</div>
+            <span>收货地址</span>
+        </div>
+        <div class="func-item" data-action="coupon">
+            <div class="func-icon">🎫</div>
+            <span>优惠券</span>
+        </div>
+    </div>
+
+    <!-- 订单区域 -->
+    <div class="order-wrap">
+        <div class="order-header">
+            <span class="order-title">我的订单</span>
+            <span class="order-more" id="allOrdersBtn">全部 &gt;</span>
+        </div>
+        <div class="order-tabs">
+            <div class="tab-item" data-status="all">全部</div>
+            <div class="tab-item" data-status="pending">待付款</div>
+            <div class="tab-item" data-status="shipped">待收货</div>
+            <div class="tab-item" data-status="done">已完成</div>
+        </div>
+
+        <div class="order-list" id="orderList">
+            <!-- 订单1：待付款 -->
+            <div class="order-card" data-status="pending">
+                <div class="order-header-row">
+                    <span class="order-num">订单号：20260428002</span>
+                    <span class="order-status pending">待付款</span>
+                </div>
+                <div class="order-product">
+                    <div class="order-product-img" style="width: 80px; height: 80px; border-radius: 8px; overflow: hidden;"><img src="https://i.ibb.co/hJQP5Z9J/20260503092519-253-18.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <div class="order-product-info">
+                        <div class="order-product-name">太行鸡生鲜套餐</div>
+                        <div class="order-product-spec">散养500天 · 净膛2.2斤</div>
+                    </div>
+                    <div class="order-product-price">¥128</div>
+                </div>
+                <div class="order-footer">
+                    <span class="order-btn trace-btn" data-trace="TJ512301">🔍 查看溯源</span>
+                    <span class="order-btn primary">立即付款</span>
+                </div>
+            </div>
+
+            <!-- 订单2：待收货（带物流进度） -->
+            <div class="order-card" data-status="shipped">
+                <div class="order-header-row">
+                    <span class="order-num">订单号：20260425003</span>
+                    <span class="order-status shipped">待收货</span>
+                </div>
+                <div class="order-product">
+                    <div class="order-product-img" style="width: 80px; height: 80px; border-radius: 8px; overflow: hidden;"><img src="https://i.ibb.co/FL93hMsS/20260503092520-254-18.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <div class="order-product-info">
+                        <div class="order-product-name">太行绿壳蛋礼盒</div>
+                        <div class="order-product-spec">无抗认证 · 20枚装</div>
+                    </div>
+                    <div class="order-product-price">¥39.9</div>
+                </div>
+                <div class="logistics-progress">
+                    <div class="progress-item active">已下单</div>
+                    <div class="progress-line active"></div>
+                    <div class="progress-item active">已发货</div>
+                    <div class="progress-line active"></div>
+                    <div class="progress-item active">运输中</div>
+                    <div class="progress-line"></div>
+                    <div class="progress-item">已签收</div>
+                </div>
+                <div class="order-footer">
+                    <span class="order-btn trace-btn" data-trace="EGG2201">🔍 查看溯源</span>
+                    <span class="order-btn">查看物流</span>
+                    <span class="order-btn">确认收货</span>
+                </div>
+            </div>
+
+            <!-- 订单3：已完成 -->
+            <div class="order-card" data-status="done">
+                <div class="order-header-row">
+                    <span class="order-num">订单号：20260422001</span>
+                    <span class="order-status done">已完成</span>
+                </div>
+                <div class="order-product">
+                    <div class="order-product-img" style="width: 80px; height: 80px; border-radius: 8px; overflow: hidden;"><img src="https://i.ibb.co/9HG77m1Y/20260503092521-255-18.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <div class="order-product-info">
+                        <div class="order-product-name">华北柴鸡 · 童子鸡</div>
+                        <div class="order-product-spec">散养120天 · 肉质鲜嫩</div>
+                    </div>
+                    <div class="order-product-price">¥78</div>
+                </div>
+                <div class="order-footer">
+                    <span class="order-btn trace-btn" data-trace="CJ3345">🔍 查看溯源</span>
+                    <span class="order-btn">再次购买</span>
+                    <span class="order-btn">去评价</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="more-order" id="moreOrderBtn" style="text-align:center; margin-top:12px; padding:8px; color:#6c8f5e; font-size:12px; cursor:pointer;">加载更多订单</div>
+    </div>
+
+    <!-- 设置区域 -->
+    <div class="settings-wrap">
+        <div class="setting-item" data-action="security">
+            <div class="setting-left"><span class="setting-icon">🔐</span><span class="setting-name">账户安全</span></div>
+            <span class="setting-arrow">›</span>
+        </div>
+        <div class="setting-item" data-action="settings">
+            <div class="setting-left"><span class="setting-icon">⚙️</span><span class="setting-name">设置</span></div>
+            <span class="setting-arrow">›</span>
+        </div>
+        <div class="setting-item" data-action="help">
+            <div class="setting-left"><span class="setting-icon">❓</span><span class="setting-name">帮助中心</span></div>
+            <span class="setting-arrow">›</span>
+        </div>
+        <div class="setting-item" data-action="about">
+            <div class="setting-left"><span class="setting-icon">🌿</span><span class="setting-name">关于我们</span></div>
+            <span class="setting-arrow">›</span>
+        </div>
+    </div>
+
+    <!-- 退出登录 -->
+    <div class="logout-btn" id="logoutBtn">退出登录</div>
+
+    <!-- 底部导航栏 -->
+    <div class="bottom-nav">
+        <div class="nav-item" data-nav="home"><span>🏠</span><div>首页</div></div>
+        <div class="nav-item" data-nav="trace"><span>🔍</span><div>溯源</div></div>
+        <div class="nav-item" data-nav="cart"><span>🛒</span><div>购物车</div></div>
+        <div class="nav-item active" data-nav="profile"><span>👤</span><div>我的</div></div>
+    </div>
+</div>
+
+<div class="toast-msg" id="toastMsg">提示</div>
+
+<script>
+    const toast = document.getElementById('toastMsg');
+    function showMsg(msg) {
+        toast.innerText = msg;
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 1800);
+    }
+
+    // 快捷入口点击
+    document.querySelectorAll('.func-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const action = item.getAttribute('data-action');
+            if (action === 'collection') showMsg('❤️ 我的收藏功能即将开放');
+            else if (action === 'history') showMsg('📖 浏览记录功能即将开放');
+            else if (action === 'address') showMsg('📍 收货地址管理即将开放');
+            else if (action === 'coupon') showMsg('🎫 优惠券功能即将开放');
+        });
+    });
+
+    // 订单标签切换
+    const tabs = document.querySelectorAll('.tab-item');
+    const orderCards = document.querySelectorAll('.order-card');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const status = tab.getAttribute('data-status');
+            orderCards.forEach(card => {
+                if (status === 'all' || card.getAttribute('data-status') === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // 查看溯源记录
+    document.querySelectorAll('.trace-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const traceCode = btn.getAttribute('data-trace');
+            if (traceCode === 'TJ512301') {
+                window.location.href = 'https://z-hang212.github.io/goods1.html';
+            } else if (traceCode === 'EGG2201') {
+                window.location.href = 'https://z-hang212.github.io/goods2.html';
+            } else if (traceCode === 'CJ3345') {
+                window.location.href = 'https://z-hang212.github.io/goods3.html';
+            } else {
+                showMsg(`🔍 正在查询溯源码：${traceCode}`);
+            }
+        });
+    });
+
+    // 全部订单
+    document.getElementById('allOrdersBtn').addEventListener('click', () => {
+        showMsg('📦 全部订单功能即将开放');
+    });
+
+    // 加载更多
+    document.getElementById('moreOrderBtn').addEventListener('click', () => {
+        showMsg('📦 没有更多订单了');
+    });
+
+    // 设置项点击
+    document.querySelectorAll('.setting-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const action = item.getAttribute('data-action');
+            if (action === 'security') showMsg('🔐 账户安全管理即将开放');
+            else if (action === 'settings') showMsg('⚙️ 设置功能即将开放');
+            else if (action === 'help') showMsg('❓ 帮助中心即将开放');
+            else if (action === 'about') showMsg('🌿 冀农鲜 · 生态溯源电商平台 v1.0');
+        });
+    });
+
+    // 退出登录
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        showMsg('👋 已退出登录，期待您下次光临');
+        setTimeout(() => {
+            window.location.href = 'https://z-hang212.github.io/Home.html';
+        }, 1500);
+    });
+
+    // 底部导航栏
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const nav = item.getAttribute('data-nav');
+            if (nav === 'home') window.location.href = 'https://z-hang212.github.io/Home.html';
+            else if (nav === 'trace') window.location.href = 'https://z-hang212.github.io/blackHome.html';
+            else if (nav === 'cart') showMsg('🛒 购物车功能即将开放');
+            else if (nav === 'profile') showMsg('👤 您已在个人中心');
+        });
+    });
+
+    console.log('冀农鲜个人中心已加载，绿色生态风格统一');
+</script>
+</body>
+</html>
