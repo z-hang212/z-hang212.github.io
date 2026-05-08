@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>冀农鲜 | 太行绿壳蛋礼盒 · 无抗富硒</title>
+    <title>冀农鲜 | 太行老母鸡 · 散养500天</title>
     <style>
         * {
             margin: 0;
@@ -76,7 +76,7 @@
             scroll-behavior: smooth;
             height: 200px;
         }
-           .gallery-img {
+        .gallery-img {
     flex: 0 0 100%;
     scroll-snap-align: start;
     width: 100%;
@@ -459,7 +459,7 @@
         <div class="form-group"><label>收货人姓名</label><input type="text" id="receiverName" placeholder="请填写真实姓名" value="张先生"></div>
         <div class="form-group"><label>联系电话</label><input type="tel" id="receiverPhone" placeholder="手机号码" value="18888888888"></div>
         <div class="form-group"><label>收货地址</label><textarea id="receiverAddress" rows="2" placeholder="省市区 详细街道">河北省石家庄市裕华区冀农鲜冷链驿站1号</textarea></div>
-        <div class="form-group"><label>购买数量</label><div class="qty-selector"><button class="qty-btn" id="decrementQty">−</button><span class="qty-num" id="orderQty">2</span><button class="qty-btn" id="incrementQty">+</button><span style="font-size: 11px; margin-left: 8px;" id="qtyUnitInfo"></span></div><div style="font-size: 11px; color:#748c64; margin-top: 5px;" id="minBatchHint"></div></div>
+        <div class="form-group"><label>购买数量</label><div class="qty-selector"><button class="qty-btn" id="decrementQty">−</button><span class="qty-num" id="orderQty">1</span><button class="qty-btn" id="incrementQty">+</button><span style="font-size: 11px; margin-left: 8px;" id="qtyUnitInfo"></span></div><div style="font-size: 11px; color:#748c64; margin-top: 5px;" id="minBatchHint"></div></div>
         <div class="order-summary" id="orderSummary"></div>
         <button class="submit-order" id="submitOrderBtn">✅ 确认下单</button>
     </div>
@@ -487,21 +487,40 @@
 </div>
 
 <script>
-    // 商品数据
+    // 商品1: 太行老母鸡
     const currentProduct = {
-        id: "p1002",
-        name: "太行绿壳蛋礼盒",
-        desc: "无抗认证·富含叶黄素+硒，绿壳稀有。蛋清浓稠，蛋黄饱满，适合婴幼儿/孕妇/高端餐饮。",
-        images: ["https://i.ibb.co/FL93hMsS/20260503092520-254-18.jpg","https://i.ibb.co/0y6G75Ry/image.jpg","https://i.ibb.co/4gZwWgbw/image.jpg"],
-        cPrice: 39.9, cPriceStr: "¥39.9", cUnit: "20枚/盒",
-        bPrice: 396, bPriceStr: "¥396", bUnit: "12盒/箱(240枚)", minQty: "2箱起批",
-        traceCode: "EGG2201", origin: "河北·太行绿壳蛋基地", shelfLife: "冷藏45天", storage: "0-4℃冷藏",
-        traceDetails: { "产蛋日期": "2025-04-28~05-05", "区块链存证": "0x9e2c...f71d", "检测报告": "无抗+富硒认证" }
+        id: "p1001",
+        name: "太行老母鸡 · 散养500天",
+        desc: "林下散养500天以上，肌苷酸丰富，汤汁金黄浓郁，滋补首选。全程无抗养殖，区块链可信溯源。",
+        images: [
+            "https://i.ibb.co/hJQP5Z9J/20260503092519-253-18.jpg",
+            "https://i.ibb.co/5WLfH8ZB/20260503092636-257-18.jpg",
+            "https://i.ibb.co/YFkNjFw8/image.jpg"
+        ],
+        cPrice: 128,
+        cPriceStr: "¥128",
+        cUnit: "净膛2.2斤/只",
+        bPrice: 1150,
+        bPriceStr: "¥1150",
+        bUnit: "10只/箱",
+        minQty: "1箱起批",
+        category: "整鸡类",
+        traceCode: "TJ512301",
+        origin: "河北·太行山生态农场",
+        shelfLife: "冷冻保存12个月",
+        storage: "-18℃以下冷冻保存",
+        traceDetails: {
+            "养殖批次": "2025-03-15 批次#TY0325",
+            "出栏时间": "2025-04-20",
+            "检疫证号": "冀动检字第240987号",
+            "区块链哈希": "0x7f3e...a2b9c",
+            "加工基地": "冀农鲜中央加工中心"
+        }
     };
 
     let currentScene = "b";
-    let currentQty = 2;
-    let pendingOrder = null;  // 存储待支付订单
+    let currentQty = 1;
+    let pendingOrder = null;
 
     const toastMsg = document.getElementById("toastMsg");
     function showToast(msg, duration = 2000) {
@@ -534,7 +553,7 @@
         const sceneC = currentScene === "c" ? "active" : "";
         const sceneB = currentScene === "b" ? "active" : "";
         const html = `
-            <div class="image-gallery">${currentProduct.images.map(img => `<img class="gallery-img" src="${img}" alt="${currentProduct.name}">`).join('')}<div class="img-badge">🥚 无抗富硒 · 可溯源</div></div>
+            <div class="image-gallery">${currentProduct.images.map(img => `<img class="gallery-img" src="${img}" alt="${currentProduct.name}">`).join('')}<div class="img-badge">🐔 生态认证·可溯源</div></div>
             <div class="info-section">
                 <div class="product-title">${currentProduct.name}<span class="cert-tag">⭐ 区块链存证</span></div>
                 <div class="sub-desc">${currentProduct.desc}</div>
@@ -542,11 +561,11 @@
                 <div class="price-panel"><div class="price-box"><div class="price-main">${priceInfo.priceStr} <span class="price-unit">/${priceInfo.unit}</span></div><div style="font-size:11px;">含税冷链直达</div></div>${minBatchHintHtml}</div>
                 ${traceHtml}
                 <div class="spec-list">
-                    <div class="spec-item"><div class="spec-label">规格</div><div>20枚/盒，礼盒装</div></div>
+                    <div class="spec-item"><div class="spec-label">规格</div><div>${currentProduct.cUnit}</div></div>
                     <div class="spec-item"><div class="spec-label">产地</div><div>${currentProduct.origin}</div></div>
                     <div class="spec-item"><div class="spec-label">保质期</div><div>${currentProduct.shelfLife}</div></div>
                     <div class="spec-item"><div class="spec-label">贮存</div><div>${currentProduct.storage}</div></div>
-                    <div class="spec-item"><div class="spec-label">营养特色</div><div>叶黄素+硒，无抗生素</div></div>
+                    <div class="spec-item"><div class="spec-label">推荐吃法</div><div>炖汤、煲药膳，汤汁浓郁</div></div>
                 </div>
                 <button class="btn-order-large" id="mainOrderBtn">${currentScene === "c" ? "🛍️ 立即购买 · 溯源保障" : "📦 申请批发价 · 整箱下单"}</button>
             </div>`;
@@ -561,9 +580,8 @@
 
     function setScene(scene) {
         currentScene = scene;
-        // 切换场景时重置数量
         if (currentScene === "b") {
-            currentQty = 2;
+            currentQty = 1;
         } else {
             currentQty = 1;
         }
@@ -591,9 +609,8 @@
         if (!modal) return;
         const priceInfo = getCurrentPriceInfo();
         
-        // 根据场景设置默认数量
         if (currentScene === "b") {
-            currentQty = 2;
+            currentQty = 1;
         } else {
             currentQty = 1;
         }
@@ -602,7 +619,7 @@
         document.getElementById("qtyUnitInfo").innerText = ` (${priceInfo.unit})`;
         
         if (currentScene === "b") {
-            document.getElementById("minBatchHint").innerHTML = `⚠️ 商户批发：2箱起批，整箱发货（${currentProduct.bUnit}）`;
+            document.getElementById("minBatchHint").innerHTML = `⚠️ 商户批发：1箱起批，整箱发货（${currentProduct.bUnit}）`;
         } else {
             document.getElementById("minBatchHint").innerHTML = `🍃 零售任意数量，冷链包邮`;
         }
@@ -629,11 +646,11 @@
         let newQty = currentQty + delta;
         if (newQty < 1) newQty = 1;
         
-        // B端最小起批量限制：绿壳蛋2箱起批
+        // B端最小起批量限制：老母鸡1箱起批
         if (currentScene === "b") {
-            if (newQty < 2) {
-                showToast(`太行绿壳蛋批发需至少2箱起批`, 1500);
-                newQty = 2;
+            if (newQty < 1) {
+                showToast(`太行老母鸡批发需至少1箱起批`, 1500);
+                newQty = 1;
             }
         }
         
@@ -681,7 +698,7 @@
         
         // 存储到 localStorage，供个人中心页面读取
         let orderList = JSON.parse(localStorage.getItem("jinnong_orders") || "[]");
-        orderList.unshift(pendingOrder);  // 最新订单放最前面
+        orderList.unshift(pendingOrder);
         localStorage.setItem("jinnong_orders", JSON.stringify(orderList));
         
         // 关闭结算弹窗
@@ -697,14 +714,10 @@
 
     // 支付成功：跳转到个人中心订单页
     function paySuccess() {
-        // 关闭付款弹窗
         document.getElementById("paymentModal").classList.remove("active");
-        
         showToast("🎉 支付成功！正在跳转到我的订单...", 1500);
         
-        // 延迟跳转，让用户看到提示
         setTimeout(() => {
-            // 跳转到个人中心订单页（my.html 带上订单选项卡参数）
             window.location.href = "https://z-hang212.github.io/my.html?tab=orders";
         }, 1500);
     }
