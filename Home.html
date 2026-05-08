@@ -755,7 +755,8 @@
                 <button class="buy-btn" data-pname="滋补炖汤套餐">立即购买</button>
             </div>
         </div>
-    </div> 
+    </div>
+     
     <div class="b2b-section">
         <div class="b2b-left">
             <h4>中小商户 · 食堂专供</h4>
@@ -765,8 +766,8 @@
         <button class="b2b-btn" id="b2bEntryBtn">📦 申请集采报价</button>
     </div>
 
-    <!-- 区块链溯源展示区 核心亮点
-    <div class="trace-area">
+    <!-- 区块链溯源展示区 核心亮点 -->
+    <!-- <div class="trace-area">
         <div class="trace-title">
             <span>🔗 全流程精准溯源 · 8大类26项信息上链</span>
             <span style="font-size:10px;">对接国家级平台</span>
@@ -799,7 +800,7 @@
     <div class="bottom-nav" id="bottomNav">
         <div class="nav-item active" data-nav="home"><span>🏠</span><div>首页</div></div>
         <div class="nav-item" data-nav="trace"><span>🔍</span><div>溯源</div></div>
-        <div class="nav-item" data-nav="cart"><span>🛒</span><div>购物车</div></div>
+        <div class="nav-item" data-nav="cart"><span>🛒</span><div>商城</div></div>
         <div class="nav-item" data-nav="profile"><span>👤</span><div>我的</div></div>
     </div>
 </div>
@@ -989,20 +990,17 @@
     item.addEventListener('click', () => {
         const nav = item.getAttribute('data-nav');
         if (nav === 'home') {
-            showMsg('首页已刷新');
+            showMsg('🏠 您已在首页');
             window.location.reload();
         } else if (nav === 'trace') {
             window.location.href = 'https://z-hang212.github.io/blackHome.html';  
         } else if (nav === 'cart') {
-            showMsg('🛒 购物车功能即将开放');
+            window.location.href = 'https://z-hang212.github.io/shopp.html';
         } else if (nav === 'profile') {
             window.location.href = 'https://z-hang212.github.io/my.html';
         }
     });
 });
-
-        
-    
 </script>
 </body>
 </html>

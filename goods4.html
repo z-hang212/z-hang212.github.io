@@ -334,7 +334,7 @@
         <div class="nav-item" data-nav="home"><span>🏠</span><div>首页</div></div>
         <div class="nav-item active" data-nav="trace"><span>🔍</span><div>溯源</div></div>
         <div class="nav-item" data-nav="cart"><span>🛒</span><div>购物车</div></div>
-        <div class="nav-item" data-nav="profile"><span>👤</span><div>我的</div></div>
+        <div class="nav-item" data-nav="profile"><span>👤</span><div>商城</div></div>
     </div>
 </div>
 <div class="toast-msg" id="toastMsg">提示</div>
@@ -360,7 +360,7 @@
             const nav = item.getAttribute('data-nav');
             if (nav === 'home') window.location.href = 'https://z-hang212.github.io/Home.html';
             else if (nav === 'trace') showMsg('🔍 您已在商品溯源页面');
-            else if (nav === 'cart') showMsg('🛒 购物车功能即将开放');
+            else if (nav === 'cart') window.location.href = 'https://z-hang212.github.io/shopp.html';
             else if (nav === 'profile') {
                 showMsg('👤 您已进入个人中心');
                 window.location.href = 'https://z-hang212.github.io/my.html';

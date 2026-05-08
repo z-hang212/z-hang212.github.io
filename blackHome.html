@@ -354,7 +354,7 @@
     <div class="bottom-nav">
         <div class="nav-item" data-nav="home"><span>🏠</span><div>首页</div></div>
         <div class="nav-item active" data-nav="trace"><span>🔍</span><div>溯源</div></div>
-        <div class="nav-item" data-nav="cart"><span>🛒</span><div>购物车</div></div>
+        <div class="nav-item" data-nav="cart"><span>🛒</span><div>商城</div></div>
         <div class="nav-item" data-nav="profile"><span>👤</span><div>我的</div></div>
     </div>
 </div>
@@ -386,6 +386,8 @@
             detailPage: "https://z-hang212.github.io/goods2.html"
         },
         {
+            // 给这个第三个商品的属性改为图片在容器缩小展示"
+            style:"style=width:100%;height:100%;object-fit:contain;",
             id: "p3",
             name: "华北柴鸡 · 童子鸡",
             batch: "CJ3345",
@@ -395,7 +397,6 @@
             detailPage: "https://z-hang212.github.io/goods3.html"
         },
         {
-        //    填写一下太行鸡炖汤套餐
                 id: "p4",
                 name: "太行鸡炖汤套餐",
                 batch: "GIFTT01",
@@ -405,28 +406,6 @@
                 detailPage: "https://z-hang212.github.io/goods4.html"
 
         }
-
-        // ============================================================
-        // 🔧 未来扩展示例（取消注释即可添加新商品）：
-        // {
-        //     id: "p4",
-        //     name: "太行鸡炖汤套餐",
-        //     batch: "GIFTT01",
-        //     price: "¥158",
-        //     unit: "2-3人份",
-        //     imgUrl: "https://i.ibb.co/5WLfH8ZB/20260503092636-257-18.jpg",
-        //     detailPage: "商品溯源4.html"
-        // },
-        // {
-        //     id: "p5",
-        //     name: "散养土鸡蛋30枚",
-        //     batch: "TEDD8823",
-        //     price: "¥58",
-        //     unit: "30枚装",
-        //     imgUrl: "图片地址",
-        //     detailPage: "商品溯源5.html"
-        // }
-        // ============================================================
     ];
 
     // 批次号到商品的映射（快速查询）
@@ -556,7 +535,7 @@
             } else if (nav === 'trace') {
                 showMsg('🔍 您已在溯源中心页面');
             } else if (nav === 'cart') {
-                showMsg('🛒 购物车功能即将开放');
+                window.location.href = 'https://z-hang212.github.io/shopp.html';
             } else if (nav === 'profile') {
                 showMsg('👤 您已进入个人中心');
                 window.location.href = 'https://z-hang212.github.io/my.html';
