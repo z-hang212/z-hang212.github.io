@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>太行鸡溯源 | 智慧农业后台管理系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+        }
+
+        /* 整体布局优化 */
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ========== 侧边栏优化 ========== */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #1a3a2c 0%, #0f2b1f 100%);
+            color: #e2f0e2;
+            transition: all 0.3s;
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            padding: 24px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 16px;
+        }
+
+        .sidebar-logo h2 {
+            font-size: 20px;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff, #c8e6c0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .sidebar-logo p {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 6px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0 12px;
+        }
+
+        .sidebar-menu li {
+            padding: 12px 16px;
+            margin: 4px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            color: #cbdccb;
+        }
+
+        .sidebar-menu li:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+        }
+
+        .sidebar-menu li.active {
+            background: #2c7a4d;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .sidebar-menu li .menu-icon {
+            font-size: 1.35rem;
+            width: 28px;
+            text-align: center;
+        }
+
+        /* 主内容区 */
+        .main-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: auto;
+        }
+
+        /* 顶部导航优化 */
+        .header {
+            background: white;
+            padding: 0 28px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            border-bottom: 1px solid #edf2ed;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+            background: #f8faf8;
+            padding: 6px 16px;
+            border-radius: 40px;
+            color: #2c5e2e;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f5f9f3;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 14px;
+            color: #376e3a;
+        }
+
+        /* 内容区域 */
+        .content {
+            padding: 24px 28px;
+            background: #f7f9f6;
+            min-height: calc(100vh - 70px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* 卡片容器 */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 24px;
+            padding: 20px 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e8f0e4;
+            transition: transform 0.1s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(45, 100, 40, 0.08);
+        }
+
+        .stat-card .num {
+            font-size: 32px;
+            font-weight: 800;
+            color: #2a6b3c;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .label {
+            color: #6f8870;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 模块通用样式 */
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e4620;
+            margin: 28px 0 18px 0;
+            padding-left: 14px;
+            border-left: 4px solid #4c9f3c;
+        }
+
+        .insight-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #e2efd8;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+
+        /* 表格优化 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .data-table th {
+            background: #f2f8ef;
+            padding: 16px 14px;
+            text-align: left;
+            font-weight: 600;
+            color: #2a5530;
+            border-bottom: 1px solid #e0ecd9;
+        }
+
+        .data-table td {
+            padding: 14px;
+            border-bottom: 1px solid #f0f5eb;
+            color: #2c3e2a;
+        }
+
+        .data-table tr:hover {
+            background: #fafef8;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: #e3f5e8;
+            color: #1f7840;
+        }
+
+        .badge-warning {
+            background: #fff0e0;
+            color: #cd7b2b;
+        }
+
+        .badge-info {
+            background: #e8f0fe;
+            color: #2c6e9e;
+        }
+
+        /* 图表区域 */
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            height: 220px;
+            margin-top: 20px;
+        }
+
+        .chart-bar-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-bar {
+            width: 100%;
+            background: linear-gradient(0deg, #4c9f3c, #7bc96f);
+            border-radius: 12px 12px 6px 6px;
+            transition: height 0.3s;
+            min-height: 4px;
+        }
+
+        .chart-label {
+            font-size: 12px;
+            color: #6b8c62;
+        }
+
+        /* 按钮与交互 */
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #c8ddbc;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #3a6e3a;
+            transition: 0.2s;
+        }
+
+        .btn-outline:hover {
+            background: #eaf5e4;
+            border-color: #8fc07c;
+        }
+
+        .bottom-more {
+            text-align: center;
+            margin-top: 24px;
+            color: #4c9f3c;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* 详情面板 */
+        .detail-panel {
+            display: none;
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            margin-top: 24px;
+            border: 1px solid #e2efd8;
+        }
+
+        .detail-panel.show {
+            display: block;
+        }
+
+        .info-row {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #efefe5;
+        }
+
+        .info-label {
+            width: 140px;
+            font-weight: 600;
+            color: #4a6741;
+        }
+
+        .info-value {
+            flex: 1;
+            color: #2c4128;
+        }
+
+        @media (max-width: 640px) {
+            .sidebar { width: 80px; }
+            .sidebar-menu li span:last-child { display: none; }
+            .sidebar-logo h2 { font-size: 14px; }
+            .sidebar-logo p { display: none; }
+            .stat-grid { gap: 12px; }
+            .content { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="admin-layout">
+    <!-- 侧边栏 - 优化后更具品牌感 -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <h2>🌾 太行鸡溯源</h2>
+            <p>区块链智慧农业</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active" data-page="dashboard"><span class="menu-icon">📊</span><span>控制台首页</span></li>
+            <li data-page="order"><span class="menu-icon">📦</span><span>订单管理</span></li>
+            <li data-page="user"><span class="menu-icon">👥</span><span>用户管理</span></li>
+            <li data-page="goods"><span class="menu-icon">🥩</span><span>商品管理</span></li>
+            <li data-page="trace"><span class="menu-icon">🔗</span><span>溯源记录</span></li>
+            <li data-page="farmer"><span class="menu-icon">🌱</span><span>农户基地</span></li>
+            <li data-page="system"><span class="menu-icon">⚙️</span><span>系统设置</span></li>
+        </ul>
+    </div>
+
+    <div class="main-wrap">
+        <div class="header">
+            <div class="header-title">📌 智慧农业运营中台</div>
+            <div class="admin-info">
+                <span>👤 管理员：admin</span>
+                <span>🕒 2026-05-08</span>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- 控制台首页 - 全维度数据看板 -->
+            <div class="page active" id="dashboard">
+                <div class="stat-grid">
+                    <div class="stat-card"><div class="num">286</div><div class="label">👥 总用户数</div></div>
+                    <div class="stat-card"><div class="num">98</div><div class="label">📋 总订单数</div></div>
+                    <div class="stat-card"><div class="num">8</div><div class="label">🛒 商品种类</div></div>
+                    <div class="stat-card"><div class="num">8</div><div class="label">🏡 合作农户</div></div>
+                    <div class="stat-card"><div class="num">¥1.26w</div><div class="label">💰 总销售额</div></div>
+                    <div class="stat-card"><div class="num">¥3682</div><div class="label">📈 本月销售额</div></div>
+                    <div class="stat-card"><div class="num">¥128</div><div class="label">🎯 平均客单价</div></div>
+                    <div class="stat-card"><div class="num">34.3%</div><div class="label">🔄 转化率</div></div>
+                </div>
+
+                <div class="insight-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="section-title" style="margin:0; border-left: none; padding-left:0;">🏆 热销商品 TOP5</span>
+                        <span class="badge badge-info">实时数据</span>
+                    </div>
+                    <table class="data-table">
+                        <thead><tr><th>排名</th><th>商品名称</th><th>销量</th><th>销售额</th><th>占比</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>🐔 太行老母鸡·散养500天</td><td>64</td><td>¥8256</td><td>65.4%</td></tr>
+                            <tr><td>2</td><td>🥚 太行绿壳蛋礼盒</td><td>28</td><td>¥2492</td><td>19.8%</td></tr>
+                            <tr><td>3</td><td>🍲 滋补炖汤套餐</td><td>16</td><td>¥3184</td><td>14.8%</td></tr>
+                            <tr><td>4</td><td>🍗 华北柴鸡童子鸡</td><td>9</td><td>¥702</td><td>5.6%</td></tr>
+                            <tr><td>5</td><td>🥩 太行鸡大鸡腿</td><td>7</td><td>¥266</td><td>2.1%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="insight-card">
+                    <div class="section-title" style="margin-top:0;">📢 系统公告 & 运营动态</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div>✅ 区块链溯源系统已全商品覆盖，累计上链记录 32 条</div>
+                        <div>✅ 新签约“太行山南麓散养基地”，预计产能提升23%</div>
+                        <div>✅ 本月冷链物流时效提升至 24h 直达京津冀</div>
+                        <div>✅ B端集采订单环比增长 42%，中小商户复购率持续上升</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 订单管理页面（优化后又分列表+详情） -->
+            <div class="page" id="order">
+                <div class="stat-grid">
+                    <div class="stat-card"><div class="num">286</div><div class="label">用户总数</div></div>
+                    <div class="stat-card"><div class="num">98</div><div class="label">累计订单</div></div>
+                    <div class="stat-card"><div class="num">¥12640</div><div class="label">交易总额</div></div>
+                    <div class="stat-card"><div class="num">87%</div><div class="label">支付完成率</div></div>
+                </div>
+
+                <!-- 订单列表部分 -->
+                <div id="orderListPanel">
+                    <div class="insight-card">
+                        <div class="section-title" style="margin-top:0;">📋 最近订单列表</div>
+                        <table class="data-table">
+                            <thead><tr><th>订单号</th><th>商品名称</th><th>下单时间</th><th>金额</th><th>状态</th><th>操作</th></tr></thead>
+                            <tbody id="orderTableBody"></tbody>
+                        </table>
+                        <div class="bottom-more" id="moreOrdersBtn">📂 查看更多订单</div>
+                    </div>
+                </div>
+                <!-- 订单详情卡片 (点击查看) -->
+                <div id="orderDetailCard" class="detail-panel">
+                    <div style="display: flex; justify-content: space-between;">
+                        <h3 style="color:#1e4620;">📄 订单详情</h3>
+                        <button class="btn-outline" id="closeDetailBtn">返回列表</button>
+                    </div>
+                    <div id="orderDetailContent"></div>
+                </div>
+            </div>
+
+            <!-- 用户管理 -->
+            <div class="page" id="user">
+                <div class="insight-card">
+                    <div class="section-title" style="margin-top:0;">👥 注册用户列表</div>
+                    <table class="data-table">
+                        <thead><tr><th>ID</th><th>用户名</th><th>手机号</th><th>注册时间</th><th>订单数</th><th>状态</th></tr></thead>
+                        <tbody id="userTableBody"></tbody>
+                    </table>
+                    <div class="bottom-more" onclick="alert('所有用户数据已展示，共10+条核心用户')">加载更多用户</div>
+                </div>
+            </div>
+
+            <!-- 商品管理 -->
+            <div class="page" id="goods">
+                <div class="insight-card">
+                    <div class="section-title" style="margin-top:0;">🛒 商品库 & 供应链信息</div>
+                    <table class="data-table">
+                        <thead><tr><th>ID</th><th>商品名称</th><th>B端价格</th><th>C端价格</th><th>库存(箱)</th><th>状态</th></tr></thead>
+                        <tbody id="goodsTableBody"></tbody>
+                    </table>
+                    <div class="bottom-more" onclick="alert('商品管理支持上下架/改价，功能持续升级')">批量管理商品</div>
+                </div>
+            </div>
+
+            <!-- 溯源记录 -->
+            <div class="page" id="trace">
+                <div class="insight-card">
+                    <div class="section-title" style="margin-top:0;">⛓️ 区块链溯源存证列表</div>
+                    <table class="data-table">
+                        <thead><tr><th>溯源编号</th><th>产品名称</th><th>出栏/生产日期</th><th>检疫编号</th><th>区块哈希</th></tr></thead>
+                        <tbody id="traceTableBody"></tbody>
+                    </table>
+                    <div class="bottom-more" onclick="alert('所有溯源数据均已在联盟链存证，不可篡改')">查看全部上链记录</div>
+                </div>
+            </div>
+
+            <!-- 农户基地 -->
+            <div class="page" id="farmer">
+                <div class="insight-card">
+                    <div class="section-title" style="margin-top:0;">🏞️ 合作农户与基地档案</div>
+                    <table class="data-table">
+                        <thead><tr><th>编号</th><th>姓名</th><th>养殖基地</th><th>存栏量</th><th>合作状态</th></tr></thead>
+                        <tbody id="farmerTableBody"></tbody>
+                    </table>
+                    <div class="bottom-more" onclick="alert('本月新增2户意向农户，已进入考察阶段')">拓展更多优质农户</div>
+                </div>
+            </div>
+
+            <!-- 系统设置 美观升级 -->
+            <div class="page" id="system">
+                <div class="insight-card">
+                    <div class="section-title" style="margin-top:0;">⚙️ 系统配置与环境</div>
+                    <div class="info-row"><div class="info-label">系统名称</div><div class="info-value">太行鸡区块链溯源管理系统 v2.0</div></div>
+                    <div class="info-row"><div class="info-label">区块链网络</div><div class="info-value">蚂蚁链联盟 · 农产品溯源专网</div></div>
+                    <div class="info-row"><div class="info-label">当前管理员</div><div class="info-value">admin (超级管理员)</div></div>
+                    <div class="info-row"><div class="info-label">登录时间</div><div class="info-value">2026-05-08 10:23:18</div></div>
+                    <div class="info-row"><div class="info-label">数据安全</div><div class="info-value">每日凌晨3点全量备份 · SSL加密传输</div></div>
+                    <div class="info-row"><div class="info-label">API 溯源接口</div><div class="info-value">正常运行  |  调用频次 2312次/日</div></div>
+                </div>
+                <div class="insight-card">
+                    <div class="section-title" style="margin-top:0;">📦 运营参数设置</div>
+                    <div class="info-row"><div class="info-label">B端起批门槛</div><div class="info-value">整箱起批 (默认10箱以上享优惠)</div></div>
+                    <div class="info-row"><div class="info-label">冷链温度阈值</div><div class="info-value">-18℃ ~ -5℃ 实时告警联动</div></div>
+                    <div class="info-row"><div class="info-label">订单超时关闭</div><div class="info-value">30分钟未支付自动取消</div></div>
+                    <div class="bottom-more" onclick="alert('高级配置仅限超管操作，请谨慎修改')">前往高级设置</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 模拟数据整合
+    const ordersData = [
+        { id:"TH20260508001", product:"太行老母鸡·散养500天", time:"2026-05-08 10:23", amount:115, status:"paid" },
+        { id:"TH20260508002", product:"太行绿壳蛋礼盒", time:"2026-05-08 14:12", amount:33, status:"paid" },
+        { id:"TH20260508003", product:"华北柴鸡童子鸡", time:"2026-05-08 16:45", amount:68, status:"unpaid" },
+        { id:"TH20260507001", product:"滋补炖汤套餐", time:"2026-05-07 09:30", amount:138, status:"paid" },
+        { id:"TH20260506002", product:"太行鸡大鸡腿", time:"2026-05-06 11:17", amount:38, status:"paid" },
+        { id:"TH20260505003", product:"卤味专用老母鸡", time:"2026-05-05 18:42", amount:98, status:"paid" }
+    ];
+
+    const users = [
+        { id:10010, name:"张女士", phone:"138****1234", reg:"2026-05-08", orders:2, status:"正常" },
+        { id:10009, name:"董先生", phone:"132****4567", reg:"2026-05-07", orders:1, status:"正常" },
+        { id:10008, name:"胡女士", phone:"133****1357", reg:"2026-05-06", orders:3, status:"正常" },
+        { id:10007, name:"罗先生", phone:"135****2468", reg:"2026-05-05", orders:1, status:"正常" },
+        { id:10006, name:"吴女士", phone:"136****1122", reg:"2026-05-04", orders:2, status:"正常" }
+    ];
+
+    const goods = [
+        { id:2001, name:"太行老母鸡", bPrice:115, cPrice:128, stock:326, status:"上架" },
+        { id:2002, name:"太行绿壳蛋", bPrice:33, cPrice:39.9, stock:520, status:"上架" },
+        { id:2003, name:"华北柴鸡童子鸡", bPrice:68, cPrice:78, stock:288, status:"上架" },
+        { id:2004, name:"滋补炖汤套餐", bPrice:138, cPrice:158, stock:168, status:"上架" },
+        { id:2005, name:"太行鸡大鸡腿", bPrice:38, cPrice:42, stock:450, status:"上架" },
+    ];
+
+    const traces = [
+        { code:"TR20260501", name:"太行老母鸡", date:"2026-04-20",检疫:"JY2026042001", hash:"0x1a2b3c...e4f" },
+        { code:"TR20260502", name:"太行绿壳蛋", date:"2026-04-25",检疫:"JY2026042502", hash:"0x5d6e7f...a1b" },
+        { code:"TR20260503", name:"华北柴鸡童子鸡", date:"2026-04-22",检疫:"JY2026042203", hash:"0x9c8d7e...f2a" },
+        { code:"TR20260504", name:"滋补炖汤套餐", date:"2026-04-28",检疫:"JY2026042804", hash:"0x3f4e5d...c6b" }
+    ];
+
+    const farmers = [
+        { id:"NF001", name:"王农户", base:"太行山一号基地", stock:1200, status:"合作中" },
+        { id:"NF002", name:"刘农户", base:"太行山二号基地", stock:980, status:"合作中" },
+        { id:"NF003", name:"杨农户", base:"太行山三号基地", stock:1500, status:"合作中" },
+        { id:"NF008", name:"韩农户", base:"生态八号基地", stock:2100, status:"合作中" }
+    ];
+
+    function renderOrderTable() {
+        const tbody = document.getElementById("orderTableBody");
+        if(tbody){
+            tbody.innerHTML = ordersData.map(order => `
+                <tr>
+                    <td>${order.id}</td><td>${order.product}</td><td>${order.time}</td><td>¥${order.amount}</td>
+                    <td><span class="badge ${order.status === 'paid' ? 'badge-success' : 'badge-warning'}">${order.status === 'paid' ? '已付款' : '待付款'}</span></td>
+                    <td><button class="btn-outline view-order" data-id="${order.id}" style="padding:4px 12px;">详情</button></td>
+                </tr>
+            `).join('');
+            document.querySelectorAll('.view-order').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = btn.getAttribute('data-id');
+                    const order = ordersData.find(o => o.id === id);
+                    if(order){
+                        document.getElementById('orderListPanel').style.display = 'none';
+                        const detailDiv = document.getElementById('orderDetailCard');
+                        const contentDiv = document.getElementById('orderDetailContent');
+                        contentDiv.innerHTML = `
+                            <div class="info-row"><div class="info-label">订单号</div><div class="info-value">${order.id}</div></div>
+                            <div class="info-row"><div class="info-label">商品</div><div class="info-value">${order.product}</div></div>
+                            <div class="info-row"><div class="info-label">下单时间</div><div class="info-value">${order.time}</div></div>
+                            <div class="info-row"><div class="info-label">金额</div><div class="info-value">¥${order.amount}</div></div>
+                            <div class="info-row"><div class="info-label">状态</div><div class="info-value"><span class="badge badge-success">已付款</span></div></div>
+                            <div class="info-row"><div class="info-label">收货信息</div><div class="info-value">张先生 138****1234 石家庄长安区</div></div>
+                        `;
+                        detailDiv.classList.add('show');
+                    }
+                });
+            });
+        }
+    }
+
+    document.getElementById('closeDetailBtn')?.addEventListener('click', () => {
+        document.getElementById('orderListPanel').style.display = 'block';
+        document.getElementById('orderDetailCard').classList.remove('show');
+    });
+
+    document.getElementById('moreOrdersBtn')?.addEventListener('click', () => {
+        alert('展示全部订单 (共98条，支持分页)');
+    });
+
+    function renderUserTable() {
+        const tbody = document.getElementById('userTableBody');
+        if(tbody) tbody.innerHTML = users.map(u => `<tr><td>${u.id}</td><td>${u.name}</td><td>${u.phone}</td><td>${u.reg}</td><td>${u.orders}</td><td><span class="badge badge-success">正常</span></td></tr>`).join('');
+    }
+
+    function renderGoodsTable() {
+        const tbody = document.getElementById('goodsTableBody');
+        if(tbody) tbody.innerHTML = goods.map(g => `<tr><td>${g.id}</td><td>${g.name}</td><td>¥${g.bPrice}</td><td>¥${g.cPrice}</td><td>${g.stock}</td><td><span class="badge badge-success">${g.status}</span></td></tr>`).join('');
+    }
+
+    function renderTraceTable() {
+        const tbody = document.getElementById('traceTableBody');
+        if(tbody) tbody.innerHTML = traces.map(t => `<tr><td>${t.code}</td><td>${t.name}</td><td>${t.date}</td><td>${t.检疫}</td><td class="badge-info" style="font-family:monospace;">${t.hash}</td></tr>`).join('');
+    }
+
+    function renderFarmerTable() {
+        const tbody = document.getElementById('farmerTableBody');
+        if(tbody) tbody.innerHTML = farmers.map(f => `<tr><td>${f.id}</td><td>${f.name}</td><td>${f.base}</td><td>${f.stock}</td><td><span class="badge badge-success">${f.status}</span></td></tr>`).join('');
+    }
+
+    // 侧边栏导航
+    const menuItems = document.querySelectorAll('.sidebar-menu li');
+    const pages = document.querySelectorAll('.page');
+    menuItems.forEach(li => {
+        li.addEventListener('click', () => {
+            menuItems.forEach(item => item.classList.remove('active'));
+            li.classList.add('active');
+            const pageId = li.dataset.page;
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            if(pageId === 'order') {
+                document.getElementById('orderListPanel').style.display = 'block';
+                document.getElementById('orderDetailCard')?.classList.remove('show');
+            }
+        });
+    });
+
+    renderOrderTable();
+    renderUserTable();
+    renderGoodsTable();
+    renderTraceTable();
+    renderFarmerTable();
+</script>
+</body>
+</html>
