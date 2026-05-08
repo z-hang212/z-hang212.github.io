@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>冀农鲜商城 | 放心食材 · B+C一站式家禽食材平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #eef5ea;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+            color: #1e2f2a;
+            padding-bottom: 70px;
+        }
+
+        .shop-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f8fbf5;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(76, 109, 56, 0.08);
+            padding-bottom: 70px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f5faf0 100%);
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            border-bottom: 1px solid #cfe3c2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        .logo-icon { font-size: 28px; }
+        .logo-main {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(125deg, #2c6e3c, #5c9e4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .logo-tag {
+            font-size: 10px;
+            background: #e0f0da;
+            padding: 2px 8px;
+            border-radius: 20px;
+            color: #2c6e3c;
+        }
+        .action-icons {
+            display: flex;
+            gap: 18px;
+            font-size: 20px;
+            color: #2c6e3c;
+        }
+        .scene-switch {
+            display: flex;
+            margin: 16px 16px 8px;
+            background: white;
+            border-radius: 60px;
+            padding: 4px;
+            border: 1px solid #d9e8cf;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .scene-btn {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            font-weight: 700;
+            font-size: 15px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #6c8f5e;
+            background: transparent;
+        }
+        .scene-btn.active {
+            background: #2c6e3c;
+            color: white;
+            box-shadow: 0 2px 8px rgba(44,110,60,0.2);
+        }
+        .scene-badge {
+            background: #eef3e9;
+            margin: 0 16px 12px;
+            border-radius: 20px;
+            padding: 10px 16px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #2c6e3c;
+        }
+        .category-scroll {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 8px 16px;
+            display: flex;
+            gap: 12px;
+            scrollbar-width: thin;
+            border-bottom: 1px solid #e0efd6;
+            background: #ffffffaa;
+        }
+        .category-chip {
+            display: inline-block;
+            padding: 6px 16px;
+            background: white;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #486b3c;
+            border: 1px solid #d4e8c8;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+        .category-chip.active {
+            background: #2c6e3c;
+            color: white;
+            border-color: #2c6e3c;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 12px 16px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid #e7f0e0;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .product-card:active { transform: scale(0.98); }
+        .product-img {
+            background: #ebf4e4;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 12px;
+        }
+        .product-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .product-spec {
+            font-size: 10px;
+            color: #748c64;
+            margin: 4px 0;
+        }
+        .product-price {
+            color: #e67e22;
+            font-weight: 800;
+            font-size: 15px;
+            margin: 6px 0;
+        }
+        .price-unit {
+            font-size: 11px;
+            font-weight: normal;
+            color: #95a57c;
+        }
+        .b2b-price-tag {
+            background: #fef3e2;
+            color: #e67e22;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+        .btn-order {
+            background: #2d6a4f;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 8px 0;
+            border-radius: 40px;
+            margin-top: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .b2b-highlight {
+            background: #fefce8;
+            border-left: 4px solid #f4a261;
+        }
+        .b2b-consult {
+            position: fixed;
+            bottom: 90px;
+            right: 16px;
+            background: #f4a261;
+            border-radius: 50px;
+            padding: 10px 18px;
+            color: #2c4b1e;
+            font-weight: 700;
+            font-size: 13px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 50;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 500px;
+            width: 100%;
+            background: #ffffffec;
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 16px 18px;
+            border-top: 1px solid #ddebd2;
+            z-index: 100;
+        }
+        .nav-item {
+            text-align: center;
+            font-size: 12px;
+            color: #809c70;
+            cursor: pointer;
+        }
+        .nav-item.active {
+            color: #2d6a4f;
+            font-weight: 600;
+        }
+        .nav-item span:first-child {
+            font-size: 22px;
+            display: block;
+        }
+        .toast-msg {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c4633e6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 13px;
+            z-index: 200;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .empty-tip {
+            text-align: center;
+            padding: 60px 20px;
+            color: #95a57c;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="shop-container">
+    <div class="header">
+        <div class="logo-area">
+            <span class="logo-icon">🌿</span>
+            <span class="logo-main">冀农鲜商城</span>
+            <span class="logo-tag">区块链溯源</span>
+        </div>
+        <div class="action-icons">
+            <span>🔔</span>
+            <span id="cartIcon">🛒</span>
+        </div>
+    </div>
+
+    <div class="scene-switch">
+        <div class="scene-btn" data-scene="c">🍲 家庭·C端</div>
+        <div class="scene-btn active" data-scene="b">🏢 中小商户·B端</div>
+    </div>
+    <div class="scene-badge" id="sceneBadge">
+        <span>🏪 中小餐馆 · 食堂 · 便利店 · 加工厂 专属价</span>
+        <span>📦 整件起批 冷链直达</span>
+    </div>
+
+    <div class="category-scroll" id="categoryContainer"></div>
+    <div class="product-grid" id="productContainer"></div>
+    <div class="empty-tip" id="emptyTip" style="display: none;">暂无该类商品，敬请期待</div>
+
+    <div class="b2b-consult" id="b2bConsultBtn">
+        <span>📞</span> 批量采购询价
+    </div>
+</div>
+
+<div class="bottom-nav">
+    <div class="nav-item" data-nav="home"><span>🏠</span><div>首页</div></div>
+    <div class="nav-item" data-nav="trace"><span>🔍</span><div>溯源</div></div>
+    <div class="nav-item active" data-nav="shop"><span>🛒</span><div>商城</div></div>
+    <div class="nav-item" data-nav="profile"><span>👤</span><div>我的</div></div>
+</div>
+<div class="toast-msg" id="toastMsg">提示</div>
+
+<script>
+    const productList = [
+        {
+            id: "p1001",
+            name: "太行老母鸡 · 散养500天",
+            cPrice: "¥128",
+            cUnit: "净膛2.2斤/只",
+            bPrice: "¥115",
+            bUnit: "10只/箱",
+            minQty: "1箱起批",
+            img: "https://i.ibb.co/hJQP5Z9J/20260503092519-253-18.jpg",
+            category: "整鸡类",
+            traceCode: "TJ512301",
+            desc: "林下散养，肌苷酸丰富，适合炖汤"
+        },
+        {
+            id: "p1002",
+            name: "太行绿壳蛋礼盒",
+            cPrice: "¥39.9",
+            cUnit: "20枚/盒",
+            bPrice: "¥33",
+            bUnit: "12盒/箱(240枚)",
+            minQty: "2箱起批",
+            img: "https://i.ibb.co/FL93hMsS/20260503092520-254-18.jpg",
+            category: "蛋品",
+            traceCode: "EGG2201",
+            desc: "无抗认证，叶黄素+硒"
+        },
+        {
+            id: "p1003",
+            name: "华北柴鸡童子鸡",
+            cPrice: "¥78",
+            cUnit: "整只净膛1.8斤",
+            bPrice: "¥68",
+            bUnit: "15只/箱",
+            minQty: "2箱起批",
+            img: "https://i.ibb.co/9HG77m1Y/20260503092521-255-18.jpg",
+            category: "整鸡类",
+            traceCode: "CJ3345",
+            desc: "120天散养，肉质细嫩"
+        },
+        {
+            id: "p1004",
+            name: "滋补炖汤套餐",
+            cPrice: "¥158",
+            cUnit: "2-3人份/盒",
+            bPrice: "¥138",
+            bUnit: "8盒/箱",
+            minQty: "1箱起批",
+            img: "https://i.ibb.co/5WLfH8ZB/20260503092636-257-18.jpg",
+            category: "预制菜/套餐",
+            traceCode: "GIFTT01",
+            desc: "含鸡块+菌菇+红枣枸杞"
+        },
+        {
+            id: "p1005",
+            name: "太行鸡大鸡腿（冷冻）",
+            cPrice: "¥42",
+            cUnit: "500g/包",
+            bPrice: "¥38",
+            bUnit: "20包/箱(10kg)",
+            minQty: "2箱起批",
+            img: "https://i.ibb.co/5WLfH8ZB/20260503092636-257-18.jpg",
+            category: "分割品",
+            traceCode: "LEG8802",
+            desc: "去皮去脂，适合快餐/卤味"
+        },
+        {
+            id: "p1006",
+            name: "太行鸡鸡胸肉",
+            cPrice: "¥45",
+            cUnit: "500g/包",
+            bPrice: "¥39",
+            bUnit: "20包/箱",
+            minQty: "2箱起批",
+            img: "https://i.ibb.co/hJQP5Z9J/20260503092519-253-18.jpg",
+            category: "分割品",
+            traceCode: "BREAST01",
+            desc: "低脂高蛋白，适合健身餐/预制菜"
+        },
+        {
+            id: "p1007",
+            name: "卤味专用老母鸡",
+            cPrice: "¥118",
+            cUnit: "净膛2.3斤",
+            bPrice: "¥102",
+            bUnit: "10只/箱",
+            minQty: "3箱起批",
+            img: "https://i.ibb.co/9HG77m1Y/20260503092521-255-18.jpg",
+            category: "整鸡类",
+            traceCode: "LJ8823",
+            desc: "肉质紧实，适合酱卤/熟食加工"
+        },
+        {
+            id: "p1008",
+            name: "鲜虫草花太行鸡块",
+            cPrice: "¥68",
+            cUnit: "400g/盒",
+            bPrice: "¥58",
+            bUnit: "12盒/箱",
+            minQty: "2箱起批",
+            img: "https://i.ibb.co/FL93hMsS/20260503092520-254-18.jpg",
+            category: "预制菜/套餐",
+            traceCode: "PRE888",
+            desc: "免切配，餐饮后厨效率之选"
+        }
+    ];
+
+    const categories = ["全部", "整鸡类", "蛋品", "分割品", "预制菜/套餐"];
+
+    let currentScene = "b";
+    let currentCategory = "全部";
+
+    const categoryContainer = document.getElementById("categoryContainer");
+    const productContainer = document.getElementById("productContainer");
+    const emptyTip = document.getElementById("emptyTip");
+    const sceneBadge = document.getElementById("sceneBadge");
+    const toastMsg = document.getElementById("toastMsg");
+    const b2bConsultBtn = document.getElementById("b2bConsultBtn");
+
+    function showToast(msg) {
+        toastMsg.innerText = msg;
+        toastMsg.style.opacity = "1";
+        setTimeout(() => { toastMsg.style.opacity = "0"; }, 1800);
+    }
+
+    function renderCategories() {
+        if (!categoryContainer) return;
+        categoryContainer.innerHTML = "";
+        categories.forEach(cat => {
+            const chip = document.createElement("div");
+            chip.className = "category-chip" + (currentCategory === cat ? " active" : "");
+            chip.innerText = cat;
+            chip.addEventListener("click", () => {
+                currentCategory = cat;
+                renderCategories();
+                renderProducts();
+            });
+            categoryContainer.appendChild(chip);
+        });
+    }
+
+    function getFilteredProducts() {
+        let filtered = [...productList];
+        if (currentCategory !== "全部") {
+            filtered = filtered.filter(p => p.category === currentCategory);
+        }
+        return filtered;
+    }
+
+    function renderProducts() {
+        const products = getFilteredProducts();
+        if (!productContainer) return;
+
+        if (products.length === 0) {
+            productContainer.innerHTML = "";
+            emptyTip.style.display = "block";
+            return;
+        }
+        emptyTip.style.display = "none";
+
+        productContainer.innerHTML = products.map(product => {
+            let displayPrice, displayUnit, actionText, additionalBadge = "";
+            let b2bExtra = "";
+
+            if (currentScene === "c") {
+                displayPrice = product.cPrice;
+                displayUnit = product.cUnit;
+                actionText = "🛒 立即购买";
+            } else {
+                displayPrice = product.bPrice;
+                displayUnit = product.bUnit;
+                actionText = "📦 申请批发价";
+                additionalBadge = `<div class="b2b-price-tag">🧾 起批: ${product.minQty}</div>`;
+                b2bExtra = "b2b-highlight";
+            }
+
+            const coldTag = `<span style="font-size:9px; background:#eaf6e3; padding:2px 6px; border-radius:20px;">❄️ 全程冷链</span>`;
+            
+            return `
+                <div class="product-card ${b2bExtra}" data-id="${product.id}" data-trace="${product.traceCode}">
+                    <div class="product-img">
+                        <img src="${product.img}" alt="${product.name}" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">${product.name}</div>
+                        <div class="product-spec">${product.desc}</div>
+                        <div class="product-price">${displayPrice} <span class="price-unit">/${displayUnit}</span></div>
+                        ${additionalBadge}
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                            <span style="font-size: 10px; color: #2c6e3c;">🔗 上链可溯源</span>
+                            ${coldTag}
+                        </div>
+                        <button class="btn-order" data-action="buy" data-id="${product.id}" data-name="${product.name}">${actionText}</button>
+                    </div>
+                </div>
+            `;
+        }).join("");
+
+        document.querySelectorAll(".product-card").forEach(card => {
+            const productId = card.getAttribute("data-id");
+            const product = productList.find(p => p.id === productId);
+            if (product) {
+                card.addEventListener("click", (e) => {
+                    if (e.target.classList && e.target.classList.contains("btn-order")) return;
+                    let targetUrl = "";
+                    if (product.traceCode === "TJ512301") targetUrl = "https://z-hang212.github.io/goods1.html";
+                    else if (product.traceCode === "EGG2201") targetUrl = "https://z-hang212.github.io/goods2.html";
+                    else if (product.traceCode === "CJ3345") targetUrl = "https://z-hang212.github.io/goods3.html";
+                    else if (product.traceCode === "GIFTT01") targetUrl = "https://z-hang212.github.io/goods4.html";
+                    else targetUrl = "https://z-hang212.github.io/blackHome.html";
+                    window.location.href = targetUrl;
+                });
+            }
+        });
+
+        document.querySelectorAll(".btn-order").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const productId = btn.getAttribute("data-id");
+                const productName = btn.getAttribute("data-name");
+                const product = productList.find(p => p.id === productId);
+                if (currentScene === "c") {
+                    showToast(`🛒 已添加 ${productName} (${product.cPrice}) 至购物车，区块链可溯`);
+                } else {
+                    showToast(`📞 已提交 ${productName} 批发询价，专属客户经理将联系您 (起批${product.minQty})`);
+                }
+            });
+        });
+    }
+
+    function setScene(scene) {
+        currentScene = scene;
+        const btns = document.querySelectorAll(".scene-btn");
+        btns.forEach(btn => {
+            if (btn.getAttribute("data-scene") === scene) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        });
+        if (scene === "c") {
+            sceneBadge.innerHTML = `<span>👨‍👩‍👧‍👦 家庭餐桌 · 放心溯源食材</span><span>🎁 滋补送礼 全程冷链</span>`;
+        } else {
+            sceneBadge.innerHTML = `<span>🏪 中小餐馆 · 食堂 · 便利店 · 加工厂 专属价</span><span>📦 整件起批 冷链直达</span>`;
+        }
+        renderProducts();
+    }
+
+    function initNav() {
+        document.querySelectorAll(".nav-item").forEach(item => {
+            item.addEventListener("click", () => {
+                const nav = item.getAttribute("data-nav");
+                if (nav === "home") {
+                    window.location.href = "https://z-hang212.github.io/Home.html";
+                } else if (nav === "trace") {
+                    window.location.href = "https://z-hang212.github.io/blackHome.html";
+                } else if (nav === "shop") {
+                    showToast("🛒 您已在商城页面");
+                } else if (nav === "profile") {
+                    window.location.href = "https://z-hang212.github.io/my.html";
+                }
+            });
+        });
+    }
+
+    // 场景切换按钮事件绑定（修复C端点不了的问题）
+    function bindSceneButtons() {
+        const sceneBtns = document.querySelectorAll(".scene-btn");
+        sceneBtns.forEach(btn => {
+            // 移除旧事件避免重复绑定
+            btn.removeEventListener("click", btn._handler);
+            const handler = () => {
+                const scene = btn.getAttribute("data-scene");
+                if (scene === "c") setScene("c");
+                else setScene("b");
+            };
+            btn._handler = handler;
+            btn.addEventListener("click", handler);
+        });
+    }
+
+    document.getElementById("cartIcon")?.addEventListener("click", () => {
+        if (currentScene === "c") {
+            showToast("🛍️ 购物车即将上线，可溯源商品放心选购");
+        } else {
+            showToast("📦 B端大宗采购请联系客户经理获取报价单，享集采折扣");
+        }
+    });
+
+    b2bConsultBtn?.addEventListener("click", () => {
+        showToast("🏢 冀农鲜B端集采通道: 致电 400-882-6688 或添加客户经理微信，享源头直供价格");
+        setTimeout(() => {
+            showToast("📧 也可发送采购需求至 b2b@jinongxian.com 获取报价册");
+        }, 1500);
+    });
+
+    // 初始化
+    renderCategories();
+    renderProducts();
+    setScene("b");
+    bindSceneButtons();
+    initNav();
+
+    setTimeout(() => {
+        if (currentScene === "b") {
+            showToast("🧑‍🍳 中小商户专享：整箱批发价立省8%-15%，支持账期合作");
+        }
+    }, 800);
+</script>
+</body>
+</html>
