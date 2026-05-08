@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>冀农鲜 | 太行老母鸡 · 散养500天</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #eef5ea;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+            color: #1e2f2a;
+            padding-bottom: 80px;
+        }
+
+        .detail-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f8fbf5;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(76, 109, 56, 0.08);
+        }
+
+        .header {
+            background: white;
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            border-bottom: 1px solid #cfe3c2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.96);
+        }
+        .back-btn {
+            font-size: 28px;
+            cursor: pointer;
+            color: #2c6e3c;
+            font-weight: 500;
+            line-height: 1;
+        }
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        .logo-icon { font-size: 24px; }
+        .logo-main {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(125deg, #2c6e3c, #5c9e4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .action-icons {
+            display: flex;
+            gap: 18px;
+            font-size: 20px;
+            color: #2c6e3c;
+        }
+        .image-gallery {
+            background: #ebf4e4;
+            position: relative;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+        .gallery-img {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            background: #dcebd0;
+        }
+        .img-badge {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            color: white;
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 24px;
+            z-index: 2;
+        }
+        .info-section {
+            padding: 20px 16px 12px;
+            background: white;
+            border-radius: 28px 28px 0 0;
+            margin-top: -8px;
+            position: relative;
+        }
+        .product-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cert-tag {
+            background: #eef3e9;
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 30px;
+            color: #2c6e3c;
+        }
+        .sub-desc {
+            color: #748c64;
+            font-size: 13px;
+            margin: 6px 0 12px;
+            line-height: 1.4;
+        }
+        .price-panel {
+            background: #fefaf0;
+            border-radius: 20px;
+            padding: 12px 16px;
+            margin: 12px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border: 1px solid #f3e5c9;
+        }
+        .price-box .price-main {
+            font-size: 24px;
+            font-weight: 800;
+            color: #e67e22;
+        }
+        .price-unit {
+            font-size: 12px;
+            color: #95a57c;
+        }
+        .min-qty {
+            background: #e0f0da;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #2c6e3c;
+        }
+        .scene-toggle-card {
+            background: white;
+            margin: 8px 0 12px;
+            border-radius: 60px;
+            display: flex;
+            border: 1px solid #d9e8cf;
+            padding: 4px;
+        }
+        .scene-opt {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 40px;
+            cursor: pointer;
+            color: #6c8f5e;
+            transition: 0.2s;
+        }
+        .scene-opt.active {
+            background: #2c6e3c;
+            color: white;
+        }
+        .trace-block {
+            background: #eef3f0;
+            border-radius: 24px;
+            padding: 16px;
+            margin: 16px 0;
+            border-left: 5px solid #2c6e3c;
+        }
+        .trace-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .trace-id {
+            font-family: monospace;
+            background: white;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 12px;
+        }
+        .trace-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #436b43;
+        }
+        .btn-order-large {
+            background: #2d6a4f;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px 0;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 12px 0 8px;
+            cursor: pointer;
+        }
+        .spec-list {
+            margin: 20px 0 16px;
+        }
+        .spec-item {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0efd6;
+            font-size: 14px;
+        }
+        .spec-label {
+            width: 100px;
+            color: #5c7c4c;
+            font-weight: 500;
+        }
+        .bottom-fixed-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            padding: 10px 20px 20px;
+            border-top: 1px solid #ddebd2;
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+        }
+        .consult-btn {
+            flex: 1;
+            background: #f4a261;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            color: #2c4b1e;
+            padding: 12px 0;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .buy-now-btn {
+            flex: 2;
+            background: #2c6e3c;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        /* 结算弹窗 */
+        .modal-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            z-index: 1000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+        }
+        .modal-mask.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .checkout-panel {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 32px 32px 0 0;
+            padding: 24px 20px 30px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .modal-mask.active .checkout-panel {
+            transform: translateY(0);
+        }
+        .panel-header {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eef3e9;
+            padding-bottom: 12px;
+        }
+        .close-panel {
+            font-size: 28px;
+            cursor: pointer;
+            color: #8faa7a;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #2d4a2c;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 20px;
+            border: 1px solid #d4e2ca;
+            background: #fefef7;
+            font-size: 15px;
+            font-family: inherit;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #2c6e3c;
+        }
+        .qty-selector {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: #f3f8ef;
+            padding: 8px 12px;
+            border-radius: 60px;
+            width: fit-content;
+        }
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 30px;
+            background: white;
+            border: 1px solid #c5ddb5;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #2c6e3c;
+        }
+        .qty-num {
+            font-size: 18px;
+            font-weight: 700;
+            min-width: 40px;
+            text-align: center;
+        }
+        .order-summary {
+            background: #f9fbf4;
+            border-radius: 24px;
+            padding: 14px;
+            margin: 16px 0;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        .total-price {
+            font-weight: 800;
+            font-size: 20px;
+            color: #e67e22;
+            border-top: 1px dashed #d8e6cd;
+            padding-top: 10px;
+            margin-top: 8px;
+        }
+        .submit-order {
+            background: #2c6e3c;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 60px;
+            color: white;
+            font-weight: 800;
+            font-size: 16px;
+            margin-top: 16px;
+            cursor: pointer;
+        }
+        .toast-msg {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c4633e6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 13px;
+            z-index: 1100;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+            max-width: 90%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="detail-container">
+    <div class="header">
+        <div class="back-btn" id="backBtn">←</div>
+        <div class="logo-area"><span class="logo-icon">🌿</span><span class="logo-main">冀农鲜商城</span></div>
+        <div class="action-icons"><span>🔗</span><span>🛒</span></div>
+    </div>
+    
+    <!-- 动态内容 -->
+    <div id="dynamicContent"></div>
+    
+    <div class="bottom-fixed-bar">
+        <button class="consult-btn" id="bottomConsultBtn">📞 批量询价</button>
+        <button class="buy-now-btn" id="bottomBuyBtn">🛒 立即购买</button>
+    </div>
+</div>
+<div class="toast-msg" id="toastMsg">提示</div>
+
+<!-- 结算弹窗（收货信息+数量） -->
+<div class="modal-mask" id="checkoutModal">
+    <div class="checkout-panel">
+        <div class="panel-header">
+            <span>📦 填写订单信息</span>
+            <span class="close-panel" id="closeModalBtn">✕</span>
+        </div>
+        <div class="form-group">
+            <label>收货人姓名</label>
+            <input type="text" id="receiverName" placeholder="请填写真实姓名" value="张先生">
+        </div>
+        <div class="form-group">
+            <label>联系电话</label>
+            <input type="tel" id="receiverPhone" placeholder="手机号码" value="18888888888">
+        </div>
+        <div class="form-group">
+            <label>收货地址</label>
+            <textarea id="receiverAddress" rows="2" placeholder="省市区 详细街道">河北省石家庄市裕华区冀农鲜冷链驿站1号</textarea>
+        </div>
+        <div class="form-group">
+            <label>购买数量</label>
+            <div class="qty-selector">
+                <button class="qty-btn" id="decrementQty">−</button>
+                <span class="qty-num" id="orderQty">1</span>
+                <button class="qty-btn" id="incrementQty">+</button>
+                <span style="font-size: 12px; margin-left: 8px;" id="qtyUnitInfo"></span>
+            </div>
+            <div style="font-size: 12px; color:#748c64; margin-top: 6px;" id="minBatchHint"></div>
+        </div>
+        <div class="order-summary" id="orderSummary"></div>
+        <button class="submit-order" id="submitOrderBtn">✅ 确认下单（生成订单预览）</button>
+    </div>
+</div>
+
+<script>
+    // 商品1: 太行老母鸡
+    const currentProduct = {
+        id: "p1001",
+        name: "太行老母鸡 · 散养500天",
+        desc: "林下散养500天以上，肌苷酸丰富，汤汁金黄浓郁，滋补首选。全程无抗养殖，区块链可信溯源。",
+        longDesc: "源自太行山生态养殖基地，每一只母鸡都超过500日龄，足期散养，食五谷虫草。肉质紧实，适合炖汤、煲制药膳。",
+        images: [
+            "https://i.ibb.co/hJQP5Z9J/20260503092519-253-18.jpg",
+            "https://i.ibb.co/5WLfH8ZB/20260503092636-257-18.jpg",
+            "https://i.ibb.co/YFkNjFw8/image.jpg"
+        ],
+        cPrice: 128,
+        cPriceStr: "¥128",
+        cUnit: "净膛2.2斤/只",
+        bPrice: 1150,
+        bPriceStr: "¥1150",
+        bUnit: "10只/箱",
+        minQty: "1箱起批",
+        category: "整鸡类",
+        traceCode: "TJ512301",
+        origin: "河北·太行山生态农场",
+        shelfLife: "冷冻保存12个月",
+        storage: "-18℃以下冷冻保存",
+        traceDetails: {
+            "养殖批次": "2025-03-15 批次#TY0325",
+            "出栏时间": "2025-04-20",
+            "检疫证号": "冀动检字第240987号",
+            "区块链哈希": "0x7f3e...a2b9c (以太坊溯源)",
+            "加工基地": "冀农鲜中央加工中心"
+        }
+    };
+
+    let currentScene = "b";   // 默认B端（商户端）
+    let currentQty = 1;
+
+    const toastMsg = document.getElementById("toastMsg");
+    function showToast(msg, duration = 2000) {
+        if (!toastMsg) return;
+        toastMsg.innerText = msg;
+        toastMsg.style.opacity = "1";
+        setTimeout(() => { if(toastMsg) toastMsg.style.opacity = "0"; }, duration);
+    }
+
+    function getCurrentPriceInfo() {
+        if (currentScene === "c") {
+            return { price: currentProduct.cPrice, unit: currentProduct.cUnit, priceStr: currentProduct.cPriceStr, isBulk: false, minQtyLimit: 1 };
+        } else {
+            let minReq = 1;
+            if (currentProduct.id === "p1001") minReq = 1;
+            return { price: currentProduct.bPrice, unit: currentProduct.bUnit, priceStr: currentProduct.bPriceStr, isBulk: true, minQtyLimit: minReq };
+        }
+    }
+
+    function renderDetail() {
+        const container = document.getElementById("dynamicContent");
+        if (!container) return;
+        const priceInfo = getCurrentPriceInfo();
+        const activePriceStr = priceInfo.priceStr;
+        const activeUnit = priceInfo.unit;
+        const minBatchHintHtml = currentScene === "b" ? `<div class="min-qty">📦 起批: ${currentProduct.minQty} | 整件冷链</div>` : `<div class="min-qty">🎁 零售包邮</div>`;
+
+        let traceHtml = `<div class="trace-block"><div class="trace-header"><span>🔗 区块链可信溯源</span><span class="trace-id">溯源码: ${currentProduct.traceCode}</span></div>`;
+        for (const [k,v] of Object.entries(currentProduct.traceDetails)) {
+            traceHtml += `<div class="trace-detail"><span>${k}</span><span>${v}</span></div>`;
+        }
+        traceHtml += `<button id="verifyTraceBtn" style="margin-top:12px; background:white; border:1px solid #2c6e3c; padding:6px 12px; border-radius:30px; font-size:12px; cursor:pointer;">🔍 查看上链凭证</button></div>`;
+
+        const sceneC = currentScene === "c" ? "active" : "";
+        const sceneB = currentScene === "b" ? "active" : "";
+        const html = `
+            <div class="image-gallery">${currentProduct.images.map(img => `<img class="gallery-img" src="${img}" alt="${currentProduct.name}">`).join('')}<div class="img-badge">🐔 生态认证·可溯源</div></div>
+            <div class="info-section">
+                <div class="product-title">${currentProduct.name}<span class="cert-tag">⭐ 区块链存证</span></div>
+                <div class="sub-desc">${currentProduct.desc}</div>
+                <div class="scene-toggle-card"><div class="scene-opt ${sceneC}" data-scene="c">🍲 家庭·C端</div><div class="scene-opt ${sceneB}" data-scene="b">🏢 中小商户·B端</div></div>
+                <div class="price-panel"><div class="price-box"><div class="price-main">${activePriceStr} <span class="price-unit">/${activeUnit}</span></div><div style="font-size:12px;">含税冷链直达</div></div>${minBatchHintHtml}</div>
+                ${traceHtml}
+                <div class="spec-list">
+                    <div class="spec-item"><div class="spec-label">规格</div><div>${currentProduct.cUnit}</div></div>
+                    <div class="spec-item"><div class="spec-label">产地</div><div>${currentProduct.origin}</div></div>
+                    <div class="spec-item"><div class="spec-label">保质期</div><div>${currentProduct.shelfLife}</div></div>
+                    <div class="spec-item"><div class="spec-label">贮存</div><div>${currentProduct.storage}</div></div>
+                    <div class="spec-item"><div class="spec-label">推荐吃法</div><div>炖汤、煲药膳，汤汁浓郁</div></div>
+                </div>
+                <button class="btn-order-large" id="mainOrderBtn">${currentScene === "c" ? "🛍️ 立即购买 · 溯源保障" : "📦 申请批发价 · 整箱下单"}</button>
+            </div>`;
+        container.innerHTML = html;
+
+        document.querySelectorAll(".scene-opt").forEach(opt => {
+            opt.addEventListener("click", (e) => { const sc = opt.getAttribute("data-scene"); if(sc==="c") setScene("c"); else setScene("b"); });
+        });
+        document.getElementById("mainOrderBtn")?.addEventListener("click", () => openCheckoutModal());
+        document.getElementById("verifyTraceBtn")?.addEventListener("click", () => showToast(`🔗 区块链哈希: ${currentProduct.traceCode} 已上链存证，不可篡改`));
+    }
+
+    function setScene(scene) {
+        currentScene = scene;
+        renderDetail();
+        bindBottomEvents();
+    }
+
+    function bindBottomEvents() {
+        const consult = document.getElementById("bottomConsultBtn");
+        const buy = document.getElementById("bottomBuyBtn");
+        if(consult) {
+            const newConsult = consult.cloneNode(true);
+            consult.parentNode.replaceChild(newConsult, consult);
+            newConsult.addEventListener("click", () => showToast("🏢 大宗采购热线 400-882-6688 或添加微信 jnong_b2b"));
+        }
+        if(buy) {
+            const newBuy = buy.cloneNode(true);
+            buy.parentNode.replaceChild(newBuy, buy);
+            newBuy.addEventListener("click", () => openCheckoutModal());
+        }
+    }
+
+    function openCheckoutModal() {
+        const modal = document.getElementById("checkoutModal");
+        if (!modal) return;
+        const priceInfo = getCurrentPriceInfo();
+        let minValidQty = 1;
+        if (currentScene === "b" && currentProduct.id === "p1001") minValidQty = 1;
+        currentQty = Math.max(1, minValidQty);
+        document.getElementById("orderQty").innerText = currentQty;
+        document.getElementById("qtyUnitInfo").innerText = ` (${priceInfo.unit})`;
+        if (currentScene === "b") {
+            document.getElementById("minBatchHint").innerHTML = `⚠️ 商户批发最小起订量: ${currentProduct.minQty}，当前数量为${currentQty}${priceInfo.unit}`;
+        } else {
+            document.getElementById("minBatchHint").innerHTML = `🍃 零售任意数量，冷链包邮`;
+        }
+        updateOrderSummary();
+        modal.classList.add("active");
+    }
+
+    function updateOrderSummary() {
+        const priceInfo = getCurrentPriceInfo();
+        const unitPrice = priceInfo.price;
+        const total = (unitPrice * currentQty).toFixed(2);
+        const summaryDiv = document.getElementById("orderSummary");
+        if(!summaryDiv) return;
+        summaryDiv.innerHTML = `
+            <div class="summary-row"><span>商品单价</span><span>${priceInfo.priceStr} / ${priceInfo.unit}</span></div>
+            <div class="summary-row"><span>购买数量</span><span>${currentQty} ${priceInfo.unit}</span></div>
+            <div class="summary-row total-price"><span>实付金额 (含冷链运费)</span><span>¥${total}</span></div>
+            <div class="summary-row" style="font-size:11px; color:#7c9a6e;">🔒 区块链全程溯源 · 现货现发</div>
+        `;
+    }
+
+   function adjustQty(delta) {
+    let newQty = currentQty + delta;
+    if (newQty < 1) newQty = 1;
+    
+    // B端场景：限制最小起批量
+    if (currentScene === "b") {
+        let minQty = 1;
+        if (currentProduct.id === "p1002") minQty = 2;  // 绿壳蛋2箱起批
+        if (currentProduct.id === "p1001") minQty = 1;  // 老母鸡1箱起批
+        
+        if (newQty < minQty) {
+            showToast(`${currentProduct.name} 批发需至少 ${minQty}${priceInfo.unit}起批`, 1500);
+            newQty = minQty;
+        }
+    }
+    
+    currentQty = newQty;
+    document.getElementById("orderQty").innerText = currentQty;
+    updateOrderSummary();
+}
+
+    function submitOrder() {
+        const name = document.getElementById("receiverName").value.trim();
+        const phone = document.getElementById("receiverPhone").value.trim();
+        const address = document.getElementById("receiverAddress").value.trim();
+        if (!name || !phone || !address) {
+            showToast("请完整填写收货信息", 1500);
+            return;
+        }
+        if (!/^1[3-9]\d{9}$/.test(phone) && !/^\d{11}$/.test(phone)) {
+            showToast("请输入有效的手机号码", 1500);
+            return;
+        }
+        const priceInfo = getCurrentPriceInfo();
+        const total = (priceInfo.price * currentQty).toFixed(2);
+        const orderSn = "JNX" + Date.now() + Math.floor(Math.random()*1000);
+        
+        // 订单预览弹窗（到达下单结算页，不跳转支付）
+        const orderPreview = `
+═══════════════════════
+    📋 订单预览（未支付）
+═══════════════════════
+商品：${currentProduct.name}
+数量：${currentQty} ${priceInfo.unit}
+单价：${priceInfo.priceStr}
+───────────────────
+实付金额：¥${total}
+───────────────────
+收货人：${name}
+联系电话：${phone}
+收货地址：${address}
+───────────────────
+订单编号：${orderSn}
+溯源编码：${currentProduct.traceCode}
+───────────────────
+✅ 已到达下单结算页
+📌 请确认信息后继续支付
+═══════════════════════`;
+        
+        alert(orderPreview);
+        showToast("已生成订单预览，请确认信息", 2000);
+        // 关闭弹窗，模拟停留在结算页
+        document.getElementById("checkoutModal").classList.remove("active");
+    }
+
+    function closeModal() {
+        document.getElementById("checkoutModal").classList.remove("active");
+    }
+
+    function bindModalEvents() {
+        const decBtn = document.getElementById("decrementQty");
+        const incBtn = document.getElementById("incrementQty");
+        if(decBtn) decBtn.onclick = () => adjustQty(-1);
+        if(incBtn) incBtn.onclick = () => adjustQty(+1);
+        const submitBtn = document.getElementById("submitOrderBtn");
+        if(submitBtn) submitBtn.onclick = () => submitOrder();
+        const closeBtn = document.getElementById("closeModalBtn");
+        if(closeBtn) closeBtn.onclick = () => closeModal();
+        const modalBg = document.getElementById("checkoutModal");
+        if(modalBg) modalBg.addEventListener("click", (e) => { if(e.target === modalBg) closeModal(); });
+    }
+
+    document.getElementById("backBtn")?.addEventListener("click", () => { window.history.back(); });
+    
+    function init() {
+        renderDetail();
+        bindBottomEvents();
+        bindModalEvents();
+    }
+    init();
+</script>
+</body>
+</html>
