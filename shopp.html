@@ -356,7 +356,7 @@
             minQty: "2箱起批",
             img: "https://i.ibb.co/9HG77m1Y/20260503092521-255-18.jpg",
             category: "整鸡类",
-            traceCode: "CJ3345",
+            showToast: "CJ3345",
             desc: "120天散养，肉质细嫩"
         },
         {
@@ -380,7 +380,7 @@
             bPrice: "¥38",
             bUnit: "20包/箱(10kg)",
             minQty: "2箱起批",
-            img: "https://i.ibb.co/5WLfH8ZB/20260503092636-257-18.jpg",
+            img: "https://i.ibb.co/1GRx54BW/image.jpg",
             category: "分割品",
             traceCode: "LEG8802",
             desc: "去皮去脂，适合快餐/卤味"
@@ -393,7 +393,7 @@
             bPrice: "¥39",
             bUnit: "20包/箱",
             minQty: "2箱起批",
-            img: "https://i.ibb.co/hJQP5Z9J/20260503092519-253-18.jpg",
+            img: "https://i.ibb.co/0y6G75Ry/image.jpg",
             category: "分割品",
             traceCode: "BREAST01",
             desc: "低脂高蛋白，适合健身餐/预制菜"
@@ -406,7 +406,7 @@
             bPrice: "¥102",
             bUnit: "10只/箱",
             minQty: "3箱起批",
-            img: "https://i.ibb.co/9HG77m1Y/20260503092521-255-18.jpg",
+            img: "https://i.ibb.co/4gZwWgbw/image.jpg",
             category: "整鸡类",
             traceCode: "LJ8823",
             desc: "肉质紧实，适合酱卤/熟食加工"
@@ -419,7 +419,7 @@
             bPrice: "¥58",
             bUnit: "12盒/箱",
             minQty: "2箱起批",
-            img: "https://i.ibb.co/FL93hMsS/20260503092520-254-18.jpg",
+            img: "https://i.ibb.co/YFkNjFw8/image.jpg",
             category: "预制菜/套餐",
             traceCode: "PRE888",
             desc: "免切配，餐饮后厨效率之选"
@@ -517,22 +517,31 @@
             `;
         }).join("");
 
-        document.querySelectorAll(".product-card").forEach(card => {
-            const productId = card.getAttribute("data-id");
-            const product = productList.find(p => p.id === productId);
-            if (product) {
-                card.addEventListener("click", (e) => {
-                    if (e.target.classList && e.target.classList.contains("btn-order")) return;
-                    let targetUrl = "";
-                    if (product.traceCode === "TJ512301") targetUrl = "https://z-hang212.github.io/goods1.html";
-                    else if (product.traceCode === "EGG2201") targetUrl = "https://z-hang212.github.io/goods2.html";
-                    else if (product.traceCode === "CJ3345") targetUrl = "https://z-hang212.github.io/goods3.html";
-                    else if (product.traceCode === "GIFTT01") targetUrl = "https://z-hang212.github.io/goods4.html";
-                    else targetUrl = "https://z-hang212.github.io/blackHome.html";
-                    window.location.href = targetUrl;
-                });
+       document.querySelectorAll(".product-card").forEach(card => {
+    const productId = card.getAttribute("data-id");
+    const product = productList.find(p => p.id === productId);
+
+    if (product) {
+        card.addEventListener("click", (e) => {
+            // 点击立即购买按钮，不执行卡片跳转
+            if (e.target.classList && e.target.classList.contains("btn-order")) return;
+
+            let targetUrl = "";
+            // 只给2个商品分配详情页地址
+            if (product.traceCode === "TJ512301") {
+                targetUrl = "https://z-hang212.github.io/item2.html";
+            } else if (product.traceCode === "EGG2201") {
+                targetUrl = "https://z-hang212.github.io/item.html";
+            } else {
+                // 其他商品：弹提示，不跳转
+                showToast("暂无详情页");
+                return;
             }
+            // 只有有地址才跳转
+            window.location.href = targetUrl;
         });
+    }
+});
 
         document.querySelectorAll(".btn-order").forEach(btn => {
             btn.addEventListener("click", (e) => {
