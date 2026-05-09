@@ -637,8 +637,8 @@
     // 移除所有必填校验，允许空内容直接认证成功
     merchantData = {
         shopName: shopName || "认证商户",
-        address: shopAddress || "待完善",
-        phone: shopPhone || "待完善",
+        address: shopAddress || "发货地址",
+        phone: shopPhone || "联系电话",
         type: document.getElementById("shopType").value.trim() || "餐饮/零售"
     };
     isB2bCertified = true;
