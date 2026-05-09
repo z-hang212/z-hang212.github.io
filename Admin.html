@@ -233,6 +233,7 @@
             padding: 14px;
             border-bottom: 1px solid #f0f5eb;
             color: #2c3e2a;
+            vertical-align: top;
         }
 
         .data-table tr:hover {
@@ -270,6 +271,11 @@
         .badge-gold {
             background: #fef0d9;
             color: #b87c2e;
+        }
+
+        .badge-silver {
+            background: #e9f0ec;
+            color: #5f7b66;
         }
 
         .progress-bar {
@@ -324,36 +330,6 @@
             font-size: 14px;
         }
 
-        .detail-panel {
-            display: none;
-            background: white;
-            border-radius: 24px;
-            padding: 24px;
-            margin-top: 24px;
-            border: 1px solid #e2efd8;
-        }
-
-        .detail-panel.show {
-            display: block;
-        }
-
-        .info-row {
-            display: flex;
-            padding: 12px 0;
-            border-bottom: 1px solid #efefe5;
-        }
-
-        .info-label {
-            width: 140px;
-            font-weight: 600;
-            color: #4a6741;
-        }
-
-        .info-value {
-            flex: 1;
-            color: #2c4128;
-        }
-
         .tag {
             display: inline-block;
             padding: 2px 10px;
@@ -363,10 +339,58 @@
             margin-bottom: 4px;
         }
 
-        .tag-mother { background: #ffe0f0; color: #b3477c; }
-        .tag-health { background: #e0f7e8; color: #2e7d5e; }
-        .tag-gift { background: #e0e8ff; color: #4a6fa5; }
-        .tag-loyal { background: #fff0c0; color: #c29b2e; }
+        .info-row {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #efefe5;
+        }
+        .info-label {
+            width: 140px;
+            font-weight: 600;
+            color: #4a6741;
+        }
+        .info-value {
+            flex: 1;
+            color: #2c4128;
+        }
+
+        /* 用户画像内小标签组 */
+        .user-detail-list {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #3d5a3a;
+        }
+        .user-detail-item {
+            margin-bottom: 4px;
+        }
+        .layer-badge {
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            display: inline-block;
+            background: #edf3e8;
+        }
+        .layer-high {
+            background: #ffefc0;
+            color: #bc7a1e;
+        }
+        .layer-potential {
+            background: #e0f0fa;
+            color: #2c6e9e;
+        }
+        .layer-new {
+            background: #e0f2e0;
+            color: #2a7340;
+        }
+        .layer-sleep {
+            background: #f0e8e8;
+            color: #a05a5a;
+        }
+        .layer-gift {
+            background: #ffe0f0;
+            color: #b3477c;
+        }
 
         @media (max-width: 640px) {
             .sidebar { width: 80px; }
@@ -375,6 +399,7 @@
             .sidebar-logo p { display: none; }
             .stat-grid { gap: 12px; }
             .content { padding: 16px; }
+            .data-table th, .data-table td { padding: 10px 8px; font-size: 12px; }
         }
     </style>
 </head>
@@ -407,7 +432,7 @@
         </div>
 
         <div class="content">
-            <!-- ========= 信任仪表盘（Dashboard）========= -->
+            <!-- 信任仪表盘 Dashboard (与之前内容保持一致) -->
             <div class="page active" id="dashboard">
                 <div class="stat-grid">
                     <div class="stat-card"><div class="num">486</div><div class="label">👥 总用户数</div></div>
@@ -415,159 +440,141 @@
                     <div class="stat-card"><div class="num">¥4.28w</div><div class="label">💰 累计销售额</div></div>
                     <div class="stat-card"><div class="num">¥138</div><div class="label">🎯 平均客单价</div></div>
                 </div>
-
-                <!-- 信任指数核心模块 -->
                 <div class="stat-grid">
-                    <div class="stat-card trust-highlight">
-                        <div class="num">96.8<span style="font-size:18px;">%</span></div>
-                        <div class="label">✅ 溯源扫码率（目标≥95%）</div>
-                        <div class="progress-bar" style="margin-top:12px;"><div class="progress-fill" style="width:96.8%"></div></div>
-                        <div style="font-size:12px; color:#8B6914; margin-top:8px;">📊 已售342只 · 扫码331次</div>
-                    </div>
-                    <div class="stat-card trust-highlight">
-                        <div class="num">28<span style="font-size:18px;">人</span></div>
-                        <div class="label">🌿 进行中·云认养</div>
-                        <div style="font-size:12px; color:#6f8870; margin-top:8px;">📅 本月新增12人，环比+42%</div>
-                    </div>
-                    <div class="stat-card trust-highlight">
-                        <div class="num">156<span style="font-size:18px;">次</span></div>
-                        <div class="label">🎬 本周慢直播观看</div>
-                        <div style="font-size:12px; color:#6f8870;">📈 用户平均观看时长 4分32秒</div>
-                    </div>
-                    <div class="stat-card trust-highlight">
-                        <div class="num">89<span style="font-size:18px;">次</span></div>
-                        <div class="label">📤 生长日记分享</div>
-                        <div style="font-size:12px; color:#6f8870;">👥 带来裂变新用户 23人</div>
-                    </div>
+                    <div class="stat-card trust-highlight"><div class="num">96.8<span style="font-size:18px;">%</span></div><div class="label">✅ 溯源扫码率（目标≥95%）</div><div class="progress-bar" style="margin-top:12px;"><div class="progress-fill" style="width:96.8%"></div></div><div style="font-size:12px; color:#8B6914; margin-top:8px;">📊 已售342只 · 扫码331次</div></div>
+                    <div class="stat-card trust-highlight"><div class="num">28<span style="font-size:18px;">人</span></div><div class="label">🌿 进行中·云认养</div><div style="font-size:12px; color:#6f8870; margin-top:8px;">📅 本月新增12人，环比+42%</div></div>
+                    <div class="stat-card trust-highlight"><div class="num">156<span style="font-size:18px;">次</span></div><div class="label">🎬 本周慢直播观看</div><div style="font-size:12px; color:#6f8870;">📈 用户平均观看时长 4分32秒</div></div>
+                    <div class="stat-card trust-highlight"><div class="num">89<span style="font-size:18px;">次</span></div><div class="label">📤 生长日记分享</div><div style="font-size:12px; color:#6f8870;">👥 带来裂变新用户 23人</div></div>
                 </div>
-
-                <!-- 复购预警 & 信任危机 -->
                 <div class="insight-card">
                     <div class="section-title" style="margin-top:0;">⚠️ 用户行为预判（运营行动点）</div>
-                    <div class="risk-alert">
-                        🔔 <strong>复购黄金窗口</strong>：用户「李女士·母婴家庭」距上次购买已过32天（炖汤周期30天），<span style="color:#c73e3e;">建议发放20元复购券</span>
-                    </div>
-                    <div class="risk-alert" style="border-left-color:#6f8870;">
-                        📉 <strong>信任强化提醒</strong>：用户「王先生」扫码溯源页停留仅3秒（平均31秒），可能对信息不满意，<span style="color:#c73e3e;">建议客服回访</span>
-                    </div>
-                    <div class="risk-alert" style="border-left-color:#4c9f3c;">
-                        🎉 <strong>高价值用户</strong>：用户「张女士」已连续认养3只鸡，分享过5次生长日记，<span style="color:#1f7840;">邀请成为KOC品鉴官</span>
-                    </div>
+                    <div class="risk-alert">🔔 <strong>复购黄金窗口</strong>：用户「李女士·母婴家庭」距上次购买已过32天（炖汤周期30天），<span style="color:#c73e3e;">建议发放20元复购券</span></div>
+                    <div class="risk-alert" style="border-left-color:#6f8870;">📉 <strong>信任强化提醒</strong>：用户「王先生」扫码溯源页停留仅3秒（平均31秒），可能对信息不满意，<span style="color:#c73e3e;">建议客服回访</span></div>
+                    <div class="risk-alert" style="border-left-color:#4c9f3c;">🎉 <strong>高价值用户</strong>：用户「张女士」已连续认养3只鸡，分享过5次生长日记，<span style="color:#1f7840;">邀请成为KOC品鉴官</span></div>
                 </div>
-
                 <div class="insight-card">
                     <div class="section-title" style="margin-top:0;">🏆 热销商品 TOP5</div>
-                    <table class="data-table">
-                        <thead><tr><th>排名</th><th>商品名称</th><th>销量</th><th>销售额</th><th>毛利率</th></tr></thead>
-                        <tbody>
-                            <tr><td>1</td><td>🐔 太行老母鸡·散养500天</td><td>142</td><td>¥1.82w</td><td><span class="badge-success badge">57%</span></td></tr>
-                            <tr><td>2</td><td>🥚 太行绿壳蛋礼盒</td><td>78</td><td>¥3,112</td><td><span class="badge-success badge">52%</span></td></tr>
-                            <tr><td>3</td><td>🍲 滋补炖汤套餐</td><td>45</td><td>¥6,660</td><td><span class="badge-success badge">53%</span></td></tr>
-                            <tr><td>4</td><td>🍗 华北柴鸡童子鸡</td><td>32</td><td>¥2,496</td><td><span class="badge badge-info">49%</span></td></tr>
-                            <tr><td>5</td><td>🎁 中秋定制礼盒</td><td>21</td><td>¥4,158</td><td><span class="badge-success badge">62%</span></td></tr>
-                        </tbody>
-                    </table>
+                    <table class="data-table"><thead><tr><th>排名</th><th>商品名称</th><th>销量</th><th>销售额</th><th>毛利率</th></tr></thead><tbody>
+                        <tr><td>1</td><td>🐔 太行老母鸡·散养500天</td><td>142</td><td>¥1.82w</td><td><span class="badge-success badge">57%</span></td></tr>
+                        <tr><td>2</td><td>🥚 太行绿壳蛋礼盒</td><td>78</td><td>¥3,112</td><td><span class="badge-success badge">52%</span></td></tr>
+                        <tr><td>3</td><td>🍲 滋补炖汤套餐</td><td>45</td><td>¥6,660</td><td><span class="badge-success badge">53%</span></td></tr>
+                        <tr><td>4</td><td>🍗 华北柴鸡童子鸡</td><td>32</td><td>¥2,496</td><td><span class="badge badge-info">49%</span></td></tr>
+                        <tr><td>5</td><td>🎁 中秋定制礼盒</td><td>21</td><td>¥4,158</td><td><span class="badge-success badge">62%</span></td></tr>
+                    </tbody></table>
                 </div>
             </div>
 
-            <!-- ========= 订单管理 ========= -->
+            <!-- 订单管理 (不变)-->
             <div class="page" id="order">
                 <div class="insight-card">
                     <div class="section-title" style="margin-top:0;">📋 最近订单列表</div>
-                    <table class="data-table">
-                        <thead><tr><th>订单号</th><th>商品</th><th>下单时间</th><th>金额</th><th>状态</th><th>溯源扫码</th><th>操作</th></tr></thead>
-                        <tbody id="orderTableBody"></tbody>
-                    </table>
+                    <table class="data-table"><thead><tr><th>订单号</th><th>商品</th><th>下单时间</th><th>金额</th><th>状态</th><th>溯源扫码</th><th>操作</th></tr></thead><tbody id="orderTableBody"></tbody></table>
                 </div>
             </div>
 
-            <!-- ========= 用户画像（含标签体系）========= -->
-            <div class="page" id="user">
-                <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">👥 C端用户画像 · 知情消费标签</div>
-                    <table class="data-table">
-                        <thead>
-                            <tr><th>用户</th><th>画像标签</th><th>信任分</th><th>云认养</th><th>互动行为</th><th>操作</th></tr>
-                        </thead>
-                        <tbody id="userTableBody"></tbody>
-                    </table>
-                    <div class="bottom-more" onclick="alert('支持按信任分/画像筛选，可导出用户列表')">📎 导出用户分析报告</div>
-                </div>
-            </div>
+            <!-- ========= 用户画像（全面升级：基础信息+消费行为+认养溯源+渠道来源+价值分层） ========= -->
+           <!-- ========= 用户画像 · PPT展示版（精简表格）========= -->
+<div class="page" id="user">
+    <div class="insight-card">
+        <div class="section-title" style="margin-top:0;">👥 用户全景画像 — 知情消费标签与价值分层（PPT展示）</div>
+        <div style="overflow-x: auto;">
+            <table class="data-table" style="font-size: 13px; min-width: 1000px;">
+                <thead>
+                    <tr>
+                        <th>用户/分层</th>
+                        <th>基础信息<br>(年龄/地域/家庭/标签)</th>
+                        <th>消费行为<br>(品类/客单/复购/周期)</th>
+                        <th>认养·溯源<br>(云认养/直播/扫码)</th>
+                        <th>渠道来源<br>(获客/裂变)</th>
+                        <th>价值分层<br>(信任分/LTV/策略)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 行1：高价值-张女士 -->
+                    <tr>
+                        <td><strong>张女士·品质</strong><br><span style="font-size:11px; color:#888;">136****9012</span><br><span class="layer-badge layer-high" style="background:#ffefc0;">高价值</span></td>
+                        <td>38岁 · 北京朝阳<br>四口之家<br><span class="tag">品质家庭</span> <span class="tag">KOC潜力</span> <span class="tag">有机爱好者</span></td>
+                        <td>老母鸡/绿壳蛋/礼盒<br>💰 客单价 ¥215<br>📈 复购5次 · 周期21天</td>
+                        <td>✅ 云认养中<br>🎬 直播12分40秒<br>🔍 扫码6次 · 分享5次</td>
+                        <td>私域社群 · 老客裂变<br>👥 带来4位新用户</td>
+                        <td>🏅 信任分98<br>💰 LTV ¥3240<br>📌 KOC品鉴官候选</td>
+                    </tr>
+                    <!-- 行2：高价值-李女士 -->
+                    <tr>
+                        <td><strong>李女士·母婴</strong><br><span style="font-size:11px; color:#888;">138****1234</span><br><span class="layer-badge layer-high" style="background:#ffefc0;">高价值</span></td>
+                        <td>32岁 · 石家庄裕华<br>三口之家(宝宝1岁)<br><span class="tag">母婴家庭</span> <span class="tag">注重营养</span></td>
+                        <td>老母鸡/炖汤套餐<br>💰 客单价 ¥142<br>📈 复购3次 · 周期28天</td>
+                        <td>✅ 云认养中<br>🎬 直播6分20秒<br>🔍 扫码3次 · 分享2次</td>
+                        <td>社群裂变 · 小红书种草<br>👥 带来2位新用户</td>
+                        <td>🏅 信任分92<br>💰 LTV ¥1860<br>📌 高频复购+认养</td>
+                    </tr>
+                    <!-- 行3：潜力用户 -->
+                    <tr>
+                        <td><strong>王先生·养生</strong><br><span style="font-size:11px; color:#888;">139****5678</span><br><span class="layer-badge layer-potential">潜力用户</span></td>
+                        <td>45岁 · 保定竞秀<br>二人世界<br><span class="tag">养生人群</span> <span class="tag">高客单</span></td>
+                        <td>炖汤套餐/老母鸡<br>💰 客单价 ¥186<br>📈 复购2次 · 周期45天</td>
+                        <td>❌ 未认养<br>🎬 直播1分10秒<br>🔍 扫码1次 · 分享0次</td>
+                        <td>抖音广告 · 信息流<br>👥 裂变0人</td>
+                        <td>🏅 信任分68<br>💰 LTV ¥640<br>📌 信任分待提升</td>
+                    </tr>
+                    <!-- 行4：礼品用户 -->
+                    <tr>
+                        <td><strong>陈先生·礼品</strong><br><span style="font-size:11px; color:#888;">137****3456</span><br><span class="layer-badge layer-gift">礼品用户</span></td>
+                        <td>47岁 · 天津河西<br>商务人士<br><span class="tag">企业采购</span> <span class="tag">批量</span></td>
+                        <td>中秋礼盒/礼盒装<br>💰 客单价 ¥389<br>📈 复购2次 · 节日周期</td>
+                        <td>❌ 未认养<br>🎬 无直播观看<br>🔍 扫码2次 · 分享0次</td>
+                        <td>BD合作 · 企业集采<br>👥 裂变0人</td>
+                        <td>🏅 信任分85<br>💰 LTV ¥1560<br>📌 节假日爆发维护</td>
+                    </tr>
+                    <!-- 行5：新客 -->
+                    <tr>
+                        <td><strong>刘女士·新客</strong><br><span style="font-size:11px; color:#888;">152****7890</span><br><span class="layer-badge layer-new">新客</span></td>
+                        <td>26岁 · 邢台襄都<br>新婚夫妇<br><span class="tag">年轻群体</span> <span class="tag">线上活跃</span></td>
+                        <td>柴鸡童子鸡<br>💰 客单价 ¥78<br>📈 首购 · 周期7天</td>
+                        <td>❌ 未认养<br>🎬 直播2分30秒<br>🔍 扫码1次 · 分享0次</td>
+                        <td>微信朋友圈 · 好友转发<br>👥 裂变1人</td>
+                        <td>🏅 信任分72<br>💰 LTV ¥78<br>📌 需二次触达</td>
+                    </tr>
+                    <!-- 行6：沉睡用户 -->
+                    <tr>
+                        <td><strong>周奶奶·沉睡</strong><br><span style="font-size:11px; color:#888;">151****3321</span><br><span class="layer-badge layer-sleep">沉睡用户</span></td>
+                        <td>68岁 · 邯郸丛台<br>独居长者<br><span class="tag">传统渠道</span> <span class="tag">低频</span></td>
+                        <td>太行老母鸡<br>💰 客单价 ¥128<br>📈 仅1次 · 超90天未购</td>
+                        <td>❌ 未认养<br>🎬 无观看<br>🔍 扫码0次 · 分享0次</td>
+                        <td>线下门店 · 社区地推<br>👥 裂变0人</td>
+                        <td>🏅 信任分45<br>💰 LTV ¥128<br>📌 超3个月需唤醒</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top: 16px; background: #F4F9F0; padding: 12px 16px; border-radius: 16px; font-size: 13px; color: #2E6B3C;">
+            📌 <strong>PPT解读要点</strong>： ① 高价值用户（张女士/李女士）具备“云认养+高频复购+裂变”特征，应发展为KOC； ② 潜力用户（王先生）客单价高但信任分低，需强化溯源信息触达； ③ 礼品用户（陈先生）适合节日预购方案； ④ 沉睡用户需短信唤醒。
+        </div>
+    </div>
+</div>
 
-            <!-- ========= 商品管理 ========= -->
+            <!-- 商品管理、溯源存证等其余部分保持不变 -->
             <div class="page" id="goods">
-                <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">🛒 商品库 & 定价策略</div>
-                    <table class="data-table">
-                        <thead><tr><th>ID</th><th>商品名称</th><th>B端价</th><th>C端价</th><th>库存</th><th>毛利率</th><th>状态</th></tr></thead>
-                        <tbody id="goodsTableBody"></tbody>
-                    </table>
-                </div>
+                <div class="insight-card"><div class="section-title" style="margin-top:0;">🛒 商品库 & 定价策略</div><table class="data-table"><thead><tr><th>ID</th><th>商品名称</th><th>B端价</th><th>C端价</th><th>库存</th><th>毛利率</th><th>状态</th></tr></thead><tbody id="goodsTableBody"></tbody></table></div>
             </div>
-
-            <!-- ========= 溯源存证 ========= -->
             <div class="page" id="trace">
-                <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">⛓️ 一鸡一码·8大类26项溯源存证</div>
-                    <table class="data-table">
-                        <thead><tr><th>溯源编号</th><th>产品</th><th>养殖天数</th><th>出栏日期</th><th>检疫合格</th><th>区块哈希</th></tr></thead>
-                        <tbody id="traceTableBody"></tbody>
-                    </table>
-                </div>
+                <div class="insight-card"><div class="section-title" style="margin-top:0;">⛓️ 一鸡一码·8大类26项溯源存证</div><table class="data-table"><thead><tr><th>溯源编号</th><th>产品</th><th>养殖天数</th><th>出栏日期</th><th>检疫合格</th><th>区块哈希</th></tr></thead><tbody id="traceTableBody"></tbody></table></div>
             </div>
-
-            <!-- ========= 农户基地 ========= -->
             <div class="page" id="farmer">
-                <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">🏞️ 合作农户</div>
-                    <table class="data-table">
-                        <thead><tr><th>编号</th><th>农户</th><th>基地</th><th>存栏量</th><th>合同期</th><th>状态</th></tr></thead>
-                        <tbody id="farmerTableBody"></tbody>
-                    </table>
-                </div>
+                <div class="insight-card"><div class="section-title" style="margin-top:0;">🏞️ 合作农户</div><table class="data-table"><thead><tr><th>编号</th><th>农户</th><th>基地</th><th>存栏量</th><th>合同期</th><th>状态</th></tr></thead><tbody id="farmerTableBody"></tbody></table></div>
             </div>
-
-            <!-- ========= 养殖建议看板（反向供应链）========= -->
             <div class="page" id="insight">
-                <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">📊 C端需求预测 → 反向指导养殖计划</div>
-                    <div style="background:#f0f7eb; border-radius:20px; padding:20px; margin-bottom:20px;">
-                        <h3 style="color:#2a6b3c;">🐣 下月养殖建议 (AI预测)</h3>
-                        <div class="info-row"><div class="info-label">📈 净切鸡块需求</div><div class="info-value">母婴家庭订单 +32% → <strong>建议分割车间增产20%</strong> <span class="badge badge-success">执行中</span></div></div>
-                        <div class="info-row"><div class="info-label">📉 整鸡需求</div><div class="info-value">环比 -5% → <strong>适当减少整鸡库存，转为套餐组合</strong></div></div>
-                        <div class="info-row"><div class="info-label">🥚 绿壳蛋</div><div class="info-value">复购率 68% → <strong>扩产15%，主推月子中心渠道</strong></div></div>
-                    </div>
-                    <div style="background:#fef7e0; border-radius:20px; padding:20px;">
-                        <h3 style="color:#b87c2e;">💰 B端客户健康度 & 定价建议</h3>
-                        <div class="info-row"><div class="info-label">月子中心续约率</div><div class="info-value">92% → 稳定，维持75元/只供应价</div></div>
-                        <div class="info-row"><div class="info-label">私房菜馆复购率</div><div class="info-value">78% → 建议推出“联名菜单”反向引流C端</div></div>
-                        <div class="info-row"><div class="info-label">社区便利店</div><div class="info-value">月采购额下滑12% → <strong>建议发放8折采购券</strong></div></div>
-                    </div>
-                </div>
+                <div class="insight-card"><div class="section-title" style="margin-top:0;">📊 C端需求预测 → 反向指导养殖计划</div><div style="background:#f0f7eb; border-radius:20px; padding:20px; margin-bottom:20px;"><h3 style="color:#2a6b3c;">🐣 下月养殖建议 (AI预测)</h3><div class="info-row"><div class="info-label">📈 净切鸡块需求</div><div class="info-value">母婴家庭订单 +32% → <strong>建议分割车间增产20%</strong> <span class="badge badge-success">执行中</span></div></div><div class="info-row"><div class="info-label">📉 整鸡需求</div><div class="info-value">环比 -5% → <strong>适当减少整鸡库存，转为套餐组合</strong></div></div><div class="info-row"><div class="info-label">🥚 绿壳蛋</div><div class="info-value">复购率 68% → <strong>扩产15%，主推月子中心渠道</strong></div></div></div><div style="background:#fef7e0; border-radius:20px; padding:20px;"><h3 style="color:#b87c2e;">💰 B端客户健康度 & 定价建议</h3><div class="info-row"><div class="info-label">月子中心续约率</div><div class="info-value">92% → 稳定，维持75元/只供应价</div></div><div class="info-row"><div class="info-label">私房菜馆复购率</div><div class="info-value">78% → 建议推出“联名菜单”反向引流C端</div></div><div class="info-row"><div class="info-label">社区便利店</div><div class="info-value">月采购额下滑12% → <strong>建议发放8折采购券</strong></div></div></div></div>
             </div>
-
-            <!-- ========= 系统设置 ========= -->
             <div class="page" id="system">
-                <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">⚙️ 系统配置</div>
-                    <div class="info-row"><div class="info-label">系统名称</div><div class="info-value">冀农鲜·太行鸡智慧决策系统 v2.0</div></div>
-                    <div class="info-row"><div class="info-label">溯源区块链</div><div class="info-value">蚂蚁链联盟 · 26项数据上链</div></div>
-                    <div class="info-row"><div class="info-label">冷链监控</div><div class="info-value">✅ 全程-18℃达标，异常告警0次</div></div>
-                    <div class="info-row"><div class="info-label">数据可视化</div><div class="info-value">✅ 53项数据可视化，数据可导出</div></div>
-                    <div class="info-row"><div class="info-label">数据安全</div><div class="info-value">✅ 53项数据安全，数据可导出</div></div>
-                    <div class="info-row"><div class="info-label">数据备份</div><div class="info-value">✅ 53项数据备份，数据可导出</div></div>
-                    <div class="info-row"><div class="info-label">数据分享</div><div class="info-value">✅ 53项数据分享，数据可导出</div></div>
-
-                    
-                </div>
+                <div class="insight-card"><div class="section-title" style="margin-top:0;">⚙️ 系统配置</div><div class="info-row"><div class="info-label">系统名称</div><div class="info-value">冀农鲜·太行鸡智慧决策系统 v2.0</div></div><div class="info-row"><div class="info-label">溯源区块链</div><div class="info-value">蚂蚁链联盟 · 26项数据上链</div></div><div class="info-row"><div class="info-label">冷链监控</div><div class="info-value">✅ 全程-18℃达标，异常告警0次</div></div><div class="info-row"><div class="info-label">数据可视化</div><div class="info-value">✅ 53项数据可视化，数据可导出</div></div><div class="info-row"><div class="info-label">数据安全</div><div class="info-value">✅ 53项数据安全，数据可导出</div></div><div class="info-row"><div class="info-label">数据备份</div><div class="info-value">✅ 53项数据备份，数据可导出</div></div><div class="info-row"><div class="info-label">数据分享</div><div class="info-value">✅ 53项数据分享，数据可导出</div></div></div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // 订单数据（含扫码状态）
+    // 订单数据（保持原样）
     const ordersData = [
         { id:"TH20260509001", product:"太行老母鸡", time:"2026-05-09 10:23", amount:128, status:"paid", scanned:true },
         { id:"TH20260509002", product:"绿壳蛋礼盒", time:"2026-05-09 09:15", amount:89, status:"paid", scanned:true },
@@ -576,27 +583,70 @@
         { id:"TH20260507005", product:"太行老母鸡", time:"2026-05-07 14:30", amount:128, status:"paid", scanned:true }
     ];
 
-    // 用户画像数据（含标签、信任分、云认养）
-    const users = [
-        { name:"李女士·母婴", phone:"138****1234", tags:["母婴家庭","复购3次"], trustScore:92, adopt:true, behavior:"扫码3次·分享生长日记" },
-        { name:"王先生·养生", phone:"139****5678", tags:["养生人群","高客单"], trustScore:68, adopt:false, behavior:"扫码停留仅3秒" },
-        { name:"张女士·品质", phone:"136****9012", tags:["品质家庭","KOC潜力"], trustScore:98, adopt:true, behavior:"认养3只·分享5次" },
-        { name:"陈先生·礼品", phone:"137****3456", tags:["礼品采购","企业客户"], trustScore:85, adopt:false, behavior:"批量采购·扫码率100%" }
+    // 全新用户画像数据集：包含基础信息、消费行为、认养溯源、渠道来源、价值分层
+    const fullUsers = [
+        {
+            name:"李女士·母婴", phone:"138****1234", avatar:"👩",
+            basic: { age:"32岁", region:"石家庄市裕华区", family:"三口之家·宝宝1岁", tags:["母婴家庭","注重营养","高敏感"] },
+            consumption: { categories:["太行老母鸡","炖汤套餐"], avgPrice:142, repurchaseCnt:3, purchaseCycle:"约28-32天", lastBuyDays:32 },
+            traceAdopt: { cloudAdopt:true, liveView:true, liveDuration:"6分20秒", scanTimes:3, shareDiary:2 },
+            channel: { source:"社群裂变", shareRefer:"朋友推荐李女士", fissionCnt:2, firstChannel:"小红书种草" },
+            valueLayer: { layer:"高价值", trustScore:92, ltv:1860, stratDesc:"高频复购+云认养" }
+        },
+        {
+            name:"王先生·养生", phone:"139****5678", avatar:"👨",
+            basic: { age:"45岁", region:"保定市竞秀区", family:"二人世界", tags:["养生人群","高客单","滋补需求"] },
+            consumption: { categories:["滋补炖汤套餐","太行老母鸡"], avgPrice:186, repurchaseCnt:2, purchaseCycle:"45天", lastBuyDays:18 },
+            traceAdopt: { cloudAdopt:false, liveView:true, liveDuration:"1分10秒", scanTimes:1, shareDiary:0 },
+            channel: { source:"抖音广告", shareRefer:"-", fissionCnt:0, firstChannel:"信息流" },
+            valueLayer: { layer:"潜力用户", trustScore:68, ltv:640, stratDesc:"客单价高但互动弱，信任分待提升" }
+        },
+        {
+            name:"张女士·品质", phone:"136****9012", avatar:"👩‍🌾",
+            basic: { age:"38岁", region:"北京市朝阳区", family:"四口之家", tags:["品质家庭","KOC潜力","有机爱好者"] },
+            consumption: { categories:["太行老母鸡","绿壳蛋","中秋礼盒"], avgPrice:215, repurchaseCnt:5, purchaseCycle:"21天", lastBuyDays:9 },
+            traceAdopt: { cloudAdopt:true, liveView:true, liveDuration:"12分40秒", scanTimes:6, shareDiary:5 },
+            channel: { source:"老客分享·裂变", shareRefer:"闺蜜邀请", fissionCnt:4, firstChannel:"私域社群" },
+            valueLayer: { layer:"高价值", trustScore:98, ltv:3240, stratDesc:"云认养3只·KOC品鉴官候选" }
+        },
+        {
+            name:"陈先生·礼品", phone:"137****3456", avatar:"👔",
+            basic: { age:"47岁", region:"天津市河西区", family:"商务人士", tags:["礼品采购","企业客户","批量"] },
+            consumption: { categories:["中秋礼盒","太行老母鸡礼盒"], avgPrice:389, repurchaseCnt:2, purchaseCycle:"节日周期", lastBuyDays:45 },
+            traceAdopt: { cloudAdopt:false, liveView:false, liveDuration:"0", scanTimes:2, shareDiary:0 },
+            channel: { source:"企业集采专员", shareRefer:"-", fissionCnt:0, firstChannel:"BD合作" },
+            valueLayer: { layer:"礼品用户", trustScore:85, ltv:1560, stratDesc:"节假日爆发，客单价高，维护周期性" }
+        },
+        {
+            name:"刘女士·新客", phone:"152****7890", avatar:"👧",
+            basic: { age:"26岁", region:"邢台市襄都区", family:"新婚夫妇", tags:["尝鲜用户","年轻群体","线上活跃"] },
+            consumption: { categories:["华北柴鸡童子鸡"], avgPrice:78, repurchaseCnt:1, purchaseCycle:"首购7天", lastBuyDays:7 },
+            traceAdopt: { cloudAdopt:false, liveView:true, liveDuration:"2分30秒", scanTimes:1, shareDiary:0 },
+            channel: { source:"朋友圈分享", shareRefer:"朋友转发链接", fissionCnt:1, firstChannel:"微信" },
+            valueLayer: { layer:"新客", trustScore:72, ltv:78, stratDesc:"首单转化，需二次触达提升复购" }
+        },
+        {
+            name:"周奶奶·沉睡", phone:"151****3321", avatar:"👵",
+            basic: { age:"68岁", region:"邯郸市丛台区", family:"独居长者", tags:["传统渠道","低频","价格敏感"] },
+            consumption: { categories:["太行老母鸡"], avgPrice:128, repurchaseCnt:1, purchaseCycle:"超过90天", lastBuyDays:112 },
+            traceAdopt: { cloudAdopt:false, liveView:false, liveDuration:"0", scanTimes:0, shareDiary:0 },
+            channel: { source:"线下门店", shareRefer:"-", fissionCnt:0, firstChannel:"社区地推" },
+            valueLayer: { layer:"沉睡用户", trustScore:45, ltv:128, stratDesc:"超3个月无互动，需唤醒策略" }
+        }
     ];
 
+    // 商品、溯源、农户原始数据（保持不变）
     const goods = [
         { id:2001, name:"太行老母鸡", bPrice:75, cPrice:128, stock:326, grossProfit:"57%", status:"上架" },
         { id:2002, name:"太行绿壳蛋", bPrice:33, cPrice:49, stock:520, grossProfit:"48%", status:"上架" },
         { id:2003, name:"华北柴鸡童子鸡", bPrice:55, cPrice:78, stock:188, grossProfit:"42%", status:"上架" },
         { id:2004, name:"滋补炖汤套餐", bPrice:100, cPrice:158, stock:168, grossProfit:"53%", status:"上架" }
     ];
-
     const traces = [
         { code:"TR202605001", name:"太行老母鸡", days:"520天", date:"2026-04-20",检疫:"合格", hash:"0x1a2b...e4f" },
         { code:"TR202605002", name:"太行老母鸡", days:"508天", date:"2026-04-22",检疫:"合格", hash:"0x3c4d...a1b" },
         { code:"TR202605003", name:"华北柴鸡", days:"180天", date:"2026-04-25",检疫:"合格", hash:"0x5e6f...c2d" }
     ];
-
     const farmers = [
         { id:"NF001", name:"王农户", base:"太行山一号基地", stock:1200, contract:"2027-12", status:"合作中" },
         { id:"NF002", name:"刘农户", base:"太行山二号基地", stock:980, contract:"2027-10", status:"合作中" },
@@ -604,53 +654,53 @@
         { id:"NF004", name:"赵农户", base:"太行山四号基地", stock:900, contract:"2027-06", status:"合作中" }
     ];
 
+    // 渲染订单、商品、溯源、农户（与原样一致）
     function renderOrderTable() {
         const tbody = document.getElementById("orderTableBody");
-        if(tbody){
-            tbody.innerHTML = ordersData.map(order => `
-                <tr>
-                    <td>${order.id}</td>
-                    <td>${order.product}</td>
-                    <td>${order.time}</td>
-                    <td>¥${order.amount}</td>
-                    <td><span class="badge badge-success">已付款</span></td>
-                    <td>${order.scanned ? '<span class="badge badge-success">✅ 已扫码</span>' : '<span class="badge badge-warning">⚠️ 未扫码</span>'}</td>
-                    <td><button class="btn-outline btn-sm" onclick="alert(\'查看溯源详情\')">详情</button></td>
-                </tr>
-            `).join('');
-        }
+        if(tbody) tbody.innerHTML = ordersData.map(order => `<tr><td>${order.id}</td><td>${order.product}</td><td>${order.time}</td><td>¥${order.amount}</td><td><span class="badge badge-success">已付款</span></td><td>${order.scanned ? '<span class="badge badge-success">✅ 已扫码</span>' : '<span class="badge badge-warning">⚠️ 未扫码</span>'}</td><td><button class="btn-outline btn-sm" onclick="alert(\'查看溯源详情\')">详情</button></td></tr>`).join('');
     }
+    function renderGoodsTable() { const tbody = document.getElementById('goodsTableBody'); if(tbody) tbody.innerHTML = goods.map(g => `<tr><td>${g.id}</td><td>${g.name}</td><td>¥${g.bPrice}</td><td>¥${g.cPrice}</td><td>${g.stock}</td><td><span class="badge-success badge">${g.grossProfit}</span></td><td><span class="badge badge-success">${g.status}</span></tr>`).join(''); }
+    function renderTraceTable() { const tbody = document.getElementById('traceTableBody'); if(tbody) tbody.innerHTML = traces.map(t => `<tr><td>${t.code}</td><td>${t.name}</td><td>${t.days}</td><td>${t.date}</td><td><span class="badge-success badge">${t.检疫}</span></td><td style="font-family:monospace;font-size:12px;">${t.hash}</td></tr>`).join(''); }
+    function renderFarmerTable() { const tbody = document.getElementById('farmerTableBody'); if(tbody) tbody.innerHTML = farmers.map(f => `<tr><td>${f.id}</td><td>${f.name}</td><td>${f.base}</td><td>${f.stock}只</td><td>${f.contract}</td><td><span class="badge badge-success">${f.status}</span></td>`).join(''); }
 
-    function renderUserTable() {
+    // 新版用户表格渲染（包含所有维度）
+    function renderUserTableAdvanced() {
         const tbody = document.getElementById('userTableBody');
-        if(tbody) tbody.innerHTML = users.map(u => `
-            <tr>
+        if(!tbody) return;
+        tbody.innerHTML = fullUsers.map(u => {
+            // 价值分层样式映射
+            let layerClass = '';
+            let layerText = u.valueLayer.layer;
+            if(u.valueLayer.layer === '高价值') layerClass = 'layer-high';
+            else if(u.valueLayer.layer === '潜力用户') layerClass = 'layer-potential';
+            else if(u.valueLayer.layer === '新客') layerClass = 'layer-new';
+            else if(u.valueLayer.layer === '沉睡用户') layerClass = 'layer-sleep';
+            else if(u.valueLayer.layer === '礼品用户') layerClass = 'layer-gift';
+            
+            // 基础信息HTML
+            const basicHtml = `<div class="user-detail-list"><div>${u.basic.age} · ${u.basic.region}</div><div>🏠 ${u.basic.family}</div><div>${u.basic.tags.map(tg => `<span class="tag" style="background:#eef2e6;">${tg}</span>`).join('')}</div></div>`;
+            // 消费行为
+            const consumptionHtml = `<div class="user-detail-list"><div>📦 品类: ${u.consumption.categories.join(',')}</div><div>💰 均价¥${u.consumption.avgPrice} · 复购${u.consumption.repurchaseCnt}次</div><div>🔄 周期: ${u.consumption.purchaseCycle} · 距上次${u.consumption.lastBuyDays}天</div></div>`;
+            // 认养溯源
+            const traceHtml = `<div class="user-detail-list"><div>🐔 云认养: ${u.traceAdopt.cloudAdopt ? '✅ 进行中' : '❌ 未认养'}</div><div>🎬 慢直播: ${u.traceAdopt.liveView ? `观看 ${u.traceAdopt.liveDuration}` : '从未观看'}</div><div>🔍 扫码${u.traceAdopt.scanTimes}次 · 分享日记${u.traceAdopt.shareDiary}次</div></div>`;
+            // 渠道来源
+            const channelHtml = `<div class="user-detail-list"><div>🎯 首渠: ${u.channel.firstChannel}</div><div>📢 来源: ${u.channel.source}</div><div>🔄 裂变: 带来${u.channel.fissionCnt}新用户</div>${u.channel.shareRefer !== '-' ? `<div>🧑‍🤝‍🧑 推荐人: ${u.channel.shareRefer}</div>` : ''}</div>`;
+            // 价值分层卡片
+            const valueHtml = `<div><span class="layer-badge ${layerClass}">${layerText}</span><div class="user-detail-list" style="margin-top:6px;"><div>🏅 信任分 ${u.valueLayer.trustScore}</div><div>💰 LTV ¥${u.valueLayer.ltv}</div><div>📌 ${u.valueLayer.stratDesc}</div></div></div>`;
+            
+            return `<tr>
                 <td><strong>${u.name}</strong><br><span style="font-size:12px;color:#888;">${u.phone}</span></td>
-                <td>${u.tags.map(t => `<span class="tag tag-${t.includes('母婴')?'mother':t.includes('养生')?'health':t.includes('礼品')?'gift':'loyal'}">${t}</span>`).join('')}</td>
-                <td><span style="font-weight:700;color:${u.trustScore>=80?'#2a6b3c':'#c73e3e'}">${u.trustScore}</span><div class="progress-bar" style="margin-top:4px;"><div class="progress-fill" style="width:${u.trustScore}%"></div></div></td>
-                <td>${u.adopt ? '<span class="badge badge-success">🐔 认养中</span>' : '-'}</td>
-                <td style="font-size:13px;">${u.behavior}</td>
-                <td><button class="btn-outline btn-sm" onclick="alert(\'发送优惠券/回访\')">触达</button></td>
-            </tr>
-        `).join('');
+                <td>${basicHtml}</td>
+                <td>${consumptionHtml}</td>
+                <td>${traceHtml}</td>
+                <td>${channelHtml}</td>
+                <td>${valueHtml}</td>
+                <td><button class="btn-outline btn-sm" onclick="alert('发送专属权益/1v1运营策略\n用户：${u.name}\n分层：${layerText}')">触达</button></td>
+            </tr>`;
+        }).join('');
     }
 
-    function renderGoodsTable() {
-        const tbody = document.getElementById('goodsTableBody');
-        if(tbody) tbody.innerHTML = goods.map(g => `<tr><td>${g.id}</td><td>${g.name}</td><td>¥${g.bPrice}</td><td>¥${g.cPrice}</td><td>${g.stock}</td><td><span class="badge-success badge">${g.grossProfit}</span></td><td><span class="badge badge-success">${g.status}</span></td></tr>`).join('');
-    }
-
-    function renderTraceTable() {
-        const tbody = document.getElementById('traceTableBody');
-        if(tbody) tbody.innerHTML = traces.map(t => `<tr><td>${t.code}</td><td>${t.name}</td><td>${t.days}</td><td>${t.date}</td><td><span class="badge-success badge">${t.检疫}</span></td><td style="font-family:monospace;font-size:12px;">${t.hash}</td></tr>`).join('');
-    }
-
-    function renderFarmerTable() {
-        const tbody = document.getElementById('farmerTableBody');
-        if(tbody) tbody.innerHTML = farmers.map(f => `<tr><td>${f.id}</td><td>${f.name}</td><td>${f.base}</td><td>${f.stock}只</td><td>${f.contract}</td><td><span class="badge badge-success">${f.status}</span></td></tr>`).join('');
-    }
-
-    // 侧边栏导航
+    // 侧边栏导航与基础渲染
     const menuItems = document.querySelectorAll('.sidebar-menu li');
     const pages = document.querySelectorAll('.page');
     menuItems.forEach(li => {
@@ -663,8 +713,9 @@
         });
     });
 
+    // 调用所有渲染
     renderOrderTable();
-    renderUserTable();
+    renderUserTableAdvanced();
     renderGoodsTable();
     renderTraceTable();
     renderFarmerTable();
