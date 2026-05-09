@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>太行鸡溯源 | 智慧农业后台管理系统</title>
+    <title>冀农鲜·太行鸡 | 智慧农业决策后台</title>
     <style>
         * {
             margin: 0;
@@ -16,13 +16,12 @@
             background: #f0f2f5;
         }
 
-        /* 整体布局优化 */
         .admin-layout {
             display: flex;
             min-height: 100vh;
         }
 
-        /* ========== 侧边栏优化 ========== */
+        /* 侧边栏 */
         .sidebar {
             width: 260px;
             background: linear-gradient(180deg, #1a3a2c 0%, #0f2b1f 100%);
@@ -92,7 +91,6 @@
             text-align: center;
         }
 
-        /* 主内容区 */
         .main-wrap {
             flex: 1;
             display: flex;
@@ -100,7 +98,6 @@
             overflow-x: auto;
         }
 
-        /* 顶部导航优化 */
         .header {
             background: white;
             padding: 0 28px;
@@ -135,7 +132,6 @@
             color: #376e3a;
         }
 
-        /* 内容区域 */
         .content {
             padding: 24px 28px;
             background: #f7f9f6;
@@ -156,7 +152,6 @@
             to { opacity: 1; transform: translateY(0);}
         }
 
-        /* 卡片容器 */
         .stat-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -193,7 +188,11 @@
             gap: 8px;
         }
 
-        /* 模块通用样式 */
+        .trust-highlight {
+            background: linear-gradient(135deg, #fef7e0, #fff7e6);
+            border-left: 4px solid #f5a623;
+        }
+
         .section-title {
             font-size: 18px;
             font-weight: 700;
@@ -212,7 +211,6 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
         }
 
-        /* 表格优化 */
         .data-table {
             width: 100%;
             border-collapse: collapse;
@@ -259,42 +257,43 @@
             color: #cd7b2b;
         }
 
+        .badge-danger {
+            background: #ffe8e8;
+            color: #c73e3e;
+        }
+
         .badge-info {
             background: #e8f0fe;
             color: #2c6e9e;
         }
 
-        /* 图表区域 */
-        .chart-container {
-            display: flex;
-            align-items: flex-end;
-            gap: 20px;
-            height: 220px;
-            margin-top: 20px;
+        .badge-gold {
+            background: #fef0d9;
+            color: #b87c2e;
         }
 
-        .chart-bar-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
+        .progress-bar {
+            background: #e8ecd7;
+            border-radius: 20px;
+            height: 8px;
+            overflow: hidden;
         }
 
-        .chart-bar {
-            width: 100%;
-            background: linear-gradient(0deg, #4c9f3c, #7bc96f);
-            border-radius: 12px 12px 6px 6px;
-            transition: height 0.3s;
-            min-height: 4px;
+        .progress-fill {
+            background: #4c9f3c;
+            height: 100%;
+            border-radius: 20px;
+            width: 0%;
         }
 
-        .chart-label {
-            font-size: 12px;
-            color: #6b8c62;
+        .risk-alert {
+            background: #fff5f0;
+            border-left: 4px solid #ff8c42;
+            padding: 14px 18px;
+            border-radius: 16px;
+            margin-bottom: 16px;
         }
 
-        /* 按钮与交互 */
         .btn-outline {
             background: transparent;
             border: 1px solid #c8ddbc;
@@ -311,6 +310,11 @@
             border-color: #8fc07c;
         }
 
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 12px;
+        }
+
         .bottom-more {
             text-align: center;
             margin-top: 24px;
@@ -320,7 +324,6 @@
             font-size: 14px;
         }
 
-        /* 详情面板 */
         .detail-panel {
             display: none;
             background: white;
@@ -351,6 +354,20 @@
             color: #2c4128;
         }
 
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin-right: 6px;
+            margin-bottom: 4px;
+        }
+
+        .tag-mother { background: #ffe0f0; color: #b3477c; }
+        .tag-health { background: #e0f7e8; color: #2e7d5e; }
+        .tag-gift { background: #e0e8ff; color: #4a6fa5; }
+        .tag-loyal { background: #fff0c0; color: #c29b2e; }
+
         @media (max-width: 640px) {
             .sidebar { width: 80px; }
             .sidebar-menu li span:last-child { display: none; }
@@ -363,169 +380,186 @@
 </head>
 <body>
 <div class="admin-layout">
-    <!-- 侧边栏 - 优化后更具品牌感 -->
     <div class="sidebar">
         <div class="sidebar-logo">
-            <h2>🌾 太行鸡溯源</h2>
-            <p>区块链智慧农业</p>
+            <h2>🐔 冀农鲜·太行鸡</h2>
+            <p>智慧农业决策后台</p>
         </div>
         <ul class="sidebar-menu">
-            <li class="active" data-page="dashboard"><span class="menu-icon">📊</span><span>控制台首页</span></li>
+            <li class="active" data-page="dashboard"><span class="menu-icon">📊</span><span>信任仪表盘</span></li>
             <li data-page="order"><span class="menu-icon">📦</span><span>订单管理</span></li>
-            <li data-page="user"><span class="menu-icon">👥</span><span>用户管理</span></li>
+            <li data-page="user"><span class="menu-icon">👥</span><span>用户画像</span></li>
             <li data-page="goods"><span class="menu-icon">🥩</span><span>商品管理</span></li>
-            <li data-page="trace"><span class="menu-icon">🔗</span><span>溯源记录</span></li>
+            <li data-page="trace"><span class="menu-icon">🔗</span><span>溯源存证</span></li>
             <li data-page="farmer"><span class="menu-icon">🌱</span><span>农户基地</span></li>
+            <li data-page="insight"><span class="menu-icon">📈</span><span>养殖建议看板</span></li>
             <li data-page="system"><span class="menu-icon">⚙️</span><span>系统设置</span></li>
         </ul>
     </div>
 
     <div class="main-wrap">
         <div class="header">
-            <div class="header-title">📌 智慧农业运营中台</div>
+            <div class="header-title">🏆 数据驱动信任 · 反向指导养殖</div>
             <div class="admin-info">
-                <span>👤 管理员：admin</span>
-                <span>🕒 2026-05-08</span>
+                <span>👤 运营总监</span>
+                <span>🕒 2026-05-09</span>
             </div>
         </div>
 
         <div class="content">
-            <!-- 控制台首页 - 全维度数据看板 -->
+            <!-- ========= 信任仪表盘（Dashboard）========= -->
             <div class="page active" id="dashboard">
                 <div class="stat-grid">
-                    <div class="stat-card"><div class="num">286</div><div class="label">👥 总用户数</div></div>
-                    <div class="stat-card"><div class="num">98</div><div class="label">📋 总订单数</div></div>
-                    <div class="stat-card"><div class="num">8</div><div class="label">🛒 商品种类</div></div>
-                    <div class="stat-card"><div class="num">8</div><div class="label">🏡 合作农户</div></div>
-                    <div class="stat-card"><div class="num">¥1.26w</div><div class="label">💰 总销售额</div></div>
-                    <div class="stat-card"><div class="num">¥3682</div><div class="label">📈 本月销售额</div></div>
-                    <div class="stat-card"><div class="num">¥128</div><div class="label">🎯 平均客单价</div></div>
-                    <div class="stat-card"><div class="num">34.3%</div><div class="label">🔄 转化率</div></div>
+                    <div class="stat-card"><div class="num">486</div><div class="label">👥 总用户数</div></div>
+                    <div class="stat-card"><div class="num">342</div><div class="label">📋 总订单数</div></div>
+                    <div class="stat-card"><div class="num">¥4.28w</div><div class="label">💰 累计销售额</div></div>
+                    <div class="stat-card"><div class="num">¥138</div><div class="label">🎯 平均客单价</div></div>
+                </div>
+
+                <!-- 信任指数核心模块 -->
+                <div class="stat-grid">
+                    <div class="stat-card trust-highlight">
+                        <div class="num">96.8<span style="font-size:18px;">%</span></div>
+                        <div class="label">✅ 溯源扫码率（目标≥95%）</div>
+                        <div class="progress-bar" style="margin-top:12px;"><div class="progress-fill" style="width:96.8%"></div></div>
+                        <div style="font-size:12px; color:#8B6914; margin-top:8px;">📊 已售342只 · 扫码331次</div>
+                    </div>
+                    <div class="stat-card trust-highlight">
+                        <div class="num">28<span style="font-size:18px;">人</span></div>
+                        <div class="label">🌿 进行中·云认养</div>
+                        <div style="font-size:12px; color:#6f8870; margin-top:8px;">📅 本月新增12人，环比+42%</div>
+                    </div>
+                    <div class="stat-card trust-highlight">
+                        <div class="num">156<span style="font-size:18px;">次</span></div>
+                        <div class="label">🎬 本周慢直播观看</div>
+                        <div style="font-size:12px; color:#6f8870;">📈 用户平均观看时长 4分32秒</div>
+                    </div>
+                    <div class="stat-card trust-highlight">
+                        <div class="num">89<span style="font-size:18px;">次</span></div>
+                        <div class="label">📤 生长日记分享</div>
+                        <div style="font-size:12px; color:#6f8870;">👥 带来裂变新用户 23人</div>
+                    </div>
+                </div>
+
+                <!-- 复购预警 & 信任危机 -->
+                <div class="insight-card">
+                    <div class="section-title" style="margin-top:0;">⚠️ 用户行为预判（运营行动点）</div>
+                    <div class="risk-alert">
+                        🔔 <strong>复购黄金窗口</strong>：用户「李女士·母婴家庭」距上次购买已过32天（炖汤周期30天），<span style="color:#c73e3e;">建议发放20元复购券</span>
+                    </div>
+                    <div class="risk-alert" style="border-left-color:#6f8870;">
+                        📉 <strong>信任强化提醒</strong>：用户「王先生」扫码溯源页停留仅3秒（平均31秒），可能对信息不满意，<span style="color:#c73e3e;">建议客服回访</span>
+                    </div>
+                    <div class="risk-alert" style="border-left-color:#4c9f3c;">
+                        🎉 <strong>高价值用户</strong>：用户「张女士」已连续认养3只鸡，分享过5次生长日记，<span style="color:#1f7840;">邀请成为KOC品鉴官</span>
+                    </div>
                 </div>
 
                 <div class="insight-card">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span class="section-title" style="margin:0; border-left: none; padding-left:0;">🏆 热销商品 TOP5</span>
-                        <span class="badge badge-info">实时数据</span>
-                    </div>
+                    <div class="section-title" style="margin-top:0;">🏆 热销商品 TOP5</div>
                     <table class="data-table">
-                        <thead><tr><th>排名</th><th>商品名称</th><th>销量</th><th>销售额</th><th>占比</th></tr></thead>
+                        <thead><tr><th>排名</th><th>商品名称</th><th>销量</th><th>销售额</th><th>毛利率</th></tr></thead>
                         <tbody>
-                            <tr><td>1</td><td>🐔 太行老母鸡·散养500天</td><td>64</td><td>¥8256</td><td>65.4%</td></tr>
-                            <tr><td>2</td><td>🥚 太行绿壳蛋礼盒</td><td>28</td><td>¥2492</td><td>19.8%</td></tr>
-                            <tr><td>3</td><td>🍲 滋补炖汤套餐</td><td>16</td><td>¥3184</td><td>14.8%</td></tr>
-                            <tr><td>4</td><td>🍗 华北柴鸡童子鸡</td><td>9</td><td>¥702</td><td>5.6%</td></tr>
-                            <tr><td>5</td><td>🥩 太行鸡大鸡腿</td><td>7</td><td>¥266</td><td>2.1%</td></tr>
+                            <tr><td>1</td><td>🐔 太行老母鸡·散养500天</td><td>142</td><td>¥1.82w</td><td><span class="badge-success badge">57%</span></td></tr>
+                            <tr><td>2</td><td>🥚 太行绿壳蛋礼盒</td><td>78</td><td>¥3,112</td><td><span class="badge-success badge">52%</span></td></tr>
+                            <tr><td>3</td><td>🍲 滋补炖汤套餐</td><td>45</td><td>¥6,660</td><td><span class="badge-success badge">53%</span></td></tr>
+                            <tr><td>4</td><td>🍗 华北柴鸡童子鸡</td><td>32</td><td>¥2,496</td><td><span class="badge badge-info">49%</span></td></tr>
+                            <tr><td>5</td><td>🎁 中秋定制礼盒</td><td>21</td><td>¥4,158</td><td><span class="badge-success badge">62%</span></td></tr>
                         </tbody>
                     </table>
                 </div>
-
-                <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">📢 系统公告 & 运营动态</div>
-                    <div style="display: flex; flex-direction: column; gap: 12px;">
-                        <div>✅ 区块链溯源系统已全商品覆盖，累计上链记录 32 条</div>
-                        <div>✅ 新签约“太行山南麓散养基地”，预计产能提升23%</div>
-                        <div>✅ 本月冷链物流时效提升至 24h 直达京津冀</div>
-                        <div>✅ B端集采订单环比增长 42%，中小商户复购率持续上升</div>
-                    </div>
-                </div>
             </div>
 
-            <!-- 订单管理页面（优化后又分列表+详情） -->
+            <!-- ========= 订单管理 ========= -->
             <div class="page" id="order">
-                <div class="stat-grid">
-                    <div class="stat-card"><div class="num">286</div><div class="label">用户总数</div></div>
-                    <div class="stat-card"><div class="num">98</div><div class="label">累计订单</div></div>
-                    <div class="stat-card"><div class="num">¥12640</div><div class="label">交易总额</div></div>
-                    <div class="stat-card"><div class="num">87%</div><div class="label">支付完成率</div></div>
-                </div>
-
-                <!-- 订单列表部分 -->
-                <div id="orderListPanel">
-                    <div class="insight-card">
-                        <div class="section-title" style="margin-top:0;">📋 最近订单列表</div>
-                        <table class="data-table">
-                            <thead><tr><th>订单号</th><th>商品名称</th><th>下单时间</th><th>金额</th><th>状态</th><th>操作</th></tr></thead>
-                            <tbody id="orderTableBody"></tbody>
-                        </table>
-                        <div class="bottom-more" id="moreOrdersBtn">📂 查看更多订单</div>
-                    </div>
-                </div>
-                <!-- 订单详情卡片 (点击查看) -->
-                <div id="orderDetailCard" class="detail-panel">
-                    <div style="display: flex; justify-content: space-between;">
-                        <h3 style="color:#1e4620;">📄 订单详情</h3>
-                        <button class="btn-outline" id="closeDetailBtn">返回列表</button>
-                    </div>
-                    <div id="orderDetailContent"></div>
+                <div class="insight-card">
+                    <div class="section-title" style="margin-top:0;">📋 最近订单列表</div>
+                    <table class="data-table">
+                        <thead><tr><th>订单号</th><th>商品</th><th>下单时间</th><th>金额</th><th>状态</th><th>溯源扫码</th><th>操作</th></tr></thead>
+                        <tbody id="orderTableBody"></tbody>
+                    </table>
                 </div>
             </div>
 
-            <!-- 用户管理 -->
+            <!-- ========= 用户画像（含标签体系）========= -->
             <div class="page" id="user">
                 <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">👥 注册用户列表</div>
+                    <div class="section-title" style="margin-top:0;">👥 C端用户画像 · 知情消费标签</div>
                     <table class="data-table">
-                        <thead><tr><th>ID</th><th>用户名</th><th>手机号</th><th>注册时间</th><th>订单数</th><th>状态</th></tr></thead>
+                        <thead>
+                            <tr><th>用户</th><th>画像标签</th><th>信任分</th><th>云认养</th><th>互动行为</th><th>操作</th></tr>
+                        </thead>
                         <tbody id="userTableBody"></tbody>
                     </table>
-                    <div class="bottom-more" onclick="alert('所有用户数据已展示，共10+条核心用户')">加载更多用户</div>
+                    <div class="bottom-more" onclick="alert('支持按信任分/画像筛选，可导出用户列表')">📎 导出用户分析报告</div>
                 </div>
             </div>
 
-            <!-- 商品管理 -->
+            <!-- ========= 商品管理 ========= -->
             <div class="page" id="goods">
                 <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">🛒 商品库 & 供应链信息</div>
+                    <div class="section-title" style="margin-top:0;">🛒 商品库 & 定价策略</div>
                     <table class="data-table">
-                        <thead><tr><th>ID</th><th>商品名称</th><th>B端价格</th><th>C端价格</th><th>库存(箱)</th><th>状态</th></tr></thead>
+                        <thead><tr><th>ID</th><th>商品名称</th><th>B端价</th><th>C端价</th><th>库存</th><th>毛利率</th><th>状态</th></tr></thead>
                         <tbody id="goodsTableBody"></tbody>
                     </table>
-                    <div class="bottom-more" onclick="alert('商品管理支持上下架/改价，功能持续升级')">批量管理商品</div>
                 </div>
             </div>
 
-            <!-- 溯源记录 -->
+            <!-- ========= 溯源存证 ========= -->
             <div class="page" id="trace">
                 <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">⛓️ 区块链溯源存证列表</div>
+                    <div class="section-title" style="margin-top:0;">⛓️ 一鸡一码·8大类26项溯源存证</div>
                     <table class="data-table">
-                        <thead><tr><th>溯源编号</th><th>产品名称</th><th>出栏/生产日期</th><th>检疫编号</th><th>区块哈希</th></tr></thead>
+                        <thead><tr><th>溯源编号</th><th>产品</th><th>养殖天数</th><th>出栏日期</th><th>检疫合格</th><th>区块哈希</th></tr></thead>
                         <tbody id="traceTableBody"></tbody>
                     </table>
-                    <div class="bottom-more" onclick="alert('所有溯源数据均已在联盟链存证，不可篡改')">查看全部上链记录</div>
                 </div>
             </div>
 
-            <!-- 农户基地 -->
+            <!-- ========= 农户基地 ========= -->
             <div class="page" id="farmer">
                 <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">🏞️ 合作农户与基地档案</div>
+                    <div class="section-title" style="margin-top:0;">🏞️ 合作农户</div>
                     <table class="data-table">
-                        <thead><tr><th>编号</th><th>姓名</th><th>养殖基地</th><th>存栏量</th><th>合作状态</th></tr></thead>
+                        <thead><tr><th>编号</th><th>农户</th><th>基地</th><th>存栏量</th><th>合同期</th><th>状态</th></tr></thead>
                         <tbody id="farmerTableBody"></tbody>
                     </table>
-                    <div class="bottom-more" onclick="alert('本月新增2户意向农户，已进入考察阶段')">拓展更多优质农户</div>
                 </div>
             </div>
 
-            <!-- 系统设置 美观升级 -->
+            <!-- ========= 养殖建议看板（反向供应链）========= -->
+            <div class="page" id="insight">
+                <div class="insight-card">
+                    <div class="section-title" style="margin-top:0;">📊 C端需求预测 → 反向指导养殖计划</div>
+                    <div style="background:#f0f7eb; border-radius:20px; padding:20px; margin-bottom:20px;">
+                        <h3 style="color:#2a6b3c;">🐣 下月养殖建议 (AI预测)</h3>
+                        <div class="info-row"><div class="info-label">📈 净切鸡块需求</div><div class="info-value">母婴家庭订单 +32% → <strong>建议分割车间增产20%</strong> <span class="badge badge-success">执行中</span></div></div>
+                        <div class="info-row"><div class="info-label">📉 整鸡需求</div><div class="info-value">环比 -5% → <strong>适当减少整鸡库存，转为套餐组合</strong></div></div>
+                        <div class="info-row"><div class="info-label">🥚 绿壳蛋</div><div class="info-value">复购率 68% → <strong>扩产15%，主推月子中心渠道</strong></div></div>
+                    </div>
+                    <div style="background:#fef7e0; border-radius:20px; padding:20px;">
+                        <h3 style="color:#b87c2e;">💰 B端客户健康度 & 定价建议</h3>
+                        <div class="info-row"><div class="info-label">月子中心续约率</div><div class="info-value">92% → 稳定，维持75元/只供应价</div></div>
+                        <div class="info-row"><div class="info-label">私房菜馆复购率</div><div class="info-value">78% → 建议推出“联名菜单”反向引流C端</div></div>
+                        <div class="info-row"><div class="info-label">社区便利店</div><div class="info-value">月采购额下滑12% → <strong>建议发放8折采购券</strong></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========= 系统设置 ========= -->
             <div class="page" id="system">
                 <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">⚙️ 系统配置与环境</div>
-                    <div class="info-row"><div class="info-label">系统名称</div><div class="info-value">太行鸡区块链溯源管理系统 v2.0</div></div>
-                    <div class="info-row"><div class="info-label">区块链网络</div><div class="info-value">蚂蚁链联盟 · 农产品溯源专网</div></div>
-                    <div class="info-row"><div class="info-label">当前管理员</div><div class="info-value">admin (超级管理员)</div></div>
-                    <div class="info-row"><div class="info-label">登录时间</div><div class="info-value">2026-05-08 10:23:18</div></div>
-                    <div class="info-row"><div class="info-label">数据安全</div><div class="info-value">每日凌晨3点全量备份 · SSL加密传输</div></div>
-                    <div class="info-row"><div class="info-label">API 溯源接口</div><div class="info-value">正常运行  |  调用频次 2312次/日</div></div>
-                </div>
-                <div class="insight-card">
-                    <div class="section-title" style="margin-top:0;">📦 运营参数设置</div>
-                    <div class="info-row"><div class="info-label">B端起批门槛</div><div class="info-value">整箱起批 (默认10箱以上享优惠)</div></div>
-                    <div class="info-row"><div class="info-label">冷链温度阈值</div><div class="info-value">-18℃ ~ -5℃ 实时告警联动</div></div>
-                    <div class="info-row"><div class="info-label">订单超时关闭</div><div class="info-value">30分钟未支付自动取消</div></div>
-                    <div class="bottom-more" onclick="alert('高级配置仅限超管操作，请谨慎修改')">前往高级设置</div>
+                    <div class="section-title" style="margin-top:0;">⚙️ 系统配置</div>
+                    <div class="info-row"><div class="info-label">系统名称</div><div class="info-value">冀农鲜·太行鸡智慧决策系统 v2.0</div></div>
+                    <div class="info-row"><div class="info-label">溯源区块链</div><div class="info-value">蚂蚁链联盟 · 26项数据上链</div></div>
+                    <div class="info-row"><div class="info-label">冷链监控</div><div class="info-value">✅ 全程-18℃达标，异常告警0次</div></div>
+                    <div class="info-row"><div class="info-label">数据可视化</div><div class="info-value">✅ 53项数据可视化，数据可导出</div></div>
+                    <div class="info-row"><div class="info-label">数据安全</div><div class="info-value">✅ 53项数据安全，数据可导出</div></div>
+                    <div class="info-row"><div class="info-label">数据备份</div><div class="info-value">✅ 53项数据备份，数据可导出</div></div>
+                    <div class="info-row"><div class="info-label">数据分享</div><div class="info-value">✅ 53项数据分享，数据可导出</div></div>
+
+                    
                 </div>
             </div>
         </div>
@@ -533,44 +567,41 @@
 </div>
 
 <script>
-    // 模拟数据整合
+    // 订单数据（含扫码状态）
     const ordersData = [
-        { id:"TH20260508001", product:"太行老母鸡·散养500天", time:"2026-05-08 10:23", amount:115, status:"paid" },
-        { id:"TH20260508002", product:"太行绿壳蛋礼盒", time:"2026-05-08 14:12", amount:33, status:"paid" },
-        { id:"TH20260508003", product:"华北柴鸡童子鸡", time:"2026-05-08 16:45", amount:68, status:"unpaid" },
-        { id:"TH20260507001", product:"滋补炖汤套餐", time:"2026-05-07 09:30", amount:138, status:"paid" },
-        { id:"TH20260506002", product:"太行鸡大鸡腿", time:"2026-05-06 11:17", amount:38, status:"paid" },
-        { id:"TH20260505003", product:"卤味专用老母鸡", time:"2026-05-05 18:42", amount:98, status:"paid" }
+        { id:"TH20260509001", product:"太行老母鸡", time:"2026-05-09 10:23", amount:128, status:"paid", scanned:true },
+        { id:"TH20260509002", product:"绿壳蛋礼盒", time:"2026-05-09 09:15", amount:89, status:"paid", scanned:true },
+        { id:"TH20260508003", product:"滋补炖汤套餐", time:"2026-05-08 16:45", amount:158, status:"paid", scanned:false },
+        { id:"TH20260508004", product:"华北柴鸡童子鸡", time:"2026-05-08 11:20", amount:78, status:"paid", scanned:true },
+        { id:"TH20260507005", product:"太行老母鸡", time:"2026-05-07 14:30", amount:128, status:"paid", scanned:true }
     ];
 
+    // 用户画像数据（含标签、信任分、云认养）
     const users = [
-        { id:10010, name:"张女士", phone:"138****1234", reg:"2026-05-08", orders:2, status:"正常" },
-        { id:10009, name:"董先生", phone:"132****4567", reg:"2026-05-07", orders:1, status:"正常" },
-        { id:10008, name:"胡女士", phone:"133****1357", reg:"2026-05-06", orders:3, status:"正常" },
-        { id:10007, name:"罗先生", phone:"135****2468", reg:"2026-05-05", orders:1, status:"正常" },
-        { id:10006, name:"吴女士", phone:"136****1122", reg:"2026-05-04", orders:2, status:"正常" }
+        { name:"李女士·母婴", phone:"138****1234", tags:["母婴家庭","复购3次"], trustScore:92, adopt:true, behavior:"扫码3次·分享生长日记" },
+        { name:"王先生·养生", phone:"139****5678", tags:["养生人群","高客单"], trustScore:68, adopt:false, behavior:"扫码停留仅3秒" },
+        { name:"张女士·品质", phone:"136****9012", tags:["品质家庭","KOC潜力"], trustScore:98, adopt:true, behavior:"认养3只·分享5次" },
+        { name:"陈先生·礼品", phone:"137****3456", tags:["礼品采购","企业客户"], trustScore:85, adopt:false, behavior:"批量采购·扫码率100%" }
     ];
 
     const goods = [
-        { id:2001, name:"太行老母鸡", bPrice:115, cPrice:128, stock:326, status:"上架" },
-        { id:2002, name:"太行绿壳蛋", bPrice:33, cPrice:39.9, stock:520, status:"上架" },
-        { id:2003, name:"华北柴鸡童子鸡", bPrice:68, cPrice:78, stock:288, status:"上架" },
-        { id:2004, name:"滋补炖汤套餐", bPrice:138, cPrice:158, stock:168, status:"上架" },
-        { id:2005, name:"太行鸡大鸡腿", bPrice:38, cPrice:42, stock:450, status:"上架" },
+        { id:2001, name:"太行老母鸡", bPrice:75, cPrice:128, stock:326, grossProfit:"57%", status:"上架" },
+        { id:2002, name:"太行绿壳蛋", bPrice:33, cPrice:49, stock:520, grossProfit:"48%", status:"上架" },
+        { id:2003, name:"华北柴鸡童子鸡", bPrice:55, cPrice:78, stock:188, grossProfit:"42%", status:"上架" },
+        { id:2004, name:"滋补炖汤套餐", bPrice:100, cPrice:158, stock:168, grossProfit:"53%", status:"上架" }
     ];
 
     const traces = [
-        { code:"TR20260501", name:"太行老母鸡", date:"2026-04-20",检疫:"JY2026042001", hash:"0x1a2b3c...e4f" },
-        { code:"TR20260502", name:"太行绿壳蛋", date:"2026-04-25",检疫:"JY2026042502", hash:"0x5d6e7f...a1b" },
-        { code:"TR20260503", name:"华北柴鸡童子鸡", date:"2026-04-22",检疫:"JY2026042203", hash:"0x9c8d7e...f2a" },
-        { code:"TR20260504", name:"滋补炖汤套餐", date:"2026-04-28",检疫:"JY2026042804", hash:"0x3f4e5d...c6b" }
+        { code:"TR202605001", name:"太行老母鸡", days:"520天", date:"2026-04-20",检疫:"合格", hash:"0x1a2b...e4f" },
+        { code:"TR202605002", name:"太行老母鸡", days:"508天", date:"2026-04-22",检疫:"合格", hash:"0x3c4d...a1b" },
+        { code:"TR202605003", name:"华北柴鸡", days:"180天", date:"2026-04-25",检疫:"合格", hash:"0x5e6f...c2d" }
     ];
 
     const farmers = [
-        { id:"NF001", name:"王农户", base:"太行山一号基地", stock:1200, status:"合作中" },
-        { id:"NF002", name:"刘农户", base:"太行山二号基地", stock:980, status:"合作中" },
-        { id:"NF003", name:"杨农户", base:"太行山三号基地", stock:1500, status:"合作中" },
-        { id:"NF008", name:"韩农户", base:"生态八号基地", stock:2100, status:"合作中" }
+        { id:"NF001", name:"王农户", base:"太行山一号基地", stock:1200, contract:"2027-12", status:"合作中" },
+        { id:"NF002", name:"刘农户", base:"太行山二号基地", stock:980, contract:"2027-10", status:"合作中" },
+        { id:"NF003", name:"张农户", base:"太行山三号基地", stock:1100, contract:"2027-08", status:"合作中" },
+        { id:"NF004", name:"赵农户", base:"太行山四号基地", stock:900, contract:"2027-06", status:"合作中" }
     ];
 
     function renderOrderTable() {
@@ -578,61 +609,45 @@
         if(tbody){
             tbody.innerHTML = ordersData.map(order => `
                 <tr>
-                    <td>${order.id}</td><td>${order.product}</td><td>${order.time}</td><td>¥${order.amount}</td>
-                    <td><span class="badge ${order.status === 'paid' ? 'badge-success' : 'badge-warning'}">${order.status === 'paid' ? '已付款' : '待付款'}</span></td>
-                    <td><button class="btn-outline view-order" data-id="${order.id}" style="padding:4px 12px;">详情</button></td>
+                    <td>${order.id}</td>
+                    <td>${order.product}</td>
+                    <td>${order.time}</td>
+                    <td>¥${order.amount}</td>
+                    <td><span class="badge badge-success">已付款</span></td>
+                    <td>${order.scanned ? '<span class="badge badge-success">✅ 已扫码</span>' : '<span class="badge badge-warning">⚠️ 未扫码</span>'}</td>
+                    <td><button class="btn-outline btn-sm" onclick="alert(\'查看溯源详情\')">详情</button></td>
                 </tr>
             `).join('');
-            document.querySelectorAll('.view-order').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = btn.getAttribute('data-id');
-                    const order = ordersData.find(o => o.id === id);
-                    if(order){
-                        document.getElementById('orderListPanel').style.display = 'none';
-                        const detailDiv = document.getElementById('orderDetailCard');
-                        const contentDiv = document.getElementById('orderDetailContent');
-                        contentDiv.innerHTML = `
-                            <div class="info-row"><div class="info-label">订单号</div><div class="info-value">${order.id}</div></div>
-                            <div class="info-row"><div class="info-label">商品</div><div class="info-value">${order.product}</div></div>
-                            <div class="info-row"><div class="info-label">下单时间</div><div class="info-value">${order.time}</div></div>
-                            <div class="info-row"><div class="info-label">金额</div><div class="info-value">¥${order.amount}</div></div>
-                            <div class="info-row"><div class="info-label">状态</div><div class="info-value"><span class="badge badge-success">已付款</span></div></div>
-                            <div class="info-row"><div class="info-label">收货信息</div><div class="info-value">张先生 138****1234 石家庄长安区</div></div>
-                        `;
-                        detailDiv.classList.add('show');
-                    }
-                });
-            });
         }
     }
 
-    document.getElementById('closeDetailBtn')?.addEventListener('click', () => {
-        document.getElementById('orderListPanel').style.display = 'block';
-        document.getElementById('orderDetailCard').classList.remove('show');
-    });
-
-    document.getElementById('moreOrdersBtn')?.addEventListener('click', () => {
-        alert('展示全部订单 (共98条，支持分页)');
-    });
-
     function renderUserTable() {
         const tbody = document.getElementById('userTableBody');
-        if(tbody) tbody.innerHTML = users.map(u => `<tr><td>${u.id}</td><td>${u.name}</td><td>${u.phone}</td><td>${u.reg}</td><td>${u.orders}</td><td><span class="badge badge-success">正常</span></td></tr>`).join('');
+        if(tbody) tbody.innerHTML = users.map(u => `
+            <tr>
+                <td><strong>${u.name}</strong><br><span style="font-size:12px;color:#888;">${u.phone}</span></td>
+                <td>${u.tags.map(t => `<span class="tag tag-${t.includes('母婴')?'mother':t.includes('养生')?'health':t.includes('礼品')?'gift':'loyal'}">${t}</span>`).join('')}</td>
+                <td><span style="font-weight:700;color:${u.trustScore>=80?'#2a6b3c':'#c73e3e'}">${u.trustScore}</span><div class="progress-bar" style="margin-top:4px;"><div class="progress-fill" style="width:${u.trustScore}%"></div></div></td>
+                <td>${u.adopt ? '<span class="badge badge-success">🐔 认养中</span>' : '-'}</td>
+                <td style="font-size:13px;">${u.behavior}</td>
+                <td><button class="btn-outline btn-sm" onclick="alert(\'发送优惠券/回访\')">触达</button></td>
+            </tr>
+        `).join('');
     }
 
     function renderGoodsTable() {
         const tbody = document.getElementById('goodsTableBody');
-        if(tbody) tbody.innerHTML = goods.map(g => `<tr><td>${g.id}</td><td>${g.name}</td><td>¥${g.bPrice}</td><td>¥${g.cPrice}</td><td>${g.stock}</td><td><span class="badge badge-success">${g.status}</span></td></tr>`).join('');
+        if(tbody) tbody.innerHTML = goods.map(g => `<tr><td>${g.id}</td><td>${g.name}</td><td>¥${g.bPrice}</td><td>¥${g.cPrice}</td><td>${g.stock}</td><td><span class="badge-success badge">${g.grossProfit}</span></td><td><span class="badge badge-success">${g.status}</span></td></tr>`).join('');
     }
 
     function renderTraceTable() {
         const tbody = document.getElementById('traceTableBody');
-        if(tbody) tbody.innerHTML = traces.map(t => `<tr><td>${t.code}</td><td>${t.name}</td><td>${t.date}</td><td>${t.检疫}</td><td class="badge-info" style="font-family:monospace;">${t.hash}</td></tr>`).join('');
+        if(tbody) tbody.innerHTML = traces.map(t => `<tr><td>${t.code}</td><td>${t.name}</td><td>${t.days}</td><td>${t.date}</td><td><span class="badge-success badge">${t.检疫}</span></td><td style="font-family:monospace;font-size:12px;">${t.hash}</td></tr>`).join('');
     }
 
     function renderFarmerTable() {
         const tbody = document.getElementById('farmerTableBody');
-        if(tbody) tbody.innerHTML = farmers.map(f => `<tr><td>${f.id}</td><td>${f.name}</td><td>${f.base}</td><td>${f.stock}</td><td><span class="badge badge-success">${f.status}</span></td></tr>`).join('');
+        if(tbody) tbody.innerHTML = farmers.map(f => `<tr><td>${f.id}</td><td>${f.name}</td><td>${f.base}</td><td>${f.stock}只</td><td>${f.contract}</td><td><span class="badge badge-success">${f.status}</span></td></tr>`).join('');
     }
 
     // 侧边栏导航
@@ -645,10 +660,6 @@
             const pageId = li.dataset.page;
             pages.forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            if(pageId === 'order') {
-                document.getElementById('orderListPanel').style.display = 'block';
-                document.getElementById('orderDetailCard')?.classList.remove('show');
-            }
         });
     });
 

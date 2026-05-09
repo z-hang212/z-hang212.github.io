@@ -229,7 +229,6 @@
             transition: 0.1s;
         }
 
-        /* 商户认证弹窗 - 完善表单 */
         .cert-modal {
             position: fixed;
             top: 0;
@@ -317,7 +316,6 @@
             color: #6c8f5e;
         }
 
-        /* B端已认证后展示商户信息条 */
         .merchant-info-bar {
             background: #eef3e9;
             margin: 8px 16px 0;
@@ -419,7 +417,6 @@
     <div id="floatWidget"></div>
 </div>
 
-<!-- 商户认证弹窗（完善信息，不会认证失败） -->
 <div id="certModal" class="cert-modal">
     <div class="cert-card">
         <h3>🏢 商户资质认证</h3>
@@ -456,23 +453,95 @@
 <div class="toast-msg" id="toastMsg">提示</div>
 
 <script>
-    // 商品库
+    
+    // 商品库 - B端和C端分别使用不同图片地址
     const productList = [
-        { id:"p1001", name:"太行老母鸡 · 散养500天", cPrice:"¥128", cUnit:"净膛2.2斤/只", bPrice:"¥1150", bUnit:"10只/箱", minQty:"1箱起批", img:"https://i.ibb.co/hJQP5Z9J/20260503092519-253-18.jpg", category:"整鸡类", traceCode:"TJ512301", descC:"老母鸡炖汤鲜香滋补，500天慢养", descB:"整箱直供餐饮后厨，每只独立真空"},
-        { id:"p1002", name:"太行绿壳蛋礼盒", cPrice:"¥39.9", cUnit:"20枚/盒", bPrice:"¥396", bUnit:"12盒/箱", minQty:"2箱起批", img:"https://i.ibb.co/FL93hMsS/20260503092520-254-18.jpg", category:"蛋品", traceCode:"EGG2201", descC:"无抗认证，高叶黄素，儿童推荐", descB:"食堂/酒店专用蛋，整箱240枚，损耗极低"},
-        { id:"p1003", name:"华北柴鸡童子鸡", cPrice:"¥78", cUnit:"整只净膛1.8斤", bPrice:"¥1020", bUnit:"15只/箱", minQty:"2箱起批", img:"https://i.ibb.co/9HG77m1Y/20260503092521-255-18.jpg", category:"整鸡类", traceCode:"CJ3345", descC:"肉质细嫩，清蒸红烧皆可", descB:"适合快餐炸鸡连锁，单只重量稳定"},
-        { id:"p1004", name:"滋补炖汤套餐", cPrice:"¥158", cUnit:"2-3人份/盒", bPrice:"¥1104", bUnit:"8盒/箱", minQty:"1箱起批", img:"https://i.ibb.co/5WLfH8ZB/20260503092636-257-18.jpg", category:"预制菜", traceCode:"GIFTT01", descC:"家庭养生省心炖，菌菇药膳包", descB:"餐厅出餐神器，加热即售，毛利提升"},
-        { id:"p1005", name:"太行鸡大鸡腿（冷冻）", cPrice:"¥42", cUnit:"500g/包", bPrice:"¥38", bUnit:"20包/箱", minQty:"2箱起批", img:"https://i.ibb.co/1GRx54BW/image.jpg", category:"分割品", traceCode:"LEG8802", descC:"去骨鸡腿肉，家常煎烤", descB:"卤味/便当店首选，标准化规格"},
-        { id:"p1006", name:"太行鸡鸡胸肉", cPrice:"¥45", cUnit:"500g/包", bPrice:"¥39", bUnit:"20包/箱", minQty:"2箱起批", img:"https://i.ibb.co/0y6G75Ry/image.jpg", category:"分割品", traceCode:"BREAST01", descC:"低脂高蛋白，健身沙拉必备", descB:"预制菜工厂稳定供应，嫩滑不柴"},
-        { id:"p1007", name:"卤味专用老母鸡", cPrice:"¥118", cUnit:"净膛2.3斤", bPrice:"¥102", bUnit:"10只/箱", minQty:"3箱起批", img:"https://i.ibb.co/4gZwWgbw/image.jpg", category:"整鸡类", traceCode:"LJ8823", descC:"红烧卤味老母鸡，肉质紧实", descB:"熟食加工厂长期合作单品，出成率高"},
-        { id:"p1008", name:"鲜虫草花太行鸡块", cPrice:"¥68", cUnit:"400g/盒", bPrice:"¥58", bUnit:"12盒/箱", minQty:"2箱起批", img:"https://i.ibb.co/YFkNjFw8/image.jpg", category:"预制菜", traceCode:"PRE888", descC:"免切免洗，快手菜", descB:"外卖/团餐爆品，复购率超60%"}
+        { 
+            id:"p1001", name:"太行老母鸡 · 散养500天", 
+            cPrice:"¥128", cUnit:"净膛2.2斤/只", 
+            bPrice:"¥1150", bUnit:"10只/箱", minQty:"1箱起批", 
+// 给cimg单独设置style
+            cImg:"https://i.ibb.co/gbgNNpG5/20260509113623-324-18.jpg", 
+            cImgStyle: "width: 300px; height: auto;",
+              // C端图片
+            bImg:"https://i.ibb.co/hJQP5Z9J/20260503092519-253-18.jpg",   // B端图片（可换为其他）
+            category:"整鸡类", traceCode:"TJ512301", 
+            descC:"老母鸡炖汤鲜香滋补，500天慢养", descB:"整箱直供餐饮后厨，每只独立真空"
+        },
+        { 
+            id:"p1002", name:"太行绿壳蛋礼盒", 
+            cPrice:"¥39.9", cUnit:"20枚/盒", 
+            bPrice:"¥396", bUnit:"12盒/箱", minQty:"2箱起批", 
+            cImg:"https://i.ibb.co/GfhD2xzF/image.png",
+            bImg:"https://i.ibb.co/FL93hMsS/20260503092520-254-18.jpg",
+            category:"蛋品", traceCode:"EGG2201", 
+            descC:"无抗认证，高叶黄素，儿童推荐", descB:"食堂/酒店专用蛋，整箱240枚，损耗极低"
+        },
+        { 
+            id:"p1003", name:"华北柴鸡童子鸡", 
+            cPrice:"¥78", cUnit:"整只净膛1.8斤", 
+            bPrice:"¥1020", bUnit:"15只/箱", minQty:"2箱起批", 
+            cImg:"https://i.ibb.co/N2nFJFXw/af617940b74f392de54fc84be9a6f74a.jpg",
+            cImgStyle: "width: 180px; height: auto;",
+            bImg:"https://i.ibb.co/9HG77m1Y/20260503092521-255-18.jpg",
+            category:"整鸡类", traceCode:"CJ3345", 
+            descC:"肉质细嫩，清蒸红烧皆可", descB:"适合快餐炸鸡连锁，单只重量稳定"
+        },
+        { 
+            id:"p1004", name:"滋补炖汤套餐", 
+            cPrice:"¥158", cUnit:"2-3人份/盒", 
+            bPrice:"¥1104", bUnit:"8盒/箱", minQty:"1箱起批", 
+            
+            cImg:"https://i.ibb.co/zhjmq5R1/cbe751d9557d370cf8bd1da2295bc2d0.jpg",
+             cImgStyle: "width: 300px; height: auto;",
+             // C端图片
+            bImg:"https://i.ibb.co/5WLfH8ZB/20260503092636-257-18.jpg",
+            category:"预制菜", traceCode:"GIFTT01", 
+            descC:"家庭养生省心炖，菌菇药膳包", descB:"餐厅出餐神器，加热即售，毛利提升"
+        },
+        { 
+            id:"p1005", name:"太行鸡大鸡腿（冷冻）", 
+            cPrice:"¥42", cUnit:"500g/包", 
+            bPrice:"¥760", bUnit:"20包/箱", minQty:"2箱起批", 
+            cImg:"https://i.ibb.co/1GRx54BW/image.jpg",
+            bImg:"https://i.ibb.co/1GRx54BW/image.jpg",
+            category:"分割品", traceCode:"LEG8802", 
+            descC:"去骨鸡腿肉，家常煎烤", descB:"卤味/便当店首选，标准化规格"
+        },
+        { 
+            id:"p1006", name:"太行鸡鸡胸肉", 
+            cPrice:"¥45", cUnit:"500g/包", 
+            bPrice:"¥780", bUnit:"20包/箱", minQty:"2箱起批", 
+            cImg:"https://i.ibb.co/0y6G75Ry/image.jpg",
+            bImg:"https://i.ibb.co/0y6G75Ry/image.jpg",
+            category:"分割品", traceCode:"BREAST01", 
+            descC:"低脂高蛋白，健身沙拉必备", descB:"预制菜工厂稳定供应，嫩滑不柴"
+        },
+        { 
+            id:"p1007", name:"卤味专用老母鸡", 
+            cPrice:"¥118", cUnit:"净膛2.3斤", 
+            bPrice:"¥1020", bUnit:"10只/箱", minQty:"3箱起批", 
+            cImg:"https://i.ibb.co/4gZwWgbw/image.jpg",
+            bImg:"https://i.ibb.co/4gZwWgbw/image.jpg",
+            category:"整鸡类", traceCode:"LJ8823", 
+            descC:"红烧卤味老母鸡，肉质紧实", descB:"熟食加工厂长期合作单品，出成率高"
+        },
+        { 
+            id:"p1008", name:"鲜虫草花太行鸡块", 
+            cPrice:"¥68", cUnit:"400g/盒", 
+            bPrice:"¥696", bUnit:"12盒/箱", minQty:"2箱起批", 
+            cImg:"https://i.ibb.co/YFkNjFw8/image.jpg",
+            bImg:"https://i.ibb.co/YFkNjFw8/image.jpg",
+            category:"预制菜", traceCode:"PRE888", 
+            descC:"免切免洗，快手菜", descB:"外卖/团餐爆品，复购率超60%"
+        }
     ];
 
     const categories = ["全部", "整鸡类", "蛋品", "分割品", "预制菜"];
 
     let currentScene = "c";
     let isB2bCertified = false;
-    let merchantData = null;   // 存储商户信息
+    let merchantData = null;
     let currentCategory = "全部";
 
     const categoryContainer = document.getElementById("categoryContainer");
@@ -522,9 +591,15 @@
         emptyTip.style.display = "none";
 
         productContainer.innerHTML = products.map(product => {
+            // 根据场景选择不同图片
+            const productImg = currentScene === "c" ? product.cImg : product.bImg;
+            
             if (currentScene === "c") {
-                return `<div class="card-c2c" data-id="${product.id}" data-trace="${product.traceCode}">
-                            <div class="product-img"><img src="${product.img}" alt="${product.name}"></div>
+    // 获取C端自定义样式（如果没有则使用默认样式）
+    const imgStyle = product.cImgStyle || '';
+    const imgStyleAttr = imgStyle ? `style="${imgStyle}"` : '';
+    return `<div class="card-c2c" data-id="${product.id}" data-trace="${product.traceCode}">
+                <div class="product-img"><img src="${productImg}" alt="${product.name}" ${imgStyleAttr}></div>
                             <div class="product-info">
                                 <div class="product-title">${product.name}</div>
                                 <div class="product-spec">${product.descC}</div>
@@ -538,7 +613,7 @@
                         </div>`;
             } else {
                 return `<div class="card-b2b" data-id="${product.id}" data-trace="${product.traceCode}">
-                            <div class="product-img"><img src="${product.img}" alt="${product.name}"></div>
+                            <div class="product-img"><img src="${productImg}" alt="${product.name}"></div>
                             <div class="product-info">
                                 <div class="product-title">📦 ${product.name}</div>
                                 <div class="product-spec">${product.descB}</div>
@@ -554,7 +629,7 @@
             }
         }).join("");
 
-        // 溯源跳转
+        // 溯源跳转（带上场景参数）
         document.querySelectorAll(".card-c2c, .card-b2b").forEach(card => {
             const productId = card.getAttribute("data-id");
             const product = productList.find(p => p.id === productId);
@@ -564,10 +639,11 @@
                 let target = "";
                 if (product.traceCode === "TJ512301") target = "https://z-hang212.github.io/item2.html";
                 else if (product.traceCode === "EGG2201") target = "https://z-hang212.github.io/item.html";
-              
-                else {showToast("暂无此商品详情页，可联系客服获取详情");
+                else {
+                    showToast("暂无此商品详情页，可联系客服获取详情");
                     return;
-                };
+                }
+                target += "?scene=" + currentScene;
                 window.location.href = target;
             });
         });
@@ -587,7 +663,6 @@
         });
     }
 
-    // 更新B端认证后UI
     function applySceneUI() {
         const cBtn = document.querySelector(".scene-btn.c-btn");
         const bBtn = document.querySelector(".scene-btn.b-btn");
@@ -611,7 +686,6 @@
             floatWidget.innerHTML = `<div class="b2b-float" style="background:#2c6e3c; border-radius:50px; padding:10px 18px; color:white; font-weight:700; display:flex; align-items:center; gap:8px; position:fixed; bottom:90px; right:16px; z-index:50; cursor:pointer;" id="b2bFloatBtn"><span>📞</span> 大宗采购·申请报价</div>`;
             document.getElementById("b2bFloatBtn")?.addEventListener("click", () => showToast(`🏢 ${merchantData?.shopName || '贵商户'} 已认证，专属客服将提供集采报价单`));
             document.getElementById("shopContainer").style.background = "#f8fbf5";
-            // 展示商户信息条
             if (merchantData) {
                 merchantInfoBar.style.display = "flex";
                 merchantInfoBar.innerHTML = `<span>🏪 ${merchantData.shopName}</span><span>📍 ${merchantData.address}</span><span>📞 ${merchantData.phone}</span><span style="font-size:10px;">✅ 已认证商户</span>`;
@@ -620,7 +694,6 @@
         renderProducts();
     }
 
-    // 认证弹窗（填写信息直接认证成功）
     function showCertModal() {
         document.getElementById("shopName").value = "";
         document.getElementById("shopAddress").value = "";
@@ -630,32 +703,29 @@
     }
 
     function confirmCertification() {
-    const shopName = document.getElementById("shopName").value.trim();
-    const shopAddress = document.getElementById("shopAddress").value.trim();
-    const shopPhone = document.getElementById("shopPhone").value.trim();
-    
-    // 移除所有必填校验，允许空内容直接认证成功
-    merchantData = {
-        shopName: shopName || "认证商户",
-        address: shopAddress || "发货地址",
-        phone: shopPhone || "联系电话",
-        type: document.getElementById("shopType").value.trim() || "餐饮/零售"
-    };
-    isB2bCertified = true;
-    certModal.classList.remove("show");
-    showToast(`✅ 认证成功！欢迎进入集采专区`);
-    
-    // 切换到B端界面
-    currentScene = "b";
-    applySceneUI();
-}
+        const shopName = document.getElementById("shopName").value.trim();
+        const shopAddress = document.getElementById("shopAddress").value.trim();
+        const shopPhone = document.getElementById("shopPhone").value.trim();
+        
+        merchantData = {
+            shopName: shopName || "认证商户",
+            address: shopAddress || "发货地址",
+            phone: shopPhone || "联系电话",
+            type: document.getElementById("shopType").value.trim() || "餐饮/零售"
+        };
+        isB2bCertified = true;
+        certModal.classList.remove("show");
+        showToast(`✅ 认证成功！欢迎进入集采专区`);
+        
+        currentScene = "b";
+        applySceneUI();
+    }
 
     function cancelCertification() {
         certModal.classList.remove("show");
         showToast("您当前使用C端家庭模式，认证后可解锁批发价");
     }
 
-    // 场景切换逻辑
     function requestSceneSwitch(targetScene) {
         if (targetScene === "c") {
             currentScene = "c";
@@ -706,6 +776,7 @@
     bindEvents();
     initNav();
     setTimeout(() => showToast("🍲 默认家庭C端模式，点击「B端专区」认证后享批发价"), 800);
+
 </script>
 </body>
 </html>
