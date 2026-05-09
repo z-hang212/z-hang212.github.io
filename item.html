@@ -499,7 +499,10 @@
         traceDetails: { "产蛋日期": "2025-04-28~05-05", "区块链存证": "0x9e2c...f71d", "检测报告": "无抗+富硒认证" }
     };
 
-    let currentScene = "b";
+    // 从URL参数获取场景，默认B端（商户）
+const urlParams = new URLSearchParams(window.location.search);
+const initialScene = urlParams.get('scene') === 'c' ? 'c' : 'b';
+let currentScene = initialScene;
     let currentQty = 2;
     let pendingOrder = null;  // 存储待支付订单
 

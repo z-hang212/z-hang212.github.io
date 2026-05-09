@@ -178,6 +178,11 @@
             background: #2c6e3c;
             color: white;
         }
+        .scene-opt.active[data-scene="c"] {
+    background: #f39c12;
+    color: #2c4b1e;
+    font-weight: 800;
+}
         .trace-block {
             background: #eef3f0;
             border-radius: 18px;
@@ -362,6 +367,12 @@
             border-radius: 50px;
             width: fit-content;
         }
+        .btn-order-large.c-mode-btn {
+    background: #f39c12;
+    font-size: 18px;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 12px rgba(243,156,18,0.3);
+}
         .qty-btn {
             width: 32px;
             height: 32px;
@@ -435,6 +446,15 @@
             max-width: 90%;
             text-align: center;
         }
+        .price-panel.c-price-panel {
+    background: #fff6e8;
+    border: 1px solid #ffe0b5;
+    box-shadow: 0 2px 8px rgba(243,156,18,0.1);
+}
+.price-panel.c-price-panel .price-main {
+    font-size: 28px;
+    color: #e67e22;
+}
     </style>
 </head>
 <body>
@@ -518,7 +538,10 @@
         }
     };
 
-    let currentScene = "b";
+    // 从URL参数获取场景，默认B端（商户）
+const urlParams = new URLSearchParams(window.location.search);
+const initialScene = urlParams.get('scene') === 'c' ? 'c' : 'b';
+let currentScene = initialScene;
     let currentQty = 1;
     let pendingOrder = null;
 
@@ -558,7 +581,7 @@
                 <div class="product-title">${currentProduct.name}<span class="cert-tag">⭐ 区块链存证</span></div>
                 <div class="sub-desc">${currentProduct.desc}</div>
                 <div class="scene-toggle-card"><div class="scene-opt ${sceneC}" data-scene="c">🍲 家庭·C端</div><div class="scene-opt ${sceneB}" data-scene="b">🏢 中小商户·B端</div></div>
-                <div class="price-panel"><div class="price-box"><div class="price-main">${priceInfo.priceStr} <span class="price-unit">/${priceInfo.unit}</span></div><div style="font-size:11px;">含税冷链直达</div></div>${minBatchHintHtml}</div>
+               <div class="price-panel ${currentScene === "c" ? "c-price-panel" : ""}"><div class="price-box"><div class="price-main">${priceInfo.priceStr} <span class="price-unit">/${priceInfo.unit}</span></div><div style="font-size:11px;">含税冷链直达</div></div>${minBatchHintHtml}</div>
                 ${traceHtml}
                 <div class="spec-list">
                     <div class="spec-item"><div class="spec-label">规格</div><div>${currentProduct.cUnit}</div></div>
@@ -567,7 +590,7 @@
                     <div class="spec-item"><div class="spec-label">贮存</div><div>${currentProduct.storage}</div></div>
                     <div class="spec-item"><div class="spec-label">推荐吃法</div><div>炖汤、煲药膳，汤汁浓郁</div></div>
                 </div>
-                <button class="btn-order-large" id="mainOrderBtn">${currentScene === "c" ? "🛍️ 立即购买 · 溯源保障" : "📦 申请批发价 · 整箱下单"}</button>
+                <button class="btn-order-large ${currentScene === "c" ? "c-mode-btn" : ""}" id="mainOrderBtn">${currentScene === "c" ? "🛒 立即购买 · 顺丰冷链包邮" : "📦 申请批发价 · 整箱下单"}</button>
             </div>`;
         container.innerHTML = html;
 
