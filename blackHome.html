@@ -24,7 +24,6 @@
             box-shadow: 0 0 20px rgba(76, 109, 56, 0.08);
             padding-bottom: 70px;
         }
-        /* 头部 */
         .header {
             background: linear-gradient(135deg, #ffffff 0%, #f5faf0 100%);
             padding: 12px 16px;
@@ -69,7 +68,6 @@
         .back-home span {
             cursor: pointer;
         }
-        /* 扫码引导卡片 */
         .scan-guide {
             background: linear-gradient(135deg, #2c6e3c, #4c9f3c);
             margin: 16px;
@@ -119,7 +117,6 @@
             margin-top: 12px;
             opacity: 0.8;
         }
-        /* 区块链标识栏 */
         .blockchain-bar {
             background: #eef3e9;
             border-radius: 20px;
@@ -131,7 +128,6 @@
             color: #2c6e3c;
             border: 1px solid #d4e8c8;
         }
-        /* 统计卡片 */
         .stats-row {
             display: flex;
             gap: 12px;
@@ -154,7 +150,6 @@
             font-size: 11px;
             color: #7c9c6e;
         }
-        /* 商品列表标题 */
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -173,7 +168,6 @@
             color: #6c8f5e;
             cursor: pointer;
         }
-        /* 商品网格 - 可扩展 */
         .product-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -238,14 +232,12 @@
             color: #2c6e3c;
             margin-top: 6px;
         }
-        /* 空状态提示 */
         .empty-tip {
             text-align: center;
             padding: 40px;
             color: #95a57c;
             font-size: 14px;
         }
-        /* 底部导航 */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -292,7 +284,6 @@
 </head>
 <body>
 <div class="trace-home">
-    <!-- 头部 -->
     <div class="header">
         <div class="logo-area">
             <span class="logo-icon">🌿</span>
@@ -303,8 +294,6 @@
             <span id="homeBtn">🏠</span>
         </div>
     </div>
-
-    <!-- 扫码引导卡片 -->
     <div class="scan-guide">
         <h2>🔍 扫码追溯源头</h2>
         <p>扫描商品包装上的溯源码 / 输入批次号</p>
@@ -314,16 +303,12 @@
         </div>
         <div class="scan-tip">✨ 支持太行老母鸡、绿壳蛋、童子鸡等所有冀农鲜产品</div>
     </div>
-
-    <!-- 区块链标识 -->
     <div class="blockchain-bar">
         <span>⛓️ 蚂蚁链存证</span>
         <span>✓ 数据不可篡改</span>
         <span>🔒 一物一码</span>
         <span>📈 已上链商品</span>
     </div>
-
-    <!-- 统计卡片 -->
     <div class="stats-row">
         <div class="stat-card">
             <div class="stat-number" id="productCount">3</div>
@@ -338,19 +323,12 @@
             <div class="stat-label">无抗认证</div>
         </div>
     </div>
-
-    <!-- 商品列表标题 -->
     <div class="section-header">
         <h3>📦 全部可溯源商品</h3>
         <div class="section-link" id="viewAllLink">查看全部 ∨</div>
     </div>
-
-    <!-- 商品网格容器（动态渲染） -->
     <div class="product-grid" id="productGrid"></div>
-    <!-- 写出一个没有更多商品提示 -->
      <div class="empty-tip" id="noMoreProducts">没有更多商品了 😊</div>
-
-    <!-- 底部导航栏 -->
     <div class="bottom-nav">
         <div class="nav-item" data-nav="home"><span>🏠</span><div>首页</div></div>
         <div class="nav-item active" data-nav="trace"><span>🔍</span><div>溯源</div></div>
@@ -358,14 +336,8 @@
         <div class="nav-item" data-nav="profile"><span>👤</span><div>我的</div></div>
     </div>
 </div>
-
 <div class="toast-msg" id="toastMsg">提示</div>
-
 <script>
-    // ============================================================
-    // 商品溯源数据库（集中管理，方便扩展）
-    // 新增商品只需在此数组中添加对象即可，前端自动渲染
-    // ============================================================
     const productDatabase = [
         {
             id: "p1",
@@ -374,7 +346,7 @@
             price: "¥128",
             unit: "净膛2.2斤",
             imgUrl: "https://i.ibb.co/hJQP5Z9J/20260503092519-253-18.jpg",
-            detailPage: "https://z-hang212.github.io/goods1.html"   // 独立详情页路径
+            detailPage: "https://z-hang212.github.io/goods1(2).html"
         },
         {
             id: "p2",
@@ -386,8 +358,6 @@
             detailPage: "https://z-hang212.github.io/goods2.html"
         },
         {
-            // 给这个第三个商品的属性改为图片在容器缩小展示"
-            style:"style=width:100%;height:100%;object-fit:contain;",
             id: "p3",
             name: "华北柴鸡 · 童子鸡",
             batch: "CJ3345",
@@ -404,41 +374,29 @@
                 unit: "2-3人份",
                 imgUrl: "https://i.ibb.co/5WLfH8ZB/20260503092636-257-18.jpg",
                 detailPage: "https://z-hang212.github.io/goods4.html"
-
         }
     ];
-
-    // 批次号到商品的映射（快速查询）
     const batchToProduct = {};
     productDatabase.forEach(product => {
         batchToProduct[product.batch] = product;
     });
-
-    // DOM 元素
     const productGrid = document.getElementById('productGrid');
     const productCountSpan = document.getElementById('productCount');
     const batchInput = document.getElementById('batchInput');
     const searchBtn = document.getElementById('searchBtn');
     const toast = document.getElementById('toastMsg');
-
-    // 显示提示
     function showMsg(msg) {
         toast.innerText = msg;
         toast.style.opacity = '1';
         setTimeout(() => { toast.style.opacity = '0'; }, 2000);
     }
-
-    // 跳转到商品详情页
     function goToProductDetail(product) {
         if (product.detailPage) {
             window.location.href = product.detailPage;
         } else {
-            // 如果未来商品没有独立页面，可以跳转到通用溯源页（带参数）
             showMsg(`该商品详情页建设中，溯源码：${product.batch}`);
         }
     }
-
-    // 根据批次号查询并跳转
     function searchByBatch(batch) {
         if (!batch) {
             showMsg('请输入溯源码');
@@ -452,19 +410,14 @@
             showMsg(`未找到溯源码「${upperBatch}」的商品，请核对后重试`);
         }
     }
-
-    // 渲染商品网格（支持任意数量，自动适应两列布局）
     function renderProductGrid() {
         if (!productGrid) return;
-        
         if (productDatabase.length === 0) {
             productGrid.innerHTML = '<div class="empty-tip">暂无溯源商品，敬请期待</div>';
             productCountSpan.innerText = '0';
             return;
         }
-        
         productCountSpan.innerText = productDatabase.length;
-        
         const gridHtml = productDatabase.map(product => `
             <div class="product-card" data-batch="${product.batch}" data-id="${product.id}">
                 <div class="product-img">
@@ -478,10 +431,7 @@
                 </div>
             </div>
         `).join('');
-        
         productGrid.innerHTML = gridHtml;
-        
-        // 绑定卡片点击事件
         document.querySelectorAll('.product-card').forEach(card => {
             card.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -493,28 +443,18 @@
             });
         });
     }
-
-    // 页面初始化
     renderProductGrid();
-
-    // 搜索按钮点击
     searchBtn.addEventListener('click', () => {
         searchByBatch(batchInput.value);
     });
-
-    // 输入框回车搜索
     batchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             searchByBatch(batchInput.value);
         }
     });
-
-    // 首页跳转
     document.getElementById('homeBtn').addEventListener('click', () => {
         window.location.href = '新首页.html';
     });
-
-    // 查看全部
     const viewAllLink = document.getElementById('viewAllLink');
     if (viewAllLink) {
         viewAllLink.addEventListener('click', () => {
@@ -525,8 +465,6 @@
             }
         });
     }
-
-    // 底部导航栏交互
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', () => {
             const nav = item.getAttribute('data-nav');
@@ -542,8 +480,6 @@
             }
         });
     });
-
-    // 控制台输出
     console.log(`冀农鲜溯源中心已加载，共 ${productDatabase.length} 款可溯源商品`);
 </script>
 </body>
