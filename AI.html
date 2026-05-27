@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>冀农鲜 · AI智慧助农助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #eef5ea;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .ai-full-page {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f8fbf5;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f5faf0 100%);
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            border-bottom: 1px solid #cfe3c2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        .logo-icon { font-size: 28px; }
+        .logo-main {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(125deg, #2c6e3c, #5c9e4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .back-home {
+            font-size: 20px;
+            cursor: pointer;
+            color: #2c6e3c;
+        }
+        
+        /* 聊天区域 */
+        .chat-container {
+            height: calc(100vh - 140px);
+            display: flex;
+            flex-direction: column;
+            background: #f0f5ec;
+        }
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .message {
+            display: flex;
+            gap: 10px;
+            max-width: 85%;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            background: #e0f0da;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .message.user .message-avatar {
+            background: #f4a261;
+        }
+        .message-bubble {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            line-height: 1.45;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .message.user .message-bubble {
+            background: #2c6e3c;
+            color: white;
+            border-radius: 20px 20px 4px 20px;
+        }
+        .message-bubble p { margin-bottom: 6px; }
+        .message-bubble p:last-child { margin-bottom: 0; }
+        
+        /* 快捷功能卡片 */
+        .quick-actions {
+            background: white;
+            padding: 12px 16px;
+            border-top: 1px solid #ddebd2;
+            border-bottom: 1px solid #ddebd2;
+        }
+        .quick-title {
+            font-size: 12px;
+            color: #7c9c6e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .quick-buttons {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .quick-chip {
+            background: #eef3e9;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .quick-chip:active { transform: scale(0.96); background: #d4e8c8; }
+        
+        /* 输入区域 */
+        .input-area {
+            background: white;
+            padding: 12px 16px;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #e0efd6;
+        }
+        .input-area input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 40px;
+            border: 1px solid #d4e8c8;
+            font-size: 14px;
+            outline: none;
+            background: #fafefa;
+        }
+        .input-area input:focus {
+            border-color: #4c9f3c;
+        }
+        .input-area button {
+            background: #2c6e3c;
+            border: none;
+            padding: 0 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* 功能面板（日记/明信片） */
+        .feature-panel {
+            background: white;
+            border-radius: 28px;
+            margin: 12px;
+            overflow: hidden;
+            border: 1px solid #d9e8cf;
+        }
+        .panel-header {
+            padding: 14px 18px;
+            background: #fefef8;
+            border-bottom: 1px solid #eef3e8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .panel-header h4 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            color: #2c6e3c;
+        }
+        .panel-content {
+            padding: 16px;
+            display: none;
+        }
+        .panel-content.show {
+            display: block;
+        }
+        .batch-select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 40px;
+            border: 1px solid #d4e8c8;
+            margin-bottom: 12px;
+        }
+        .diary-output {
+            background: #fafef5;
+            padding: 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-top: 12px;
+            border: 1px solid #e0efd6;
+        }
+        .postcard-card {
+            background: linear-gradient(135deg, #fff9ef, #fff5e6);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .btn-sm {
+            background: #2c6e3c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn-outline-sm {
+            background: white;
+            border: 1px solid #d4e8c8;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .tech-table {
+            background: white;
+            margin: 12px;
+            border-radius: 20px;
+            overflow: hidden;
+            font-size: 11px;
+        }
+        .tech-row {
+            display: flex;
+            padding: 10px 12px;
+            border-bottom: 1px solid #eef3e8;
+        }
+        .tech-label { width: 33%; font-weight: 600; color: #2c6e3c; }
+        .tech-method { width: 40%; color: #5a7a4e; }
+        .tech-status { width: 27%; }
+        .status-badge { background: #e8f5e9; padding: 2px 8px; border-radius: 20px; font-size: 10px; }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            max-width: 500px;
+            width: 100%;
+            background: #ffffffec;
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 16px 18px;
+            border-top: 1px solid #ddebd2;
+        }
+        .nav-item {
+            text-align: center;
+            font-size: 12px;
+            color: #809c70;
+            cursor: pointer;
+        }
+        .nav-item.active { color: #2d6a4f; font-weight: 600; }
+        .nav-item span:first-child { font-size: 22px; display: block; }
+    </style>
+</head>
+<body>
+<div class="ai-full-page">
+    <div class="header">
+        <div class="logo-area">
+            <span class="logo-icon">🤖</span>
+            <span class="logo-main">AI助农助手</span>
+        </div>
+        <div class="back-home" id="closeBtn">✕ 关闭</div>
+    </div>
+
+    <!-- 聊天区域 -->
+    <div class="chat-container">
+        <div class="messages-area" id="messagesArea">
+            <div class="message">
+                <div class="message-avatar">🤖</div>
+                <div class="message-bubble">
+                    你好！我是冀农鲜AI助农助手 🌾<br>
+                    我可以帮你：<br>
+                    📓 生成养殖日记 &nbsp;|&nbsp; 💬 解答溯源问题<br>
+                    📬 制作助农明信片 &nbsp;|&nbsp; 🔗 查询商品信息<br>
+                    试试输入问题或点击下方快捷功能~
+                </div>
+            </div>
+        </div>
+        
+        <!-- 快捷功能入口 -->
+        <div class="quick-actions">
+            <div class="quick-title">⚡ 快捷功能</div>
+            <div class="quick-buttons">
+                <div class="quick-chip" data-action="diary">📓 AI养殖日记</div>
+                <div class="quick-chip" data-action="postcard">📬 助农明信片</div>
+                <div class="quick-chip" data-action="trace">🔗 怎么溯源？</div>
+                <div class="quick-chip" data-action="price">💰 产品报价</div>
+                <div class="quick-chip" data-action="adopt">🌱 云认养</div>
+            </div>
+        </div>
+        
+        <!-- 输入区域 -->
+        <div class="input-area">
+            <input type="text" id="messageInput" placeholder="输入问题... 例如：太行鸡怎么养？" autocomplete="off">
+            <button id="sendBtn">发送</button>
+        </div>
+    </div>
+    
+    <!-- 技术状态表格 -->
+    <div class="tech-table">
+        <div class="tech-row">
+            <div class="tech-label">AI养殖日记生成</div>
+            <div class="tech-method">图像识别+自然语言生成</div>
+            <div class="tech-status"><span class="status-badge">方案设计中</span></div>
+        </div>
+        <div class="tech-row">
+            <div class="tech-label">AI智能问答</div>
+            <div class="tech-method">大语言模型+RAG检索增强</div>
+            <div class="tech-status"><span class="status-badge">接口对接中</span></div>
+        </div>
+        <div class="tech-row">
+            <div class="tech-label">AI助农明信片</div>
+            <div class="tech-method">模板引擎+AI文案生成</div>
+            <div class="tech-status"><span class="status-badge">自主开发✓</span></div>
+        </div>
+        <div class="tech-row">
+            <div class="tech-label">溯源数据中台</div>
+            <div class="tech-method">云端数据库+加密存证</div>
+            <div class="tech-status"><span class="status-badge">已搭建·软著申请中</span></div>
+        </div>
+    </div>
+    
+    <div class="bottom-nav">
+        <div class="nav-item" data-nav="home"><span>🏠</span><div>首页</div></div>
+        <div class="nav-item" data-nav="trace"><span>🔍</span><div>溯源</div></div>
+        <div class="nav-item active" data-nav="ai"><span>🤖</span><div>AI助手</div></div>
+        <div class="nav-item" data-nav="profile"><span>👤</span><div>我的</div></div>
+    </div>
+</div>
+
+<script>
+    // ==================== AI知识库（模拟RAG检索）====================
+    const knowledgeBase = {
+        // 养殖相关
+        "养殖周期": "太行鸡养殖周期：育雏期0-6周，育成期7-18周，产蛋/育肥期19周以上。散养老母鸡500天+，童子鸡约120天。",
+        "怎么养": "太行鸡采用林下散养模式，日粮为玉米豆粕+虫草，全程无抗。基地配备AI摄像头监测鸡群健康。",
+        "饲料": "主要喂食玉米、豆粕、麦麸，辅以林间虫草。绿壳蛋鸡额外添加万寿菊提取物增加蛋黄颜色。",
+        "疾病": "通过环境控制和益生菌调理，基本不使用抗生素。如发现异常会隔离并溯源记录。",
+        
+        // 溯源相关
+        "溯源": "扫描包装上的溯源码或输入批次号（如TJ512301），可查看养殖环境、饲料批次、疫苗记录、检测报告等26项数据，已上蚂蚁链不可篡改。",
+        "怎么查": "进入溯源中心输入批次号即可查询。每个商品都有唯一溯源码，一物一码。",
+        "区块链": "冀农鲜接入蚂蚁链，每批次生成唯一哈希存证，数据不可篡改，消费者可扫码验证。",
+        
+        // 产品相关
+        "价格": "🐔 太行老母鸡 ¥128/只（净膛2.2斤）\n🥚 绿壳蛋礼盒 ¥39.9/20枚\n🐓 童子鸡 ¥78/只\n🍲 炖汤套餐 ¥158/2-3人份",
+        "老母鸡": "500天散养老母鸡，适合炖汤，肉质紧实鲜香。溯源码：TJ512301",
+        "绿壳蛋": "无抗认证绿壳蛋，富含叶黄素和硒，胆固醇含量低。溯源码：EGG2201",
+        "童子鸡": "120天华北柴鸡，肉质细嫩，适合红烧清蒸。溯源码：CJ3345",
+        "套餐": "炖汤套餐含太行鸡块+菌菇+红枣枸杞，免切免洗，加热即食。溯源码：GIFTT01",
+        
+        // 云认养
+        "认养": "云认养计划：199元认养一只太行鸡，180天后获得成品鸡+12枚鲜鸡蛋，支持实时查看养殖过程。",
+        "云认养": "支付199元即可认养专属太行鸡，佩戴溯源脚环，可通过慢直播查看生长情况。",
+        
+        // 物流
+        "物流": "顺丰/京东冷链配送，河北省内次日达，其他区域48-72小时。全程温控可追溯。",
+        "配送": "冷链直达，保温箱+冰袋，保证产品新鲜度。"
+    };
+    
+    // 养殖日记数据库
+    const diaryDB = {
+        "TJ512301": { name: "太行老母鸡", day: 512, health: "优", feedIntake: "125g", activity: "活跃", eggRate: "72%", special: "今日有3只鸡上树被AI抓拍📸" },
+        "EGG2201": { name: "太行绿壳蛋鸡群", day: 245, health: "优", feedIntake: "110g", activity: "正常", eggRate: "94%", special: "今日产蛋率创新高，蛋壳色泽均匀" },
+        "CJ3345": { name: "华北柴鸡童子鸡", day: 118, health: "优", feedIntake: "95g", activity: "活跃", weight: "1.65kg", special: "即将出栏，肉质紧实度达标" },
+        "GIFTT01": { name: "炖汤套餐原料", day: "加工批次", health: "质检合格", feedIntake: "-", activity: "-", special: "今日完成800份真空包装，已入冷库" }
+    };
+    
+    // 明信片文案库
+    const postcardMessages = [
+        "🌾 感谢您支持生态农业！每一只太行鸡都在林间自由奔跑，每一枚绿壳蛋都承载着自然的馈赠。",
+        "🐔 从太行山到您的餐桌，全程区块链守护。认养一只鸡，见证180天的自然生长。",
+        "🥚 无抗散养，安心溯源。冀农鲜绿壳蛋，让家人吃上真正的健康好蛋。",
+        "🌿 500天慢养老母鸡，炖一锅鲜香浓汤。溯源二维码扫一扫，真实看得见。",
+        "🏞️ 云认养计划：199元认养一只太行鸡，180天后收获生态美味+12枚鲜鸡蛋。",
+        "🔗 蚂蚁链存证，一物一码不可篡改。冀农鲜，让每一口都有据可查。"
+    ];
+    
+    let currentPostcardMsg = postcardMessages[0];
+    
+    // 获取消息区域
+    const messagesArea = document.getElementById('messagesArea');
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+    
+    // 添加消息到界面
+    function addMessage(text, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user' : ''}`;
+        messageDiv.innerHTML = `
+            <div class="message-avatar">${isUser ? '👤' : '🤖'}</div>
+            <div class="message-bubble">${text.replace(/\n/g, '<br>')}</div>
+        `;
+        messagesArea.appendChild(messageDiv);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+    
+    // 显示打字中效果
+    function showTyping(callback) {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message';
+        typingDiv.id = 'typingMsg';
+        typingDiv.innerHTML = `
+            <div class="message-avatar">🤖</div>
+            <div class="message-bubble" style="background:#eef3e9;">🤔 思考中<span style="animation: blink 1s infinite;">...</span></div>
+        `;
+        messagesArea.appendChild(typingDiv);
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+        
+        setTimeout(() => {
+            document.getElementById('typingMsg')?.remove();
+            callback();
+        }, 500);
+    }
+    
+    // AI智能回答（模拟RAG检索）
+    function getAIResponse(question) {
+        const lowerQ = question.toLowerCase();
+        
+        // 匹配知识库
+        for (const [key, answer] of Object.entries(knowledgeBase)) {
+            if (lowerQ.includes(key)) {
+                return answer;
+            }
+        }
+        
+        // 匹配批次号查询
+        const batchMatch = lowerQ.match(/(tj512301|egg2201|cj3345|giftt01)/i);
+        if (batchMatch) {
+            const batch = batchMatch[0].toUpperCase();
+            const data = diaryDB[batch];
+            if (data) {
+                return `📊 批次 ${batch}（${data.name}）最新数据：\n• 养殖天数：${data.day}天\n• 健康状态：${data.health}\n• 日采食量：${data.feedIntake}\n• 活动状态：${data.activity}\n${data.eggRate ? '• 产蛋率：' + data.eggRate : '• 当前体重：' + data.weight}\n• ${data.special}\n🔗 该批次已上链存证，可查看完整档案。`;
+            }
+        }
+        
+        // 默认回复
+        return "🌱 感谢您的提问！关于太行鸡养殖、产品溯源、价格等问题，我正在学习更多知识。\n\n💡 您可以尝试问：\n• 太行鸡怎么养？\n• 怎么溯源？\n• 绿壳蛋有什么好处？\n• 云认养是什么？\n• 产品价格？\n\n或点击上方「快捷功能」使用更多服务~";
+    }
+    
+    // 生成养殖日记
+    function generateDiary(batchCode) {
+        const data = diaryDB[batchCode] || diaryDB["TJ512301"];
+        const today = new Date().toLocaleDateString('zh-CN');
+        return `📅 ${today} · ${data.name}（批次 ${batchCode}）\n\n🌅 清晨6:30，鸡群在赞皇林下自由活动，AI识别系统记录今日状态：健康评分${data.health === '优' ? '96分' : '良好'}。\n\n🍽️ 今日投喂：玉米豆粕配比3:1，日采食量${data.feedIntake}，饮水清洁度100%。\n\n${data.eggRate ? '🥚 今日产蛋率：' + data.eggRate + '，绿壳率达标。\n\n' : '📈 日增重约45g，预计7天后可出栏。\n\n'}🏥 AI体态监测：步态稳健，${data.special}\n\n📊 本批次数据已上链存证，哈希值：0x7a3f...e2c，可通过溯源中心验证。`;
+    }
+    
+    // 生成明信片
+    function generatePostcard() {
+        const randomIndex = Math.floor(Math.random() * postcardMessages.length);
+        currentPostcardMsg = postcardMessages[randomIndex];
+        return currentPostcardMsg;
+    }
+    
+    // 处理用户消息
+    function processUserMessage(message) {
+        const lowerMsg = message.toLowerCase();
+        
+        // 检测特殊命令
+        if (lowerMsg.includes('日记') || (lowerMsg.includes('养殖') && lowerMsg.includes('生成'))) {
+            // 询问批次
+            return "📓 请选择要生成日记的批次：\n1️⃣ TJ512301（太行老母鸡）\n2️⃣ EGG2201（绿壳蛋鸡群）\n3️⃣ CJ3345（华北柴鸡）\n4️⃣ GIFTT01（炖汤套餐）\n\n直接输入批次号即可~";
+        }
+        
+        if (lowerMsg.match(/tj512301|egg2201|cj3345|giftt01/i)) {
+            const batch = lowerMsg.match(/(tj512301|egg2201|cj3345|giftt01)/i)[0].toUpperCase();
+            const diary = generateDiary(batch);
+            return diary;
+        }
+        
+        if (lowerMsg.includes('明信片') || lowerMsg.includes('贺卡')) {
+            const newMsg = generatePostcard();
+            return `📬 AI为您生成了助农明信片：\n\n“${newMsg}”\n\n✨ 点击下方可再次生成不同文案~`;
+        }
+        
+        if (lowerMsg.includes('价格') || lowerMsg.includes('多少钱') || lowerMsg.includes('报价')) {
+            return knowledgeBase["价格"] || "🐔 太行老母鸡 ¥128/只\n🥚 绿壳蛋礼盒 ¥39.9/20枚\n🐓 童子鸡 ¥78/只\n🍲 炖汤套餐 ¥158/份\n\nB端批发请咨询客服~";
+        }
+        
+        if (lowerMsg.includes('认养')) {
+            return knowledgeBase["认养"] || "🌱 云认养计划：199元认养一只太行鸡，180天后获得成品鸡+12枚鲜鸡蛋。点击下方「云认养」按钮了解更多~";
+        }
+        
+        if (lowerMsg.includes('溯源') && (lowerMsg.includes('怎么') || lowerMsg.includes('如何'))) {
+            return knowledgeBase["溯源"] || "🔗 扫描商品包装上的溯源码，或进入溯源中心输入批次号，即可查看26项全维度数据，已上链不可篡改。";
+        }
+        
+        // 默认AI回答
+        return getAIResponse(message);
+    }
+    
+    // 发送消息
+    function sendMessage() {
+        const text = messageInput.value.trim();
+        if (!text) return;
+        
+        addMessage(text, true);
+        messageInput.value = '';
+        
+        showTyping(() => {
+            const response = processUserMessage(text);
+            addMessage(response, false);
+        });
+    }
+    
+    // 快捷功能处理
+    function handleQuickAction(action) {
+        switch(action) {
+            case 'diary':
+                addMessage("📓 生成养殖日记", true);
+                showTyping(() => {
+                    addMessage("请选择批次：\n📌 TJ512301（太行老母鸡）\n📌 EGG2201（绿壳蛋鸡群）\n📌 CJ3345（华北柴鸡）\n📌 GIFTT01（炖汤套餐）\n\n直接输入批次号即可生成日记~", false);
+                });
+                break;
+            case 'postcard':
+                addMessage("📬 制作助农明信片", true);
+                showTyping(() => {
+                    const newMsg = generatePostcard();
+                    addMessage(`📬 AI为您生成了助农明信片：\n\n“${newMsg}”\n\n✨ 如需更换，可以再说“生成明信片”~`, false);
+                });
+                break;
+            case 'trace':
+                addMessage("🔗 怎么溯源？", true);
+                showTyping(() => {
+                    addMessage("🔍 溯源方法：\n\n1️⃣ 扫描商品包装上的二维码\n2️⃣ 进入「溯源中心」输入批次号（如 TJ512301）\n3️⃣ 查看养殖环境、饲料记录、疫苗信息、检测报告等26项数据\n\n✅ 所有数据已上蚂蚁链，一物一码不可篡改！", false);
+                });
+                break;
+            case 'price':
+                addMessage("💰 产品报价", true);
+                showTyping(() => {
+                    addMessage("📦 家庭C端价格：\n🐔 太行老母500天 ¥128/只\n🥚 绿壳蛋20枚 ¥39.9\n🐓 童子鸡 ¥78/只\n🍲 炖汤套餐 ¥158\n\n🏢 B端批发请联系认证后获取报价单~", false);
+                });
+                break;
+            case 'adopt':
+                addMessage("🌱 云认养", true);
+                showTyping(() => {
+                    addMessage("🌳 冀农鲜·云认养计划\n\n💰 199元认养一只太行鸡\n📅 180天后获得：\n• 成品太行鸡1只（净膛2斤+）\n• 绿壳鲜鸡蛋12枚\n• 专属认养证书+溯源记录\n\n📹 支持慢直播实时查看养殖过程！\n\n回复「认养」获取更多详情~", false);
+                });
+                break;
+        }
+    }
+    
+    // 事件绑定
+    sendBtn.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+    
+    document.querySelectorAll('.quick-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            const action = chip.getAttribute('data-action');
+            handleQuickAction(action);
+        });
+    });
+    
+    document.getElementById('closeBtn').addEventListener('click', () => {
+        window.location.href = 'https://z-hang212.github.io/Home.html';
+    });
+    
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const nav = item.getAttribute('data-nav');
+            if (nav === 'home') window.location.href = 'https://z-hang212.github.io/Home.html';
+            else if (nav === 'trace') window.location.href = 'https://z-hang212.github.io/blackHome.html';
+            else if (nav === 'ai') {}
+            else if (nav === 'profile') window.location.href = 'https://z-hang212.github.io/my.html';
+        });
+    });
+</script>
+</body>
+</html>

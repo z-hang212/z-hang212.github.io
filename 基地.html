@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>林下慢直播 · 太行鸡生态扩繁基地 | 冀农鲜溯源平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e2ecd9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Roboto", Helvetica, Arial, sans-serif;
+            color: #1e2f2a;
+        }
+        .live-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #fafef5;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(60, 80, 40, 0.08);
+            position: relative;
+            padding-bottom: 70px;
+        }
+        /* 头部风格延续首页 */
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f5faf0 100%);
+            padding: 12px 16px 8px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid #cfe3c2;
+        }
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .back-btn {
+            font-size: 26px;
+            cursor: pointer;
+            background: #eef5e8;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            color: #2c6e3c;
+        }
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+        .logo-icon {
+            font-size: 24px;
+        }
+        .logo-main {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(125deg, #2c6e3c, #5c9e4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .live-badge {
+            background: #e45c3a;
+            color: white;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 40px;
+            letter-spacing: 0.5px;
+        }
+        .action-icons span {
+            font-size: 22px;
+            margin-left: 12px;
+            color: #2c6e3c;
+        }
+        /* 直播主视觉区 */
+        .video-stage {
+            margin: 16px;
+            border-radius: 32px;
+            background: #0000001a;
+            overflow: hidden;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border: 2px solid #fff8e7;
+        }
+        .video-preview {
+            position: relative;
+            width: 100%;
+            background: #1f2c1a;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .video-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .live-ripple {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            padding: 5px 12px;
+            border-radius: 30px;
+            color: #ffd966;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 2;
+        }
+        .live-ripple::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #ff3b2f;
+            border-radius: 50%;
+            animation: pulse 1.2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1);}
+            100% { opacity: 0.2; transform: scale(1.6);}
+        }
+        .camera-switch {
+            position: absolute;
+            bottom: 14px;
+            right: 14px;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(8px);
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 12px;
+            color: white;
+            display: flex;
+            gap: 8px;
+            z-index: 2;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .camera-switch span {
+            font-size: 14px;
+        }
+        /* 环境数据面板 */
+        .env-dashboard {
+            background: white;
+            margin: 16px;
+            border-radius: 28px;
+            padding: 16px 18px;
+            box-shadow: 0 4px 12px rgba(50, 70, 30, 0.06);
+            border: 1px solid #ddebd2;
+        }
+        .env-title {
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            color: #2a5e2e;
+            border-left: 4px solid #4caf50;
+            padding-left: 12px;
+        }
+        .env-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px 12px;
+        }
+        .env-item {
+            background: #f6fbf2;
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .env-label {
+            font-size: 13px;
+            color: #6b8c5c;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .env-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: #2d6a4f;
+            line-height: 1;
+        }
+        .env-unit {
+            font-size: 12px;
+            font-weight: normal;
+            color: #8baa78;
+        }
+        .trend-icon {
+            font-size: 14px;
+            margin-left: 6px;
+        }
+        .refresh-time {
+            font-size: 10px;
+            text-align: right;
+            margin-top: 12px;
+            color: #99b387;
+            border-top: 1px dashed #d7e8cc;
+            padding-top: 10px;
+        }
+        /* 设备&设施模块 */
+        .facility-section {
+            background: #ffffffec;
+            margin: 12px 16px 20px;
+            border-radius: 28px;
+            padding: 14px 16px;
+            border: 1px solid #d9e8cf;
+        }
+        .facility-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 12px;
+        }
+        .facility-header h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #2b5732;
+        }
+        .facility-tag {
+            background: #ebf3e4;
+            font-size: 10px;
+            padding: 4px 10px;
+            border-radius: 30px;
+            color: #528a3a;
+        }
+        .equipment-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .equip-card {
+            background: #f4faf0;
+            border-radius: 24px;
+            padding: 8px 14px;
+            width: calc(33% - 8px);
+            text-align: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .equip-icon {
+            font-size: 24px;
+        }
+        .equip-name {
+            font-size: 12px;
+            font-weight: 600;
+            margin: 5px 0 2px;
+        }
+        .equip-status {
+            font-size: 10px;
+            color: #3e7e3a;
+        }
+        .online {
+            color: #2b8c4a;
+        }
+        /* 养殖批次溯源卡片 */
+        .batch-trace {
+            background: linear-gradient(120deg, #fef9e6, #f7fef0);
+            margin: 16px;
+            border-radius: 28px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .batch-left strong {
+            font-size: 15px;
+            color: #476b37;
+        }
+        .batch-left p {
+            font-size: 10px;
+            color: #8faa7c;
+            margin-top: 6px;
+        }
+        .scan-icon {
+            background: #2c6e3c;
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+        /* 底部导航栏 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            max-width: 500px;
+            width: 100%;
+            background: #ffffffec;
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 16px 18px;
+            border-top: 1px solid #ddebd2;
+        }
+        .nav-item {
+            text-align: center;
+            font-size: 12px;
+            color: #809c70;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .nav-item span:first-child {
+            font-size: 22px;
+            display: block;
+        }
+        .toast-msg {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c4633e6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 13px;
+            z-index: 200;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .loading-simu {
+            font-size: 12px;
+            background: #fffaec;
+            border-radius: 18px;
+            padding: 4px 12px;
+            display: inline-block;
+        }
+        button, .clickable {
+            cursor: pointer;
+        }
+        .footer-reminder {
+            margin: 8px 16px 20px;
+            font-size: 10px;
+            color: #98b182;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="live-container">
+    <div class="header">
+        <div class="header-top">
+            <div class="back-btn" id="backHomeBtn">←</div>
+            <div class="logo-area">
+                <span class="logo-icon">🌿📹</span>
+                <span class="logo-main">慢直播·基地之眼</span>
+                <span class="live-badge">LIVE 赞皇核心区</span>
+            </div>
+            <div class="action-icons">
+                <span>🔔</span>
+                <span>🛒</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 直播主画面 (模拟多机位切换) -->
+    <div class="video-stage">
+        <div class="video-preview" id="liveVideoPreview">
+            <img id="streamImg" src="https://i.ibb.co/C5qr4Frz/20260502203859-251-18.jpg" alt="林下鸡群实时画面">
+            <div class="live-ripple">
+                <span>🔴 直播中</span> 
+                <span style="font-size:10px;">实时AI增强流</span>
+            </div>
+            <div class="camera-switch" id="switchCameraBtn">
+                <span>🔄</span> 切换机位
+            </div>
+        </div>
+    </div>
+    
+    <!-- 环境仪表盘 (实时数据模拟) -->
+    <div class="env-dashboard" id="envDashboard">
+        <div class="env-title">
+            🌡️ 生态养殖环境智控系统
+            <span class="loading-simu" style="background:#e0f0da;">数据已接入物联网</span>
+        </div>
+        <div class="env-grid" id="envGrid">
+            <!-- 动态js填充数据, 确保有默认值 -->
+        </div>
+        <div class="refresh-time" id="refreshTime">
+            最后更新: 刚刚 · 数据每8秒同步
+        </div>
+    </div>
+    
+    <!-- 设施设备状态 -->
+    <div class="facility-section">
+        <div class="facility-header">
+            <h4>🏭 智慧养殖设施 & 环境控制设备</h4>
+            <div class="facility-tag">全链路监控中</div>
+        </div>
+        <div class="equipment-list" id="equipList">
+            <!-- 动态渲染 -->
+        </div>
+    </div>
+    
+    <!-- 区块链溯源卡片 关联批次 -->
+    <div class="batch-trace" id="batchTraceCard">
+        <div class="batch-left">
+            <strong>🔗 本批溯源档案: 赞皇扩繁基地 · 太行鸡批次ZHH-2405</strong>
+            <p>📦 出栏时间: 2026-06-15 | 林下散养180天 | 无抗认证</p>
+        </div>
+        <div class="scan-icon">
+            📲
+        </div>
+    </div>
+    
+    <div class="footer-reminder">
+        * 画面为林下散养实况转播，每只太行鸡均佩戴溯源脚环，环境传感数据上链存证
+    </div>
+    
+    <div class="bottom-nav">
+        <div class="nav-item" data-nav="home"><span>🏠</span><div>首页</div></div>
+        <div class="nav-item active" data-nav="live"><span>📡</span><div>慢直播</div></div>
+        <div class="nav-item" data-nav="trace"><span>🔍</span><div>溯源</div></div>
+        <div class="nav-item" data-nav="profile"><span>👤</span><div>我的</div></div>
+    </div>
+</div>
+<div class="toast-msg" id="globalToast">提示</div>
+
+<script>
+    // ---------- 模拟实时环境数据 (动态刷新，配合物联网风格) ----------
+    // 预设两个相机画面池 (实际可用更多真实图片)
+    const cameraImages = [
+        "https://i.ibb.co/C5qr4Frz/20260502203859-251-18.jpg",   // 林下鸡群1
+        "https://i.ibb.co/8LQBwqpF/ji1.jpg",                     // 远处山坡鸡群
+        "https://i.ibb.co/8g9xrZFT/20260502203900-252-18.jpg"    // 觅食特写
+    ];
+    let currentCamera = 0;
+    const streamImg = document.getElementById('streamImg');
+    
+    // 环境传感器基准值(模拟真实场景: 林下温湿度, 光照, 氨气, 土壤湿度等)
+    let sensorBase = {
+        temp: 22.3,    // 摄氏度
+        humi: 63,      // 相对湿度%
+        light: 2860,   // 光照Lux
+        nh3: 1.8,      // 氨气 ppm
+        soilMoist: 46, // 土壤湿度%
+        wind: 1.2      // 微风风速 m/s
+    };
+    
+    // 随机小范围波动 (保持生态真实性)
+    function fluctuateValue(base, range, decimals = 1) {
+        let delta = (Math.random() - 0.5) * range;
+        let val = base + delta;
+        if(decimals === 0) return Math.round(val);
+        return Math.round(val * 10) / 10;
+    }
+    
+    // 更新环境UI
+    const envGrid = document.getElementById('envGrid');
+    const refreshTimeSpan = document.getElementById('refreshTime');
+    
+    function updateEnvironmentData() {
+        // 波动范围: 温度 ±0.8, 湿度 ±3%, 光照 ±150, 氨气 ±0.2, 土壤湿度 ±4, 风速 ±0.2
+        let newTemp = fluctuateValue(sensorBase.temp, 0.8, 1);
+        let newHumi = fluctuateValue(sensorBase.humi, 3, 0);
+        let newLight = fluctuateValue(sensorBase.light, 180, 0);
+        let newNh3 = fluctuateValue(sensorBase.nh3, 0.25, 1);
+        let newSoil = fluctuateValue(sensorBase.soilMoist, 4, 0);
+        let newWind = fluctuateValue(sensorBase.wind, 0.3, 1);
+        
+        // 边界约束 合理范围
+        newTemp = Math.min(32, Math.max(15, newTemp));
+        newHumi = Math.min(85, Math.max(45, newHumi));
+        newLight = Math.min(5200, Math.max(600, newLight));
+        newNh3 = Math.min(4.5, Math.max(0.5, newNh3));
+        newSoil = Math.min(70, Math.max(25, newSoil));
+        newWind = Math.min(3.5, Math.max(0.2, newWind));
+        
+        // 更新UI
+        const envItems = [
+            { label: "🌡️ 温度", value: newTemp, unit: "℃", icon: "🌡️", trend: newTemp > sensorBase.temp ? "↑" : "↓" },
+            { label: "💧 相对湿度", value: newHumi, unit: "%", trend: newHumi > sensorBase.humi ? "↑" : "↓" },
+            { label: "☀️ 光照强度", value: newLight, unit: "Lux", trend: newLight > sensorBase.light ? "☀️" : "🌥️" },
+            { label: "🌫️ 氨气浓度", value: newNh3, unit: "ppm", trend: newNh3 > sensorBase.nh3 ? "⚠️" : "✓" },
+            { label: "🌱 土壤湿度", value: newSoil, unit: "%", trend: newSoil > sensorBase.soilMoist ? "💧" : "🌿" },
+            { label: "🍃 风速", value: newWind, unit: "m/s", trend: newWind > sensorBase.wind ? "💨" : "🍃" }
+        ];
+        
+        envGrid.innerHTML = '';
+        envItems.forEach(item => {
+            const colDiv = document.createElement('div');
+            colDiv.className = 'env-item';
+            colDiv.innerHTML = `
+                <div class="env-label">
+                    ${item.label}
+                    <span class="trend-icon">${item.trend}</span>
+                </div>
+                <div class="env-value">${item.value}<span class="env-unit">${item.unit}</span></div>
+            `;
+            envGrid.appendChild(colDiv);
+        });
+        
+        // 更新基准供下次波动参照 (保持连续但非固定)
+        sensorBase.temp = newTemp;
+        sensorBase.humi = newHumi;
+        sensorBase.light = newLight;
+        sensorBase.nh3 = newNh3;
+        sensorBase.soilMoist = newSoil;
+        sensorBase.wind = newWind;
+        
+        const now = new Date();
+        const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+        refreshTimeSpan.innerHTML = `⏱️ 最后更新: ${timeStr} · 物联网传感器实时上链`;
+    }
+    
+    // 设施设备列表 (静态+动态状态)
+    const equipmentList = [
+        { name: "智能环控风机", icon: "🌀", status: "在线运行", online: true },
+        { name: "水帘降温系统", icon: "💧", status: "自动调温中", online: true },
+        { name: "环境传感器阵列", icon: "📡", status: "数据采集正常", online: true },
+        { name: "自动饮水线", icon: "🚰", status: "洁净供水", online: true },
+        { name: "林下补光灯带", icon: "💡", status: "根据光照调节", online: true },
+        { name: "溯源电子脚环基站", icon: "🔗", status: "实时定位/活跃", online: true }
+    ];
+    
+    function renderEquipment() {
+        const equipContainer = document.getElementById('equipList');
+        equipContainer.innerHTML = '';
+        equipmentList.forEach(equip => {
+            const card = document.createElement('div');
+            card.className = 'equip-card';
+            card.innerHTML = `
+                <div class="equip-icon">${equip.icon}</div>
+                <div class="equip-name">${equip.name}</div>
+                <div class="equip-status ${equip.online ? 'online' : ''}">${equip.status}</div>
+            `;
+            equipContainer.appendChild(card);
+        });
+    }
+    
+    // 切换机位 (模拟不同角度的养殖环境)
+    function switchCamera() {
+        currentCamera = (currentCamera + 1) % cameraImages.length;
+        // 附加细微过渡效果
+        streamImg.style.opacity = '0.6';
+        setTimeout(() => {
+            streamImg.src = cameraImages[currentCamera];
+            streamImg.style.opacity = '1';
+        }, 100);
+        let cameraName = '';
+        if(currentCamera === 0) cameraName = '林下自由觅食区';
+        else if(currentCamera === 1) cameraName = '山坡生态散养区';
+        else cameraName = '鸡舍栖架+沙浴区';
+        showMsg(`📹 已切换至「${cameraName}」机位，实时展现太行鸡福利散养环境`);
+    }
+    
+    // toast 全局提示
+    const toastEl = document.getElementById('globalToast');
+    function showMsg(msg) {
+        toastEl.textContent = msg;
+        toastEl.style.opacity = '1';
+        setTimeout(() => { toastEl.style.opacity = '0'; }, 2000);
+    }
+    
+    // 模拟每8秒更新环境数据
+    let envInterval = null;
+    function startEnvSimulation() {
+        updateEnvironmentData(); // 立即执行一次
+        if(envInterval) clearInterval(envInterval);
+        envInterval = setInterval(() => {
+            updateEnvironmentData();
+        }, 8000);
+    }
+    
+    // 动态展示温控设施模拟状态 (同时可响应现实)
+    function randomizeFacilityStatus() {
+        // 小彩蛋: 动态改变个别设施文字 (模拟智能化)
+        setInterval(() => {
+            const fanCard = document.querySelector('.equip-card:nth-child(1) .equip-status');
+            if(fanCard && sensorBase.temp > 26) {
+                fanCard.innerHTML = '变频调速中 · 强通风';
+            } else if(fanCard && sensorBase.temp < 18) {
+                fanCard.innerHTML = '低速保温模式';
+            } else if(fanCard) {
+                fanCard.innerHTML = '均衡通风· 优';
+            }
+            const waterCard = document.querySelector('.equip-card:nth-child(2) .equip-status');
+            if(waterCard && sensorBase.humi < 55) {
+                waterCard.innerHTML = '水帘辅助加湿';
+            } else if(waterCard && sensorBase.humi > 75) {
+                waterCard.innerHTML = '除湿模式启动';
+            } else if(waterCard) {
+                waterCard.innerHTML = '自动调温中';
+            }
+        }, 10000);
+    }
+    
+    // 批次溯源卡片点击展示更详细区块链信息
+    const batchCard = document.getElementById('batchTraceCard');
+    if(batchCard) {
+        batchCard.addEventListener('click', () => {
+            showMsg(`🔗 上链哈希: 0x7f3a...c2e9  |  赞皇基地批次: ZHH2405 | 养殖日志: 林下散养+原粮喂养+26项节点存证`);
+        });
+    }
+    
+    // 首页返回逻辑 (保留原生态站点风格)
+    const backBtn = document.getElementById('backHomeBtn');
+    if(backBtn) {
+        backBtn.addEventListener('click', () => {
+            // 返回到原始首页 (Home.html 相对路径，或者直接跳转)
+            window.location.href = 'https://z-hang212.github.io/Home.html';  // 保持与首页域名一致
+        });
+    }
+    
+    // 底部导航栏 (适配整体生态)
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            const nav = item.getAttribute('data-nav');
+            if (nav === 'home') {
+                window.location.href = 'https://z-hang212.github.io/Home.html';
+            } else if (nav === 'live') {
+                showMsg('📡 您已在慢直播页面，实时关注生态养殖');
+            } else if (nav === 'trace') {
+                window.location.href = 'https://z-hang212.github.io/blackHome.html';
+            } else if (nav === 'profile') {
+                window.location.href = 'https://z-hang212.github.io/my.html';
+            }
+        });
+    });
+    
+    // 切换相机按钮
+    const switchBtn = document.getElementById('switchCameraBtn');
+    if(switchBtn) {
+        switchBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            switchCamera();
+        });
+    }
+    
+    // 模拟环境设施额外增强: 温度或湿度预警提示 (可轻微提醒)
+    setInterval(() => {
+        if(sensorBase.temp > 29) {
+            showMsg('⚠️ 林下温度偏高 · 智能风机已启动加强通风');
+        } else if(sensorBase.nh3 > 2.8) {
+            showMsg('🌬️ 氨气浓度略升，自动开启新风置换，保障鸡只健康');
+        }
+    }, 25000);
+    
+    // 对于实时画面图片加载失败可使用后备占位图 (备用机制)
+    streamImg.onerror = () => {
+        streamImg.src = "https://i.ibb.co/C5qr4Frz/20260502203859-251-18.jpg";
+    };
+    
+    // 初始化
+    renderEquipment();
+    startEnvSimulation();
+    randomizeFacilityStatus();
+    
+    // 额外添加数据动态更新时间显示(秒数联动)
+    // 页面加载完成额外补充: 显示养殖环境健康指数
+    console.log('慢直播页面已启动 | 模拟赞皇扩繁基地IOT数据 + 林下实况+设备全览');
+    
+    // 增加点击视频预览切换说明: 双击图片也可以切换 (彩蛋)
+    streamImg.addEventListener('dblclick', () => {
+        switchCamera();
+        showMsg('🐔 双击切换观看角度，实时记录太行鸡生态行为');
+    });
+    
+    // 模拟农场设备状态一次强调
+    setTimeout(() => {
+        showMsg('🌾 当前基地: 赞皇生态扩繁中心 · 设施物联网在线率100%');
+    }, 1000);
+</script>
+</body>
+</html>
