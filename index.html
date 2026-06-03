@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>林下慢直播 · 太行鸡生态扩繁基地 | 24h低延迟直播 | 冀农鲜溯源平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #e2ecd9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Roboto", Helvetica, Arial, sans-serif;
+            color: #1e2f2a;
+        }
+        .live-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #fafef5;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(60, 80, 40, 0.08);
+            position: relative;
+            padding-bottom: 62px;
+        }
+        /* 头部 */
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f5faf0 100%);
+            padding: 6px 12px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid #cfe3c2;
+        }
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .back-btn {
+            font-size: 20px;
+            cursor: pointer;
+            background: #eef5e8;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #2c6e3c;
+            transition: all 0.2s;
+        }
+        .back-btn:active { background: #d4e8c8; }
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+        .logo-icon { font-size: 18px; }
+        .logo-main {
+            font-size: 14px;
+            font-weight: 800;
+            background: linear-gradient(125deg, #2c6e3c, #5c9e4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .live-badge {
+            background: #e45c3a;
+            color: white;
+            font-size: 8px;
+            padding: 2px 5px;
+            border-radius: 16px;
+        }
+        .action-icons span {
+            font-size: 16px;
+            margin-left: 6px;
+            color: #2c6e3c;
+            cursor: pointer;
+        }
+        /* 直播画面 */
+        .video-stage {
+            margin: 6px 12px;
+            border-radius: 16px;
+            background: #000;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .video-preview {
+            position: relative;
+            width: 100%;
+            background: #1a2a1a;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .video-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .live-tag {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(4px);
+            padding: 2px 8px;
+            border-radius: 16px;
+            color: #ffd966;
+            font-size: 9px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            z-index: 2;
+        }
+        .live-tag::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: #ff3b2f;
+            border-radius: 50%;
+            animation: pulse 1.2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1);}
+            100% { opacity: 0.2; transform: scale(1.5);}
+        }
+        .delay-badge {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 8px;
+            color: #88cc88;
+            font-family: monospace;
+            z-index: 2;
+        }
+        .camera-switch {
+            position: absolute;
+            bottom: 6px;
+            left: 6px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            padding: 3px 8px;
+            border-radius: 16px;
+            font-size: 9px;
+            color: white;
+            display: flex;
+            gap: 5px;
+            z-index: 2;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .camera-switch:active { background: rgba(0,0,0,0.8); }
+        .viewer-count {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            padding: 2px 8px;
+            border-radius: 16px;
+            font-size: 9px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            z-index: 2;
+        }
+        /* 后端状态面板 */
+        .backend-panel {
+            background: #2d3e2a;
+            margin: 5px 12px;
+            border-radius: 14px;
+            padding: 8px 10px;
+            color: #e6f0e0;
+            font-family: monospace;
+            font-size: 8px;
+            border: 1px solid #6f9e5c;
+        }
+        .backend-title {
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #6f8e5c;
+            padding-bottom: 4px;
+            margin-bottom: 6px;
+        }
+        .api-log {
+            background: #1e2a1c;
+            border-radius: 10px;
+            padding: 5px;
+            font-size: 7px;
+            max-height: 60px;
+            overflow-y: auto;
+            color: #bbffaa;
+        }
+        .api-log span {
+            display: block;
+            border-bottom: 1px solid #3a5434;
+            padding: 2px 0;
+        }
+        /* 环境数据面板 */
+        .env-dashboard {
+            background: white;
+            margin: 5px 12px;
+            border-radius: 14px;
+            padding: 8px 10px;
+            border: 1px solid #ddebd2;
+        }
+        .env-title {
+            font-weight: 700;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            color: #2a5e2e;
+        }
+        .env-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+        .env-item {
+            background: #f6fbf2;
+            border-radius: 12px;
+            padding: 5px 4px;
+            text-align: center;
+        }
+        .env-label {
+            font-size: 8px;
+            color: #6b8c5c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+        }
+        .env-value {
+            font-size: 14px;
+            font-weight: 800;
+            color: #2d6a4f;
+            line-height: 1.2;
+        }
+        .env-unit {
+            font-size: 8px;
+            font-weight: normal;
+        }
+        .refresh-time {
+            font-size: 8px;
+            text-align: right;
+            margin-top: 5px;
+            color: #99b387;
+            border-top: 1px dashed #d7e8cc;
+            padding-top: 4px;
+        }
+        /* 设施设备 */
+        .facility-section {
+            background: white;
+            margin: 5px 12px;
+            border-radius: 14px;
+            padding: 8px 10px;
+            border: 1px solid #d9e8cf;
+        }
+        .facility-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .facility-header h4 {
+            font-size: 11px;
+            font-weight: 700;
+            color: #2b5732;
+        }
+        .facility-tag {
+            background: #ebf3e4;
+            font-size: 7px;
+            padding: 2px 6px;
+            border-radius: 16px;
+            color: #528a3a;
+        }
+        .equipment-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .equip-card {
+            background: #f4faf0;
+            border-radius: 12px;
+            padding: 5px 6px;
+            width: calc(33% - 4px);
+            text-align: center;
+        }
+        .equip-icon { font-size: 16px; }
+        .equip-name { font-size: 8px; font-weight: 600; margin: 2px 0; }
+        .equip-status { font-size: 7px; color: #3e7e3a; }
+        .online { color: #2b8c4a; }
+        /* 健康指数卡片 */
+        .health-card {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            margin: 5px 12px;
+            border-radius: 14px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .health-score {
+            text-align: center;
+        }
+        .health-number {
+            font-size: 24px;
+            font-weight: 800;
+            color: #2e7d32;
+        }
+        .health-label {
+            font-size: 8px;
+            color: #558b2f;
+        }
+        .health-desc {
+            font-size: 9px;
+            color: #33691e;
+        }
+        /* 批次卡片 */
+        .batch-trace {
+            background: linear-gradient(120deg, #fef9e6, #f7fef0);
+            margin: 5px 12px;
+            border-radius: 14px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .batch-trace:active { background: linear-gradient(120deg, #f5edc6, #eef5e0); }
+        .batch-left strong {
+            font-size: 11px;
+            color: #476b37;
+        }
+        .batch-left p {
+            font-size: 8px;
+            color: #8faa7c;
+            margin-top: 2px;
+        }
+        .scan-icon {
+            background: #2c6e3c;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+        /* 直播统计 */
+        .stats-row {
+            display: flex;
+            gap: 8px;
+            margin: 5px 12px;
+        }
+        .stat-card {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 6px;
+            text-align: center;
+            border: 1px solid #e0efd6;
+        }
+        .stat-number {
+            font-size: 14px;
+            font-weight: 800;
+            color: #2f6b2f;
+        }
+        .stat-label {
+            font-size: 8px;
+            color: #7c9c6e;
+        }
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            max-width: 480px;
+            width: 100%;
+            background: #ffffffec;
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            padding: 5px 12px 12px;
+            border-top: 1px solid #ddebd2;
+        }
+        .nav-item {
+            text-align: center;
+            font-size: 9px;
+            color: #809c70;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .nav-item:active { opacity: 0.6; }
+        .nav-item span:first-child { font-size: 18px; display: block; }
+        .nav-item.active { color: #2c6e3c; font-weight: 600; }
+        .toast-msg {
+            position: fixed;
+            bottom: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c4633e6;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            z-index: 200;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .footer-reminder {
+            margin: 5px 12px 10px;
+            font-size: 8px;
+            color: #98b182;
+            text-align: center;
+        }
+        .up-time {
+            font-size: 8px;
+            color: #5a8a4a;
+            text-align: center;
+            margin: 3px 12px;
+        }
+        .ws-status {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #4caf50;
+            box-shadow: 0 0 2px #4caf50;
+            margin-right: 4px;
+        }
+        .ws-status.disconnected {
+            background-color: #f44336;
+            box-shadow: none;
+        }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<div class="live-container">
+    <div class="header">
+        <div class="header-top">
+            <div class="back-btn" id="backHomeBtn">←</div>
+            <div class="logo-area">
+                <span class="logo-icon">🌿📹</span>
+                <span class="logo-main">慢直播·基地之眼</span>
+                <span class="live-badge">LIVE 赞皇核心区</span>
+            </div>
+            <div class="action-icons">
+                <span id="notifyBtn">🔔</span>
+                <span id="shopBtn">🛒</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 直播主画面 -->
+    <div class="video-stage">
+        <div class="video-preview" id="liveVideoPreview">
+            <img id="livePreviewImg" src="https://i.ibb.co/C5qr4Frz/20260502203859-251-18.jpg" alt="直播画面">
+            <div class="live-tag">🔴 直播中 · 后端推流</div>
+            <div class="delay-badge" id="delayBadge">延迟: &lt;1s</div>
+            <div class="viewer-count" id="viewerCount">👁️ 加载中...</div>
+            <div class="camera-switch" id="switchCameraBtn">
+                <span>🔄</span> 切换机位
+            </div>
+        </div>
+    </div>
+    
+    <!-- 后端服务状态面板 -->
+    <div class="backend-panel">
+        <div class="backend-title">
+            <span>⚙️ 后端服务 · RESTful API</span>
+            <span id="backendStatus"><span class="ws-status"></span> 已连接</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span>🌐 网关: /api/v1</span>
+            <span>🔁 WebSocket 实时推送</span>
+        </div>
+        <div class="api-log" id="apiLogContainer">
+            <span>🟢 后端服务已启动 | 等待数据...</span>
+        </div>
+    </div>
+    
+    <!-- 直播统计 -->
+    <div class="stats-row">
+        <div class="stat-card"><div class="stat-number" id="peakViewers">--</div><div class="stat-label">峰值观看</div></div>
+        <div class="stat-card"><div class="stat-number" id="uptimeDisplay">--</div><div class="stat-label">已开播时长</div></div>
+        <div class="stat-card"><div class="stat-number">99.95%</div><div class="stat-label">可用性</div></div>
+    </div>
+    
+    <!-- 环境数据面板 -->
+    <div class="env-dashboard">
+        <div class="env-title">
+            <span>🌡️ 生态养殖环境智控</span>
+            <span style="font-size:7px; background:#e0f0da; padding:1px 5px; border-radius:10px;">IoT实时</span>
+        </div>
+        <div class="env-grid" id="envGrid">
+            <div class="env-item"><div class="env-label">🌡️ 温度</div><div class="env-value">--<span class="env-unit">℃</span></div></div>
+            <div class="env-item"><div class="env-label">💧 湿度</div><div class="env-value">--<span class="env-unit">%</span></div></div>
+            <div class="env-item"><div class="env-label">☀️ 光照</div><div class="env-value">--<span class="env-unit">Lux</span></div></div>
+            <div class="env-item"><div class="env-label">🌫️ 氨气</div><div class="env-value">--<span class="env-unit">ppm</span></div></div>
+            <div class="env-item"><div class="env-label">🌱 土壤</div><div class="env-value">--<span class="env-unit">%</span></div></div>
+            <div class="env-item"><div class="env-label">🍃 风速</div><div class="env-value">--<span class="env-unit">m/s</span></div></div>
+        </div>
+        <div class="refresh-time" id="refreshTime">最后更新: --</div>
+    </div>
+    
+    <!-- 健康指数卡片 -->
+    <div class="health-card">
+        <div class="health-score">
+            <div class="health-number" id="healthScore">--</div>
+            <div class="health-label">健康指数</div>
+        </div>
+        <div class="health-desc" id="healthDesc">🐔 加载中...</div>
+        <div style="font-size:18px;">🐓</div>
+    </div>
+    
+    <!-- 设施设备状态 -->
+    <div class="facility-section">
+        <div class="facility-header">
+            <h4>🏭 智慧养殖设施</h4>
+            <div class="facility-tag">全链路监控中</div>
+        </div>
+        <div class="equipment-list" id="equipList">
+            <div class="equip-card"><div class="equip-icon">🌀</div><div class="equip-name">加载中...</div></div>
+        </div>
+    </div>
+    
+    <!-- 区块链溯源卡片 -->
+    <div class="batch-trace" id="batchTraceCard">
+        <div class="batch-left">
+            <strong>🔗 本批溯源档案: 赞皇扩繁基地 · ZHH-2405</strong>
+            <p>📦 出栏: 2026-06-15 | 散养180天 | 无抗认证 | 区块链存证</p>
+        </div>
+        <div class="scan-icon">📲</div>
+    </div>
+    
+    <div class="up-time" id="uptimeDetail">⏱️ 已连续稳定运行 --</div>
+    <div class="footer-reminder">
+        * 画面为林下散养实况 | 后端驱动 + WebSocket 实时推送 | 环境传感数据上链存证
+    </div>
+    
+    <div class="bottom-nav">
+        <div class="nav-item" data-nav="home"><span>🏠</span><div>首页</div></div>
+        <div class="nav-item active" data-nav="live"><span>📡</span><div>慢直播</div></div>
+        <div class="nav-item" data-nav="trace"><span>🔍</span><div>溯源</div></div>
+        <div class="nav-item" data-nav="profile"><span>👤</span><div>我的</div></div>
+    </div>
+</div>
+<div class="toast-msg" id="globalToast">提示</div>
+
+<script>
+    // ============ 配置 ============
+    const API_BASE = '/api';
+    let socket = null;
+    let currentCameraId = 0;
+    let cameras = [];
+    let apiLogs = ['🟢 后端服务已启动 | 等待数据...'];
+    
+    // ============ 工具函数 ============
+    function addApiLog(msg) {
+        const time = new Date().toLocaleTimeString();
+        const logMsg = `[${time}] ${msg}`;
+        apiLogs.unshift(logMsg);
+        if (apiLogs.length > 6) apiLogs.pop();
+        const container = document.getElementById('apiLogContainer');
+        if (container) {
+            container.innerHTML = apiLogs.map(m => `<span>${m}</span>`).join('');
+        }
+        console.log('[API]', msg);
+    }
+    
+    function showMsg(msg) {
+        const toast = document.getElementById('globalToast');
+        toast.innerText = msg;
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+    }
+    
+    // 更新传感器 UI
+    function updateSensorUI(data) {
+        if (!data) return;
+        
+        const envItems = [
+            { label: "🌡️ 温度", value: data.temperature, unit: "℃" },
+            { label: "💧 湿度", value: data.humidity, unit: "%" },
+            { label: "☀️ 光照", value: data.light, unit: "Lux" },
+            { label: "🌫️ 氨气", value: data.nh3, unit: "ppm" },
+            { label: "🌱 土壤", value: data.soilMoisture, unit: "%" },
+            { label: "🍃 风速", value: data.windSpeed, unit: "m/s" }
+        ];
+        
+        document.getElementById('envGrid').innerHTML = envItems.map(item => `
+            <div class="env-item">
+                <div class="env-label">${item.label}</div>
+                <div class="env-value">${item.value !== undefined && item.value !== null ? item.value : '--'}<span class="env-unit">${item.unit}</span></div>
+            </div>
+        `).join('');
+        
+        // 健康指数
+        const health = data.healthIndex || 85;
+        document.getElementById('healthScore').innerText = health;
+        if (health >= 90) {
+            document.getElementById('healthDesc').innerHTML = '🐔 鸡群活跃 · 采食正常 · 状态优秀';
+        } else if (health >= 80) {
+            document.getElementById('healthDesc').innerHTML = '🐔 鸡群健康 · 环境适宜';
+        } else {
+            document.getElementById('healthDesc').innerHTML = '🐔 需关注环境 · 正在调节';
+        }
+        
+        // 更新时间
+        const now = new Date();
+        document.getElementById('refreshTime').innerHTML = `⏱️ 最后更新: ${now.toLocaleTimeString()} · 物联网传感实时推送`;
+    }
+    
+    // 更新观众数 UI
+    function updateViewerUI(viewers, peak) {
+        document.getElementById('viewerCount').innerHTML = `👁️ ${(viewers || 0).toLocaleString()} 观看`;
+        if (peak) {
+            document.getElementById('peakViewers').innerText = (peak / 1000).toFixed(1) + 'k';
+        }
+    }
+    
+    // 更新开播时长
+    function updateUptime(startTime) {
+        if (!startTime) return;
+        const start = new Date(startTime);
+        const diff = Date.now() - start.getTime();
+        const days = Math.floor(diff / (24 * 3600 * 1000));
+        const hours = Math.floor((diff % (24 * 3600 * 1000)) / (3600 * 1000));
+        const mins = Math.floor((diff % (3600 * 1000)) / (60 * 1000));
+        document.getElementById('uptimeDisplay').innerText = `${days}天${hours}时${mins}分`;
+        document.getElementById('uptimeDetail').innerHTML = `⏱️ 已连续稳定运行 ${days}天${hours}时${mins}分 · 高并发架构保障`;
+    }
+    
+    // ============ API 调用 ============
+    async function fetchLiveStatus() {
+        try {
+            const res = await fetch(`${API_BASE}/live/status`);
+            const result = await res.json();
+            if (result.code === 200 && result.data) {
+                const data = result.data;
+                currentCameraId = data.currentCameraId;
+                cameras = data.cameras || [];
+                const currentCamera = cameras.find(c => c.id === currentCameraId);
+                if (currentCamera) {
+                    document.getElementById('livePreviewImg').src = currentCamera.previewUrl;
+                }
+                updateViewerUI(data.currentViewers, data.peakViewers);
+                updateUptime(data.startTime);
+                addApiLog(`📡 直播状态获取成功 | 观众: ${data.currentViewers}`);
+            }
+        } catch (e) {
+            console.error('获取直播状态失败:', e);
+            addApiLog(`❌ 获取直播状态失败: ${e.message}`);
+        }
+    }
+    
+    async function fetchEquipmentList() {
+        try {
+            const res = await fetch(`${API_BASE}/equipment/list`);
+            const result = await res.json();
+            if (result.code === 200 && result.data) {
+                const equipments = result.data;
+                document.getElementById('equipList').innerHTML = equipments.map(e => `
+                    <div class="equip-card">
+                        <div class="equip-icon">${e.icon}</div>
+                        <div class="equip-name">${e.name}</div>
+                        <div class="equip-status ${e.online ? 'online' : ''}">${e.status}</div>
+                    </div>
+                `).join('');
+                addApiLog(`🔧 设备列表加载完成 | ${equipments.length}个设备在线`);
+            }
+        } catch (e) {
+            console.error('获取设备列表失败:', e);
+        }
+    }
+    
+    async function switchCamera() {
+        const newId = (currentCameraId + 1) % 3;
+        try {
+            const res = await fetch(`${API_BASE}/live/camera/switch`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cameraId: newId })
+            });
+            const result = await res.json();
+            if (result.code === 200 && result.data) {
+                currentCameraId = result.data.currentCameraId;
+                const camera = result.data.camera;
+                document.getElementById('livePreviewImg').src = camera.previewUrl;
+                showMsg(`已切换至「${camera.name}」`);
+                addApiLog(`🔄 机位切换 → ${camera.name}`);
+            } else {
+                showMsg('切换失败');
+            }
+        } catch (e) {
+            console.error('切换机位失败:', e);
+            showMsg('网络错误，切换失败');
+        }
+    }
+    
+    async function fetchTraceInfo() {
+        try {
+            const res = await fetch(`${API_BASE}/trace/batch`);
+            const result = await res.json();
+            if (result.code === 200 && result.data) {
+                const hash = result.data.blockchainHash;
+                const shortHash = hash ? hash.substring(0, 20) + '...' : '未知';
+                showMsg(`🔗 区块链哈希: ${shortHash} | 批次: ${result.data.batchId} | 链上已存证`);
+                addApiLog(`🔗 溯源查询 | 批次: ${result.data.batchId} | 哈希: ${shortHash}`);
+            }
+        } catch (e) {
+            console.error('获取溯源信息失败:', e);
+            showMsg('溯源信息获取失败');
+        }
+    }
+    
+    async function sendHeartbeat() {
+        try {
+            await fetch(`${API_BASE}/system/heartbeat`, { method: 'POST' });
+        } catch (e) {}
+    }
+    
+    // ============ WebSocket 连接 ============
+    function initWebSocket() {
+        socket = io({
+            reconnection: true,
+            reconnectionAttempts: 10,
+            reconnectionDelay: 1000
+        });
+        
+        socket.on('connect', () => {
+            console.log('WebSocket 已连接:', socket.id);
+            document.getElementById('backendStatus').innerHTML = '<span class="ws-status"></span> 已连接';
+            addApiLog(`✅ WebSocket 已连接 | ID: ${socket.id}`);
+        });
+        
+        socket.on('sensorUpdate', (data) => {
+            updateSensorUI(data);
+            addApiLog(`📡 传感器: ${data.temperature}°C / ${data.humidity}% / 健康${data.healthIndex}`);
+        });
+        
+        socket.on('viewerUpdate', (data) => {
+            updateViewerUI(data.viewers, data.peak);
+            addApiLog(`👥 实时观众: ${data.viewers} (峰值: ${data.peak})`);
+        });
+        
+        socket.on('cameraChanged', (data) => {
+            if (data.camera) {
+                currentCameraId = data.cameraId;
+                document.getElementById('livePreviewImg').src = data.camera.previewUrl;
+                addApiLog(`🎥 收到机位切换广播 → ${data.camera.name}`);
+            }
+        });
+        
+        socket.on('heartbeat', (data) => {
+            console.log('收到服务心跳:', data.timestamp);
+        });
+        
+        socket.on('disconnect', (reason) => {
+            console.log('WebSocket 断开:', reason);
+            document.getElementById('backendStatus').innerHTML = '<span class="ws-status disconnected"></span> 重连中...';
+            addApiLog(`⚠️ WebSocket 断开，正在重连...`);
+        });
+        
+        socket.on('connect_error', (error) => {
+            console.error('WebSocket 连接错误:', error);
+            addApiLog(`❌ WebSocket 连接失败: ${error.message}`);
+        });
+    }
+    
+    // ============ 初始化 ============
+    async function init() {
+        // 加载初始数据
+        await fetchLiveStatus();
+        await fetchEquipmentList();
+        
+        // 启动 WebSocket
+        initWebSocket();
+        
+        // 定时心跳（每30秒）
+        setInterval(sendHeartbeat, 30000);
+        
+        // 定期刷新直播状态（每60秒，作为 WebSocket 的补充）
+        setInterval(fetchLiveStatus, 60000);
+        
+        addApiLog('🎬 页面初始化完成 | 慢直播前端已启动');
+    }
+    
+    // ============ 事件绑定 ============
+    document.getElementById('switchCameraBtn')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        switchCamera();
+    });
+    
+    document.getElementById('batchTraceCard')?.addEventListener('click', () => {
+        fetchTraceInfo();
+    });
+    
+    document.getElementById('backHomeBtn')?.addEventListener('click', () => {
+        window.location.href = 'https://z-hang212.github.io/Home.html';
+    });
+    
+    document.getElementById('notifyBtn')?.addEventListener('click', () => {
+        showMsg('📢 开播提醒已开启，新批次上架将通知您');
+    });
+    
+    document.getElementById('shopBtn')?.addEventListener('click', () => {
+        showMsg('🛒 商城开发中，敬请期待！');
+    });
+    
+    // 底部导航
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const nav = item.getAttribute('data-nav');
+            if (nav === 'home') {
+                window.location.href = 'https://z-hang212.github.io/Home.html';
+            } else if (nav === 'live') {
+                showMsg('📡 您已在慢直播页面，24h低延迟直播');
+            } else if (nav === 'trace') {
+                window.location.href = 'https://z-hang212.github.io/blackHome.html';
+            } else if (nav === 'profile') {
+                window.location.href = 'https://z-hang212.github.io/my.html';
+            }
+        });
+    });
+    
+    // 启动
+    init();
+    
+    console.log('慢直播前端已启动 | 后端驱动 + WebSocket 实时推送 | 软著申报专用');
+</script>
+</body>
+</html>
