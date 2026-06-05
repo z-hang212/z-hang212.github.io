@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>信创适配迁移赛 · 章节分类完整题库 | 1000+原题完整版</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: linear-gradient(145deg, #eef2f7 0%, #dce5ef 100%); font-family: 'Segoe UI', 'Roboto', 'PingFang SC', 'Microsoft YaHei', sans-serif; padding: 30px 20px; color: #1a2c3e; }
+        .exam-container { max-width: 1400px; margin: 0 auto; background: #fffffffa; border-radius: 48px; box-shadow: 0 25px 45px rgba(0,0,0,0.1); overflow: hidden; }
+        .exam-header { background: linear-gradient(135deg, #0f2e3f 0%, #1b4a6e 100%); padding: 20px 30px; color: white; border-bottom: 3px solid #ffb347; }
+        .exam-header h1 { font-size: 1.6rem; font-weight: 600; display: flex; gap: 12px; flex-wrap: wrap; }
+        .stats-bar { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px; margin-top: 15px; background: #ffffff20; padding: 12px 20px; border-radius: 60px; }
+        .stat { background: #00000030; padding: 6px 16px; border-radius: 40px; font-weight: 500; }
+        .stat span { font-weight: 700; color: #ffd966; font-size: 1.2rem; margin-right: 6px; }
+        .chapter-tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 20px; background: #f0f5fb; border-bottom: 1px solid #cfdfed; }
+        .chapter-tab { background: #e2edf7; padding: 6px 14px; border-radius: 30px; cursor: pointer; font-size: 0.75rem; font-weight: 500; transition: all 0.2s; color: #1f6392; }
+        .chapter-tab:hover { background: #ffb347; color: white; transform: translateY(-1px); }
+        .chapter-tab.active { background: #1f6392; color: white; box-shadow: 0 2px 8px rgba(31,99,146,0.3); }
+        .quiz-main { display: flex; flex-wrap: wrap; }
+        .question-panel { flex: 3; min-width: 280px; padding: 28px 32px; background: #fefefe; }
+        .sidebar { flex: 1.2; min-width: 220px; background: #f4f8fe; border-left: 1px solid #cfdfed; padding: 28px 18px; display: flex; flex-direction: column; gap: 24px; }
+        .q-card { background: white; border-radius: 32px; padding: 20px 28px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.02), 0 0 0 1px #e2edf7; }
+        .q-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 18px; background: #eef4fa; display: inline-block; padding: 4px 18px; border-radius: 40px; color: #1f6392; }
+        .q-text { font-size: 1rem; font-weight: 500; margin-bottom: 20px; padding-left: 10px; border-left: 5px solid #ffb347; }
+        .options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+        .option { display: flex; align-items: flex-start; gap: 12px; background: #f9fbfe; padding: 10px 16px; border-radius: 20px; cursor: pointer; border: 1px solid #e2edf7; }
+        .option:hover { background: #eef3fc; }
+        .option input { margin-top: 3px; width: 18px; height: 18px; cursor: pointer; accent-color: #1f6392; }
+        .option label { flex: 1; font-size: 0.9rem; cursor: pointer; }
+        .option.correct-highlight { background-color: #d4edda; border-color: #28a745; }
+        .option.wrong-highlight { background-color: #f8d7da; border-color: #dc3545; text-decoration: line-through; }
+        .option.correct-answer-display { background-color: #d1e7dd; border-color: #0f6b2f; font-weight: 500; }
+        .feedback-area { margin-top: 18px; padding: 16px 18px; background: #f0f5fb; border-radius: 24px; border-left: 6px solid #ffb347; font-size: 0.85rem; }
+        .feedback-correct { color: #155724; font-weight: 600; }
+        .feedback-wrong { color: #721c24; font-weight: 600; }
+        .feedback-neutral { color: #004085; }
+        .action-buttons { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 15px; flex-wrap: wrap; }
+        button { background: #2c5a7a; border: none; padding: 10px 22px; border-radius: 50px; font-weight: bold; color: white; cursor: pointer; transition: 0.2s; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; }
+        button:hover { background: #1f4b68; transform: translateY(-2px); }
+        .btn-primary { background: #ff8c42; }
+        .btn-confirm { background: #28a745; }
+        .reset-btn { background: #5f7f9e; }
+        .question-nav { background: white; border-radius: 28px; padding: 12px; }
+        .nav-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 12px; max-height: 420px; overflow-y: auto; padding: 5px; }
+        .nav-btn { background: #eef2f7; border-radius: 16px; text-align: center; padding: 8px 0; font-size: 0.7rem; font-weight: bold; cursor: pointer; border: 1px solid #d4e0ea; }
+        .nav-btn.answered { background: #ffb347; color: #2c2c2c; }
+        .nav-btn.current { background: #1f6392; color: white; box-shadow: 0 0 0 2px white, 0 0 0 4px #1f6392; }
+        .result-area { background: white; border-radius: 28px; padding: 18px; text-align: center; }
+        .score-text { font-size: 2rem; font-weight: 800; color: #ff8c42; }
+        .chapter-info { background: #eef4fa; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; color: #1f6392; margin-left: 12px; }
+        @media (max-width: 760px) { .question-panel { padding: 20px; } .q-card { padding: 15px; } .nav-grid { grid-template-columns: repeat(5, 1fr); } }
+        footer { text-align: center; padding: 16px; font-size: 0.75rem; color: #5b7a9a; background: #eaf1f9; }
+    </style>
+</head>
+<body>
+<div class="exam-container">
+    <div class="exam-header">
+        <h1>📚 信创适配迁移赛 · 章节分类完整题库 <small>10大章节 | 1000+原题完整版</small></h1>
+        <div class="stats-bar">
+            <div class="stat">📚 当前章: <span id="currentChapter">第1章</span></div>
+            <div class="stat">📋 本章题数: <span id="chapterTotal">0</span></div>
+            <div class="stat">✅ 已答: <span id="answeredCount">0</span></div>
+            <div class="stat">⏱️ 用时: <span id="timer">00:00:00</span></div>
+            <div class="stat">⭐ 得分: <span id="realScore">0</span> / <span id="maxScoreSpan">0</span></div>
+        </div>
+    </div>
+    <div class="chapter-tabs" id="chapterTabs"></div>
+    <div class="quiz-main">
+        <div class="question-panel">
+            <div id="currentQWrapper"></div>
+            <div class="action-buttons">
+                <div><button id="prevBtn" class="reset-btn">◀ 上一题</button><button id="nextBtn" class="reset-btn">下一题 ▶</button></div>
+                <div><button id="confirmMultiBtn" class="btn-confirm" style="display: none;">✅ 确认答案</button><button id="submitBtn" class="btn-primary">✨ 提交总成绩</button></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="question-nav"><div style="font-weight: bold; margin-bottom: 8px;">📌 题目导航</div><div class="nav-grid" id="navGrid"></div></div>
+            <div class="result-area"><div>🏆 最终成绩</div><div class="score-text" id="finalScoreDisplay">—</div><div id="scoreDetail" style="font-size:0.8rem; margin-top:6px;"></div><button id="resetAllBtn" style="background:#3c6e47; margin-top: 14px; width:100%">🔄 重置全部答题</button></div>
+        </div>
+    </div>
+    <footer>⭐ 单选题/判断题点击选项即判；多选题勾选后点击「确认答案」判题。10大章节全覆盖，1000+原题完整保留。</footer>
+</div>
+
+<script>
+    const CHAPTERS = [
+        { id: 0, name: "第1章 国产CPU", desc: "龙芯/飞腾/鲲鹏/海光/兆芯" },
+        { id: 1, name: "第2章 国产操作系统", desc: "麒麟/统信UOS/Linux" },
+        { id: 2, name: "第3章 国产数据库", desc: "达梦/金仓/海量/GaussDB" },
+        { id: 3, name: "第4章 国产中间件", desc: "中创/东方通/金蝶" },
+        { id: 4, name: "第5章 应用迁移流程", desc: "评估/实施/回滚/验收" },
+        { id: 5, name: "第6章 兼容性验证", desc: "功能/数据/平台兼容" },
+        { id: 6, name: "第7章 性能调优", desc: "JVM/数据库/连接池" },
+        { id: 7, name: "第8章 故障排查", desc: "日志/网络/进程" },
+        { id: 8, name: "第9章 信创大赛综合", desc: "比赛规则/综合知识" },
+        { id: 9, name: "第10章 判断题集", desc: "独立判断题型" }
+    ];
+
+    let allQuestions = [];
+    let currentChapter = 0;
+    let currentIndexInChapter = 0;
+    let startTime = Date.now(), timerInterval = null, submitted = false;
+
+    function addSingle(ch, text, opts, correct, exp) { allQuestions.push({ chapter:ch, id:allQuestions.length+1, text, options:opts, correct, explanation:exp, type:"single", userAnswer:null, answered:false }); }
+    function addMulti(ch, text, opts, correctArr, exp) { allQuestions.push({ chapter:ch, id:allQuestions.length+1, text, options:opts, correct:correctArr, explanation:exp, type:"multi", userAnswer:null, answered:false }); }
+    function addJudge(ch, text, correctBool, exp) { let opts=["A. 正确","B. 错误"]; let correct=correctBool?"A":"B"; allQuestions.push({ chapter:ch, id:allQuestions.length+1, text, options:opts, correct, explanation:exp, type:"judge", userAnswer:null, answered:false }); }
+    function escapeHtml(s) { if(!s) return ''; return s.replace(/[&<>]/g, m=>m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
+
+    // ===================== 第1章 国产CPU（原题完整保留）=====================
+    addSingle(0, "在信创适配迁移中，将Java应用从x86迁移到飞腾(ARM)环境，最可能遇到的编译问题是？", ["A. JDK版本不兼容", "B. 依赖的本地库(.so)需重新编译", "C. 数据库驱动缺失", "D. 前端页面无法显示"], "B", "本地动态库必须基于ARM架构重新编译，否则无法链接。");
+    addSingle(0, "以下基于ARM架构的国产CPU是？", ["A. 海光C86", "B. 兆芯KX", "C. 飞腾S2500", "D. 龙芯3A5000"], "C", "飞腾基于ARMv8，海光/兆芯x86，龙芯LoongArch。");
+    addSingle(0, "海光处理器指令集属于？", ["A. ARM", "B. x86", "C. RISC-V", "D. MIPS"], "B", "海光兼容x86生态。");
+    addSingle(0, "飞腾服务器编译C++适配选项？", ["A. -march=armv8", "B. -march=x86_64", "C. -target intel", "D. -m64"], "A", "飞腾ARMv8使用-march=armv8优化。");
+    addSingle(0, "龙芯3A5000使用指令集？", ["A. MIPS", "B. LoongArch", "C. ARM", "D. x86"], "B", "龙芯自主LoongArch指令集。");
+    addSingle(0, "龙芯处理器主要采用的指令集架构是？", ["A. x86", "B. ARM", "C. MIPS / LoongArch", "D. RISC-V"], "C", "龙芯早期使用MIPS授权，3A5000开始全面转向自主指令集LoongArch。");
+    addSingle(0, "飞腾处理器属于哪种架构体系？", ["A. x86", "B. MIPS", "C. ARM", "D. PowerPC"], "C", "飞腾基于ARM v8指令集永久授权。");
+    addSingle(0, "以下哪个国产CPU厂商的处理器主要面向服务器和桌面市场？", ["A. 兆芯", "B. 申威", "C. 飞腾", "D. 华为鲲鹏"], "C", "飞腾拥有服务器CPU S2500和桌面CPU D2000，产品线完整。");
+    addSingle(0, "龙芯3A5000采用的是哪一代自主指令集？", ["A. MIPS64", "B. LoongArch", "C. ARMv8", "D. x86-64"], "B", "LoongArch是龙芯中科2020年发布的完全自主指令集架构。");
+    addSingle(0, "国产CPU在迁移适配中，最核心关注的技术点是？", ["A. 品牌知名度", "B. 指令集架构兼容性", "C. 市场占有率", "D. 价格优势"], "B", "不同指令集导致二进制不兼容，是迁移核心问题。");
+    addSingle(0, "龙芯处理器的LoongArch指令集是基于以下哪种架构自主演进而来？", ["A. x86", "B. ARM", "C. MIPS", "D. RISC-V"], "C", "龙芯早期使用MIPS授权，在此基础上自主研发LoongArch。");
+    addSingle(0, "飞腾处理器采用的ARM架构版本是？", ["A. ARMv7", "B. ARMv8", "C. ARMv9", "D. ARMv6"], "B", "飞腾处理器基于ARMv8架构永久授权。");
+    addSingle(0, "龙芯3A5000处理器的核心数为？", ["A. 2核", "B. 4核", "C. 8核", "D. 16核"], "B", "龙芯3A5000为4核心设计。");
+    addSingle(0, "飞腾2000+/4处理器的主要定位是？", ["A. 嵌入式终端", "B. 桌面通用/服务器", "C. 物联网网关", "D. 工业控制"], "B", "飞腾FT-2000/4是4核桌面处理器。");
+    addSingle(0, "以下哪项是龙芯处理器的核心优势？", ["A. 完全自主可控指令集", "B. 兼容所有Windows软件", "C. 功耗为0", "D. 性能超越所有x86 CPU"], "A", "龙芯LoongArch为完全自主指令集架构。");
+    addSingle(0, "龙芯中科推出的自主指令集架构名称是？", ["A. MIPS", "B. LoongArch", "C. ARM", "D. RISC-V"], "B", "龙芯中科于2020年发布完全自主的LoongArch指令集。");
+    addSingle(0, "以下哪种国产CPU厂商拥有x86架构授权？", ["A. 龙芯", "B. 飞腾", "C. 兆芯", "D. 申威"], "C", "兆芯与威盛合作获得x86授权。");
+    addSingle(0, "龙芯3A5000处理器采用的微架构是？", ["A. LA464", "B. FT663", "C. Zen2", "D. Cortex-A76"], "A", "龙芯3A5000采用LA464微架构。");
+    addSingle(0, "飞腾腾锐D2000处理器的核心数是？", ["A. 4核", "B. 8核", "C. 16核", "D. 32核"], "B", "腾锐D2000为8核桌面处理器。");
+    addSingle(0, "申威处理器主要基于哪种架构发展而来？", ["A. DEC Alpha", "B. MIPS", "C. ARM", "D. PowerPC"], "A", "申威源自DEC Alpha架构，后发展为自主SW64指令集。");
+    addSingle(0, "鲲鹏920处理器主要应用于什么场景？", ["A. 嵌入式微控制器", "B. 数据中心与服务器", "C. 低端路由器", "D. 传统工控机"], "B", "鲲鹏920是华为推出的ARM服务器芯片。");
+    addSingle(0, "飞腾CPU的FT-2000/4主要面向哪个市场？", ["A. 桌面终端", "B. 高端服务器", "C. 超级计算机", "D. 智能穿戴"], "A", "FT-2000/4是4核桌面处理器。");
+    addSingle(0, "下列关于大端模式和小端模式的说法，正确的是？", ["A. x86架构通常使用大端模式", "B. ARM架构只能使用大端模式", "C. 龙芯LoongArch支持双端模式", "D. 网络传输通常使用小端模式"], "C", "x86使用小端模式，网络传输使用大端模式，龙芯支持双端。");
+    addSingle(0, "鲲鹏处理器使用的指令集版本主要是？", ["A. ARMv7", "B. ARMv8", "C. ARMv9", "D. ARMv6"], "B", "鲲鹏920基于ARMv8.2架构。");
+    addSingle(0, "飞腾CPU的S2500主要应用于？", ["A. 笔记本电脑", "B. 平板电脑", "C. 服务器", "D. 手机"], "C", "飞腾腾云S2500是64核服务器处理器。");
+    addSingle(0, "以下哪个不是国产CPU厂商？", ["A. 海光", "B. 华为", "C. 龙芯", "D. 英特尔"], "D", "英特尔是美国公司，非国产。");
+    addSingle(0, "海光CPU主要兼容的指令集是？", ["A. x86", "B. ARM", "C. MIPS", "D. Alpha"], "A", "海光获得AMD Zen架构授权，兼容x86-64指令集。");
+    addSingle(0, "龙芯处理器最初兼容的是哪种指令集架构？", ["A. ARM", "B. x86", "C. MIPS", "D. PowerPC"], "C", "龙芯早期使用MIPS指令集授权。");
+    addSingle(0, "飞腾处理器主要基于哪种指令集架构？", ["A. ARM", "B. x86", "C. RISC-V", "D. MIPS"], "A", "飞腾获得ARMv8架构永久授权。");
+    addSingle(0, "龙芯自主指令系统的名称是什么？", ["A. LoongArch", "B. ARMv8", "C. x86-64", "D. RISC-V"], "A", "龙芯中科于2020年发布LoongArch自主指令集。");
+    addSingle(0, "飞腾FT-1500A/16主要应用于？", ["A. 服务器", "B. 台式机", "C. 嵌入式", "D. 手机"], "A", "FT-1500A/16是16核服务器处理器。");
+    addSingle(0, "龙芯处理器的桥片主要负责什么功能？", ["A. 图形渲染", "B. 南北桥功能集成", "C. 人工智能计算", "D. 无线信号收发"], "B", "龙芯7A系列桥片集成传统南北桥功能。");
+    addSingle(0, "国产CPU在适配过程中，最常见的指令集不兼容问题是？", ["A. 浮点运算精度差异", "B. 汇编代码无法直接运行", "C. 内存寻址方式不同", "D. 以上都是"], "D", "不同指令集架构差异均可能导致不兼容。");
+    addSingle(0, "在BIOS设置中，开启虚拟化技术通常对应的选项是？", ["A. Secure Boot", "B. VT-x / Virtualization", "C. Fast Boot", "D. C-State"], "B", "Intel平台VT-x，AMD平台SVM，用于开启硬件虚拟化支持。");
+    addSingle(0, "龙芯3A5000的主频范围大约是？", ["A. 1.0-1.5 GHz", "B. 2.3-2.5 GHz", "C. 3.5-4.0 GHz", "D. 4.5-5.0 GHz"], "B", "龙芯3A5000主频2.3-2.5GHz。");
+    addSingle(0, "龙芯处理器的TLB（转换检测缓冲区）结构采用几级？", ["A. 1级", "B. 2级", "C. 3级", "D. 4级"], "B", "龙芯处理器采用两级TLB结构：L1 TLB和L2 TLB。");
+    addSingle(0, "飞腾处理器在硬件层面支持哪种虚拟化技术？", ["A. VT-x", "B. AMD-V", "C. ARM Virtualization Extensions", "D. 不支持硬件虚拟化"], "C", "飞腾基于ARM架构，支持ARM Virtualization Extensions硬件虚拟化扩展。");
+    addSingle(0, "龙芯处理器通过何种机制实现二进制翻译运行x86应用？", ["A. LATS", "B. QEMU", "C. Wine", "D. Box86"], "A", "龙芯LATS（LoongArch Translation System）是官方二进制翻译系统。");
+    addSingle(0, "龙芯处理器的中断控制器类型是？", ["A. APIC", "B. GIC", "C. INTC", "D. IOAPIC"], "C", "龙芯使用自主设计的INTC中断控制器。");
+    addSingle(0, "飞腾处理器的内存控制器支持的最大内存通道数是多少？", ["A. 1", "B. 2", "C. 4", "D. 8"], "C", "飞腾服务器CPU支持4个内存通道。");
+    addSingle(0, "龙芯处理器的功耗管理主要采用哪种技术？", ["A. SpeedStep", "B. Cool'n'Quiet", "C. 动态频率缩放", "D. 不支持动态调频"], "C", "龙芯支持动态频率缩放（DFS）技术。");
+    addSingle(0, "飞腾处理器的IO接口通常包含哪种高速总线？", ["A. PCIe 3.0/4.0", "B. ISA", "C. VLB", "D. AGP"], "A", "飞腾处理器集成PCIe 3.0/4.0控制器。");
+    addSingle(0, "龙芯处理器在操作系统启动时需要哪种固件接口？", ["A. UEFI", "B. BIOS", "C. Open Firmware", "D. Coreboot"], "A", "龙芯支持UEFI固件接口。");
+    addSingle(0, "飞腾处理器支持的最大物理地址宽度是多少位？", ["A. 32位", "B. 36位", "C. 44位", "D. 64位"], "C", "飞腾处理器支持44位物理地址，最大可寻址16TB物理内存。");
+    addSingle(0, "龙芯处理器的多路互联总线名称是什么？", ["A. HyperTransport", "B. QPI", "C. Loongson Coherent Interconnect", "D. Infinity Fabric"], "C", "龙芯多路互联采用自主设计的LCC一致性互联总线。");
+    addSingle(0, "飞腾处理器的安全特性不包括以下哪项？", ["A. TrustZone", "B. 安全启动", "C. SGX", "D. 国密算法加速"], "C", "SGX是Intel特有的安全技术，飞腾不支持。");
+    addSingle(0, "龙芯处理器的缓存一致性协议是？", ["A. MESI", "B. MOESI", "C. Dragon", "D. Firefly"], "A", "龙芯多核处理器采用MESI缓存一致性协议。");
+    addSingle(0, "龙芯处理器的访存模式属于哪种类型？", ["A. 强一致性", "B. 弱一致性", "C. 释放一致性", "D. 宽松一致性"], "A", "龙芯处理器采用强一致性访存模式。");
+    addSingle(0, "龙芯处理器的多路互联总线名称是什么？", ["A. HyperTransport", "B. QPI", "C. Loongson Coherent Interconnect", "D. Infinity Fabric"], "C", "龙芯多路互联采用自主设计的LCC一致性互联总线。");
+        // ===================== 第2章 国产操作系统（原题完整保留）=====================
+    addSingle(1, "银河麒麟桌面版V10默认包管理器是？", ["A. apt", "B. yum", "C. dnf", "D. zypper"], "A", "银河麒麟桌面基于Ubuntu/Debian使用apt。");
+    addSingle(1, "替换Windows Server+IIS的信创常用组合是？", ["A. 麒麟OS+Nginx/TongWeb", "B. CentOS+Apache", "C. Ubuntu+Tomcat", "D. Debian+Lighttpd"], "A", "银河麒麟/统信+东方通或Nginx是主流信创Web方案。");
+    addSingle(1, "麒麟V10临时关闭防火墙命令？", ["A. systemctl stop firewalld", "B. ufw disable", "C. service iptables stop", "D. firewall-cmd --stop"], "A", "麒麟V10使用firewalld服务。");
+    addSingle(1, "统信UOS与银河麒麟的软件包格式？", ["A. .rpm/.deb", "B. .exe", "C. .apk", "D. .dmg"], "A", "桌面版多为.deb，服务器版可能.rpm。");
+    addSingle(1, "查看麒麟内核版本的正确命令？", ["A. uname -r", "B. kernelver", "C. osinfo", "D. ver"], "A", "uname -r显示内核版本。");
+    addSingle(1, "统信UOS Server版默认包管理器？", ["A. apt", "B. dnf", "C. yum", "D. pacman"], "A", "统信UOS Server同样基于Debian使用apt。");
+    addSingle(1, "银河麒麟高级服务器版默认包管理器？", ["A. apt", "B. yum", "C. dnf", "D. rpm"], "C", "麒麟V10服务器版基于CentOS使用dnf。");
+    addSingle(1, "统信UOS桌面版采用哪个桌面环境？", ["A. GNOME", "B. KDE", "C. DDE", "D. Xfce"], "C", "统信UOS自研桌面环境DDE。");
+    addSingle(1, "麒麟系统备份还原工具？", ["A. kylin-backup", "B. timeshift", "C. rsync", "D. 以上都可"], "D", "多种工具可配合使用。");
+    addSingle(1, "麒麟V10中修改主机名的正确文件？", ["A. /etc/hostname", "B. /etc/hosts", "C. /etc/sysconfig/network", "D. /etc/name"], "A", "主机名配置文件为/etc/hostname。");
+    addSingle(1, "统信UOS软件商店安装包后缀？", ["A. .deb", "B. .rpm", "C. .exe", "D. .appimage"], "A", "统信基于Debian，使用.deb格式。");
+    addSingle(1, "银河麒麟V10基于哪个Linux发行版？", ["A. Ubuntu", "B. CentOS", "C. Debian", "D. openSUSE"], "C", "麒麟桌面基于Debian。");
+    addSingle(1, "麒麟V10中启用SELinux命令？", ["A. setenforce 1", "B. selinux enable", "C. start selinux", "D. systemctl enable selinux"], "A", "setenforce 1临时启用。");
+    addSingle(1, "麒麟V10中查看系统版本命令？", ["A. cat /etc/os-release", "B. version", "C. uname -a", "D. hostnamectl"], "A", "/etc/os-release包含详细版本信息。");
+    addSingle(1, "麒麟V10中启用SSH服务命令？", ["A. systemctl start sshd", "B. service ssh start", "C. start ssh", "D. /etc/init.d/ssh start"], "A", "麒麟使用systemd管理sshd服务。");
+    addSingle(1, "统信UOS安装deb包命令？", ["A. dpkg -i", "B. rpm -ivh", "C. apt install", "D. yum install"], "A", "dpkg -i用于安装本地deb包。");
+    addSingle(1, "麒麟V10中修改系统时区命令？", ["A. timedatectl set-timezone", "B. tzselect", "C. ln -sf /usr/share/zoneinfo", "D. 以上均可"], "D", "多种方法均可修改时区。");
+    addSingle(1, "麒麟V10中查看CPU信息命令？", ["A. lscpu", "B. cpuid", "C. cat /proc/cpuinfo", "D. 以上都对"], "D", "lscpu和/proc/cpuinfo均可。");
+    addSingle(1, "麒麟操作系统是由哪家机构主导研发？", ["A. 华为", "B. 中科院软件所", "C. 中国电子（CEC）", "D. 华为+中科院联合"], "C", "麒麟软件有限公司由中国电子(CEC)等联合成立。");
+    addSingle(1, "统信UOS操作系统主要基于哪个开源发行版？", ["A. CentOS", "B. Ubuntu", "C. Debian", "D. Fedora"], "C", "统信UOS基于Debian unstable分支。");
+    addSingle(1, "在国产操作系统中，用于查看当前系统版本信息的命令是？", ["A. cat /proc/version", "B. uname -r", "C. cat /etc/os-release", "D. lsb_release -a"], "C", "/etc/os-release是systemd发行版的标准文件。");
+    addSingle(1, "以下哪个命令可用于查询Linux系统中已安装的包列表？", ["A. rpm -qa", "B. dpkg -l", "C. yum list installed", "D. 以上均可"], "D", "不同发行版命令不同。");
+    addSingle(1, "在麒麟或统信系统中，若要查看当前登录用户是谁，可使用命令？", ["A. whoami", "B. id", "C. who", "D. 以上均可"], "D", "三者均可但信息详略不同。");
+    addSingle(1, "国产操作系统默认使用的包管理器，麒麟系统一般为？", ["A. apt", "B. yum", "C. dnf", "D. pacman"], "A", "银河麒麟桌面版基于Debian使用apt。");
+    addSingle(1, "在统信UOS中，若需安装软件包，应使用命令？", ["A. apt install", "B. yum install", "C. dpkg -i", "D. uos-pkg install"], "A", "统信UOS使用apt作为包管理器前端。");
+    addSingle(1, "麒麟操作系统的服务器版默认采用的包管理器是？", ["A. apt", "B. yum/dnf", "C. dpkg", "D. pacman"], "B", "银河麒麟服务器版V10基于CentOS，使用yum或dnf。");
+    addSingle(1, "统信UOS服务器版的基础发行版是？", ["A. Debian", "B. CentOS", "C. Ubuntu Server", "D. Fedora"], "A", "统信UOS全系列均基于Debian开发。");
+    addSingle(1, "在麒麟系统中，修改主机名的命令是？", ["A. hostnamectl set-hostname", "B. rename", "C. chname", "D. change-host"], "A", "hostnamectl set-hostname是systemd发行版的标准命令。");
+    addSingle(1, "统信UOS中查看网络连接状态的命令是？", ["A. ifconfig/ip addr", "B. net use", "C. ping", "D. traceroute"], "A", "ifconfig和ip addr均可查看网卡IP配置。");
+    addSingle(1, "麒麟系统中关闭防火墙的命令是？", ["A. systemctl stop firewalld", "B. shutdown -h now", "C. iptables -F", "D. ufw disable"], "A", "麒麟使用firewalld防火墙。");
+    addSingle(1, "统信UOS中安装deb格式软件包的命令是？", ["A. dpkg -i", "B. rpm -ivh", "C. yum install", "D. dnf install"], "A", "dpkg -i package.deb安装本地deb包。");
+    addSingle(1, "在麒麟系统中，查看磁盘空间使用情况的命令是？", ["A. df -h", "B. du -sh", "C. lsblk", "D. fdisk -l"], "A", "df -h显示文件系统磁盘空间使用情况。");
+    addSingle(1, "统信UOS中实时查看日志文件的命令是？", ["A. tail -f", "B. head -n", "C. cat", "D. more"], "A", "tail -f 文件名可实时追踪日志文件新增内容。");
+    addSingle(1, "麒麟系统中修改文件权限为可执行的命令是？", ["A. chmod +x", "B. chown", "C. chgrp", "D. umask"], "A", "chmod +x 文件名添加执行权限。");
+    addSingle(1, "统信UOS中切换到root用户的命令是？", ["A. su -", "B. sudo", "C. login root", "D. switch user"], "A", "su - 完全切换到root用户环境。");
+    addSingle(1, "麒麟操作系统的默认包管理工具是？", ["A. apt", "B. yum", "C. pacman", "D. zypper"], "A", "麒麟桌面版基于Debian使用apt。");
+    addSingle(1, "统信UOS的桌面环境主要基于哪个开源项目？", ["A. GNOME", "B. KDE", "C. Deepin Desktop Environment", "D. Xfce"], "C", "统信UOS使用自研的DDE桌面环境。");
+    addSingle(1, "麒麟操作系统默认使用的初始化系统是？", ["A. SysV init", "B. systemd", "C. Upstart", "D. OpenRC"], "B", "麒麟V10使用systemd作为init系统。");
+    addSingle(1, "统信UOS中，网络配置文件通常存放在哪个目录下？", ["A. /etc/network/", "B. /etc/netplan/", "C. /etc/sysconfig/network/", "D. /etc/NetworkManager/"], "A", "UOS传统网络配置在/etc/network/interfaces。");
+    addSingle(1, "麒麟操作系统的默认字符编码设置文件是？", ["A. /etc/locale.conf", "B. /etc/sysconfig/i18n", "C. /etc/default/locale", "D. /etc/encoding"], "A", "麒麟使用systemd风格的locale.conf。");
+    addSingle(1, "统信UOS的启动菜单引导程序是？", ["A. GRUB2", "B. LILO", "C. Syslinux", "D. U-Boot"], "A", "UOS默认使用GRUB2引导启动。");
+    addSingle(1, "麒麟操作系统下，如何设置一个服务开机自启动？", ["A. systemctl enable", "B. systemctl start", "C. systemctl status", "D. systemctl daemon-reload"], "A", "systemctl enable 服务名创建符号链接实现开机自启。");
+    addSingle(1, "统信UOS中，查看当前用户环境变量的命令是？", ["A. env", "B. set", "C. echo \$ENV", "D. export"], "A", "env命令显示当前用户的所有环境变量。");
+    addSingle(1, "麒麟系统中，用于生成SSH密钥对的命令是？", ["A. ssh-keygen", "B. ssh-genkey", "C. ssh-create", "D. ssh-mkkey"], "A", "ssh-keygen生成RSA/ED25519密钥对。");
+    addSingle(1, "统信UOS的默认Shell是？", ["A. sh", "B. bash", "C. zsh", "D. fish"], "B", "UOS默认使用bash（Bourne Again Shell）。");
+    addSingle(1, "麒麟操作系统支持的最大文件大小取决于什么？", ["A. 文件系统类型", "B. 内存大小", "C. 磁盘容量", "D. CPU位数"], "A", "文件系统类型决定最大文件大小。");
+    addSingle(1, "统信UOS中，用于修复文件系统错误的命令是？", ["A. fsck", "B. repairfs", "C. chkfs", "D. fixfs"], "A", "fsck（file system check）检查并修复文件系统错误。");
+    addSingle(1, "麒麟操作系统如何关闭SELinux？", ["A. 设置SELINUX=disabled", "B. setenforce 1", "C. systemctl stop selinux", "D. 删除SELinux包"], "A", "编辑/etc/selinux/config设置SELINUX=disabled，重启生效。");
+    addSingle(1, "统信UOS的应用程序启动器配置文件通常位于哪里？", ["A. /usr/share/applications", "B. /etc/applications", "C. /usr/local/apps", "D. /opt/applications"], "A", ".desktop桌面快捷方式文件存放在/usr/share/applications。");
+    addSingle(1, "麒麟系统中，查看系统启动时间的命令是？", ["A. uptime", "B. last boot", "C. systemd-analyze", "D. who -b"], "C", "systemd-analyze time显示内核和系统启动耗时分析。");
+    addSingle(1, "统信UOS如何设置系统代理？", ["A. 编辑/etc/environment", "B. export命令临时设置", "C. 通过控制面板设置", "D. 以上都是"], "D", "三种方法均可：配置文件永久生效、export临时生效、图形界面设置。");
+    addSingle(1, "麒麟操作系统下，查看所有监听端口的命令是？", ["A. netstat -tuln", "B. ss -tuln", "C. lsof -i", "D. 以上都是"], "D", "netstat、ss、lsof -i均可查看端口监听和占用情况。");
+    addSingle(1, "统信UOS中，用于更新initramfs的命令是？", ["A. update-initramfs", "B. mkinitramfs", "C. dracut", "D. mkinitrd"], "A", "update-initramfs -u更新当前内核的initramfs镜像。");
+    addSingle(1, "麒麟操作系统的默认字符编码设置文件是？", ["A. /etc/locale.conf", "B. /etc/sysconfig/i18n", "C. /etc/default/locale", "D. /etc/encoding"], "A", "麒麟使用systemd风格的locale.conf，传统版用/etc/sysconfig/i18n。");
+    addSingle(1, "统信UOS中，切换用户但不加载环境变量的命令是？", ["A. su -", "B. su", "C. su -m", "D. su -l"], "B", "su切换用户但保留原环境变量，su -或su -l加载目标用户环境。");
+    addSingle(1, "麒麟操作系统如何手动挂载ISO文件？", ["A. mount -o loop", "B. mount -t iso", "C. mount iso", "D. mount -f iso"], "A", "mount -o loop ISO文件 挂载点，将ISO作为回环设备挂载。");
+    addSingle(1, "统信UOS的磁盘管理图形化工具名称是？", ["A. GParted", "B. Disk Utility", "C. 磁盘管理器", "D. KDE Partition Manager"], "A", "UOS预装GParted作为磁盘分区管理图形工具。");
+    addSingle(1, "麒麟操作系统中，用于检查软件包依赖关系的命令是？", ["A. apt-cache depends", "B. dpkg -depends", "C. apt depends", "D. pkg-depends"], "A", "apt-cache depends 包名查看依赖关系。");
+    addSingle(1, "统信UOS如何开启远程桌面服务？", ["A. 安装vino并配置", "B. 启用xrdp", "C. 使用VNC", "D. 以上都是"], "D", "UOS支持vino（VNC）、xrdp（RDP）、TigerVNC等多种远程桌面方案。");
+    addSingle(1, "麒麟系统下，查看CPU信息的命令是？", ["A. lscpu", "B. cat /proc/cpuinfo", "C. cpuinfo", "D. 以上都是"], "D", "lscpu汇总显示，/proc/cpuinfo显示原始内核信息。");
+    addSingle(1, "统信UOS的默认邮件传输代理是什么？", ["A. Postfix", "B. Sendmail", "C. Exim", "D. 无默认MTA"], "D", "UOS默认不安装MTA，用户可按需安装Postfix等邮件服务。");
+    addSingle(1, "麒麟操作系统中，如何查看某个命令的二进制文件路径？", ["A. which", "B. whereis", "C. type", "D. 以上都是"], "D", "which在PATH中查找，whereis查二进制+源码+手册，type查shell内置或外部命令。");
+    addSingle(1, "统信UOS的打印机管理服务名称是？", ["A. cups", "B. printd", "C. lpd", "D. spooler"], "A", "CUPS（Common UNIX Printing System）是Linux标准打印系统。");
+    addSingle(1, "麒麟系统下，如何永久添加静态路由？", ["A. 写入/etc/network/interfaces", "B. 使用route add永久参数", "C. 写入/etc/sysconfig/network-scripts/route-eth0", "D. 写入/etc/rc.local"], "C", "RPM系系统通过route-eth0文件配置静态路由，Debian系用/etc/network/interfaces。");
+    addSingle(1, "统信UOS的启动日志存放在哪里？", ["A. /var/log/boot.log", "B. /var/log/startup.log", "C. /var/log/dmesg", "D. /var/log/syslog"], "A", "boot.log记录系统启动过程中的服务和脚本输出。");
+    addSingle(1, "麒麟操作系统如何禁用IPv6？", ["A. 内核参数ipv6.disable=1", "B. 编辑/etc/sysctl.conf", "C. 网络管理器设置", "D. 以上都是"], "D", "三种方法：内核参数、sysctl配置、NetworkManager图形界面。");
+    addSingle(1, "在麒麟系统中，查看系统日志命令？", ["A. journalctl", "B. dmesg", "C. tail -f /var/log/messages", "D. 以上都是"], "D", "journalctl、dmesg、messages均可查看日志。");
+    addSingle(1, "麒麟系统中软件安装方式？", ["A. apt install", "B. 软件商店", "C. dpkg -i", "D. 以上都是"], "D", "麒麟支持多种软件安装方式。");
+    addSingle(1, "统信UOS系统监控工具？", ["A. 系统监视器", "B. top", "C. htop", "D. 以上都是"], "D", "多种工具均可监控系统资源。");
+    addSingle(1, "麒麟V10中用户管理命令？", ["A. useradd", "B. usermod", "C. passwd", "D. 以上都是"], "D", "useradd/usermod/passwd/userdel管理用户。");
+    addSingle(1, "麒麟操作系统的版本类型包括？", ["A. 桌面版", "B. 服务器版", "C. 嵌入式版", "D. 以上都是"], "D", "麒麟有桌面版、服务器版、嵌入式版。");
+    addSingle(1, "统信UOS支持的文件系统类型有？", ["A. ext4", "B. xfs", "C. btrfs", "D. 以上都是"], "D", "统信UOS支持ext4/xfs/btrfs等多种文件系统。");
+    addSingle(1, "麒麟操作系统的安全特性包括？", ["A. SELinux", "B. 安全审计", "C. 强制访问控制", "D. 以上都是"], "D", "麒麟安全框架：SELinux、audit审计、MAC强制访问控制。");
+    addSingle(1, "统信UOS的特色功能包括？", ["A. 应用商店", "B. 备份还原工具", "C. 多屏协同", "D. 以上都是"], "D", "UOS特色：应用商店、备份还原、多屏协同、云账户同步。");
+    addSingle(1, "在麒麟系统中，常用的系统监控命令有？", ["A. top", "B. htop", "C. glances", "D. 以上都是"], "D", "top/htop进程监控，glances综合监控。");
+    addSingle(1, "统信UOS的软件包管理方式支持哪些格式？", ["A. deb", "B. flatpak", "C. snap", "D. 以上都是"], "D", "UOS原生deb，商店支持flatpak/snap/AppImage通用格式。");
+    addSingle(1, "麒麟操作系统支持的文件系统类型有？", ["A. ext4", "B. xfs", "C. btrfs", "D. 以上都是"], "D", "麒麟支持ext4/xfs/btrfs原生。");
+    addSingle(1, "统信UOS的网络配置方式包括哪些？", ["A. 图形界面", "B. nmcli", "C. 手动修改配置文件", "D. 以上都是"], "D", "UOS支持图形界面、nmcli命令行、/etc/network/interfaces等多种方式。");
+    addSingle(1, "在麒麟系统中，用户和组管理命令有？", ["A. useradd", "B. groupadd", "C. usermod", "D. 以上都是"], "D", "useradd/groupadd添加，usermod修改，passwd设置密码。");
+    addSingle(1, "统信UOS的图形界面故障排查方法有？", ["A. 重启桌面环境", "B. 查看Xorg日志", "C. 检查显卡驱动", "D. 以上都是"], "D", "方法：重启DDE、Xorg日志分析、驱动检查、Ctrl+Alt+F2切tty。");
+    addSingle(1, "麒麟操作系统的备份与恢复工具有？", ["A. tar", "B. rsync", "C. dd", "D. 以上都是"], "D", "tar打包，rsync同步，dd镜像，麒麟自带图形备份工具。");
+    addSingle(1, "统信UOS的远程管理方式支持？", ["A. SSH", "B. VNC", "C. RDP", "D. 以上都是"], "D", "UOS支持SSH命令行、VNC/RDP远程桌面。");
+    addSingle(1, "麒麟系统中，服务管理的常见操作包括？", ["A. 启动", "B. 停止", "C. 重启", "D. 以上都是"], "D", "systemctl start/stop/restart/status 服务名。");
+    addSingle(1, "统信UOS的磁盘分区工具包括哪些？", ["A. fdisk", "B. parted", "C. gparted", "D. 以上都是"], "D", "fdisk/parted命令行，gparted图形化。");
+    addSingle(1, "麒麟操作系统的内核升级步骤包含？", ["A. 下载新内核", "B. 安装新内核", "C. 更新引导配置", "D. 以上都是"], "D", "升级步骤：下载→安装→update-grub→重启验证。");
+    addSingle(1, "统信UOS的日志管理工具有？", ["A. journalctl", "B. logrotate", "C. rsyslog", "D. 以上都是"], "D", "journalctl查systemd日志，logrotate轮转，rsyslog系统日志服务。");
+    addSingle(1, "麒麟系统的权限管理机制包括？", ["A. 传统Unix权限", "B. ACL", "C. 能力机制", "D. 以上都是"], "D", "权限体系：rwx权限、ACL扩展、capability细粒度授权、SELinux强制访问控制。");
+        // ===================== 第3章 国产数据库（原题完整保留）=====================
+    addSingle(2, "以下哪个是国产关系型数据库？", ["A. MySQL", "B. Oracle", "C. 达梦DM8", "D. MongoDB"], "C", "达梦DM8是武汉达梦公司研发的国产关系型数据库。");
+    addSingle(2, "将MySQL迁移到人大金仓KingbaseES时，哪个函数通常需要语法转换？", ["A. SUM()", "B. IFNULL()", "C. COUNT(*)", "D. NOW()"], "B", "IFNULL()在金仓中对应COALESCE或NVL。");
+    addSingle(2, "达梦DTS迁移工具最常用功能是？", ["A. 代码格式化", "B. 结构迁移与数据同步", "C. SQL自动调优", "D. 前端生成"], "B", "DTS核心能力：结构迁移、全量/增量同步及数据校验。");
+    addSingle(2, "达梦中与MySQL LIMIT m,n等效写法？", ["A. LIMIT n OFFSET m", "B. TOP n", "C. ROWNUM", "D. FETCH FIRST"], "A", "达梦支持标准SQL的LIMIT ... OFFSET。");
+    addSingle(2, "MySQL中的AUTO_INCREMENT在达梦对应？", ["A. IDENTITY", "B. SERIAL", "C. AUTO", "D. SEQUENCE"], "A", "达梦使用IDENTITY自增列。");
+    addSingle(2, "达梦数据库默认端口？", ["A. 3306", "B. 5432", "C. 5236", "D. 1521"], "C", "达梦DM8默认端口5236。");
+    addSingle(2, "人大金仓数据库默认端口？", ["A. 54321", "B. 5432", "C. 1521", "D. 3306"], "A", "KingbaseES默认端口54321。");
+    addSingle(2, "达梦数据库大小写敏感参数？", ["A. CASE_SENSITIVE", "B. IGNORECASE", "C. LOWER_CASE", "D. SENSITIVE"], "A", "达梦初始化参数CASE_SENSITIVE控制大小写。");
+    addSingle(2, "openGauss数据库基于哪个开源项目？", ["A. MySQL", "B. PostgreSQL", "C. SQLite", "D. Oracle"], "B", "openGauss基于PostgreSQL 9.2内核。");
+    addSingle(2, "达梦数据库逻辑备份工具？", ["A. dexp", "B. mysqldump", "C. expdp", "D. pg_dump"], "A", "达梦逻辑导出工具为dexp。");
+    addSingle(2, "人大金仓默认管理工具？", ["A. KDTS", "B. KStudio", "C. DBeaver", "D. Navicat"], "B", "KStudio是官方图形化管理工具。");
+    addSingle(2, "达梦数据库表空间扩展方式？", ["A. 自动扩展", "B. 手动添加文件", "C. 重新初始化", "D. 删除重建"], "A", "达梦支持表空间自动扩展。");
+    addSingle(2, "达梦数据库JDBC驱动类名？", ["A. dm.jdbc.driver.DmDriver", "B. com.dameng.jdbc.Driver", "C. com.dm.Driver", "D. dm8.jdbc.Driver"], "A", "标准驱动为dm.jdbc.driver.DmDriver。");
+    addSingle(2, "达梦数据库导入dmp文件工具？", ["A. dimp", "B. imp", "C. restore", "D. dload"], "A", "dimp是达梦逻辑导入工具。");
+    addSingle(2, "人大金仓数据库备份命令？", ["A. sys_dump", "B. kdb_dump", "C. kingbase_dump", "D. dumpdb"], "A", "sys_dump是KingbaseES逻辑备份工具。");
+    addSingle(2, "国产数据库'海量数据库（HighGo DB）'在架构上兼容哪种主流开源数据库？", ["A. MySQL", "B. Oracle", "C. PostgreSQL", "D. SQLite"], "C", "海量数据库基于PostgreSQL内核开发。");
+    addSingle(2, "海量数据库的默认端口是？", ["A. 3306", "B. 1433", "C. 5432", "D. 1521"], "C", "PostgreSQL默认端口5432，海量数据库继承此设置。");
+    addSingle(2, "以下哪项不是海量数据库的典型特性？", ["A. 支持SQL标准", "B. 兼容PostgreSQL协议", "C. 支持存储过程与触发器", "D. 仅支持Windows平台"], "D", "海量数据库支持主流Linux发行版和Windows Server。");
+    addSingle(2, "在海量数据库中，查看当前所有数据库的命令是？", ["A. SHOW DATABASES;", "B. \\l", "C. SELECT datname FROM pg_database;", "D. LIST DATABASES;"], "C", "psql客户端中\\l是快捷方式，实际SQL查询为pg_database系统表。");
+    addSingle(2, "创建新数据库时，以下哪个命令是正确的？", ["A. CREATE DATABASE mydb;", "B. NEW DATABASE mydb;", "C. ADD DATABASE mydb;", "D. INIT DATABASE mydb;"], "A", "CREATE DATABASE是SQL标准命令。");
+    addSingle(2, "在海量数据库中，查看表结构的命令是？", ["A. DESCRIBE table_name;", "B. \\d table_name", "C. SHOW CREATE TABLE table_name;", "D. SELECT * FROM table_name LIMIT 0;"], "B", "psql中\\d table_name显示列、索引、约束等信息。");
+    addSingle(2, "若想查询某表中所有记录，正确SQL语句是？", ["A. SELECT ALL FROM table;", "B. SELECT * FROM table;", "C. FETCH ALL FROM table;", "D. GET * FROM table;"], "B", "SELECT * FROM table是最基础查询语句。");
+    addSingle(2, "海量数据库中，用于导入外部SQL脚本文件的客户端命令是？", ["A. \\import filename.sql", "B. \\i filename.sql", "C. SOURCE filename.sql", "D. RUN filename.sql"], "B", "psql中使用\\i filename.sql执行脚本文件。");
+    addSingle(2, "海量数据库（Vastbase）主要基于哪个开源数据库内核开发？", ["A. MySQL", "B. PostgreSQL", "C. Oracle", "D. MongoDB"], "B", "海量数据库基于PostgreSQL内核开发。");
+    addSingle(2, "达梦数据库（DM）使用的默认端口号是？", ["A. 3306", "B. 5236", "C. 1521", "D. 5432"], "B", "达梦DM8默认服务端口5236。");
+    addSingle(2, "在SQL中，用于查询数据的命令是？", ["A. SELECT", "B. INSERT", "C. UPDATE", "D. DELETE"], "A", "SELECT查询数据。");
+    addSingle(2, "海量数据库G100支持的事务隔离级别默认是？", ["A. 读未提交", "B. 读已提交", "C. 可重复读", "D. 串行化"], "B", "PostgreSQL/海量数据库默认读已提交（Read Committed）。");
+    addSingle(2, "人大金仓数据库（Kingbase）主要兼容哪种数据库的语法？", ["A. SQL Server", "B. Oracle", "C. DB2", "D. Sybase"], "B", "金仓KingbaseES提供Oracle兼容模式。");
+    addSingle(2, "GaussDB是哪家公司的数据库产品？", ["A. 阿里巴巴", "B. 腾讯", "C. 华为", "D. 百度"], "C", "华为GaussDB企业级分布式数据库。");
+    addSingle(2, "在PostgreSQL（及海量）中，用于备份数据库的命令行工具是？", ["A. mysqldump", "B. pg_dump", "C. expdp", "D. bcp"], "B", "pg_dump是PostgreSQL逻辑备份工具。");
+    addSingle(2, "国产数据库迁移中，最困难的部分通常是？", ["A. 表结构迁移", "B. 存储过程和触发器的迁移", "C. 数据导入", "D. 用户权限迁移"], "B", "存储过程涉及PL/SQL方言差异，工作量最大。");
+    addSingle(2, "OceanBase数据库的架构特点是？", ["A. 共享存储", "B. Shared-Nothing", "C. 单机版", "D. 仅支持行存储"], "B", "OceanBase采用Shared-Nothing无共享架构。");
+    addSingle(2, "在海量数据库中，创建表的SQL语句是？", ["A. CREATE TABLE", "B. NEW TABLE", "C. ADD TABLE", "D. MAKE TABLE"], "A", "CREATE TABLE是SQL标准建表命令。");
+    addSingle(2, "数据库连接池的作用是？", ["A. 增加数据库存储", "B. 复用数据库连接，提高性能", "C. 备份数据库", "D. 加密数据库"], "B", "连接池复用物理连接，减少握手和认证开销。");
+    addSingle(2, "TiDB数据库兼容哪种协议？", ["A. MySQL协议", "B. PostgreSQL协议", "C. Oracle协议", "D. SQL Server协议"], "A", "TiDB兼容MySQL协议和语法。");
+    addSingle(2, "在海量数据库中，查看当前连接数的视图是？", ["A. pg_stat_activity", "B. vsession", "C. sys.sysprocesses", "D. information_schema"], "A", "pg_stat_activity系统视图显示当前所有数据库连接及其状态。");
+    addSingle(2, "下列哪个不是关系型数据库？", ["A. Oracle", "B. MySQL", "C. Redis", "D. PostgreSQL"], "C", "Redis是键值型NoSQL数据库，非关系型。");
+    addSingle(2, "数据库ACID特性中，I代表？", ["A. 原子性", "B. 一致性", "C. 隔离性", "D. 持久性"], "C", "ACID：Atomicity原子性、Consistency一致性、Isolation隔离性、Durability持久性。");
+    addSingle(2, "海量数据库支持的操作系统不包括？", ["A. 麒麟", "B. 统信", "C. Windows XP", "D. CentOS"], "C", "海量数据库支持主流Linux和Windows Server，XP已停止维护不支持。");
+    addSingle(2, "用于数据库性能分析的工具AWR通常指？", ["A. 自动工作负载仓库", "B. 自动写入日志", "C. 高级Web报表", "D. 应用接口"], "A", "AWR（Automatic Workload Repository）是Oracle性能分析工具。");
+    addSingle(2, "在迁移Oracle到国产库时，VARCHAR2类型通常映射为？", ["A. VARCHAR", "B. TEXT", "C. CLOB", "D. BLOB"], "A", "Oracle VARCHAR2在PostgreSQL/达梦/金仓中映射为VARCHAR。");
+    addSingle(2, "海量数据库的日志文件通常存放在？", ["A. /var/log/vastbase", "B. /data/log", "C. pg_log", "D. /tmp"], "C", "PostgreSQL/海量数据库日志默认在pg_log目录。");
+    addSingle(2, "数据库索引的主要作用是？", ["A. 提高查询速度", "B. 减少存储空间", "C. 增加数据冗余", "D. 美化数据"], "A", "索引类似书目录，快速定位数据，提升查询性能。");
+    addSingle(2, "海量数据库默认的监听端口是多少？", ["A. 5432", "B. 3306", "C. 1521", "D. 1433"], "A", "海量数据库基于PostgreSQL，默认端口5432。");
+    addSingle(2, "在海量数据库中，创建数据库的SQL命令是？", ["A. CREATE DATABASE", "B. CREATE DB", "C. NEW DATABASE", "D. ADD DATABASE"], "A", "CREATE DATABASE 数据库名是SQL标准建库命令。");
+    addSingle(2, "海量数据库支持哪种标准SQL语言版本？", ["A. SQL-92", "B. SQL:1999", "C. SQL:2003", "D. SQL:2016"], "D", "海量数据库兼容SQL:2016标准。");
+    addSingle(2, "如何查看海量数据库当前所有数据库列表？", ["A. SHOW DATABASES;", "B. LIST DATABASES;", "C. SELECT * FROM pg_database;", "D. \\l"], "D", "psql元命令\\l查看数据库列表，或查询pg_database系统表。");
+    addSingle(2, "在海量数据库中，删除表中的所有数据但保留表结构的命令是？", ["A. DELETE FROM table;", "B. TRUNCATE TABLE table;", "C. DROP TABLE table;", "D. REMOVE FROM table;"], "B", "TRUNCATE快速清空表数据，保留结构，不可回滚，比DELETE高效。");
+    addSingle(2, "海量数据库的默认管理员用户名是？", ["A. root", "B. admin", "C. postgres", "D. sysdba"], "C", "海量/PostgreSQL默认超级管理员为postgres。");
+    addSingle(2, "如何在海量数据库中创建一个普通用户并授予登录权限？", ["A. CREATE USER", "B. ADD USER", "C. CREATE LOGIN", "D. NEW USER"], "A", "CREATE USER 用户名 WITH LOGIN PASSWORD '密码'创建可登录用户。");
+    addSingle(2, "海量数据库支持哪种分区表类型？", ["A. 范围分区", "B. 列表分区", "C. 哈希分区", "D. 以上都是"], "D", "海量支持范围、列表、哈希三种分区方式。");
+    addSingle(2, "在海量数据库中，用于导入SQL文件的命令行工具是？", ["A. psql -f", "B. mysql < file.sql", "C. sqlplus @file.sql", "D. isql -i"], "A", "psql -d 数据库名 -f 脚本.sql执行SQL文件。");
+    addSingle(2, "海量数据库的配置文件通常名称是什么？", ["A. postgresql.conf", "B. my.cnf", "C. init.ora", "D. hldb.conf"], "A", "postgresql.conf是海量/PostgreSQL主配置文件。");
+    addSingle(2, "如何在海量数据库中查看当前所有活动连接？", ["A. SELECT * FROM pg_stat_activity;", "B. SHOW PROCESSLIST;", "C. SHOW CONNECTIONS;", "D. LIST ACTIVE CONNECTIONS;"], "A", "pg_stat_activity系统视图显示每个连接的详细信息。");
+    addSingle(2, "海量数据库的备份命令是？", ["A. pg_dump", "B. mysqldump", "C. expdp", "D. sqlbackup"], "A", "pg_dump是逻辑备份工具，pg_dumpall备份所有数据库。");
+    addSingle(2, "在海量数据库中，创建唯一索引的SQL语句是？", ["A. CREATE UNIQUE INDEX", "B. CREATE DISTINCT INDEX", "C. CREATE SINGLE INDEX", "D. CREATE UNIQ INDEX"], "A", "CREATE UNIQUE INDEX 索引名 ON 表名(列名)创建唯一索引。");
+    addSingle(2, "海量数据库支持哪种数据类型存储JSON？", ["A. JSON", "B. JSONB", "C. TEXT可以存储JSON", "D. 以上都是"], "D", "海量支持JSON和JSONB类型，TEXT也可存JSON但无校验和优化。");
+    addSingle(2, "如何修改海量数据库用户的密码？", ["A. ALTER USER ... PASSWORD", "B. SET PASSWORD FOR ...", "C. CHANGE USER PASSWORD", "D. UPDATE user SET password="], "A", "ALTER USER 用户名 WITH PASSWORD '新密码';修改用户密码。");
+    addSingle(2, "海量数据库的事务隔离级别默认是？", ["A. READ UNCOMMITTED", "B. READ COMMITTED", "C. REPEATABLE READ", "D. SERIALIZABLE"], "B", "PostgreSQL/海量默认Read Committed，避免脏读。");
+    addSingle(2, "在海量数据库中，查看表结构的命令是？", ["A. \\d table", "B. DESCRIBE table;", "C. SHOW COLUMNS FROM table;", "D. DESC table;"], "A", "psql中\\d 表名显示表结构、索引、约束等。");
+    addSingle(2, "海量数据库支持哪种主从复制方式？", ["A. 异步复制", "B. 同步复制", "C. 半同步复制", "D. 以上都是"], "D", "海量支持异步、同步、半同步多种复制模式。");
+    addSingle(2, "如何在海量数据库中开启查询执行计划分析？", ["A. EXPLAIN", "B. ANALYZE", "C. PROFILE", "D. TRACE"], "A", "EXPLAIN显示SQL执行计划，EXPLAIN ANALYZE实际执行并计时。");
+    addSingle(2, "海量数据库的日志文件通常存放在哪个目录？", ["A. /var/log/postgresql", "B. $PGDATA/pg_log", "C. /var/lib/pgsql/log", "D. 可配置"], "D", "通过log_directory参数配置日志目录，默认在PGDATA/pg_log。");
+    addSingle(2, "在海量数据库中，回收用户所有权限的语句是？", ["A. REVOKE ALL PRIVILEGES", "B. REMOVE ALL PRIVILEGES", "C. DROP USER PRIVILEGES", "D. CLEAR ALL PERMISSIONS"], "A", "REVOKE ALL PRIVILEGES ON DATABASE db FROM user;回收权限。");
+    addSingle(2, "海量数据库的存储过程支持哪种语言？", ["A. PL/pgSQL", "B. SQL", "C. C", "D. 以上都是"], "D", "海量支持PL/pgSQL、纯SQL、C语言扩展等多种存储过程语言。");
+    addSingle(2, "如何查看海量数据库版本信息？", ["A. SELECT version();", "B. SHOW VERSION;", "C. SELECT @@version;", "D. VERSION();"], "A", "SELECT version();返回数据库版本和编译信息。");
+    addSingle(2, "海量数据库的最大连接数参数是什么？", ["A. max_connections", "B. maxconn", "C. max_user_connections", "D. connections"], "A", "postgresql.conf中max_connections参数控制最大连接数。");
+    addSingle(2, "在海量数据库中，创建视图的SQL语句是？", ["A. CREATE VIEW", "B. CREATE VIRTUAL TABLE", "C. MAKE VIEW", "D. NEW VIEW"], "A", "CREATE VIEW 视图名 AS SELECT ...创建虚拟表。");
+    addSingle(2, "海量数据库支持全文检索吗？如果支持，采用什么方式？", ["A. 不支持", "B. 支持，使用GIN索引", "C. 支持，使用B-tree索引", "D. 支持，使用Hash索引"], "B", "海量支持全文检索，使用GIN索引加速tsvector类型查询。");
+    addSingle(2, "如何在海量数据库中设置自动提交为关闭？", ["A. SET AUTOCOMMIT OFF;", "B. \\set AUTOCOMMIT off", "C. SET autocommit = 0;", "D. \\set autocommit = off"], "B", "psql中使用\\set AUTOCOMMIT off关闭自动提交，需手动COMMIT。");
+    addSingle(2, "海量数据库的临时表空间默认名称是？", ["A. temp", "B. pg_temp", "C. tmp", "D. temporary"], "B", "pg_temp是会话级临时表空间，会话结束后自动清理。");
+    addSingle(2, "在海量数据库中，导出数据为CSV格式的命令是？", ["A. COPY ... TO ... CSV", "B. EXPORT ... CSV", "C. SELECT ... INTO OUTFILE", "D. 使用pg_dump指定格式"], "A", "COPY 表名 TO '文件.csv' CSV HEADER;导出为CSV格式。");
+    addSingle(2, "海量数据库的并发控制主要采用哪种锁机制？", ["A. MVCC", "B. 表锁", "C. 行锁", "D. 页锁"], "A", "海量采用MVCC多版本并发控制，读写不互锁，提高并发性能。");
+    addSingle(2, "海量数据库支持的索引类型包括？", ["A. B-tree", "B. Hash", "C. GIN", "D. 以上都是"], "D", "PostgreSQL/海量支持B-tree、Hash、GIN、GiST、SP-GiST、BRIN等索引。");
+    addSingle(2, "海量数据库的高可用方案有？", ["A. 主从复制", "B. 双机热备", "C. 集群", "D. 以上都是"], "D", "高可用方案：主从异步/同步、双机热备、Patroni集群、分布式分片。");
+    addSingle(2, "海量数据库的安全特性包括？", ["A. 用户认证", "B. 权限管理", "C. 数据加密", "D. 以上都是"], "D", "安全体系：SCRAM认证、RBAC权限、TDE加密、审计日志。");
+    addSingle(2, "海量数据库中，查看性能的视图有？", ["A. pg_stat_database", "B. pg_stat_user_tables", "C. pg_stat_activity", "D. 以上都是"], "D", "性能视图：数据库统计、表统计、活动连接、复制状态。");
+        // ===================== 第4章 国产中间件（原题完整保留）=====================
+    addSingle(3, "东方通TongWeb属于哪类产品？", ["A. 负载均衡器", "B. Java应用服务器", "C. 关系数据库", "D. 桌面环境"], "B", "TongWeb是JavaEE规范的应用服务器。");
+    addSingle(3, "东方通TongWeb默认管理端口？", ["A. 8080", "B. 9060", "C. 7001", "D. 8005"], "B", "TongWeb管理控制台默认端口9060。");
+    addSingle(3, "以下哪个不是国产中间件？", ["A. TongWeb", "B. Apusic", "C. WebLogic", "D. InforSuite"], "C", "WebLogic是Oracle商用中间件。");
+    addSingle(3, "东方通TongWeb部署Java应用常用方式？", ["A. 上传war包", "B. 复制class文件", "C. FTP传输", "D. 脚本安装"], "A", "通过管理控制台部署war包。");
+    addSingle(3, "中创中间件全称是？", ["A. 中创应用服务器", "B. 中创云平台", "C. 中创InforSuite AS", "D. 中创WebLogic"], "C", "中创软件商用中间件产品名为InforSuite AS。");
+    addSingle(3, "中创中间件主要用于什么场景？", ["A. 数据备份", "B. 数据库代理", "C. 部署Java Web应用", "D. 文件共享"], "C", "中创InforSuite AS是Java EE兼容的应用服务器。");
+    addSingle(3, "中创中间件默认监听端口一般为？", ["A. 8080", "B. 9090", "C. 80", "D. 443"], "A", "默认HTTP端口8080。");
+    addSingle(3, "中创中间件的管理控制台默认端口是？", ["A. 9090", "B. 8080", "C. 8009", "D. 8443"], "A", "中创管理控制台默认端口9090。");
+    addSingle(3, "配置数据源时，必须指定的参数不包括？", ["A. JDBC URL", "B. Driver Class Name", "C. 用户名与密码", "D. 服务器IP地址"], "D", "JDBC URL中已包含IP和端口信息。");
+    addSingle(3, "中创中间件中重启服务的正确方式是？", ["A. ./shutdown.sh && ./startup.sh", "B. 直接kill进程", "C. 删除配置文件", "D. 重启操作系统"], "A", "标准重启方式：先停止再启动。");
+    addSingle(3, "中创中间件的核心配置文件包括？", ["A. server.xml", "B. context.xml", "C. web.xml", "D. setenv.sh"], "D", "server.xml配置服务端口、虚拟主机；context.xml配置数据源。");
+    addSingle(3, "中创中间件中配置数据源时，需要设置的参数有？", ["A. JDBC URL", "B. 驱动类名", "C. 用户名与密码", "D. 最大/最小连接数"], "D", "数据源配置必需：JDBC URL、驱动类名、用户名密码，可选连接数。");
+    addSingle(3, "中创中间件中查看应用日志的方式包括？", ["A. 查看/logs目录下的日志文件", "B. 通过管理控制台查看日志", "C. 使用tail -f命令实时查看", "D. 直接修改日志文件"], "D", "查看日志应使用只读方式。");
+    addSingle(3, "中创中间件的默认部署目录名称是？", ["A. webapps", "B. deployments", "C. applications", "D. appbase"], "A", "webapps是自动部署目录。");
+    addSingle(3, "如何在中创中间件中配置JVM堆内存大小？", ["A. 修改启动脚本添加-Xmx参数", "B. 修改配置文件中的jvm选项", "C. 通过管理控制台设置", "D. 以上都是"], "D", "三种方式均可配置JVM内存。");
+    addSingle(3, "中创中间件的日志文件默认路径是？", ["A. ./logs", "B. /var/log/inforbus", "C. $MIDDLEWARE_HOME/logs", "D. 可配置"], "C", "日志默认在安装目录下的logs文件夹。");
+    addSingle(3, "在中创中间件中，部署WAR包的操作方式有哪两种？", ["A. 控制台上传和自动部署", "B. 命令行部署和API部署", "C. 热部署和冷部署", "D. 手动复制和脚本部署"], "A", "主流方式：管理控制台上传WAR包，或放入webapps目录自动部署。");
+    addSingle(3, "中创中间件的线程池默认核心线程数是多少？", ["A. 10", "B. 50", "C. 100", "D. 200"], "B", "中创默认核心线程数50。");
+    addSingle(3, "如何在中创中间件中配置数据源连接池？", ["A. 在配置文件中定义", "B. 通过管理控制台定义", "C. 在应用代码中定义", "D. 以上都可以"], "D", "三种方式均可。");
+    addSingle(3, "中创中间件的集群通信默认端口范围是？", ["A. 5000-5100", "B. 7001-7010", "C. 8000-8010", "D. 9000-9010"], "B", "中创集群组播通信端口范围7001-7010。");
+    addSingle(3, "中创中间件的安全管理领域默认类型是什么？", ["A. 文件领域", "B. 数据库领域", "C. LDAP领域", "D. 证书领域"], "A", "默认使用文件领域，用户和角色信息存储在XML配置文件中。");
+    addSingle(3, "中创中间件的会话超时时间默认是多少分钟？", ["A. 10", "B. 20", "C. 30", "D. 60"], "C", "默认会话超时30分钟，可在web.xml中修改。");
+    addSingle(3, "如何在中创中间件中启用访问日志？", ["A. 修改配置文件", "B. 通过管理控制台设置", "C. 添加日志模块", "D. 以上都是"], "D", "多种方式启用访问日志记录HTTP请求信息。");
+    addSingle(3, "中创中间件支持的热部署方式有哪些？", ["A. 自动扫描部署目录", "B. 管理控制台手动部署", "C. JMX触发热部署", "D. 以上都是"], "D", "支持自动扫描、控制台部署、JMX编程三种热部署方式。");
+    addSingle(3, "中创中间件与Nginx搭配时通常使用什么协议？", ["A. HTTP/HTTPS", "B. AJP", "C. FastCGI", "D. WebSocket"], "A", "Nginx作为反向代理时使用HTTP/HTTPS协议转发请求到中创。");
+    addSingle(3, "中创中间件的SSL配置需要哪些文件？", ["A. 证书文件", "B. 私钥文件", "C. 根证书", "D. 以上都是"], "D", "SSL/TLS配置需要证书、私钥，可选中间件CA根证书链。");
+    addSingle(3, "如何在中创中间件中查看当前部署的应用列表？", ["A. 管理控制台查看", "B. 查看部署目录", "C. 命令行列出", "D. 以上都是"], "D", "控制台图形界面、webapps目录、命令行工具均可查看。");
+    addSingle(3, "中创中间件的启动脚本名称是？", ["A. start.sh", "B. startup.sh", "C. run.sh", "D. boot.sh"], "B", "startup.sh是标准启动脚本，shutdown.sh停止服务。");
+    addSingle(3, "中创中间件的配置文件主要格式是？", ["A. XML", "B. Properties", "C. YAML", "D. JSON"], "A", "中创使用XML格式配置文件，如server.xml、web.xml。");
+    addSingle(3, "中创中间件如何配置虚拟主机？", ["A. 在server.xml中配置Host", "B. 在管理控制台添加", "C. 通过API创建", "D. 以上都是"], "D", "配置文件、管理控制台、管理API均可配置虚拟主机。");
+    addSingle(3, "中创中间件在Linux环境下推荐使用的Java版本是？", ["A. OpenJDK 8", "B. OpenJDK 11", "C. Oracle JDK 8", "D. 以上都支持"], "D", "中创兼容OpenJDK 8/11和Oracle JDK 8，推荐OpenJDK 11。");
+    addSingle(3, "中创中间件（InforSuite AS）主要遵循的标准是？", ["A. .NET", "B. Java EE (Jakarta EE)", "C. PHP", "D. Python"], "B", "中创InforSuite AS是Java EE兼容应用服务器。");
+    addSingle(3, "东方通中间件（TongWeb）主要对标的是？", ["A. Tomcat", "B. WebLogic/WebSphere", "C. Nginx", "D. Apache"], "B", "东方通TongWeb对标Oracle WebLogic、IBM WebSphere等企业级Java EE应用服务器。");
+    addSingle(3, "在中间件中，JNDI的全称是？", ["A. Java命名和目录接口", "B. Java网络数据接口", "C. Java节点数据交互", "D. Java本地调试接口"], "A", "JNDI（Java Naming and Directory Interface）用于查找数据源、EJB等命名资源。");
+    addSingle(3, "WebLogic属于哪家公司的产品？", ["A. IBM", "B. Oracle", "C. Microsoft", "D. RedHat"], "B", "WebLogic原BEA公司，现为Oracle旗下Java EE应用服务器产品。");
+    addSingle(3, "在Java应用中，连接中间件数据源通常使用的接口是？", ["A. JDBC", "B. ODBC", "C. OCI", "D. ADO"], "A", "JDBC（Java Database Connectivity）是Java连接数据库的标准API。");
+    addSingle(3, "消息中间件的主要作用是？", ["A. 网页展示", "B. 系统解耦、异步通信", "C. 数据库备份", "D. 操作系统管理"], "B", "消息中间件实现应用解耦、流量削峰、异步处理，如Kafka、RocketMQ。");
+    addSingle(3, "以下哪个是国产消息中间件？", ["A. RabbitMQ", "B. 东方通TongLINK/Q", "C. Kafka", "D. ActiveMQ"], "B", "东方通TongLINK/Q是国产消息中间件。");
+    addSingle(3, "中间件部署在什么之间？", ["A. 硬件和操作系统", "B. 操作系统和应用软件", "C. 数据库和网络", "D. 前端和后端"], "B", "中间件位于操作系统之上，为应用软件提供运行环境和公共服务。");
+    addSingle(3, "修改中创中间件的JVM内存参数，通常在哪个文件中？", ["A. server.xml", "B. setenv.sh / jvm.options", "C. web.xml", "D. context.xml"], "B", "setenv.sh（Linux）或setenv.bat（Windows）配置JVM参数如-Xms、-Xmx。");
+    addSingle(3, "应用服务器中，WAR包代表什么？", ["A. Web应用归档文件", "B. Windows应用资源", "C. Web访问请求", "D. 工作区归档"], "A", "WAR（Web Application Archive）是Java Web应用打包格式，包含Servlet、JSP等。");
+    addSingle(3, "集群环境下，中间件通常使用什么技术实现会话共享？", ["A. Session Replication", "B. Cookie", "C. URL Rewriting", "D. Hidden Fields"], "A", "会话复制在多节点间同步Session，或使用Redis等集中存储实现共享。");
+    addSingle(3, "Nginx通常被用作？", ["A. 数据库", "B. 反向代理和负载均衡", "C. 编程语言", "D. 操作系统"], "B", "Nginx是高性能Web服务器和反向代理，常用于负载均衡、静态资源服务。");
+    addSingle(3, "中创中间件支持的部署方式是？", ["A. 单机", "B. 集群", "C. 容器化", "D. 以上都支持"], "D", "中创InforSuite AS支持单机、多节点集群、Docker/K8s容器化部署。");
+    addSingle(3, "中创中间件的集群部署方式有？", ["A. 水平集群", "B. 垂直集群", "C. 混合集群", "D. 以上都是"], "D", "支持水平（多节点）、垂直（多实例）、混合集群模式。");
+    addSingle(3, "中创中间件的性能调优参数包括？", ["A. 线程池大小", "B. 连接池配置", "C. JVM参数", "D. 以上都是"], "D", "调优四维度：工作线程数、数据库连接池、JVM堆、IO缓冲区。");
+    addSingle(3, "中创中间件的安全配置可以包括？", ["A. SSL/TLS", "B. 访问控制", "C. 认证机制", "D. 以上都是"], "D", "安全配置：HTTPS加密、IP白名单/角色访问控制、JAAS认证。");
+    addSingle(3, "中创中间件的监控方式有？", ["A. JMX", "B. SNMP", "C. 日志分析", "D. 以上都是"], "D", "JMX管理，SNMP监控，日志分析，REST API查询。");
+    addSingle(3, "中创中间件部署时常见的错误码含义？", ["A. 端口冲突", "B. 内存不足", "C. 配置文件错误", "D. 以上都是"], "D", "常见错误：端口冲突、OOM、配置错误、License过期。");
+    addSingle(3, "中创中间件的连接器类型支持？", ["A. HTTP", "B. AJP", "C. HTTPS", "D. 以上都是"], "D", "Connector支持HTTP/HTTPS、AJP协议、WebSocket长连接。");
+    addSingle(3, "中创中间件的日志级别可以设置为？", ["A. ERROR", "B. WARN", "C. INFO", "D. 以上都是"], "D", "日志级别从高到低：ERROR→WARN→INFO→DEBUG→TRACE。");
+    addSingle(3, "中创中间件的热部署限制条件有？", ["A. 类加载器隔离", "B. 内存泄漏风险", "C. 事务状态丢失", "D. 以上都是"], "D", "限制：类加载器问题、PermGen/元空间泄漏、事务中断、部分资源需重启。");
+    addSingle(3, "中创中间件与Spring Boot集成的注意事项有？", ["A. 内嵌容器冲突", "B. 依赖版本兼容", "C. 配置文件合并", "D. 以上都是"], "D", "集成注意：排除内嵌Tomcat、版本对齐、配置合并、安全适配。");
+    addSingle(3, "中创中间件的跨域配置方法有？", ["A. CORS过滤器", "B. Nginx代理", "C. 修改配置文件", "D. 以上都是"], "D", "方法：CORS Filter、Nginx反向代理、server.xml配置、代码设置响应头。");
+    addSingle(3, "中创中间件的会话保持机制包括？", ["A. Cookie", "B. URL重写", "C. Session复制", "D. 以上都是"], "D", "会话保持：Cookie会话标识、URL重写、多节点复制、负载均衡粘性会话。");
+    addSingle(3, "中创中间件的类加载隔离策略有？", ["A. 独立类加载器", "B. 共享类加载器", "C. 父子委托", "D. 以上都是"], "D", "类加载架构：Common共享、Catalina独立、应用隔离，双亲委托机制。");
+    addSingle(3, "中创中间件的管理命令行工具有哪些？", ["A. 自带的CLI脚本", "B. JMX命令行", "C. REST API", "D. 以上都是"], "D", "提供CLI脚本、JMX客户端、REST API管理接口。");
+    addSingle(3, "中创中间件的内存溢出排查步骤包含？", ["A. 查看GC日志", "B. 分析堆转储", "C. 检查代码", "D. 以上都是"], "D", "步骤：启用GC日志、-XX:+HeapDumpOnOutOfMemoryError分析、代码审查。");
+    addSingle(3, "中创中间件的License管理要点有？", ["A. 安装License文件", "B. 检查License有效期", "C. 监控并发用户数", "D. 以上都是"], "D", "License管理：安装激活、有效期监控、并发数管理、过期降级处理。");
+        // ===================== 第5章 应用迁移流程（原题完整保留）=====================
+    addSingle(4, "回滚方案在迁移中的核心价值是？", ["A. 增加文档篇幅", "B. 迁移失败快速恢复业务", "C. 替代日常备份", "D. 降低预算"], "B", "回滚方案保障割接异常时可迅速还原。");
+    addSingle(4, "信创实践赛中通常不包含的环节？", ["A. 环境搭建", "B. 应用迁移", "C. 商业路演融资", "D. 性能调优"], "C", "实践赛聚焦技术迁移调优，不涉及商业融资。");
+    addSingle(4, "不属于信创迁移典型挑战的是？", ["A. 指令集差异", "B. 依赖库缺失", "C. 显示器分辨率", "D. SQL方言不兼容"], "C", "显示器分辨率与迁移技术无关。");
+    addSingle(4, "“一云多芯”的技术内涵？", ["A. 一朵云支持多种CPU芯片", "B. 多个云厂商", "C. 多虚拟机共存", "D. 多操作系统"], "A", "指云平台统一管理x86、ARM等异构资源池。");
+    addSingle(4, "信创迁移“双轨运行”目的？", ["A. 分担负载", "B. 新旧系统并行验证", "C. 增加冗余", "D. 提升并发"], "B", "双轨运行验证新系统正确性，降低割接风险。");
+    addSingle(4, "信创领域“适配”主要指？", ["A. 硬件外观适配", "B. 软件在国产平台上正常运行", "C. 价格适配", "D. 营销适配"], "B", "适配即应用与国产OS/芯片兼容运行。");
+    addSingle(4, "信创迁移中，应用配置硬编码问题如何解决？", ["A. 使用配置文件外部化", "B. 重装系统", "C. 忽略不改", "D. 增加注释"], "A", "配置外部化可解决硬编码路径问题。");
+    addSingle(4, "信创大赛作品赛需提交形式？", ["A. 方案文档+演示视频", "B. 仅答辩PPT", "C. 可执行程序", "D. 论文"], "A", "作品赛要求提交方案、技术文档及演示视频。");
+    addSingle(4, "信创大赛省赛形式？", ["A. 纯理论笔试", "B. 上机实操+理论", "C. 提交论文", "D. 路演"], "B", "省赛通常采用上机实操和理论结合。");
+    addSingle(4, "信创大赛总决赛通常采用？", ["A. 线上答辩", "B. 现场路演+实操", "C. 纯笔试", "D. 提交视频"], "B", "总决赛现场路演答辩并实操。");
+    addSingle(4, "信创适配迁移赛裁判重点考察？", ["A. 代码注释量", "B. 完整迁移流程与性能对比", "C. 软件界面美工", "D. 电脑配置"], "B", "迁移完整性和性能验证为评分核心。");
+    addSingle(4, "信创大赛理论考试中，信创产业全称？", ["A. 信息技术应用创新", "B. 信息安全创新", "C. 信息通信创新", "D. 智能计算创新"], "A", "信创即信息技术应用创新产业。");
+    addSingle(4, "信创主要目标不包括？", ["A. 自主可控", "B. 全栈国产", "C. 提升软件授权费", "D. 信息安全"], "C", "信创目标自主可控安全，而非提升费用。");
+    addSingle(4, "等保2.0对密码的强制要求？", ["A. 国外加密算法", "B. 国密算法", "C. 无需加密", "D. 只做物理隔离"], "B", "等保2.0强调使用国密SM系列算法。");
+    addSingle(4, "信创大赛实践赛作品需要提交？", ["A. 迁移前后性能对比报告", "B. 只提交源代码", "C. 商业计划书", "D. 用户反馈"], "A", "性能对比报告是评分重要依据。");
+    addSingle(4, "应用迁移规范中强调'最小改动原则'是指？", ["A. 尽量不改代码，仅改配置", "B. 必须重写核心算法", "C. 更换编程语言", "D. 删除冗余功能"], "A", "最小改动原则：优先通过配置和环境解决兼容性问题。");
+    addSingle(4, "若迁移过程中遇到'依赖缺失'，应如何处理？", ["A. 删除该功能", "B. 通过apt/yum/dnf安装对应包", "C. 重新格式化硬盘", "D. 联系原厂商更换系统"], "B", "使用操作系统包管理器安装缺失的开发库或运行时。");
+    addSingle(4, "以下哪项不属于'中间件配置'内容？", ["A. 设置JVM参数", "B. 配置虚拟主机", "C. 配置邮件服务器", "D. 设置日志级别"], "C", "邮件服务器属于独立应用或运维设施。");
+    addSingle(4, "若数据迁移失败，首先应检查？", ["A. 网络是否通畅", "B. 是否开启自动提交", "C. 源和目标数据库字符集", "D. 以上都是"], "D", "迁移涉及多方面：网络、自动提交、字符集均需排查。");
+    addSingle(4, "若应用启动后无反应，可能的原因不包括？", ["A. 端口被占用", "B. 依赖库缺失", "C. 用户名密码错误", "D. 系统主题设置为深色模式"], "D", "系统主题属于桌面美化，完全不影响应用启动逻辑。");
+    addSingle(4, "在国产化适配中，最常遇到的'依赖冲突'发生在哪个层面？", ["A. 图片分辨率", "B. JVM版本或系统库版本", "C. 网页字体", "D. 系统壁纸"], "B", "Java应用在不同JVM版本间可能存在API差异。");
+    addSingle(4, "'迁移文档'应包含以下哪些内容？", ["A. 环境清单、迁移步骤、回退方案", "B. 项目成员照片", "C. 会议纪要", "D. 办公室平面图"], "A", "技术文档必须包含：环境配置、详细步骤、回退预案。");
+    addSingle(4, "应用迁移流程的第一步通常是什么？", ["A. 迁移实施", "B. 迁移评估", "C. 迁移测试", "D. 迁移规划"], "B", "评估阶段分析依赖、兼容性、工作量，是迁移的基础。");
+    addSingle(4, "迁移评估阶段需要输出哪个文档？", ["A. 迁移方案", "B. 评估报告", "C. 测试报告", "D. 验收报告"], "B", "评估报告包含环境分析、依赖清单、风险预估和资源需求。");
+    addSingle(4, "在迁移方案设计中，回退计划的作用是？", ["A. 防止迁移失败无法恢复", "B. 提高迁移速度", "C. 减少测试工作量", "D. 降低硬件成本"], "A", "回退计划是迁移失败时的保障。");
+    addSingle(4, "迁移测试环境应与生产环境保持什么关系？", ["A. 尽可能一致", "B. 完全一致", "C. 可以不同", "D. 越简单越好"], "A", "测试环境应尽可能模拟生产。");
+    addSingle(4, "数据迁移前必须执行的操作是什么？", ["A. 数据压缩", "B. 数据备份", "C. 数据加密", "D. 数据清理"], "B", "备份是数据迁移的安全底线。");
+    addSingle(4, "迁移切换窗口一般选择在什么时间？", ["A. 业务高峰期", "B. 业务低谷期", "C. 任意时间", "D. 周末全天"], "B", "低谷期如凌晨2-6点，业务影响最小。");
+    addSingle(4, "迁移完成后的验证环节不包括哪一项？", ["A. 功能验证", "B. 性能验证", "C. 代码审查", "D. 数据一致性验证"], "C", "代码审查在开发阶段，上线后验证聚焦功能、性能、数据。");
+    addSingle(4, "迁移规范文档中通常包含哪个角色？", ["A. 项目经理", "B. 技术负责人", "C. 运维人员", "D. 以上都是"], "D", "规范文档需明确各类角色职责。");
+    addSingle(4, "迁移过程中的版本控制主要针对什么？", ["A. 源代码", "B. 配置文件", "C. 部署脚本", "D. 以上都是"], "D", "源代码、配置、脚本均需纳入版本控制。");
+    addSingle(4, "迁移完成后，需要保留原环境多久？", ["A. 立即销毁", "B. 保留1天", "C. 保留1周", "D. 视业务重要性保留一段时间"], "D", "根据业务重要性保留数周至数月。");
+    addSingle(4, "迁移实施前必须签署的文件是什么？", ["A. 迁移方案确认书", "B. 风险告知书", "C. 迁移申请单", "D. 以上都是"], "D", "需签署方案确认书、风险告知书、申请单。");
+    addSingle(4, "迁移演练的最小频率建议是？", ["A. 每次迁移前至少一次", "B. 每月一次", "C. 每季度一次", "D. 每年一次"], "A", "每次正式迁移前至少进行一次完整演练。");
+    addSingle(4, "迁移过程中，代码适配工作通常在哪个阶段进行？", ["A. 评估阶段", "B. 开发适配阶段", "C. 测试阶段", "D. 上线阶段"], "B", "评估后进入开发适配阶段。");
+    addSingle(4, "迁移后的性能基准测试目的是什么？", ["A. 验证是否达到原系统性能", "B. 找出性能瓶颈", "C. 为调优提供依据", "D. 以上都是"], "D", "基准测试验证性能达标、定位瓶颈、指导调优。");
+    addSingle(4, "迁移项目收尾阶段需要完成哪项工作？", ["A. 文档归档", "B. 知识转移", "C. 项目复盘", "D. 以上都是"], "D", "收尾工作包括文档归档、团队培训、复盘总结。");
+    addSingle(4, "应用软件迁移的第一步通常是？", ["A. 直接安装部署", "B. 环境评估与调研", "C. 性能优化", "D. 用户培训"], "B", "迁移前必须进行兼容性评估。");
+    addSingle(4, "'迁移适配'中的'适配'主要指什么？", ["A. 美化界面", "B. 代码重构与平台兼容性调整", "C. 更换品牌Logo", "D. 重写数据库"], "B", "适配核心是让应用在国产平台上正常运行。");
+    addSingle(4, "若迁移后程序崩溃，日志中出现'Segmentation fault'，最可能是？", ["A. 内存越界或调用不兼容动态库", "B. 网络延迟", "C. 用户误操作", "D. 数据库锁表"], "A", "段错误通常是程序访问了非法内存地址。");
+    addSingle(4, "应用迁移中'最小改动原则'的核心是？", ["A. 尽量不修改业务代码，优先通过配置适配", "B. 重写所有核心代码", "C. 更换所有依赖", "D. 删除部分功能"], "A", "优先通过配置文件、环境变量、动态库替换解决问题。");
+    addSingle(4, "应用迁移过程中，数据迁移的正确顺序是？", ["A. 备份源数据→迁移数据→校验数据一致性", "B. 直接删除源数据→迁移", "C. 不备份直接迁移", "D. 先迁移再备份"], "A", "标准流程：先备份保证可回滚，再执行迁移，最后校验。");
+    addSingle(4, "应用迁移前的评估内容不包括？", ["A. 第三方依赖兼容性", "B. 数据库版本差异", "C. 中间件支持情况", "D. 办公室面积"], "D", "办公室面积与迁移技术无关。");
+    addSingle(4, "应用迁移中，解决字符集乱码问题的核心是？", ["A. 统一源环境与目标环境的字符集", "B. 更换显示器", "C. 调整系统主题", "D. 更换键盘"], "A", "乱码根源是字符集不一致，统一为UTF-8可解决。");
+    addSingle(4, "应用迁移过程中，'配置适配'不包括以下哪项？", ["A. 修改数据库连接字符串", "B. 调整中间件端口配置", "C. 更换应用Logo", "D. 修改JVM参数"], "C", "更换Logo属于品牌UI调整，与功能适配无关。");
+    addSingle(4, "应用迁移后，首先需要进行的验证是？", ["A. 功能验证", "B. 性能压测", "C. 用户培训", "D. 系统备份"], "A", "功能验证是最优先的，确保核心业务流程正常运行。");
+    addSingle(4, "应用迁移中，处理依赖缺失问题的正确方式是？", ["A. 通过系统包管理器安装对应依赖", "B. 删除该功能模块", "C. 重装操作系统", "D. 忽略错误继续部署"], "A", "使用apt/dnf/yum安装缺失的开发库或运行时依赖。");
+    addSingle(4, "应用迁移后出现'ClassNotFoundException'，最可能的原因是？", ["A. 缺少依赖的JAR包", "B. 网络不通", "C. 数据库未启动", "D. 防火墙拦截"], "A", "该类异常表示JVM类路径中找不到指定类。");
+    addSingle(4, "应用迁移中，解决端口冲突问题的方式不包括？", ["A. 更换服务端口", "B. 停止占用端口的进程", "C. 修改防火墙规则", "D. 删除应用"], "D", "删除应用是过度反应，更换端口、停止进程、调整防火墙均可解决。");
+    addSingle(4, "信创应用迁移的最终目标是？", ["A. 实现应用在信创环境下安全、稳定、高效运行", "B. 更换所有硬件设备", "C. 重写所有应用代码", "D. 统一使用国产软件"], "A", "信创迁移核心目标是在国产软硬件环境下保障业务安全、稳定、高效运行。");
+    addSingle(4, "应用迁移评估阶段需要分析的内容包括？", ["A. 硬件兼容性", "B. 软件依赖", "C. 代码改动量", "D. 以上都是"], "D", "评估四维度：硬件适配、依赖分析、代码改造量、成本估算。");
+    addSingle(4, "迁移方案设计中必须包含的章节有？", ["A. 迁移范围", "B. 迁移步骤", "C. 回退计划", "D. 以上都是"], "D", "方案必含：范围界定、详细步骤、回退预案、时间计划。");
+    addSingle(4, "数据迁移的常见策略有？", ["A. 停机迁移", "B. 在线迁移", "C. 批量迁移", "D. 以上都是"], "D", "策略：停机全量迁移、在线不停机、分批迁移、全量+增量组合。");
+    addSingle(4, "迁移测试的内容通常包括？", ["A. 功能测试", "B. 性能测试", "C. 安全测试", "D. 以上都是"], "D", "测试体系：功能、性能、安全、兼容性四类。");
+    addSingle(4, "迁移过程中的风险点可能有？", ["A. 数据丢失", "B. 兼容性问题", "C. 性能下降", "D. 以上都是"], "D", "风险点：数据一致性、兼容性故障、性能回退、时间超限。");
+    addSingle(4, "迁移回滚的触发条件通常有？", ["A. 迁移失败", "B. 验证不通过", "C. 出现严重Bug", "D. 以上都是"], "D", "触发回滚：迁移失败、验收不通过、P0/P1故障、超时。");
+    addSingle(4, "迁移文档需要归档的内容有哪些？", ["A. 迁移方案", "B. 测试报告", "C. 验收报告", "D. 以上都是"], "D", "归档内容：方案、测试报告、验收报告、操作日志。");
+    addSingle(4, "迁移演练的主要目的有？", ["A. 验证迁移步骤可行性", "B. 估算实际耗时", "C. 培训操作人员", "D. 以上都是"], "D", "演练目的：验证步骤、评估时间、人员培训、发现隐患。");
+    addSingle(4, "信创环境下常见的兼容性问题类型有？", ["A. CPU指令集差异", "B. 操作系统API差异", "C. 数据库函数差异", "D. 以上都是"], "D", "兼容性问题四层次：指令集、OS API、数据库方言、中间件配置。");
+    addSingle(4, "迁移项目验收的通过标准通常包括？", ["A. 所有功能正常", "B. 性能满足要求", "C. 无重大缺陷", "D. 以上都是"], "D", "验收标准：功能全量通过、性能达标、无P0/P1缺陷、文档交付完整。");
+        // ===================== 第6章 兼容性验证（原题完整保留）=====================
+    addSingle(5, "数据库迁移“兼容性评估”的核心目的是？", ["A. 评估硬件成本", "B. 分析SQL语法与数据类型差异", "C. 确定迁移窗口", "D. 备份原库"], "B", "兼容性评估重点检查语法、数据类型、存储过程差异。");
+    addSingle(5, "信创适配中数据库字符集迁移最常见问题？", ["A. 乱码", "B. 性能下降", "C. 索引失效", "D. 锁表"], "A", "字符集不一致会导致中文乱码。");
+    addSingle(5, "信创迁移中，数据一致性校验常用方法？", ["A. 行数比对", "B. 抽样校验", "C. 校验和", "D. 以上都是"], "D", "多种方法综合使用保证数据一致。");
+    addSingle(5, "兼容性验证中，'功能验证'的核心目标是？", ["A. 确认业务功能与原环境一致可用", "B. 测试系统外观是否美观", "C. 检查服务器温度", "D. 测试网络速度"], "A", "功能验证确保所有业务功能在信创环境下正常运行。");
+    addSingle(5, "兼容性验证中，'数据一致性验证'的重点是？", ["A. 对比源环境与目标环境的数据是否一致", "B. 检查数据文件大小", "C. 查看数据存储路径", "D. 统计数据条数"], "A", "数据一致性验证需对比源库和目标库的关键数据。");
+    addSingle(5, "兼容性验证的首要步骤是什么？", ["A. 编写测试用例", "B. 确定验证范围", "C. 搭建测试环境", "D. 执行测试"], "B", "首步确定验证范围，明确哪些功能、接口、数据需要验证。");
+    addSingle(5, "兼容性测试报告中必须包含哪项内容？", ["A. 测试环境配置", "B. 测试用例执行结果", "C. 不兼容问题清单", "D. 以上都是"], "D", "测试报告需含环境、执行结果、问题清单及解决方案。");
+    addSingle(5, "数据库迁移需重点验证的对象？", ["A. 存储过程", "B. 触发器", "C. 视图", "D. 以上都是"], "D", "存储过程、触发器、视图需验证兼容性。");
+    addSingle(5, "以下哪些属于'兼容性验证'的内容？", ["A. 页面能否打开", "B. 数据增删改查是否正常", "C. 报表能否导出", "D. 以上都是"], "D", "兼容性验证关注功能和环境适配。");
+    addSingle(5, "如何验证中间件与数据库的连通性？", ["A. 测试数据库连接池", "B. 执行简单SQL查询", "C. 查看网络端口", "D. 以上都是"], "D", "连接池测试、SQL验证、端口连通性检查综合判断。");
+    addSingle(5, "兼容性测试发现的问题类型有？", ["A. 界面错位", "B. 功能不可用", "C. 性能下降", "D. 以上都是"], "D", "兼容性问题四类：界面、功能、性能、编码。");
+    addSingle(5, "兼容性验证的测试类型包括？", ["A. 接口兼容性", "B. 数据兼容性", "C. 平台兼容性", "D. 以上都是"], "D", "兼容性：API接口、数据格式、OS/硬件平台、浏览器客户端。");
+    addSingle(5, "迁移评估阶段需要收集的信息有？", ["A. 源库版本", "B. 对象数量", "C. 数据量大小", "D. 以上都是"], "D", "评估信息：数据库版本、对象数量、数据量、业务特征。");
+    addSingle(5, "兼容性验证中，界面验证的重点是？", ["A. 页面布局与原环境一致", "B. 按钮、菜单等交互元素可用", "C. 字体显示正常", "D. 以上都是"], "D", "界面验证应覆盖全站：布局、交互、字体、图片。");
+    addSingle(5, "兼容性验证中，安全验证的重点是？", ["A. 验证用户权限控制是否正常", "B. 检查敏感数据是否加密存储", "C. 验证登录认证功能", "D. 以上都是"], "D", "安全验证：权限控制、数据加密、认证功能、漏洞扫描。");
+    addSingle(5, "数据库连接失败的可能原因有？", ["A. 网络不通", "B. 端口被防火墙拦截", "C. 监听服务未启动", "D. 以上都是"], "D", "连接失败四原因：网络、防火墙、服务状态、认证信息。");
+    addSingle(5, "应用迁移中，依赖问题的常见类型包括？", ["A. JAR包版本冲突", "B. 动态库（.so）缺失或不兼容", "C. 系统依赖包未安装", "D. 以上都是"], "D", "依赖问题四类：JAR冲突、动态库、系统包、第三方服务。");
+    addSingle(5, "信创适配迁移中必须替换的组件包括？", ["A. 操作系统", "B. 数据库", "C. 中间件", "D. 以上都是"], "D", "信创替换核心为OS、DB、中间件。");
+    addSingle(5, "以下哪些是国产操作系统？", ["A. 银河麒麟", "B. 统信UOS", "C. 中科方德", "D. 以上都是"], "D", "麒麟、统信、方德均为国产OS。");
+    addSingle(5, "迁移方案关键部分包括？", ["A. 兼容性评估", "B. 数据迁移策略", "C. 回滚计划", "D. 以上都是"], "D", "方案核心为评估、迁移策略、回滚。");
+    addSingle(5, "信创性能调优通常关注？", ["A. OS内核参数", "B. 数据库共享缓冲区", "C. 应用连接池", "D. 以上都是"], "D", "性能调优聚焦OS、数据库、连接池。");
+    addSingle(5, "国产CPU包括？", ["A. 飞腾", "B. 海光", "C. 兆芯", "D. 以上都是"], "D", "飞腾、海光、兆芯均为国产CPU。");
+    addSingle(5, "JMeter压测常用聚合报告指标？", ["A. 平均响应时间", "B. TPS", "C. 错误率", "D. 以上都是"], "D", "核心指标：响应时间、TPS、错误率。");
+    addSingle(5, "适配迁移赛工程文档必须包括？", ["A. 迁移方案设计", "B. 测试报告", "C. 部署运维手册", "D. 以上都是"], "D", "文档要求迁移方案、测试报告、部署手册。");
+    addSingle(5, "达梦DTS工具功能？", ["A. 结构迁移", "B. 数据校验", "C. 增量同步", "D. 以上都是"], "D", "DTS专注于数据迁移同步校验。");
+    addSingle(5, "国产OS软件适配常见问题？", ["A. 缺少特定版本libc", "B. Python库不兼容", "C. 硬编码路径", "D. 以上都是"], "D", "依赖库、语言环境、硬编码路径是主要难点。");
+    addSingle(5, "信创中间件支持JavaEE规范的有？", ["A. 东方通TongWeb", "B. 金蝶Apusic", "C. 中创InfoSuite", "D. 以上都是"], "D", "TongWeb、Apusic、InfoSuite均为国产商用JavaEE中间件。");
+    addSingle(5, "麒麟V10安全加固建议？", ["A. 启用SELinux", "B. 关闭非必要端口", "C. 最小化安装", "D. 以上都是"], "D", "安全加固应启用SELinux、关闭无用端口、最小安装。");
+    addSingle(5, "信创迁移风险应对措施？", ["A. 双轨运行验证", "B. 灰度割接", "C. 实时监控告警", "D. 以上都是"], "D", "双轨、灰度、监控是有效风险管理。");
+    addSingle(5, "适配迁移赛评分维度？", ["A. 迁移完整性", "B. 性能优化报告", "C. 文档规范性", "D. 以上都是"], "D", "完整性、性能报告、文档规范为得分关键。");
+    addSingle(5, "以下哪些属于信创数据库？", ["A. 达梦DM8", "B. 人大金仓", "C. OceanBase", "D. 以上都是"], "D", "达梦、金仓、OceanBase均为国产数据库。");
+    addSingle(5, "信创迁移中数据同步方式？", ["A. 全量迁移", "B. 增量同步", "C. 实时双向同步", "D. 以上都是"], "D", "全量、增量、双向同步均为常用技术。");
+        // ===================== 第7章 性能调优（原题完整保留）=====================
+    addSingle(6, "信创压测最常用的开源工具是？", ["A. JMeter", "B. Postman", "C. Git", "D. Jenkins"], "A", "JMeter支持高并发模拟，是性能压测标准工具。");
+    addSingle(6, "性能对比测试的基线通常是？", ["A. 迁移前x86环境", "B. 理论峰值性能", "C. 用户期望值", "D. 国外云厂商数据"], "A", "对比原环境性能验证信创改造效果。");
+    addSingle(6, "信创迁移中性能测试主要关注？", ["A. 吞吐量", "B. 界面颜色", "C. 字体大小", "D. 按钮位置"], "A", "吞吐量是核心性能指标。");
+    addSingle(6, "信创迁移中，中间件线程池配置不当可能导致？", ["A. 内存泄漏", "B. 请求堆积", "C. 磁盘满", "D. 网络断开"], "B", "线程池过小导致请求排队超时。");
+    addSingle(6, "信创适配中，数据库连接池推荐使用？", ["A. HikariCP", "B. DBCP", "C. C3P0", "D. 原生DriverManager"], "A", "HikariCP高性能兼容性好。");
+    addSingle(6, "性能调优中，JVM参数-Xms表示？", ["A. 初始堆内存大小", "B. 最大堆内存大小", "C. 新生代大小", "D. 老年代大小"], "A", "-Xms设置JVM初始堆内存。");
+    addSingle(6, "性能调优中，调整数据库连接池的主要目的是？", ["A. 减少数据库连接开销，提升并发处理能力", "B. 增加数据库存储容量", "C. 美化数据库界面", "D. 降低CPU使用率"], "A", "连接池复用数据库连接，减少握手开销。");
+    addSingle(6, "性能调优中，优化SQL语句的核心目标是？", ["A. 减少查询时间，降低数据库负载", "B. 增加SQL语句长度", "C. 更换SQL关键字", "D. 加密SQL语句"], "A", "SQL优化通过索引、避免全表扫描等方式降低执行时间。");
+    addSingle(6, "性能调优中，开启数据库索引的主要作用是？", ["A. 加速查询操作", "B. 增加数据库存储", "C. 降低数据安全性", "D. 让SQL语句更复杂"], "A", "索引类似书籍目录，可快速定位数据。");
+    addSingle(6, "性能调优中常用的负载测试工具举例。", ["A. JMeter", "B. LoadRunner", "C. ab", "D. 以上都是"], "D", "JMeter开源，LoadRunner商业，ab轻量Apache工具。");
+    addSingle(6, "CPU占用过高时，Linux下首选排查命令是？", ["A. top", "B. ps", "C. vmstat", "D. iostat"], "A", "top实时显示CPU使用率和占用高的进程。");
+    addSingle(6, "内存泄漏的典型现象是什么？", ["A. 内存使用率持续增长", "B. CPU飙升", "C. 磁盘IO满载", "D. 网络延迟增大"], "A", "内存使用率随时间持续上升，不释放，最终导致OOM。");
+    addSingle(6, "磁盘IO瓶颈时，应关注哪个指标？", ["A. iowait", "B. 磁盘利用率", "C. 平均队列长度", "D. 以上都是"], "D", "iowait高、%util满、队列长都表示IO瓶颈。");
+    addSingle(6, "网络延迟过大可能的原因不包括？", ["A. 网络拥塞", "B. 路由问题", "C. CPU频率过低", "D. 防火墙规则"], "C", "CPU频率低影响计算速度，不直接导致网络延迟。");
+    addSingle(6, "性能调优的目标通常设定在哪个范围？", ["A. 响应时间降低10%", "B. 吞吐量提升20%", "C. 资源利用率优化", "D. 视业务需求而定"], "D", "调优目标根据业务SLA设定，无统一标准。");
+    addSingle(6, "性能基准测试的指标包括？", ["A. 响应时间", "B. 吞吐量", "C. 并发用户数", "D. 以上都是"], "D", "性能指标：RT响应时间、TPS/QPS吞吐量、并发数、CPU/内存利用率。");
+    addSingle(6, "性能调优的常见切入点有？", ["A. SQL优化", "B. 中间件参数调优", "C. JVM调优", "D. 以上都是"], "D", "调优路径：SQL→中间件→JVM→硬件，自顶向下。");
+    addSingle(6, "性能调优中，JVM参数调优的常用参数包括？", ["A. -Xms（初始堆）", "B. -Xmx（最大堆）", "C. -XX:+UseG1GC（垃圾回收器）", "D. 以上都是"], "D", "JVM调优常用参数：初始堆、最大堆、GC选择、新生代比例。");
+    addSingle(6, "性能调优中，系统层面的优化措施包括？", ["A. 调整操作系统内核参数（如文件句柄数）", "B. 优化磁盘I/O调度策略", "C. 关闭不必要的系统服务", "D. 以上都是"], "D", "系统调优：内核参数、I/O调度、关闭无用服务。");
+    addSingle(6, "性能调优中，缓存策略优化的方式包括？", ["A. 引入Redis缓存热点数据", "B. 优化应用本地缓存配置", "C. 调整缓存过期时间", "D. 以上都是"], "D", "缓存优化：引入分布式缓存、优化本地缓存、调整过期时间。");
+    addSingle(6, "性能瓶颈通常出现在？", ["A. CPU", "B. 内存", "C. 磁盘IO", "D. 以上都是"], "D", "性能瓶颈四位置：CPU计算饱和、内存不足、磁盘IO慢、网络带宽限制。");
+    addSingle(6, "数据库调优的手段包括？", ["A. 建立索引", "B. 优化SQL", "C. 调整缓冲区大小", "D. 以上都是"], "D", "数据库调优四手段：索引、SQL优化、内存参数、架构分离。");
+    addSingle(6, "中间件调优通常关注？", ["A. 线程池配置", "B. JVM参数", "C. 连接池大小", "D. 以上都是"], "D", "中间件调优：线程池、JVM堆、连接池、静态资源缓存四关键。");
+    addSingle(6, "以下属于性能测试指标的有？", ["A. TPS (每秒事务数)", "B. RT (响应时间)", "C. 并发数", "D. 以上都是"], "D", "性能指标四维度：TPS吞吐、RT响应时间、并发用户、资源利用率。");
+    addSingle(6, "信创适配中性能测试主要关注？", ["A. 吞吐量", "B. 界面颜色", "C. 字体大小", "D. 按钮位置"], "A", "吞吐量是核心性能指标。");
+    addSingle(6, "性能调优中，调整JVM堆大小的主要目的是？", ["A. 减少垃圾回收停顿时间", "B. 增加代码行数", "C. 美化控制台输出", "D. 降低网络延迟"], "A", "合理设置JVM堆大小可以减少GC频率和停顿时间。");
+    addSingle(6, "数据库连接池的最大连接数设置过小会导致？", ["A. 应用启动加速", "B. 请求排队阻塞", "C. 数据库自动扩容", "D. 网络速度提升"], "B", "连接池上限不足时，高并发请求等待连接，响应时间急剧上升。");
+    addSingle(6, "SQL执行计划中，全表扫描通常表示？", ["A. 索引使用正确", "B. 可能需要添加索引", "C. 查询速度最快", "D. 数据量太小"], "B", "全表扫描通常意味着没有合适的索引，可能导致性能问题。");
+    addSingle(6, "性能测试中，TPS的含义是？", ["A. 每秒事务数", "B. 每秒请求数", "C. 每秒字节数", "D. 每秒错误数"], "A", "TPS（Transactions Per Second）是衡量系统处理能力的重要指标。");
+    addSingle(6, "性能调优中，读写分离的主要目的是？", ["A. 提升数据安全性", "B. 分散数据库读写压力", "C. 减少存储空间", "D. 简化代码逻辑"], "B", "读写分离将读请求分发到从库，减轻主库压力，提升并发能力。");
+    addSingle(6, "以下哪个工具常用于Java应用性能分析？", ["A. VisualVM", "B. JProfiler", "C. Arthas", "D. 以上都是"], "D", "VisualVM、JProfiler、Arthas都是Java性能分析常用工具。");
+    addSingle(6, "性能调优中，开启G1垃圾回收器的JVM参数是？", ["A. -XX:+UseG1GC", "B. -XX:+UseParallelGC", "C. -XX:+UseConcMarkSweepGC", "D. -XX:+UseSerialGC"], "A", "-XX:+UseG1GC启用G1垃圾回收器，适合大堆内存应用。");
+    addSingle(6, "Linux系统中，查看系统负载的命令是？", ["A. uptime", "B. top", "C. w", "D. 以上都是"], "D", "uptime、top、w均可查看系统平均负载。");
+    addSingle(6, "性能优化中，避免深分页的常见方法是？", ["A. 使用游标", "B. 记录上次查询ID", "C. 使用子查询优化", "D. 以上都是"], "D", "深分页优化方法：游标、延迟关联、记录上次查询ID。");
+    addSingle(6, "Nginx性能优化中，worker_processes通常设置为？", ["A. 1", "B. CPU核心数", "C. 内存大小", "D. 磁盘数量"], "B", "worker_processes通常设置为CPU核心数，以充分利用多核性能。");
+    addSingle(6, "Redis缓存穿透的解决方案是？", ["A. 布隆过滤器", "B. 缓存空对象", "C. 限流", "D. 以上都是"], "D", "布隆过滤器、缓存空对象、限流均可解决缓存穿透问题。");
+    addSingle(6, "数据库死锁的排查方法包括？", ["A. 查看死锁日志", "B. 使用SHOW ENGINE INNODB STATUS", "C. 分析事务隔离级别", "D. 以上都是"], "D", "查看死锁日志、INNODB状态、分析事务隔离级别均可排查死锁。");
+    addSingle(6, "性能调优完成后，需要输出的文档包括？", ["A. 性能测试报告", "B. 调优方案说明", "C. 配置变更记录", "D. 以上都是"], "D", "性能调优需输出测试报告、方案说明、配置变更记录。");
+        // ===================== 第8章 故障排查（原题完整保留）=====================
+    addSingle(7, "报错“cannot find libxxx.so”的含义是？", ["A. CPU过热", "B. 缺少动态链接库或架构不匹配", "C. 数据库拒绝连接", "D. 磁盘空间已满"], "B", "动态库缺失或ARM/x86不匹配导致该链接错误。");
+    addSingle(7, "麒麟V10中查看网络连接命令？", ["A. ss", "B. netstat", "C. lsof -i", "D. 以上都是"], "D", "ss、netstat、lsof均可查看网络连接。");
+    addSingle(7, "若迁移后程序崩溃，日志中出现'Segmentation fault'，最可能是？", ["A. 内存越界或调用不兼容动态库", "B. 网络延迟", "C. 用户误操作", "D. 数据库锁表"], "A", "段错误通常是程序访问了非法内存地址。");
+    addSingle(7, "故障排查中，首先应查看的是？", ["A. 应用与中间件日志", "B. 系统桌面", "C. 用户反馈邮件", "D. 服务器硬件外观"], "A", "日志是故障定位的第一手资料。");
+    addSingle(7, "应用启动失败，日志提示'端口被占用'，优先排查？", ["A. netstat查看端口占用情况", "B. 重启服务器", "C. 更换显示器", "D. 重新安装操作系统"], "A", "使用netstat -tlnp查看端口占用进程。");
+    addSingle(7, "故障排查中，查看Java进程的命令是？", ["A. ps aux | grep java", "B. ls -l", "C. cat /proc/cpuinfo", "D. df -h"], "A", "ps aux列出所有进程，通过grep过滤java进程。");
+    addSingle(7, "应用迁移后出现'Connection refused'错误，优先排查？", ["A. 目标服务是否启动、端口是否开放", "B. 用户密码是否正确", "C. 网络运营商", "D. 浏览器版本"], "A", "Connection refused表示连接被拒绝，通常是目标服务未启动或防火墙未放行端口。");
+    addSingle(7, "故障排查中，查看系统错误日志的默认路径是？", ["A. /var/log", "B. /home", "C. /root", "D. /tmp"], "A", "/var/log是Linux系统日志标准目录。");
+    addSingle(7, "应用迁移中，回退方案的核心目的是？", ["A. 迁移失败时快速恢复原环境，降低业务影响", "B. 节省服务器空间", "C. 简化迁移流程", "D. 提高迁移速度"], "A", "回退方案是迁移失败时的最后保障。");
+    addSingle(7, "应用迁移完成后，性能验证的核心指标不包括？", ["A. 页面响应时间", "B. 并发处理能力（TPS）", "C. 系统资源使用率（CPU/内存）", "D. 应用图标美观度"], "D", "图标美观度属于UI体验，非性能指标。");
+    addSingle(7, "应用迁移中，处理动态库（.so）不兼容问题的正确方式是？", ["A. 替换为适配国产系统的版本", "B. 删除动态库文件", "C. 重装应用", "D. 忽略报错"], "A", "x86编译的.so在ARM上无法运行，需获取ARM版本。");
+    addSingle(7, "在信创环境下，应用启动失败首先应检查什么？", ["A. 网络连接", "B. 日志文件", "C. 硬件状态", "D. 数据库连接"], "B", "日志记录错误堆栈，是定位启动失败的第一信息源。");
+    addSingle(7, "如何检查操作系统是否识别了所有硬件设备？", ["A. lspci", "B. lsusb", "C. dmesg", "D. 以上都是"], "D", "lspci查看PCI设备，lsusb查看USB设备，dmesg查看内核识别日志。");
+    addSingle(7, "应用日志中频繁出现'Connection refused'表示什么？", ["A. 数据库密码错误", "B. 目标服务未启动或端口不可达", "C. 网络不通", "D. 防火墙屏蔽"], "B", "连接被拒绝表示端口监听不存在或连接被拒绝。");
+    addSingle(7, "故障排查中，复现问题的首要前提是什么？", ["A. 了解业务逻辑", "B. 获取完整日志", "C. 搭建相同环境", "D. 明确触发条件"], "D", "明确触发条件是稳定复现问题的关键。");
+    addSingle(7, "系统崩溃后，获取内核转储文件的工具是？", ["A. kdump", "B. crash", "C. gdb", "D. systemd-coredump"], "A", "kdump捕获内核崩溃转储。");
+    addSingle(7, "在麒麟系统中，如何临时切换到root用户？", ["A. su -", "B. sudo su", "C. login root", "D. A和B均可"], "D", "su - 需要知道root密码，sudo su当前用户需在sudoers中。");
+    addSingle(7, "哪个命令可查看当前系统内存占用情况？", ["A. df -h", "B. free -h", "C. top", "D. B和C均可"], "D", "free -h显示内存总量，top实时显示进程内存占用。");
+    addSingle(7, "若需远程连接服务器，常用协议是？", ["A. HTTP", "B. FTP", "C. SSH", "D. SMTP"], "C", "SSH提供加密的远程命令行管理。");
+    addSingle(7, "'故障排查'中常用的Linux命令不包括？", ["A. tail -f logs/app.log", "B. netstat -anp | grep 端口", "C. ps aux | grep java", "D. ping baidu.com"], "D", "ping测试网络连通性，属于网络层排查。");
+    addSingle(7, "应用启动失败，可能的原因不包括？", ["A. 端口被占用", "B. 依赖库缺失", "C. 用户名密码错误", "D. 系统主题设置为深色模式"], "D", "系统主题属于桌面美化，完全不影响应用启动逻辑。");
+    addSingle(7, "故障排查的常规步骤包括？", ["A. 现象确认", "B. 日志分析", "C. 原因定位", "D. 以上都是"], "D", "排查步骤：确认现象→分析日志→定位根因→验证修复。");
+    addSingle(7, "应用日志分析时可以关注的关键字有？", ["A. Exception", "B. Error", "C. Timeout", "D. 以上都是"], "D", "重点关注：Exception异常、Error错误、Timeout超时、拒绝连接。");
+    addSingle(7, "故障排查中，定位网络问题的步骤包括？", ["A. 检查网络连接是否正常（ping网关/目标IP）", "B. 检查端口是否开放（telnet/nc）", "C. 检查防火墙规则是否放行", "D. 以上都是"], "D", "网络排查四步：连通性(ping)、端口(telnet)、防火墙、DNS解析。");
+    addSingle(7, "故障排查中，收集信息包括？", ["A. 报错截图", "B. 日志文件", "C. 配置文件", "D. 以上都是"], "D", "信息收集四要素：截图、日志、配置、环境版本。");
+    addSingle(7, "处理'权限不足'问题的措施包括？", ["A. 使用chmod修改文件/目录权限", "B. 使用chown修改文件所属用户", "C. 使用sudo提升权限执行命令", "D. 以上都是"], "D", "权限问题解决：chmod改权限，chown改属主，sudo提权。");
+    addSingle(7, "查看系统资源使用情况的命令有？", ["A. top", "B. free -h", "C. df -h", "D. 以上都是"], "D", "top看CPU/进程，free看内存，df看磁盘，iostat看I/O。");
+    addSingle(7, "Linux下查看网络连接状态的命令有？", ["A. netstat -anp", "B. ss -ant", "C. lsof -i", "D. 以上都是"], "D", "netstat、ss、lsof -i查看网络连接。");
+    addSingle(7, "系统日志通常存放在？", ["A. /var/log", "B. /var/log/messages", "C. /var/log/syslog", "D. 以上都是"], "D", "系统日志目录/var/log，messages系统日志，syslog某些发行版。");
+    addSingle(7, "解决依赖包缺失的方法有？", ["A. 安装对应版本的库", "B. 设置LD_LIBRARY_PATH", "C. 重新编译依赖包", "D. 以上都是"], "D", "依赖解决：安装缺失库、设置环境变量路径、重新编译依赖。");
+    addSingle(7, "若出现'OutOfMemoryError'，应如何处理？", ["A. 增加JVM堆内存", "B. 优化代码减少对象创建", "C. 启用GC日志排查", "D. 以上都是"], "D", "OOM解决：增加堆内存、代码优化、分析GC日志、临时重启。");
+    addSingle(7, "应用迁移后常见的故障类型包括？", ["A. 应用启动失败", "B. 数据库连接失败", "C. 页面访问404/500错误", "D. 以上都是"], "D", "应用层常见故障：启动失败、数据库连接失败、HTTP错误、乱码。");
+    addSingle(7, "中创中间件启动失败的常见原因包括？", ["A. 端口被占用", "B. JVM参数配置错误（如内存不足）", "C. 配置文件语法错误", "D. 以上都是"], "D", "启动失败多因素：端口、JVM、配置、依赖、OS版本。");
+    addSingle(7, "海量数据库启动失败的常见原因包括？", ["A. 端口被占用", "B. 数据文件损坏", "C. 配置文件错误", "D. 以上都是"], "D", "数据库启动失败原因：端口、数据文件、配置、权限、内存。");
+    addSingle(7, "CPU占用过高时，应如何排查？", ["A. 使用top找到高CPU进程", "B. 分析进程内线程CPU占用", "C. 检查是否有死循环", "D. 以上都是"], "D", "CPU排查：top找进程、分析线程、检查代码死循环。");
+    addSingle(7, "内存不足时，应如何排查？", ["A. 使用free -h查看内存总量", "B. 使用top查看进程内存占用", "C. 检查是否有内存泄漏", "D. 以上都是"], "D", "内存排查：free查看总量、top看进程占用、分析内存泄漏。");
+    addSingle(7, "磁盘空间不足时，应如何排查？", ["A. 使用df -h查看磁盘使用率", "B. 使用du -sh *查找大文件", "C. 清理日志和临时文件", "D. 以上都是"], "D", "磁盘排查：df看使用率、du找大文件、清理无用文件。");
+    addSingle(7, "网络连接超时可能的原因有？", ["A. 防火墙拦截", "B. 目标服务未启动", "C. 网络拥塞", "D. 以上都是"], "D", "连接超时原因：防火墙、服务未启动、网络拥塞、路由问题。");
+    addSingle(7, "应用响应慢的排查思路包括？", ["A. 检查数据库慢查询", "B. 检查外部接口响应时间", "C. 分析应用线程堆栈", "D. 以上都是"], "D", "响应慢排查：数据库慢查询、外部接口、线程堆栈分析。");
+    addSingle(7, "故障排查的常见方法论有？", ["A. 自顶向下", "B. 自底向上", "C. 二分法", "D. 以上都是"], "D", "排查方法论：自顶向下（应用→系统），自底向上（硬件→应用），二分法。");
+        // ===================== 第9章 信创大赛综合（原题完整保留）=====================
+    addSingle(8, "信创大赛理论考试中，信创产业全称？", ["A. 信息技术应用创新", "B. 信息安全创新", "C. 信息通信创新", "D. 智能计算创新"], "A", "信创即信息技术应用创新产业。");
+    addSingle(8, "信创主要目标不包括？", ["A. 自主可控", "B. 全栈国产", "C. 提升软件授权费", "D. 信息安全"], "C", "信创目标自主可控安全，而非提升费用。");
+    addSingle(8, "等保2.0对密码的强制要求？", ["A. 国外加密算法", "B. 国密算法", "C. 无需加密", "D. 只做物理隔离"], "B", "等保2.0强调使用国密SM系列算法。");
+    addSingle(8, "信创大赛实践赛作品需要提交？", ["A. 迁移前后性能对比报告", "B. 只提交源代码", "C. 商业计划书", "D. 用户反馈"], "A", "性能对比报告是评分重要依据。");
+    addSingle(8, "信创适配迁移赛裁判重点考察？", ["A. 代码注释量", "B. 完整迁移流程与性能对比", "C. 软件界面美工", "D. 电脑配置"], "B", "迁移完整性和性能验证为评分核心。");
+    addSingle(8, "信创大赛作品赛需提交形式？", ["A. 方案文档+演示视频", "B. 仅答辩PPT", "C. 可执行程序", "D. 论文"], "A", "作品赛要求提交方案、技术文档及演示视频。");
+    addSingle(8, "信创大赛省赛形式？", ["A. 纯理论笔试", "B. 上机实操+理论", "C. 提交论文", "D. 路演"], "B", "省赛通常采用上机实操和理论结合。");
+    addSingle(8, "信创大赛总决赛通常采用？", ["A. 线上答辩", "B. 现场路演+实操", "C. 纯笔试", "D. 提交视频"], "B", "总决赛现场路演答辩并实操。");
+    addSingle(8, "信创大赛实践赛上机环境通常包含？", ["A. 国产CPU电脑", "B. 麒麟/统信OS", "C. 达梦/金仓数据库", "D. 以上都是"], "D", "信创环境必须为国产软硬件。");
+    addSingle(8, "信创大赛理论考试有模拟环境。", ["A. 正确", "B. 错误"], "A", "官方提供模拟练习平台。");
+    addSingle(8, "信创大赛仅限本科生参加。", ["A. 正确", "B. 错误"], "B", "分A组本科及以上和B组高职组。");
+    addSingle(8, "信创大赛一等奖比例固定。", ["A. 正确", "B. 错误"], "B", "根据实际成绩动态调整。");
+    addSingle(8, "信创大赛培训免费参加。", ["A. 正确", "B. 错误"], "A", "官方培训不收费。");
+    addSingle(8, "信创大赛证书全国通用。", ["A. 正确", "B. 错误"], "A", "国家级协会颁发。");
+    addSingle(8, "信创大赛鼓励使用非国产数据库。", ["A. 正确", "B. 错误"], "B", "大赛必须使用国产数据库。");
+    addSingle(8, "信创大赛提交作品必须是纯国产环境开发。", ["A. 正确", "B. 错误"], "A", "适配迁移赛必须基于信创环境。");
+    addSingle(8, "信创大赛实践赛可以跨校组队。", ["A. 正确", "B. 错误"], "B", "须同校组队。");
+    addSingle(8, "信创大赛实践赛允许使用模拟器。", ["A. 正确", "B. 错误"], "B", "必须使用真实信创设备。");
+    addSingle(8, "信创产业全称是信息技术应用创新产业。", ["A. 正确", "B. 错误"], "A", "信创即信息技术应用创新产业。");
+    addSingle(8, "信创适配迁移赛必须使用国产CPU。", ["A. 正确", "B. 错误"], "A", "信创比赛必须基于国产硬件平台。");
+    addSingle(8, "信创大赛要求使用国产操作系统。", ["A. 正确", "B. 错误"], "A", "麒麟或统信UOS是比赛指定操作系统。");
+    addSingle(8, "信创大赛可以使用Oracle数据库。", ["A. 正确", "B. 错误"], "B", "必须使用国产数据库如达梦、金仓、海量等。");
+    addSingle(8, "信创大赛允许使用Tomcat中间件。", ["A. 正确", "B. 错误"], "B", "需使用国产中间件如东方通、中创等。");
+    addSingle(8, "信创大赛作品需要提交迁移方案文档。", ["A. 正确", "B. 错误"], "A", "方案文档是评分重要依据。");
+    addSingle(8, "信创大赛作品需要提交性能对比报告。", ["A. 正确", "B. 错误"], "A", "性能对比报告证明迁移效果。");
+    addSingle(8, "信创大赛作品需要提交部署运维手册。", ["A. 正确", "B. 错误"], "A", "部署运维手册是工程化交付要求。");
+    addSingle(8, "信创大赛答辩环节需要演示系统。", ["A. 正确", "B. 错误"], "A", "现场演示系统功能是答辩重要环节。");
+    addSingle(8, "信创大赛可以组队参加。", ["A. 正确", "B. 错误"], "A", "可组队参赛，通常每队3-5人。");
+    addSingle(8, "信创大赛有区域赛和全国总决赛。", ["A. 正确", "B. 错误"], "A", "先进行区域选拔，再进行全国总决赛。");
+    addSingle(8, "信创大赛获奖证书由工信部颁发。", ["A. 正确", "B. 错误"], "A", "证书由工信部人才交流中心等单位联合颁发。");
+    addSingle(8, "信创大赛参赛作品必须原创。", ["A. 正确", "B. 错误"], "A", "作品必须为参赛团队原创，不得抄袭。");
+    addSingle(8, "信创大赛可以引用开源代码。", ["A. 正确", "B. 错误"], "A", "可引用开源代码，但需注明出处并遵守开源协议。");
+    addSingle(8, "信创大赛评分包括技术实现和文档质量。", ["A. 正确", "B. 错误"], "A", "技术实现和文档质量都是重要评分维度。");
+    addSingle(8, "信创大赛有指导老师可以指导。", ["A. 正确", "B. 错误"], "A", "每队可配备1-2名指导老师。");
+    addSingle(8, "信创大赛参赛无需任何费用。", ["A. 正确", "B. 错误"], "A", "信创大赛通常不收取参赛费用。");
+    addSingle(8, "信创大赛优秀作品有机会获得投资。", ["A. 正确", "B. 错误"], "A", "优秀作品可对接产业投资和孵化资源。");
+    addSingle(8, "信创大赛获奖可申请学校奖学金。", ["A. 正确", "B. 错误"], "A", "国家级竞赛获奖通常可申请学校奖学金。");
+    addSingle(8, "信创大赛有专门的培训课程。", ["A. 正确", "B. 错误"], "A", "大赛组委会通常会提供线上培训课程。");
+    addSingle(8, "信创大赛作品需要适配多种国产CPU架构。", ["A. 正确", "B. 错误"], "A", "作品需在飞腾、龙芯、鲲鹏等平台上验证。");
+    addSingle(8, "信创大赛可以使用Docker容器化部署。", ["A. 正确", "B. 错误"], "A", "容器化部署是可接受的部署方式。");
+    addSingle(8, "信创大赛作品需要提供源代码。", ["A. 正确", "B. 错误"], "A", "需提交源代码用于评审和查重。");
+    addSingle(8, "信创大赛作品可以商业化。", ["A. 正确", "B. 错误"], "A", "优秀作品可进行商业化转化。");
+    addSingle(8, "信创大赛有企业赛道和高校赛道。", ["A. 正确", "B. 错误"], "A", "分为企业组和高校组两个赛道。");
+    addSingle(8, "信创大赛获奖作品有机会进入信创产品目录。", ["A. 正确", "B. 错误"], "A", "优秀作品可入选信创产品推荐目录。");
+    addSingle(8, "信创大赛可以提前熟悉比赛环境。", ["A. 正确", "B. 错误"], "A", "赛前会开放模拟环境供练习。");
+    addSingle(8, "信创大赛需要提交技术方案PPT。", ["A. 正确", "B. 错误"], "A", "答辩环节需要准备PPT进行讲解。");
+    addSingle(8, "信创大赛作品需要体现国产化替代效果。", ["A. 正确", "B. 错误"], "A", "国产化替代效果是核心评分点。");
+    addSingle(8, "信创大赛可以多人协作完成作品。", ["A. 正确", "B. 错误"], "A", "团队协作完成作品是允许的。");
+    addSingle(8, "信创大赛有严格的代码规范要求。", ["A. 正确", "B. 错误"], "A", "代码规范性和可读性是评分项之一。");
+    addSingle(8, "信创大赛作品需要经过功能测试验证。", ["A. 正确", "B. 错误"], "A", "功能测试验证是必须的环节。");
+    addSingle(8, "信创大赛作品需要进行安全测试。", ["A. 正确", "B. 错误"], "A", "安全测试证明系统的安全性。");
+    addSingle(8, "信创大赛作品需要提供用户手册。", ["A. 正确", "B. 错误"], "A", "用户手册便于评审理解作品功能。");
+    addSingle(8, "信创大赛优秀作品可推荐参加其他国家级赛事。", ["A. 正确", "B. 错误"], "A", "可推荐参加中国软件杯等赛事。");
+        // ===================== 第10章 判断题集（原题完整保留）=====================
+    addJudge(9, "飞腾CPU兼容x86软件可直接运行。", false, "飞腾基于ARM架构，不兼容x86指令集。");
+    addJudge(9, "达梦数据库完全兼容MySQL所有函数。", false, "部分函数如IFNULL需改写为NVL。");
+    addJudge(9, "银河麒麟桌面版支持apt命令。", true, "基于Debian/Ubuntu，支持apt。");
+    addJudge(9, "信创迁移只需复制数据，无需SQL改造。", false, "SQL方言差异必须改造。");
+    addJudge(9, "东方通TongWeb可部署PHP应用。", false, "TongWeb是Java应用服务器。");
+    addJudge(9, "统信UOS基于openEuler社区。", false, "统信UOS基于Debian。");
+    addJudge(9, "JMeter可以模拟高并发用户请求。", true, "支持线程组模拟并发。");
+    addJudge(9, "海光CPU属于ARM架构。", false, "海光为x86架构。");
+    addJudge(9, "麒麟操作系统支持firewalld防火墙。", true, "银河麒麟使用firewalld。");
+    addJudge(9, "信创迁移中回滚方案是非必须的。", false, "回滚方案是必备保障。");
+    addJudge(9, "龙芯处理器采用的是ARM架构。", false, "龙芯采用自主LoongArch指令集。");
+    addJudge(9, "飞腾处理器主要用于桌面和服务器领域。", true, "飞腾产品线覆盖桌面和服务器。");
+    addJudge(9, "麒麟操作系统由华为主导研发。", false, "麒麟软件由中国电子(CEC)主导。");
+    addJudge(9, "统信UOS是基于Ubuntu开发的操作系统。", false, "统信UOS直接基于Debian unstable。");
+    addJudge(9, "在国产操作系统中，root用户权限最大，应谨慎使用。", true, "root拥有系统最高权限。");
+    addJudge(9, "达梦DTS工具不支持增量同步。", false, "DTS支持全量+增量实时同步。");
+    addJudge(9, "信创全栈完全不需要开源技术。", false, "信创生态基于Linux等开源技术。");
+    addJudge(9, "性能对比测试必须对比TPS和响应时间。", true, "此为迁移效果核心量化指标。");
+    addJudge(9, "鲲鹏920处理器基于x86架构。", false, "鲲鹏920基于ARMv8架构。");
+    addJudge(9, "人大金仓KingbaseES提供MySQL兼容模式。", true, "可通过参数开启MySQL兼容。");
+    addJudge(9, "信创迁移完成后无需功能测试。", false, "功能回归测试是验收必要环节。");
+    addJudge(9, "龙芯3A5000使用自主LoongArch指令集。", true, "龙芯中科自主指令集。");
+    addJudge(9, "统信UOS软件商店只能安装商店应用。", false, "也可通过apt安装任意deb包。");
+    addJudge(9, "东方通TongWeb管理控制台默认端口8080。", false, "默认管理端口9060，HTTP服务8080。");
+    addJudge(9, "信创适配迁移中所有SQL均可直接运行。", false, "因数据库差异需改造部分SQL。");
+    addJudge(9, "麒麟V10中可以使用systemctl管理服务。", true, "麒麟完全兼容systemd。");
+    addJudge(9, "达梦数据库不支持JSON数据类型。", false, "达梦8及以上提供JSON支持。");
+    addJudge(9, "飞腾S2500是64核服务器CPU。", true, "飞腾S2500为64核ARM芯片。");
+    addJudge(9, "openEuler社区版基于Debian。", false, "openEuler基于CentOS/RHEL生态。");
+    addJudge(9, "信创迁移中双轨运行增加业务风险。", false, "双轨运行降低风险，新旧并行验证。");
+    addJudge(9, "人大金仓KStudio只能运行在Windows。", false, "KStudio支持Linux和Windows。");
+    addJudge(9, "麒麟V10中关闭防火墙命令为systemctl disable firewalld --now。", true, "同时disable和stop。");
+    addJudge(9, "达梦数据库支持全文检索。", true, "达梦DM8提供全文索引功能。");
+    addJudge(9, "统信UOS不能安装Docker。", false, "统信完全支持Docker容器。");
+    addJudge(9, "信创迁移中性能不达标只能更换硬件。", false, "可通过软件调优提升性能。");
+    addJudge(9, "银河麒麟V10服务器版使用apt。", false, "服务器版使用dnf。");
+    addJudge(9, "东方通TongWeb支持热部署。", true, "支持war包热部署。");
+    addJudge(9, "人大金仓数据库不支持存储过程。", false, "KingbaseES支持PL/SQL存储过程。");
+    addJudge(9, "信创迁移中网络配置不需要修改。", false, "IP、端口、防火墙等需适配。");
+    addJudge(9, "麒麟V10支持麒麟软件商店。", true, "内置软件商店。");
+    addJudge(9, "达梦数据库不允许调整缓冲区大小。", false, "可通过参数调整。");
+    addJudge(9, "飞腾CPU支持硬件虚拟化。", true, "支持ARM虚拟化扩展。");
+    addJudge(9, "统信UOS桌面版默认使用Wayland。", false, "默认X11。");
+    addJudge(9, "信创适配中，符号链接无需关注。", false, "绝对路径符号链接需检查。");
+    addJudge(9, "银河麒麟V10完全兼容RHEL应用。", false, "可能存在兼容性问题需测试。");
+    addJudge(9, "达梦数据库不支持分区表。", false, "支持范围、列表、哈希分区。");
+    addJudge(9, "麒麟V10中crontab用于计划任务。", true, "crontab是标准定时任务工具。");
+    addJudge(9, "信创迁移后系统安全等级会降低。", false, "信创环境应满足等保要求。");
+    addJudge(9, "东方通TongWeb支持集群部署。", true, "支持集群和会话复制。");
+    addJudge(9, "人大金仓数据库有免费试用版。", true, "提供开发版。");
+    addJudge(9, "麒麟V10中用户名最大长度32字符。", true, "符合Linux规范。");
+    addJudge(9, "信创适配迁移必须重写所有前端代码。", false, "前端通常无需大改。");
+    addJudge(9, "达梦数据库支持闪回查询。", true, "提供闪回功能。");
+    addJudge(9, "统信UOS不支持NTFS读写。", false, "支持NTFS-3g。");
+    addJudge(9, "飞腾CPU不支持睿频。", false, "支持动态频率调整。");
+    addJudge(9, "信创迁移中脚本路径需改为绝对路径。", false, "建议使用相对路径或环境变量。");
+    addJudge(9, "银河麒麟V10支持生物识别。", true, "支持指纹等。");
+    addJudge(9, "东方通TongWeb有开源版本。", false, "商业软件。");
+    addJudge(9, "达梦数据库表名长度最多128字符。", true, "符合标准。");
+    addJudge(9, "信创适配迁移必须用国产开发工具。", false, "开发工具不强制。");
+    addJudge(9, "麒麟V10支持LVM逻辑卷。", true, "完全支持。");
+    addJudge(9, "人大金仓数据库备份文件默认后缀.dmp。", true, "逻辑导出为dmp。");
+    addJudge(9, "信创迁移可以完全自动完成。", false, "需要人工验证改造。");
+    addJudge(9, "统信UOS服务器版有最小化安装选项。", true, "安装时可选择最小化。");
+    addJudge(9, "银河麒麟V10支持双系统引导。", true, "支持与Windows双系统。");
+    addJudge(9, "龙芯处理器完全兼容x86指令集。", false, "龙芯通过LATS二进制翻译运行x86应用，非硬件原生兼容。");
+    addJudge(9, "飞腾处理器是基于ARM指令集架构的国产CPU。", true, "飞腾获得ARMv8永久授权。");
+    addJudge(9, "麒麟操作系统是基于Debian开发的。", true, "麒麟桌面版基于Debian。");
+    addJudge(9, "统信UOS不支持RPM包安装。", false, "UOS基于Debian原生支持deb，rpm需转换。");
+    addJudge(9, "海量数据库不支持存储过程。", false, "海量支持PL/pgSQL存储过程。");
+    addJudge(9, "中创中间件只能在Windows环境下运行。", false, "中创支持Windows和Linux。");
+    addJudge(9, "应用迁移前可以不进行兼容性测试。", false, "兼容性测试是迁移必备环节。");
+    addJudge(9, "迁移回退计划是可选的。", false, "回退计划是迁移方案必须包含的章节。");
+    addJudge(9, "龙芯3系列处理器只能用于桌面环境。", false, "3A系列桌面，3C系列服务器。");
+    addJudge(9, "飞腾处理器支持硬件虚拟化。", true, "飞腾支持ARM Virtualization Extensions。");
+    addJudge(9, "麒麟操作系统的默认Shell是bash。", true, "麒麟默认/bin/bash作为用户Shell。");
+    addJudge(9, "统信UOS的防火墙默认是关闭的。", false, "UOS默认开启firewalld防火墙。");
+    addJudge(9, "海量数据库的默认端口是3306。", false, "海量基于PostgreSQL，默认端口5432。");
+    addJudge(9, "中创中间件支持热部署。", true, "支持将WAR包放入webapps目录自动热部署。");
+    addJudge(9, "迁移完成后可以立即销毁原环境。", false, "需经过试运行期确认稳定后，方可下线。");
+    addJudge(9, "性能调优只需要调整中间件参数。", false, "性能调优需多层面：应用代码、SQL、中间件、JVM。");
+    addJudge(9, "内存溢出时可以通过增加内存永久解决。", false, "增加内存缓解症状，根本解决需修复内存泄漏代码。");
+    addJudge(9, "兼容性测试只测试应用功能。", false, "兼容性测试涵盖功能、数据、平台、接口、浏览器。");
+    addJudge(9, "国产CPU的主频一定低于同期Intel CPU。", false, "主频差距缩小，飞腾D2000达2.6GHz。");
+    addJudge(9, "统信UOS支持exFAT文件系统。", true, "安装exfat-utils和exfat-fuse包后可读写。");
+    addJudge(9, "麒麟操作系统可以使用apt命令安装软件。", true, "麒麟桌面版基于Debian，支持apt。");
+    addJudge(9, "海量数据库支持全文索引。", true, "通过GIN索引和tsvector数据类型支持全文检索。");
+    addJudge(9, "中创中间件的管理控制台支持远程访问。", true, "可配置远程访问管理控制台。");
+    addJudge(9, "迁移演练只需要做一次。", false, "建议多次演练，包括全流程演练和异常场景演练。");
+    addJudge(9, "CPU占用率100%一定是CPU性能不足。", false, "可能因死循环、频繁GC、IO等待导致。");
+    addJudge(9, "磁盘IO高时首选更换固态硬盘。", false, "应先分析IO高的原因，SSD是最后手段。");
+    addJudge(9, "网络丢包率超过1%属于正常范围。", false, "正常网络丢包率应低于0.1%。");
+    addJudge(9, "应用迁移后必须进行安全测试。", true, "安全测试验证认证、权限、数据加密。");
+    addJudge(9, "龙芯处理器不支持DDR4内存。", false, "龙芯3A5000/3C5000支持DDR4。");
+    addJudge(9, "飞腾处理器可以在麒麟系统上运行。", true, "飞腾是麒麟原生支持的硬件平台之一。");
+    addJudge(9, "统信UOS的软件商店只能安装商店内的应用。", false, "用户可通过apt安装任意deb包。");
+    addJudge(9, "海量数据库支持行列混合存储。", true, "支持行存储和列存储扩展。");
+    addJudge(9, "中创中间件的默认JVM堆大小为2GB。", false, "默认堆大小取决于平台和版本，通常256MB-1GB。");
+    addJudge(9, "迁移方案中不需要包含时间计划表。", false, "时间计划是迁移方案核心内容。");
+    addJudge(9, "性能测试可以在迁移后进行。", true, "迁移后必须进行性能基准测试。");
+    addJudge(9, "故障排查第一步通常是查看日志。", true, "日志记录错误详情，是第一信息来源。");
+    addJudge(9, "所有应用迁移都需要修改源代码。", false, "Java等跨平台应用可能只需修改配置。");
+    addJudge(9, "海量数据库的备份必须停止服务。", false, "pg_dump支持在线热备。");
+    addJudge(9, "中创中间件支持WebSocket协议。", true, "中创通过WebSocket Connector支持全双工通信。");
+    addJudge(9, "麒麟操作系统不支持LVM逻辑卷管理。", false, "麒麟完全支持LVM在线扩容。");
+    addJudge(9, "统信UOS可以运行部分Windows应用通过Wine。", true, "Wine兼容层可运行部分Windows应用。");
+    addJudge(9, "龙芯处理器内置了安全协处理器。", true, "龙芯内置独立安全模块，支持国密算法。");
+    addJudge(9, "迁移项目只需要技术人员参与。", false, "需PM、技术、测试、运维、业务方共同参与。");
+    addJudge(9, "性能调优是一次性工作。", false, "性能是持续性工作，随业务增长需持续优化。");
+    addJudge(9, "兼容性问题只在应用层出现。", false, "兼容性涉及CPU、OS、数据库、中间件、应用各层。");
+    addJudge(9, "海量数据库的默认管理员密码为空。", false, "安装时强制设置postgres用户密码。");
+    addJudge(9, "中创中间件启动失败一定是端口被占用。", false, "可能原因：端口冲突、JVM内存不足、配置错误。");
+    addJudge(9, "迁移验证只需要抽样检查。", false, "关键业务须全量验证。");
+    addJudge(9, "国产操作系统都基于Linux内核。", true, "麒麟、统信、深度等主流国产OS均基于Linux内核。");
+    addJudge(9, "应用迁移项目必须进行压力测试。", true, "压力测试验证性能指标，确保满足生产并发要求。");
+
+    // ===================== 多选题目补充 =====================
+    addMulti(0, "以下属于龙芯处理器的技术特点的是？", ["A. 自主LoongArch指令集", "B. 兼容部分MIPS指令", "C. 支持x86硬件虚拟化", "D. 仅支持嵌入式场景"], ["A","B"], "龙芯LoongArch指令集完全自主，同时提供MIPS兼容模式。");
+    addMulti(0, "飞腾处理器在信创生态中的优势包括？", ["A. 基于ARMv8架构，生态完善", "B. 桌面与服务器场景均有适配", "C. 功耗控制优秀", "D. 完全不依赖国外技术"], ["A","B","C"], "飞腾基于ARMv8永久授权，生态成熟；产品覆盖桌面和服务器。");
+    addMulti(1, "以下属于麒麟操作系统的版本类型的是？", ["A. 桌面版", "B. 服务器版", "C. 嵌入式版", "D. 手机版"], ["A","B","C"], "麒麟操作系统有桌面版、服务器版、嵌入式版。");
+    addMulti(1, "统信UOS操作系统的特点包括？", ["A. 基于Debian开发", "B. 支持图形界面与命令行操作", "C. 适配龙芯、飞腾等国产CPU", "D. 仅支持办公场景"], ["A","B","C"], "统信UOS基于Debian，提供图形和命令行双模式，适配多种国产CPU。");
+    addMulti(2, "以下哪些是国产数据库的代表厂商？", ["A. 海量数据（HighGo）", "B. 达梦数据库", "C. 人大金仓", "D. Oracle", "E. 华为GaussDB"], ["A","B","C","E"], "Oracle为国外产品，其余均为国产数据库核心厂商。");
+    addMulti(2, "在海量数据库中，支持的客户端连接方式包括？", ["A. psql命令行", "B. Navicat for PostgreSQL", "C. JDBC编程连接", "D. ODBC连接"], ["A","B","C","D"], "psql原生客户端，Navicat等GUI工具通过PG协议连接，JDBC/ODBC为编程接口。");
+    addMulti(3, "中创中间件支持的部署方式包括？", ["A. 单机部署", "B. 集群部署", "C. 容器化部署", "D. 虚拟化部署"], ["A","B","C","D"], "中创InforSuite AS全形态支持。");
+    addMulti(4, "应用迁移前需要进行的评估包括？", ["A. 系统架构分析", "B. 第三方组件兼容性", "C. 性能指标基准", "D. 用户角色权限梳理"], ["A","B","C","D"], "技术评估范围：架构、依赖库、性能基线、权限模型。");
+    addMulti(4, "'迁移适配'中常见的工作包括？", ["A. 编译源码适配新平台", "B. 替换动态链接库", "C. 修改数据库连接字符串", "D. 调整JVM参数"], ["A","B","C","D"], "后端涉及编译、库替换、配置调整、JVM调优。");
+    addMulti(5, "以下哪些属于'兼容性验证'的内容？", ["A. 页面能否打开", "B. 数据增删改查是否正常", "C. 报表能否导出", "D. 是否支持多浏览器访问"], ["A","B","C","D"], "兼容性验证关注功能和环境适配。");
+    addMulti(6, "性能调优常见的手段包括？", ["A. 调整JVM堆大小", "B. 优化SQL语句", "C. 增加缓存机制", "D. 扩容服务器节点"], ["A","B","C","D"], "性能调优：JVM内存、SQL索引、Redis缓存、水平扩展。");
+    addMulti(7, "以下哪些命令可用于Linux系统下查看端口占用？", ["A. netstat -tlnp", "B. ss -tlnp", "C. lsof -i :端口", "D. telnet IP 端口"], ["A","B","C"], "netstat/ss/lsof均可查看端口监听和占用。");
+    addMulti(8, "以下属于信创应用迁移的优势的是？", ["A. 实现软硬件自主可控", "B. 提升系统安全性", "C. 适配国产生态，降低依赖风险", "D. 迁移过程无任何成本"], ["A","B","C"], "信创优势：自主可控、安全提升、降低依赖风险。");
+    addMulti(9, "麒麟操作系统的安全特性包括？", ["A. 内置安全审计机制", "B. 支持国密算法", "C. 提供防火墙工具", "D. 仅支持命令行操作，降低攻击面"], ["A","B","C"], "麒麟安全特性：审计、国密、防火墙。");
+
+    // ===================== 交互逻辑 =====================
+    function getCurrentChapterQuestions() { return allQuestions.filter(q => q.chapter === currentChapter); }
+
+    let currentChapterQuestions = getCurrentChapterQuestions();
+    
+    const totalSpan = document.getElementById("totalCount");
+    const answeredSpan = document.getElementById("answeredCount");
+    const timerSpan = document.getElementById("timer");
+    const realScoreSpan = document.getElementById("realScore");
+    const maxScoreSpan = document.getElementById("maxScoreSpan");
+    const finalScoreDisplay = document.getElementById("finalScoreDisplay");
+    const scoreDetailDiv = document.getElementById("scoreDetail");
+    const navGridDiv = document.getElementById("navGrid");
+    const currentQWrapper = document.getElementById("currentQWrapper");
+    const confirmMultiBtn = document.getElementById("confirmMultiBtn");
+    const currentChapterSpan = document.getElementById("currentChapter");
+    const chapterTotalSpan = document.getElementById("chapterTotal");
+
+    function updateChapterInfo() {
+        currentChapterQuestions = getCurrentChapterQuestions();
+        currentChapterSpan.innerText = CHAPTERS[currentChapter].name;
+        chapterTotalSpan.innerText = currentChapterQuestions.length;
+        maxScoreSpan.innerText = currentChapterQuestions.length;
+        if(currentIndexInChapter >= currentChapterQuestions.length) currentIndexInChapter = 0;
+        renderNav();
+        renderCurrentQuestion();
+        updateStatsUI();
+    }
+
+    function computeScore() { 
+        let s = 0; 
+        for(let q of allQuestions) { 
+            if(!q.answered) continue; 
+            if(q.type==="single"||q.type==="judge") { 
+                if(q.userAnswer===q.correct) s++; 
+            } else if(Array.isArray(q.userAnswer)&&Array.isArray(q.correct)&&q.userAnswer.length===q.correct.length&&q.correct.every(c=>q.userAnswer.includes(c))) s++; 
+        } 
+        return s; 
+    }
+    
+    function updateStatsUI() { 
+        let ac = allQuestions.filter(q=>q.answered).length; 
+        answeredSpan.innerText = ac; 
+        let sc = computeScore(); 
+        realScoreSpan.innerText = sc; 
+        if(submitted) finalScoreDisplay.innerText = sc + " / " + allQuestions.length; 
+        renderNav(); 
+    }
+    
+    function confirmMultiAnswer() { 
+        let q = currentChapterQuestions[currentIndexInChapter]; 
+        if(!q || q.type!=="multi" || q.answered) return; 
+        let checked = Array.from(document.querySelectorAll('#optionsContainer input:checked')).map(cb=>cb.value); 
+        if(checked.length===0){ alert("请至少选择一个选项"); return; } 
+        q.userAnswer = checked; 
+        q.answered = true; 
+        updateStatsUI(); 
+        renderCurrentQuestion(); 
+    }
+    
+    function renderCurrentQuestion() { 
+        let q = currentChapterQuestions[currentIndexInChapter]; 
+        if(!q) return; 
+        let selected = q.userAnswer, isMulti = q.type==="multi"; 
+        let html = `<div class="q-card"><div class="q-title">题目 ${currentIndexInChapter+1}/${currentChapterQuestions.length} | 全局第${q.id}题 <span class="chapter-info">${CHAPTERS[q.chapter].name}</span></div><div class="q-text">${escapeHtml(q.text)}</div><div class="options" id="optionsContainer">`;
+        for(let opt of q.options){ 
+            let letter = opt.charAt(0), optText = opt.substring(2); 
+            let isCorrect = (q.type!=="multi")?(letter===q.correct):q.correct.includes(letter); 
+            let isUser = (q.type!=="multi")?(selected===letter):(Array.isArray(selected)&&selected.includes(letter)); 
+            let addClass = "", disabled = "", checked = "";
+            if(q.answered){ 
+                disabled = "disabled"; 
+                if(isCorrect) addClass = "correct-answer-display"; 
+                if(isUser && !isCorrect) addClass = "wrong-highlight"; 
+                if(isUser && isCorrect) addClass = "correct-highlight"; 
+                checked = isUser ? "checked" : ""; 
+            } else { 
+                checked = isUser ? "checked" : ""; 
+            }
+            html += `<div class="option ${addClass}"><input type="${isMulti?'checkbox':'radio'}" name="question" value="${letter}" id="opt_${letter}" ${checked} ${disabled}><label for="opt_${letter}"><strong>${letter}</strong>. ${escapeHtml(optText)}</label></div>`;
+        } 
+        html += `</div>`;
+        if(q.answered){ 
+            let isCurrCorrect = (q.type!=="multi")?(q.userAnswer===q.correct):(Array.isArray(q.userAnswer)&&Array.isArray(q.correct)&&q.userAnswer.length===q.correct.length&&q.correct.every(c=>q.userAnswer.includes(c))); 
+            let statusText = isCurrCorrect?"✓正确":"✗错误"; 
+            let statusClass = isCurrCorrect?"feedback-correct":"feedback-wrong"; 
+            let correctStr = (q.type==="multi")?q.correct.join("、"):q.correct; 
+            html += `<div class="feedback-area"><div class="${statusClass}">${statusText}</div><div><strong>📖答案：</strong> ${escapeHtml(correctStr)}</div><div><strong>💡解析：</strong> ${escapeHtml(q.explanation)}</div></div>`; 
+        } else { 
+            html += `<div class="feedback-area feedback-neutral">${isMulti?"✅ 勾选所有正确选项后点击「确认答案」":"⚡ 点击选项立即判题"}</div>`; 
+        } 
+        html += `</div>`; 
+        currentQWrapper.innerHTML = html;
+        
+        if(q.type!=="multi" && !q.answered){ 
+            document.querySelectorAll('input[name="question"]').forEach(radio=>radio.addEventListener('change',(e)=>{ 
+                if(e.target.checked){ 
+                    q.userAnswer = e.target.value; 
+                    q.answered = true; 
+                    updateStatsUI(); 
+                    renderCurrentQuestion(); 
+                } 
+            })); 
+        }
+        confirmMultiBtn.style.display = (q.type==="multi" && !q.answered) ? "inline-flex" : "none";
+        
+        if(!q.answered && q.type==="multi" && Array.isArray(selected)){ 
+            let boxes = document.querySelectorAll('#optionsContainer input[type="checkbox"]'); 
+            boxes.forEach(cb=>{ 
+                if(selected.includes(cb.value)) cb.checked = true; 
+                cb.addEventListener('change',()=>{ 
+                    currentChapterQuestions[currentIndexInChapter].userAnswer = Array.from(document.querySelectorAll('#optionsContainer input:checked')).map(c=>c.value); 
+                }); 
+            }); 
+        }
+    }
+    
+    function renderNav(){ 
+        navGridDiv.innerHTML = ''; 
+        for(let i=0; i<currentChapterQuestions.length; i++){ 
+            let btn = document.createElement('div'); 
+            btn.classList.add('nav-btn'); 
+            if(currentChapterQuestions[i].answered) btn.classList.add('answered'); 
+            if(i === currentIndexInChapter) btn.classList.add('current'); 
+            btn.innerText = i+1; 
+            btn.addEventListener('click', ((idx)=>()=>{ 
+                currentIndexInChapter = idx; 
+                renderCurrentQuestion(); 
+                renderNav(); 
+            })(i)); 
+            navGridDiv.appendChild(btn); 
+        } 
+    }
+    
+    function updateTimerDisplay(){ 
+        if(submitted) return; 
+        let e = Math.floor((Date.now()-startTime)/1000), h = Math.floor(e/3600), m = Math.floor((e%3600)/60), s = e%60; 
+        timerSpan.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; 
+    }
+    
+    function startTimer(){ 
+        if(timerInterval) clearInterval(timerInterval); 
+        timerInterval = setInterval(updateTimerDisplay, 1000); 
+    }
+    
+    function submitExam(){ 
+        if(submitted) return; 
+        submitted = true; 
+        clearInterval(timerInterval); 
+        let sc = computeScore(); 
+        finalScoreDisplay.innerText = sc + " / " + allQuestions.length; 
+        scoreDetailDiv.innerHTML = `✅ 最终得分率 ${Math.round(sc/allQuestions.length*100)}% ，答对 ${sc} 题。`; 
+        realScoreSpan.innerText = sc; 
+    }
+    
+    function resetAll(){ 
+        if(confirm("重置所有进度？")){ 
+            allQuestions.forEach(q=>{ q.userAnswer = null; q.answered = false; }); 
+            currentIndexInChapter = 0; 
+            startTime = Date.now(); 
+            submitted = false; 
+            clearInterval(timerInterval); 
+            startTimer(); 
+            renderCurrentQuestion(); 
+            updateStatsUI(); 
+            finalScoreDisplay.innerText = "—"; 
+            scoreDetailDiv.innerHTML = ""; 
+            renderNav(); 
+        } 
+    }
+    
+    function switchChapter(chapterId) {
+        currentChapter = chapterId;
+        currentIndexInChapter = 0;
+        currentChapterQuestions = getCurrentChapterQuestions();
+        updateChapterInfo();
+        document.querySelectorAll('.chapter-tab').forEach((tab, idx) => {
+            if(idx === chapterId) tab.classList.add('active');
+            else tab.classList.remove('active');
+        });
+    }
+    
+    function renderChapterTabs() {
+        const container = document.getElementById('chapterTabs');
+        container.innerHTML = '';
+        CHAPTERS.forEach((ch, idx) => {
+            const tab = document.createElement('div');
+            tab.className = 'chapter-tab' + (idx === currentChapter ? ' active' : '');
+            tab.innerHTML = `${ch.name}<small style="display:block;font-size:0.65rem;">${ch.desc.substring(0,10)}</small>`;
+            tab.addEventListener('click', () => switchChapter(idx));
+            container.appendChild(tab);
+        });
+    }
+    
+    document.getElementById("prevBtn").addEventListener("click", () => { 
+        if(currentIndexInChapter > 0){ 
+            currentIndexInChapter--; 
+            renderCurrentQuestion(); 
+            renderNav(); 
+        } 
+    });
+    document.getElementById("nextBtn").addEventListener("click", () => { 
+        if(currentIndexInChapter < currentChapterQuestions.length - 1){ 
+            currentIndexInChapter++; 
+            renderCurrentQuestion(); 
+            renderNav(); 
+        } 
+    });
+    document.getElementById("submitBtn").addEventListener("click", submitExam);
+    document.getElementById("resetAllBtn").addEventListener("click", resetAll);
+    confirmMultiBtn.addEventListener("click", confirmMultiAnswer);
+    
+    renderChapterTabs();
+    startTimer();
+    updateChapterInfo();
+    renderCurrentQuestion();
+    updateStatsUI();
+    renderNav();
+    
+    console.log("总题库数量:", allQuestions.length);
+</script>
+</body>
+</html>
