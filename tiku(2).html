@@ -119,159 +119,456 @@
     function escapeHtml(s) { if(!s) return ''; return s.replace(/[&<>]/g, m=>m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
 
     // ===================== 第1章 国产CPU（优化解析版）=====================
-    addSingle(0, "在信创适配迁移中，将Java应用从x86迁移到飞腾(ARM)环境，最可能遇到的编译问题是？", 
-        ["A. JDK版本不兼容", "B. 依赖的本地库(.so)需重新编译", "C. 数据库驱动缺失", "D. 前端页面无法显示"], 
-        "B", 
-        "本地动态库必须基于ARM架构重新编译，否则无法链接。",
-        "🔍 选项详细分析：<br><strong>A ❌ JDK版本不兼容</strong>：Java是跨平台语言，主流JDK（如OpenJDK）同时支持x86和ARM架构，只要选择对应版本即可，这不是迁移中的主要编译问题。<br><strong>B ✅ 依赖的本地库(.so)需重新编译</strong>：Java通过JNI调用C/C++编译的本地动态库（.so文件）。这些.so文件包含与CPU架构绑定的机器码，x86编译的.so无法在ARM上运行，必须获取源码重新编译为ARM版本，这是最典型的编译问题。<br><strong>C ❌ 数据库驱动缺失</strong>：数据库驱动通常是纯Java的JAR包，跨平台兼容，不存在架构迁移问题。<br><strong>D ❌ 前端页面无法显示</strong>：前端页面（HTML/CSS/JS）与后端CPU架构无关，在任何平台上浏览器解析效果相同。"
-    );
-    
-    addSingle(0, "以下基于ARM架构的国产CPU是？", 
-        ["A. 海光C86", "B. 兆芯KX", "C. 飞腾S2500", "D. 龙芯3A5000"], 
-        "C", 
-        "飞腾基于ARMv8，海光/兆芯x86，龙芯LoongArch。",
-        "🔍 选项详细分析：<br><strong>A ❌ 海光C86</strong>：海光处理器获得AMD Zen架构授权，兼容x86-64指令集，属于x86阵营。<br><strong>B ❌ 兆芯KX</strong>：兆芯与威盛合作获得x86授权，兼容x86指令集，属于x86阵营。<br><strong>C ✅ 飞腾S2500</strong>：飞腾获得ARMv8架构永久授权，S2500是其64核服务器处理器，属于ARM架构。<br><strong>D ❌ 龙芯3A5000</strong>：龙芯早期使用MIPS授权，3A5000开始使用完全自主研发的LoongArch指令集，不属于ARM架构。"
-    );
-    
-    addSingle(0, "海光处理器指令集属于？", 
-        ["A. ARM", "B. x86", "C. RISC-V", "D. MIPS"], 
-        "B", 
-        "海光兼容x86生态。",
-        "🔍 选项详细分析：<br><strong>A ❌ ARM</strong>：ARM是英国ARM公司的RISC架构，主要用于移动设备和嵌入式，海光不属于此架构。<br><strong>B ✅ x86</strong>：海光与AMD合作获得Zen架构授权，完全兼容x86-64指令集，可运行Windows和Linux的x86版本。<br><strong>C ❌ RISC-V</strong>：RISC-V是新兴开源RISC架构，目前国产厂商如阿里平头哥、赛昉科技在推广，海光不采用。<br><strong>D ❌ MIPS</strong>：MIPS是早期RISC架构，龙芯早期使用过，海光不使用MIPS指令集。"
-    );
-    
-    addSingle(0, "飞腾服务器编译C++适配选项？", 
-        ["A. -march=armv8", "B. -march=x86_64", "C. -target intel", "D. -m64"], 
-        "A", 
-        "飞腾ARMv8使用-march=armv8优化。",
-        "🔍 选项详细分析：<br><strong>A ✅ -march=armv8</strong>：GCC编译器使用-march参数指定目标CPU架构，飞腾基于ARMv8，该参数使编译器生成ARMv8优化的机器码。<br><strong>B ❌ -march=x86_64</strong>：这是x86_64架构的编译参数，生成的代码无法在飞腾ARM处理器上运行。<br><strong>C ❌ -target intel</strong>：这不是GCC标准参数，-target通常用于LLVM/Clang指定目标平台，intel指向x86架构。<br><strong>D ❌ -m64</strong>：-m64表示生成64位代码，但不指定具体指令集架构，默认按编译器默认架构生成，在ARM上不加-march可能生成兼容性较差的代码。"
-    );
-    
-    addSingle(0, "龙芯3A5000使用指令集？", 
-        ["A. MIPS", "B. LoongArch", "C. ARM", "D. x86"], 
-        "B", 
-        "龙芯自主LoongArch指令集。",
-        "🔍 选项详细分析：<br><strong>A ❌ MIPS</strong>：龙芯早期产品（如2F、3A1000）使用MIPS指令集，但3A5000已全面转向自主LoongArch。<br><strong>B ✅ LoongArch</strong>：龙芯中科于2020年发布的完全自主指令集架构，龙芯3A5000是首款采用LoongArch的桌面处理器。<br><strong>C ❌ ARM</strong>：ARM是英国公司架构，飞腾使用，龙芯不使用ARM。<br><strong>D ❌ x86</strong>：x86是Intel/AMD主导的复杂指令集架构，国产兆芯、海光使用，龙芯不使用。"
-    );
-    
-    addSingle(0, "龙芯处理器主要采用的指令集架构是？", 
-        ["A. x86", "B. ARM", "C. MIPS / LoongArch", "D. RISC-V"], 
-        "C", 
-        "龙芯早期使用MIPS授权，3A5000开始全面转向自主指令集LoongArch。",
-        "🔍 选项详细分析：<br><strong>A ❌ x86</strong>：x86是Intel/AMD的复杂指令集，龙芯从未采用。<br><strong>B ❌ ARM</strong>：ARM是英国ARM公司的RISC架构，飞腾采用，龙芯不采用。<br><strong>C ✅ MIPS / LoongArch</strong>：龙芯发展分两个阶段：早期获得MIPS授权（3A1000、3A2000、3A3000系列）；2020年后发布完全自主的LoongArch指令集（3A5000、3C5000系列）。<br><strong>D ❌ RISC-V</strong>：RISC-V是新兴开源RISC架构，目前国内有多家厂商跟进，但龙芯尚未采用。"
-    );
-    
-    addSingle(0, "飞腾处理器属于哪种架构体系？", 
-        ["A. x86", "B. MIPS", "C. ARM", "D. PowerPC"], 
-        "C", 
-        "飞腾基于ARM v8指令集永久授权。",
-        "🔍 选项详细分析：<br><strong>A ❌ x86</strong>：x86是Intel/AMD的复杂指令集，海光、兆芯采用此架构。<br><strong>B ❌ MIPS</strong>：MIPS是斯坦福大学开发的RISC架构，龙芯早期使用。<br><strong>C ✅ ARM</strong>：飞腾获得ARM v8架构的永久授权，包括FT、腾锐、腾云全系列。<br><strong>D ❌ PowerPC</strong>：PowerPC是IBM开发的RISC架构，曾是苹果Mac、游戏主机使用，国产申威处理器早期基于此架构发展而来。"
-    );
-    
-    addSingle(0, "以下哪个国产CPU厂商的处理器主要面向服务器和桌面市场？", 
-        ["A. 兆芯", "B. 申威", "C. 飞腾", "D. 华为鲲鹏"], 
-        "C", 
-        "飞腾拥有服务器CPU S2500和桌面CPU D2000，产品线完整。",
-        "🔍 选项详细分析：<br><strong>A ❌ 兆芯</strong>：兆芯主打桌面CPU，服务器产品较少且市场占有率低。<br><strong>B ❌ 申威</strong>：申威主要面向超算（神威·太湖之光）和特种计算领域，桌面和通用服务器市场较少。<br><strong>C ✅ 飞腾</strong>：飞腾产品线完整——桌面有FT-2000/4、腾锐D2000，服务器有FT-1500A/16、腾云S2500，覆盖桌面和服务器双市场。<br><strong>D ❌ 华为鲲鹏</strong>：鲲鹏主打服务器和数据中心（鲲鹏920），桌面产品较少（鲲鹏916主要在特定整机中出现）。"
-    );
-    
-    addSingle(0, "龙芯3A5000采用的是哪一代自主指令集？", 
-        ["A. MIPS64", "B. LoongArch", "C. ARMv8", "D. x86-64"], 
-        "B", 
-        "LoongArch是龙芯中科2020年发布的完全自主指令集架构。",
-        "🔍 选项详细分析：<br><strong>A ❌ MIPS64</strong>：龙芯3A1000/3A2000/3A3000使用的架构，但3A5000已弃用。<br><strong>B ✅ LoongArch</strong>：龙芯2020年发布的完全自主指令集，龙芯3A5000是首款采用该架构的桌面处理器。<br><strong>C ❌ ARMv8</strong>：ARMv8是ARM公司64位架构，飞腾、鲲鹏采用，龙芯不采用。<br><strong>D ❌ x86-64</strong>：x86-64是AMD/Intel的64位复杂指令集架构，海光、兆芯采用，龙芯不采用。"
-    );
-    
-    addSingle(0, "国产CPU在迁移适配中，最核心关注的技术点是？", 
-        ["A. 品牌知名度", "B. 指令集架构兼容性", "C. 市场占有率", "D. 价格优势"], 
-        "B", 
-        "不同指令集导致二进制不兼容，是迁移核心问题。",
-        "🔍 选项详细分析：<br><strong>A ❌ 品牌知名度</strong>：品牌知名度与技术支持没有直接技术关联。<br><strong>B ✅ 指令集架构兼容性</strong>：不同指令集（x86/ARM/LoongArch/MIPS）的机器码互不兼容，已编译的二进制程序需要重新编译或适配，这是技术迁移最核心的挑战。<br><strong>C ❌ 市场占有率</strong>：市场占有率是商业因素，不直接影响技术迁移工作。<br><strong>D ❌ 价格优势</strong>：价格是采购决策因素，与技术迁移无关。"
-    );
-    
-    addSingle(0, "龙芯处理器的LoongArch指令集是基于以下哪种架构自主演进而来？", 
-        ["A. x86", "B. ARM", "C. MIPS", "D. RISC-V"], 
-        "C", 
-        "龙芯早期使用MIPS授权，在此基础上自主研发LoongArch。",
-        "🔍 选项详细分析：<br><strong>A ❌ x86</strong>：x86是复杂指令集，龙芯从未基于x86演进。<br><strong>B ❌ ARM</strong>：ARM是另一家公司的RISC架构，与龙芯技术路线无关。<br><strong>C ✅ MIPS</strong>：龙芯早期产品获得MIPS指令集授权，LoongArch在保持MIPS部分二进制兼容的同时，进行了大量自主创新和扩展。<br><strong>D ❌ RISC-V</strong>：RISC-V是2010年后兴起的新开源架构，龙芯的LoongArch研发早于RISC-V大流行，两者无直接继承关系。"
-    );
-    
-    addSingle(0, "飞腾处理器采用的ARM架构版本是？", 
-        ["A. ARMv7", "B. ARMv8", "C. ARMv9", "D. ARMv6"], 
-        "B", 
-        "飞腾处理器基于ARMv8架构永久授权。",
-        "🔍 选项详细分析：<br><strong>A ❌ ARMv7</strong>：ARMv7是32位架构，目前主要在老旧嵌入式设备使用，飞腾采用64位架构。<br><strong>B ✅ ARMv8</strong>：ARMv8是64位架构，支持AArch64执行状态，飞腾获得该架构永久授权。<br><strong>C ❌ ARMv9</strong>：ARMv9是2021年发布的最新架构，目前飞腾尚未推出基于ARMv9的商用产品。<br><strong>D ❌ ARMv6</strong>：ARMv6是更早期的32位架构，主要用于ARM11等老处理器。"
-    );
-    
-    addSingle(0, "龙芯3A5000处理器的核心数为？", 
-        ["A. 2核", "B. 4核", "C. 8核", "D. 16核"], 
-        "B", 
-        "龙芯3A5000为4核心设计。",
-        "🔍 选项详细分析：<br><strong>A ❌ 2核</strong>：龙芯2K系列采用2核设计，3A5000为4核。<br><strong>B ✅ 4核</strong>：龙芯3A5000采用LA464微架构，4核心设计，主频2.3-2.5GHz。<br><strong>C ❌ 8核</strong>：龙芯3C5000系列是16核服务器CPU，3A5000桌面CPU为4核。<br><strong>D ❌ 16核</strong>：龙芯3C5000L/3C5000为16核，但这是服务器产品线。"
-    );
-    
-    addSingle(0, "飞腾2000+/4处理器的主要定位是？", 
-        ["A. 嵌入式终端", "B. 桌面通用/服务器", "C. 物联网网关", "D. 工业控制"], 
-        "B", 
-        "飞腾FT-2000/4是4核桌面处理器。",
-        "🔍 选项详细分析：<br><strong>A ❌ 嵌入式终端</strong>：飞腾嵌入式产品线主要为FT-1500C等，FT-2000/4为桌面设计。<br><strong>B ✅ 桌面通用/服务器</strong>：FT-2000/4是4核桌面处理器，同时可作为入门级服务器使用。<br><strong>C ❌ 物联网网关</strong>：物联网网关通常使用低功耗嵌入式CPU，FT-2000/4功耗较高（约10W），不适合。<br><strong>D ❌ 工业控制</strong>：工控领域需宽温、低功耗，FT-2000/4主要用于办公和入门服务器。"
-    );
-    
-    addSingle(0, "以下哪项是龙芯处理器的核心优势？", 
-        ["A. 完全自主可控指令集", "B. 兼容所有Windows软件", "C. 功耗为0", "D. 性能超越所有x86 CPU"], 
-        "A", 
-        "龙芯LoongArch为完全自主指令集架构。",
-        "🔍 选项详细分析：<br><strong>A ✅ 完全自主可控指令集</strong>：龙芯LoongArch是100%自主设计的指令集，拥有完整的知识产权，不受国外技术授权限制。<br><strong>B ❌ 兼容所有Windows软件</strong>：龙芯通过LATS二进制翻译系统可运行部分Windows应用，但无法兼容所有，运行效率也有损耗。<br><strong>C ❌ 功耗为0</strong>：任何处理器都有功耗，龙芯3A5000典型功耗约35W。<br><strong>D ❌ 性能超越所有x86 CPU</strong>：龙芯性能在同频下与Intel/AMD中端产品相当，但尚未超越顶级x86处理器。"
-    );
-    
-    addSingle(0, "龙芯中科推出的自主指令集架构名称是？", 
-        ["A. MIPS", "B. LoongArch", "C. ARM", "D. RISC-V"], 
-        "B", 
-        "龙芯中科于2020年发布完全自主的LoongArch指令集。",
-        "🔍 选项详细分析：<br><strong>A ❌ MIPS</strong>：MIPS是斯坦福大学开发的指令集，龙芯早期获得授权使用，不是龙芯自主架构。<br><strong>B ✅ LoongArch</strong>：龙芯中科于2020年发布的完全自主指令集架构（龙芯架构）。<br><strong>C ❌ ARM</strong>：ARM是英国ARM公司的商标和架构。<br><strong>D ❌ RISC-V</strong>：RISC-V是加州伯克利分校发起的开源指令集。"
-    );
-    
-    addSingle(0, "以下哪种国产CPU厂商拥有x86架构授权？", 
-        ["A. 龙芯", "B. 飞腾", "C. 兆芯", "D. 申威"], 
-        "C", 
-        "兆芯与威盛合作获得x86授权。",
-        "🔍 选项详细分析：<br><strong>A ❌ 龙芯</strong>：龙芯获得MIPS授权，后转向自主LoongArch，从未获得x86授权。<br><strong>B ❌ 飞腾</strong>：飞腾获得ARMv8永久授权，属于ARM阵营。<br><strong>C ✅ 兆芯</strong>：兆芯与台湾威盛电子合作，通过威盛获得x86架构授权。<br><strong>D ❌ 申威</strong>：申威源自DEC Alpha架构，后发展为自主SW64指令集，不属于x86阵营。"
-    );
-    
-    addSingle(0, "龙芯3A5000处理器采用的微架构是？", 
-        ["A. LA464", "B. FT663", "C. Zen2", "D. Cortex-A76"], 
-        "A", 
-        "龙芯3A5000采用LA464微架构。",
-        "🔍 选项详细分析：<br><strong>A ✅ LA464</strong>：龙芯3A5000采用LA464微架构，是龙芯第四代微架构。<br><strong>B ❌ FT663</strong>：FT663是飞腾处理器的微架构名称（飞腾FT-1500A/4采用）。<br><strong>C ❌ Zen2</strong>：Zen2是AMD的微架构，海光处理器基于Zen1/Zen架构授权。<br><strong>D ❌ Cortex-A76</strong>：Cortex-A76是ARM公司的公版微架构，飞腾使用自研微架构而非公版。"
-    );
-    
-    addSingle(0, "飞腾腾锐D2000处理器的核心数是？", 
-        ["A. 4核", "B. 8核", "C. 16核", "D. 32核"], 
-        "B", 
-        "腾锐D2000为8核桌面处理器。",
-        "🔍 选项详细分析：<br><strong>A ❌ 4核</strong>：飞腾FT-2000/4是4核，腾锐D2000是8核升级版。<br><strong>B ✅ 8核</strong>：腾锐D2000基于FT-2000/4升级，8核心设计，主频2.3-2.6GHz。<br><strong>C ❌ 16核</strong>：飞腾腾云S2500是64核服务器处理器，没有16核桌面产品。<br><strong>D ❌ 32核</strong>：飞腾服务器产品线最高64核，但没有32核桌面产品。"
-    );
-    
-    addSingle(0, "申威处理器主要基于哪种架构发展而来？", 
-        ["A. DEC Alpha", "B. MIPS", "C. ARM", "D. PowerPC"], 
-        "A", 
-        "申威源自DEC Alpha架构，后发展为自主SW64指令集。",
-        "🔍 选项详细分析：<br><strong>A ✅ DEC Alpha</strong>：申威处理器最初基于DEC Alpha 21164架构，在此基础上发展出自主SW64指令集。<br><strong>B ❌ MIPS</strong>：MIPS是龙芯早期使用的架构。<br><strong>C ❌ ARM</strong>：ARM是飞腾、鲲鹏使用的架构。<br><strong>D ❌ PowerPC</strong>：PowerPC是IBM架构，曾用于国产CPU研究，但不是申威的直接来源。"
-    );
-    
-    addSingle(0, "鲲鹏920处理器主要应用于什么场景？", 
-        ["A. 嵌入式微控制器", "B. 数据中心与服务器", "C. 低端路由器", "D. 传统工控机"], 
-        "B", 
-        "鲲鹏920是华为推出的ARM服务器芯片。",
-        "🔍 选项详细分析：<br><strong>A ❌ 嵌入式微控制器</strong>：鲲鹏920功耗高达150W+，不适合嵌入式微控制器场景。<br><strong>B ✅ 数据中心与服务器</strong>：鲲鹏920是华为数据中心级ARM服务器CPU，最高64核，用于TaiShan服务器。<br><strong>C ❌ 低端路由器</strong>：路由器使用网络处理器或低功耗ARM，鲲鹏920性能过剩且功耗太高。<br><strong>D ❌ 传统工控机</strong>：工控机要求宽温和长期稳定，鲲鹏920主要用于云数据中心。"
-    );
-    
-    addSingle(0, "飞腾CPU的FT-2000/4主要面向哪个市场？", 
-        ["A. 桌面终端", "B. 高端服务器", "C. 超级计算机", "D. 智能穿戴"], 
-        "A", 
-        "FT-2000/4是4核桌面处理器。",
-        "🔍 选项详细分析：<br><strong>A ✅ 桌面终端</strong>：FT-2000/4是4核桌面处理器，主频2.6-3.0GHz，面向台式机和笔记本。<br><strong>B ❌ 高端服务器</strong>：服务器需更多核心，飞腾服务器产品为S2500（64核）。<br><strong>C ❌ 超级计算机</strong>：超算需要极致并行，FT-2000/4核心数太少。<br><strong>D ❌ 智能穿戴</strong>：智能穿戴需超低功耗（毫瓦级），FT-2000/4功耗约10W不适合。"
-    );
+   // ===================== 第1章 国产CPU（51道原题完整版 + 每题4选项深度解析）=====================
+// 说明: 本模块共51道单选题，每题均提供“选项逐项精析”，详细解释为何选该项、为何不选其他项。
+
+// 辅助函数 (与原有逻辑一致)
+function addSingle(ch, text, opts, correct, exp, detailedAnalysis) { 
+    allQuestions.push({ chapter:ch, id:allQuestions.length+1, text, options:opts, correct, explanation:exp, detailedAnalysis:detailedAnalysis, type:"single", userAnswer:null, answered:false }); 
+}
+
+// ===================== 第1章 国产CPU 题目列表 (共51道，原题不删不减，解析全面优化) =====================
+
+// 第1题
+addSingle(0, "在信创适配迁移中，将Java应用从x86迁移到飞腾(ARM)环境，最可能遇到的编译问题是？", 
+    ["A. JDK版本不兼容", "B. 依赖的本地库(.so)需重新编译", "C. 数据库驱动缺失", "D. 前端页面无法显示"], 
+    "B", 
+    "本地动态库必须基于ARM架构重新编译，否则无法链接。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ JDK版本不兼容</strong>：Java是跨平台语言，主流JDK（如OpenJDK、麒麟JDK）同时提供x86和ARM版本，只要下载对应架构的JDK即可，通常不会成为编译阶段的障碍。<br><br><strong>B ✅ 依赖的本地库(.so)需重新编译</strong>：Java通过JNI调用C/C++编译的本地动态库（.so文件）。这些.so文件包含与CPU架构绑定的机器码，x86编译的.so无法在ARM上运行，必须获取源码重新编译为ARM版本，这是迁移中最常见且最棘手的编译问题。<br><br><strong>C ❌ 数据库驱动缺失</strong>：数据库驱动（如MySQL Connector/J、达梦DmJdbcDriver）通常是纯Java的JAR包，跨平台兼容，不存在架构迁移问题，只要版本匹配即可。<br><br><strong>D ❌ 前端页面无法显示</strong>：前端页面（HTML/CSS/JS）在浏览器端解析，与后端服务器CPU架构完全无关，在任何平台上浏览器渲染效果相同。"
+);
+
+// 第2题
+addSingle(0, "以下基于ARM架构的国产CPU是？", 
+    ["A. 海光C86", "B. 兆芯KX", "C. 飞腾S2500", "D. 龙芯3A5000"], 
+    "C", 
+    "飞腾基于ARMv8，海光/兆芯x86，龙芯LoongArch。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 海光C86</strong>：海光处理器获得AMD Zen架构授权，兼容x86-64指令集，属于x86阵营，主要应用于服务器和PC，不属于ARM架构。<br><br><strong>B ❌ 兆芯KX</strong>：兆芯与威盛合作获得x86授权，兼容x86指令集，属于x86阵营，代表作KX-6000系列，不属于ARM架构。<br><br><strong>C ✅ 飞腾S2500</strong>：飞腾获得ARMv8架构永久授权，S2500是其64核服务器处理器，属于ARM架构。<br><br><strong>D ❌ 龙芯3A5000</strong>：龙芯使用完全自主研发的LoongArch指令集，不属于ARM架构。"
+);
+
+// 第3题
+addSingle(0, "海光处理器指令集属于？", 
+    ["A. ARM", "B. x86", "C. RISC-V", "D. MIPS"], 
+    "B", 
+    "海光兼容x86生态。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ ARM</strong>：ARM是英国ARM公司的RISC架构，主要用于移动设备和嵌入式，海光不属于此架构。<br><br><strong>B ✅ x86</strong>：海光与AMD合作获得Zen架构授权，完全兼容x86-64指令集，可运行Windows和Linux的x86版本。<br><br><strong>C ❌ RISC-V</strong>：RISC-V是新兴开源RISC架构，目前国产厂商如阿里平头哥、赛昉科技在推广，海光不采用。<br><br><strong>D ❌ MIPS</strong>：MIPS是早期RISC架构，龙芯早期使用过，海光不使用MIPS指令集。"
+);
+
+// 第4题
+addSingle(0, "飞腾服务器编译C++适配选项？", 
+    ["A. -march=armv8", "B. -march=x86_64", "C. -target intel", "D. -m64"], 
+    "A", 
+    "飞腾ARMv8使用-march=armv8优化。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ -march=armv8</strong>：GCC编译器使用-march参数指定目标CPU架构，飞腾基于ARMv8，该参数使编译器生成ARMv8优化的机器码。<br><br><strong>B ❌ -march=x86_64</strong>：这是x86_64架构的编译参数，生成的代码无法在飞腾ARM处理器上运行。<br><br><strong>C ❌ -target intel</strong>：这不是GCC标准参数，-target通常用于LLVM/Clang指定目标平台，intel指向x86架构。<br><br><strong>D ❌ -m64</strong>：-m64表示生成64位代码，但不指定具体指令集架构，默认按编译器默认架构生成，在ARM上不加-march可能生成兼容性较差的代码。"
+);
+
+// 第5题
+addSingle(0, "龙芯3A5000使用指令集？", 
+    ["A. MIPS", "B. LoongArch", "C. ARM", "D. x86"], 
+    "B", 
+    "龙芯自主LoongArch指令集。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ MIPS</strong>：龙芯早期产品（如2F、3A1000）使用MIPS指令集，但3A5000已全面转向自主LoongArch。<br><br><strong>B ✅ LoongArch</strong>：龙芯中科于2020年发布的完全自主指令集架构，龙芯3A5000是首款采用LoongArch的桌面处理器。<br><br><strong>C ❌ ARM</strong>：ARM是英国公司架构，飞腾使用，龙芯不使用ARM。<br><br><strong>D ❌ x86</strong>：x86是Intel/AMD主导的复杂指令集架构，国产兆芯、海光使用，龙芯不使用。"
+);
+
+// 第6题
+addSingle(0, "龙芯处理器主要采用的指令集架构是？", 
+    ["A. x86", "B. ARM", "C. MIPS / LoongArch", "D. RISC-V"], 
+    "C", 
+    "龙芯早期使用MIPS授权，3A5000开始全面转向自主指令集LoongArch。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ x86</strong>：x86是Intel/AMD的复杂指令集，龙芯从未采用。<br><br><strong>B ❌ ARM</strong>：ARM是英国ARM公司的RISC架构，飞腾采用，龙芯不采用。<br><br><strong>C ✅ MIPS / LoongArch</strong>：龙芯发展分两个阶段：早期获得MIPS授权（3A1000、3A2000、3A3000系列）；2020年后发布完全自主的LoongArch指令集（3A5000、3C5000系列）。<br><br><strong>D ❌ RISC-V</strong>：RISC-V是新兴开源RISC架构，目前国内有多家厂商跟进，但龙芯尚未采用。"
+);
+
+// 第7题
+addSingle(0, "飞腾处理器属于哪种架构体系？", 
+    ["A. x86", "B. MIPS", "C. ARM", "D. PowerPC"], 
+    "C", 
+    "飞腾基于ARM v8指令集永久授权。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ x86</strong>：x86是Intel/AMD的复杂指令集，海光、兆芯采用此架构。<br><br><strong>B ❌ MIPS</strong>：MIPS是斯坦福大学开发的RISC架构，龙芯早期使用。<br><br><strong>C ✅ ARM</strong>：飞腾获得ARM v8架构的永久授权，包括FT、腾锐、腾云全系列。<br><br><strong>D ❌ PowerPC</strong>：PowerPC是IBM开发的RISC架构，曾是苹果Mac、游戏主机使用，国产申威处理器早期基于此架构发展而来。"
+);
+
+// 第8题
+addSingle(0, "以下哪个国产CPU厂商的处理器主要面向服务器和桌面市场？", 
+    ["A. 兆芯", "B. 申威", "C. 飞腾", "D. 华为鲲鹏"], 
+    "C", 
+    "飞腾拥有服务器CPU S2500和桌面CPU D2000，产品线完整。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 兆芯</strong>：兆芯主打桌面CPU，服务器产品较少且市场占有率低。<br><br><strong>B ❌ 申威</strong>：申威主要面向超算（神威·太湖之光）和特种计算领域，桌面和通用服务器市场较少。<br><br><strong>C ✅ 飞腾</strong>：飞腾产品线完整——桌面有FT-2000/4、腾锐D2000，服务器有FT-1500A/16、腾云S2500，覆盖桌面和服务器双市场。<br><br><strong>D ❌ 华为鲲鹏</strong>：鲲鹏主打服务器和数据中心（鲲鹏920），桌面产品较少（鲲鹏916主要在特定整机中出现）。"
+);
+
+// 第9题
+addSingle(0, "龙芯3A5000采用的是哪一代自主指令集？", 
+    ["A. MIPS64", "B. LoongArch", "C. ARMv8", "D. x86-64"], 
+    "B", 
+    "LoongArch是龙芯中科2020年发布的完全自主指令集架构。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ MIPS64</strong>：龙芯3A1000/3A2000/3A3000使用的架构，但3A5000已弃用。<br><br><strong>B ✅ LoongArch</strong>：龙芯2020年发布的完全自主指令集，龙芯3A5000是首款采用该架构的桌面处理器。<br><br><strong>C ❌ ARMv8</strong>：ARMv8是ARM公司64位架构，飞腾、鲲鹏采用，龙芯不采用。<br><br><strong>D ❌ x86-64</strong>：x86-64是AMD/Intel的64位复杂指令集架构，海光、兆芯采用，龙芯不采用。"
+);
+
+// 第10题
+addSingle(0, "国产CPU在迁移适配中，最核心关注的技术点是？", 
+    ["A. 品牌知名度", "B. 指令集架构兼容性", "C. 市场占有率", "D. 价格优势"], 
+    "B", 
+    "不同指令集导致二进制不兼容，是迁移核心问题。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 品牌知名度</strong>：品牌知名度与技术支持没有直接技术关联。<br><br><strong>B ✅ 指令集架构兼容性</strong>：不同指令集（x86/ARM/LoongArch/MIPS）的机器码互不兼容，已编译的二进制程序需要重新编译或适配，这是技术迁移最核心的挑战。<br><br><strong>C ❌ 市场占有率</strong>：市场占有率是商业因素，不直接影响技术迁移工作。<br><br><strong>D ❌ 价格优势</strong>：价格是采购决策因素，与技术迁移无关。"
+);
+
+// 第11题
+addSingle(0, "龙芯处理器的LoongArch指令集是基于以下哪种架构自主演进而来？", 
+    ["A. x86", "B. ARM", "C. MIPS", "D. RISC-V"], 
+    "C", 
+    "龙芯早期使用MIPS授权，在此基础上自主研发LoongArch。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ x86</strong>：x86是复杂指令集，龙芯从未基于x86演进。<br><br><strong>B ❌ ARM</strong>：ARM是另一家公司的RISC架构，与龙芯技术路线无关。<br><br><strong>C ✅ MIPS</strong>：龙芯早期产品获得MIPS指令集授权，LoongArch在保持MIPS部分二进制兼容的同时，进行了大量自主创新和扩展。<br><br><strong>D ❌ RISC-V</strong>：RISC-V是2010年后兴起的新开源架构，龙芯的LoongArch研发早于RISC-V大流行，两者无直接继承关系。"
+);
+
+// 第12题
+addSingle(0, "飞腾处理器采用的ARM架构版本是？", 
+    ["A. ARMv7", "B. ARMv8", "C. ARMv9", "D. ARMv6"], 
+    "B", 
+    "飞腾处理器基于ARMv8架构永久授权。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ ARMv7</strong>：ARMv7是32位架构，目前主要在老旧嵌入式设备使用，飞腾采用64位架构。<br><br><strong>B ✅ ARMv8</strong>：ARMv8是64位架构，支持AArch64执行状态，飞腾获得该架构永久授权。<br><br><strong>C ❌ ARMv9</strong>：ARMv9是2021年发布的最新架构，目前飞腾尚未推出基于ARMv9的商用产品。<br><br><strong>D ❌ ARMv6</strong>：ARMv6是更早期的32位架构，主要用于ARM11等老处理器。"
+);
+
+// 第13题
+addSingle(0, "龙芯3A5000处理器的核心数为？", 
+    ["A. 2核", "B. 4核", "C. 8核", "D. 16核"], 
+    "B", 
+    "龙芯3A5000为4核心设计。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 2核</strong>：龙芯2K系列采用2核设计，3A5000为4核。<br><br><strong>B ✅ 4核</strong>：龙芯3A5000采用LA464微架构，4核心设计，主频2.3-2.5GHz。<br><br><strong>C ❌ 8核</strong>：龙芯3C5000系列是16核服务器CPU，3A5000桌面CPU为4核。<br><br><strong>D ❌ 16核</strong>：龙芯3C5000L/3C5000为16核，但这是服务器产品线。"
+);
+
+// 第14题
+addSingle(0, "飞腾FT-2000/4处理器的主要定位是？", 
+    ["A. 嵌入式终端", "B. 桌面通用/服务器", "C. 物联网网关", "D. 工业控制"], 
+    "B", 
+    "飞腾FT-2000/4是4核桌面处理器。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 嵌入式终端</strong>：飞腾嵌入式产品线主要为FT-1500C等，FT-2000/4为桌面设计。<br><br><strong>B ✅ 桌面通用/服务器</strong>：FT-2000/4是4核桌面处理器，同时可作为入门级服务器使用。<br><br><strong>C ❌ 物联网网关</strong>：物联网网关通常使用低功耗嵌入式CPU，FT-2000/4功耗较高（约10W），不适合。<br><br><strong>D ❌ 工业控制</strong>：工控领域需宽温、低功耗，FT-2000/4主要用于办公和入门服务器。"
+);
+
+// 第15题
+addSingle(0, "以下哪项是龙芯处理器的核心优势？", 
+    ["A. 完全自主可控指令集", "B. 兼容所有Windows软件", "C. 功耗为0", "D. 性能超越所有x86 CPU"], 
+    "A", 
+    "龙芯LoongArch为完全自主指令集架构。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 完全自主可控指令集</strong>：龙芯LoongArch是100%自主设计的指令集，拥有完整的知识产权，不受国外技术授权限制。<br><br><strong>B ❌ 兼容所有Windows软件</strong>：龙芯通过LATS二进制翻译系统可运行部分Windows应用，但无法兼容所有，运行效率也有损耗。<br><br><strong>C ❌ 功耗为0</strong>：任何处理器都有功耗，龙芯3A5000典型功耗约35W。<br><br><strong>D ❌ 性能超越所有x86 CPU</strong>：龙芯性能在同频下与Intel/AMD中端产品相当，但尚未超越顶级x86处理器。"
+);
+
+// 第16题
+addSingle(0, "龙芯中科推出的自主指令集架构名称是？", 
+    ["A. MIPS", "B. LoongArch", "C. ARM", "D. RISC-V"], 
+    "B", 
+    "龙芯中科于2020年发布完全自主的LoongArch指令集。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ MIPS</strong>：MIPS是斯坦福大学开发的指令集，龙芯早期获得授权使用，不是龙芯自主架构。<br><br><strong>B ✅ LoongArch</strong>：龙芯中科于2020年发布的完全自主指令集架构（龙芯架构）。<br><br><strong>C ❌ ARM</strong>：ARM是英国ARM公司的商标和架构。<br><br><strong>D ❌ RISC-V</strong>：RISC-V是加州伯克利分校发起的开源指令集。"
+);
+
+// 第17题
+addSingle(0, "以下哪种国产CPU厂商拥有x86架构授权？", 
+    ["A. 龙芯", "B. 飞腾", "C. 兆芯", "D. 申威"], 
+    "C", 
+    "兆芯与威盛合作获得x86授权。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 龙芯</strong>：龙芯获得MIPS授权，后转向自主LoongArch，从未获得x86授权。<br><br><strong>B ❌ 飞腾</strong>：飞腾获得ARMv8永久授权，属于ARM阵营。<br><br><strong>C ✅ 兆芯</strong>：兆芯与台湾威盛电子合作，通过威盛获得x86架构授权。<br><br><strong>D ❌ 申威</strong>：申威源自DEC Alpha架构，后发展为自主SW64指令集，不属于x86阵营。"
+);
+
+// 第18题
+addSingle(0, "龙芯3A5000处理器采用的微架构是？", 
+    ["A. LA464", "B. FT663", "C. Zen2", "D. Cortex-A76"], 
+    "A", 
+    "龙芯3A5000采用LA464微架构。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ LA464</strong>：龙芯3A5000采用LA464微架构，是龙芯第四代微架构。<br><br><strong>B ❌ FT663</strong>：FT663是飞腾处理器的微架构名称（飞腾FT-1500A/4采用）。<br><br><strong>C ❌ Zen2</strong>：Zen2是AMD的微架构，海光处理器基于Zen1/Zen架构授权。<br><br><strong>D ❌ Cortex-A76</strong>：Cortex-A76是ARM公司的公版微架构，飞腾使用自研微架构而非公版。"
+);
+
+// 第19题
+addSingle(0, "飞腾腾锐D2000处理器的核心数是？", 
+    ["A. 4核", "B. 8核", "C. 16核", "D. 32核"], 
+    "B", 
+    "腾锐D2000为8核桌面处理器。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 4核</strong>：飞腾FT-2000/4是4核，腾锐D2000是8核升级版。<br><br><strong>B ✅ 8核</strong>：腾锐D2000基于FT-2000/4升级，8核心设计，主频2.3-2.6GHz。<br><br><strong>C ❌ 16核</strong>：飞腾腾云S2500是64核服务器处理器，没有16核桌面产品。<br><br><strong>D ❌ 32核</strong>：飞腾服务器产品线最高64核，但没有32核桌面产品。"
+);
+
+// 第20题
+addSingle(0, "申威处理器主要基于哪种架构发展而来？", 
+    ["A. DEC Alpha", "B. MIPS", "C. ARM", "D. PowerPC"], 
+    "A", 
+    "申威源自DEC Alpha架构，后发展为自主SW64指令集。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ DEC Alpha</strong>：申威处理器最初基于DEC Alpha 21164架构，在此基础上发展出自主SW64指令集。<br><br><strong>B ❌ MIPS</strong>：MIPS是龙芯早期使用的架构。<br><br><strong>C ❌ ARM</strong>：ARM是飞腾、鲲鹏使用的架构。<br><br><strong>D ❌ PowerPC</strong>：PowerPC是IBM架构，曾用于国产CPU研究，但不是申威的直接来源。"
+);
+
+// 第21题
+addSingle(0, "鲲鹏920处理器主要应用于什么场景？", 
+    ["A. 嵌入式微控制器", "B. 数据中心与服务器", "C. 低端路由器", "D. 传统工控机"], 
+    "B", 
+    "鲲鹏920是华为推出的ARM服务器芯片。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 嵌入式微控制器</strong>：鲲鹏920功耗高达150W+，不适合嵌入式微控制器场景。<br><br><strong>B ✅ 数据中心与服务器</strong>：鲲鹏920是华为数据中心级ARM服务器CPU，最高64核，用于TaiShan服务器。<br><br><strong>C ❌ 低端路由器</strong>：路由器使用网络处理器或低功耗ARM，鲲鹏920性能过剩且功耗太高。<br><br><strong>D ❌ 传统工控机</strong>：工控机要求宽温和长期稳定，鲲鹏920主要用于云数据中心。"
+);
+
+// 第22题
+addSingle(0, "飞腾CPU的FT-2000/4主要面向哪个市场？", 
+    ["A. 桌面终端", "B. 高端服务器", "C. 超级计算机", "D. 智能穿戴"], 
+    "A", 
+    "FT-2000/4是4核桌面处理器。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 桌面终端</strong>：FT-2000/4是4核桌面处理器，主频2.6-3.0GHz，面向台式机和笔记本。<br><br><strong>B ❌ 高端服务器</strong>：服务器需更多核心，飞腾服务器产品为S2500（64核）。<br><br><strong>C ❌ 超级计算机</strong>：超算需要极致并行，FT-2000/4核心数太少。<br><br><strong>D ❌ 智能穿戴</strong>：智能穿戴需超低功耗（毫瓦级），FT-2000/4功耗约10W不适合。"
+);
+
+// 第23题
+addSingle(0, "龙芯3A4000处理器使用的是哪款微架构？", 
+    ["A. GS464E", "B. LA464", "C. GS464V", "D. FT663"], 
+    "A", 
+    "龙芯3A4000使用GS464E微架构。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ GS464E</strong>：龙芯3A4000采用GS464E微架构，是龙芯第三代微架构。<br><br><strong>B ❌ LA464</strong>：LA464是龙芯3A5000使用的第四代微架构，3A4000未使用。<br><br><strong>C ❌ GS464V</strong>：GS464V是龙芯2K1000系列使用的微架构变种，非3A4000。<br><br><strong>D ❌ FT663</strong>：FT663是飞腾处理器的微架构，非龙芯产品。"
+);
+
+// 第24题
+addSingle(0, "飞腾处理器FT-1500A/16主要面向什么场景？", 
+    ["A. 桌面办公", "B. 服务器", "C. 移动终端", "D. 物联网"], 
+    "B", 
+    "FT-1500A/16是16核服务器处理器。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 桌面办公</strong>：桌面办公需要4-8核，16核服务器芯片功耗较高，不适合桌面。<br><br><strong>B ✅ 服务器</strong>：FT-1500A/16是16核ARMv8处理器，面向服务器和数据中心场景。<br><br><strong>C ❌ 移动终端</strong>：移动终端需超低功耗，FT-1500A/16功耗约40W，不适合。<br><br><strong>D ❌ 物联网</strong>：物联网设备使用低功耗嵌入式CPU，非16核服务器芯片。"
+);
+
+// 第25题
+addSingle(0, "以下哪个CPU支持国密算法硬件加速？", 
+    ["A. 龙芯3A5000", "B. 飞腾FT-2000/4", "C. 海光C86", "D. 以上都是"], 
+    "D", 
+    "主流国产CPU均内置国密算法加速模块。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 龙芯3A5000</strong>：龙芯内置安全协处理器，支持SM2/SM3/SM4国密算法硬件加速。<br><br><strong>B ✅ 飞腾FT-2000/4</strong>：飞腾处理器内置安全引擎，支持国密算法加速。<br><br><strong>C ✅ 海光C86</strong>：海光处理器支持国密算法指令集加速。<br><br><strong>D ✅ 以上都是</strong>：三大国产CPU厂商均重视国密支持，硬件层面支持国密算法加速。"
+);
+
+// 第26题
+addSingle(0, "龙芯3C5000服务器CPU的核心数是？", 
+    ["A. 4核", "B. 8核", "C. 16核", "D. 32核"], 
+    "C", 
+    "龙芯3C5000为16核服务器处理器。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 4核</strong>：4核是桌面处理器（如3A5000）的规格，服务器需更多核心。<br><br><strong>B ❌ 8核</strong>：8核服务器CPU较少见，龙芯3C5000为16核。<br><br><strong>C ✅ 16核</strong>：龙芯3C5000采用LA464微架构，16核心设计，面向服务器市场。<br><br><strong>D ❌ 32核</strong>：龙芯3C5000L为16核，未推出32核服务器芯片，飞腾有64核S2500。"
+);
+
+// 第27题
+addSingle(0, "海光5000系列处理器基于AMD哪代架构？", 
+    ["A. Zen", "B. Zen2", "C. Zen3", "D. Zen4"], 
+    "A", 
+    "海光获得AMD Zen架构授权。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ Zen</strong>：海光与AMD合作获得第一代Zen架构授权，在此基础上开发海光3000/5000/7000系列。<br><br><strong>B ❌ Zen2</strong>：Zen2是AMD 2019年发布的架构，海光暂未获得Zen2及以上授权。<br><br><strong>C ❌ Zen3</strong>：Zen3是更新架构，未授权给海光。<br><br><strong>D ❌ Zen4</strong>：Zen4是最新架构，仅AMD自有产品使用。"
+);
+
+// 第28题
+addSingle(0, "兆芯KX-6000系列处理器采用什么工艺？", 
+    ["A. 14nm", "B. 16nm", "C. 7nm", "D. 28nm"], 
+    "B", 
+    "兆芯KX-6000采用16nm工艺。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 14nm</strong>：14nm工艺如Intel第6代酷睿使用，兆芯KX-6000为16nm。<br><br><strong>B ✅ 16nm</strong>：兆芯KX-6000系列采用台积电16nm FinFET工艺制造。<br><br><strong>C ❌ 7nm</strong>：7nm工艺如鲲鹏920、飞腾S2500使用，兆芯未采用。<br><br><strong>D ❌ 28nm</strong>：28nm是较老工艺，如龙芯3A3000使用，兆芯KX-6000为更先进16nm。"
+);
+
+// 第29题
+addSingle(0, "龙芯二进制翻译系统LATS的主要作用是？", 
+    ["A. 加速编译", "B. 运行x86/Linux应用", "C. 优化内存", "D. 加密数据"], 
+    "B", 
+    "LATS用于在龙芯平台上运行x86架构的Linux应用。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 加速编译</strong>：LATS是运行时二进制翻译，与编译加速无关。<br><br><strong>B ✅ 运行x86/Linux应用</strong>：LATS（Loongson Architecture Translation System）是龙芯的二进制翻译系统，可在LoongArch平台上动态翻译执行x86架构的Linux应用程序。<br><br><strong>C ❌ 优化内存</strong>：内存优化由操作系统和硬件管理，非LATS功能。<br><br><strong>D ❌ 加密数据</strong>：数据加密由独立安全模块完成，非LATS功能。"
+);
+
+// 第30题
+addSingle(0, "飞腾处理器的设计团队隶属于哪家公司？", 
+    ["A. 华为", "B. 天津飞腾信息技术有限公司", "C. 龙芯中科", "D. 中科院计算所"], 
+    "B", 
+    "飞腾由天津飞腾信息技术有限公司研发。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 华为</strong>：华为有鲲鹏芯片，但飞腾属于另一家公司。<br><br><strong>B ✅ 天津飞腾信息技术有限公司</strong>：飞腾处理器由中国电子信息产业集团（CEC）旗下的天津飞腾信息技术有限公司研发。<br><br><strong>C ❌ 龙芯中科</strong>：龙芯中科是龙芯处理器的研发公司，与飞腾无关。<br><br><strong>D ❌ 中科院计算所</strong>：中科院计算所是龙芯的早期孵化单位，非飞腾团队。"
+);
+
+// 第31题
+addSingle(0, "龙芯3A5000的主频范围是？", 
+    ["A. 1.5-1.8GHz", "B. 2.0-2.2GHz", "C. 2.3-2.5GHz", "D. 2.8-3.0GHz"], 
+    "C", 
+    "龙芯3A5000主频2.3-2.5GHz。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 1.5-1.8GHz</strong>：这是龙芯3A1000/3A2000的主频范围。<br><br><strong>B ❌ 2.0-2.2GHz</strong>：接近龙芯3A3000的主频（1.5-2.0GHz）。<br><br><strong>C ✅ 2.3-2.5GHz</strong>：龙芯3A5000采用12nm工艺，主频提升至2.3-2.5GHz。<br><br><strong>D ❌ 2.8-3.0GHz</strong>：飞腾D2000可达2.6GHz，龙芯3A5000暂未达3.0GHz。"
+);
+
+// 第32题
+addSingle(0, "鲲鹏920处理器的制造工艺是？", 
+    ["A. 12nm", "B. 14nm", "C. 7nm", "D. 28nm"], 
+    "C", 
+    "鲲鹏920采用7nm工艺。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 12nm</strong>：12nm是龙芯3A5000的工艺，鲲鹏920为更先进7nm。<br><br><strong>B ❌ 14nm</strong>：14nm是Intel第6-10代酷睿工艺，鲲鹏未采用。<br><br><strong>C ✅ 7nm</strong>：鲲鹏920采用台积电7nm FinFET工艺，集成最多64个核心。<br><br><strong>D ❌ 28nm</strong>：28nm是老工艺，如龙芯3A3000使用，鲲鹏920为先进工艺。"
+);
+
+// 第33题
+addSingle(0, "以下哪个CPU支持DDR5内存？", 
+    ["A. 龙芯3A5000", "B. 飞腾D2000", "C. 兆芯KX-7000", "D. 鲲鹏920"], 
+    "C", 
+    "兆芯KX-7000支持DDR5内存。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 龙芯3A5000</strong>：龙芯3A5000支持DDR4 3200，暂不支持DDR5。<br><br><strong>B ❌ 飞腾D2000</strong>：飞腾D2000支持DDR4，未明确支持DDR5。<br><br><strong>C ✅ 兆芯KX-7000</strong>：兆芯KX-7000是较新桌面处理器，支持DDR4和DDR5内存。<br><br><strong>D ❌ 鲲鹏920</strong>：鲲鹏920支持DDR4，未支持DDR5。"
+);
+
+// 第34题
+addSingle(0, "海光C86处理器的内存通道数量是？", 
+    ["A. 2通道", "B. 4通道", "C. 6通道", "D. 8通道"], 
+    "D", 
+    "海光C86系列支持8通道DDR4内存。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 2通道</strong>：桌面处理器多为2通道，服务器需要更多内存带宽。<br><br><strong>B ❌ 4通道</strong>：入门服务器为4通道，海光高端型号为8通道。<br><br><strong>C ❌ 6通道</strong>：Intel Xeon部分型号支持6通道，海光为8通道。<br><br><strong>D ✅ 8通道</strong>：海光C86系列（如海光7000）支持8通道DDR4内存，提供高带宽。"
+);
+
+// 第35题
+addSingle(0, "龙芯3A5000的L3缓存大小是？", 
+    ["A. 4MB", "B. 8MB", "C. 16MB", "D. 32MB"], 
+    "B", 
+    "龙芯3A5000有8MB L3缓存。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 4MB</strong>：4MB L3缓存是龙芯3A3000的规格。<br><br><strong>B ✅ 8MB</strong>：龙芯3A5000采用LA464微架构，配备8MB L3缓存。<br><br><strong>C ❌ 16MB</strong>：16MB L3缓存是服务器CPU的规格，如飞腾S2500。<br><br><strong>D ❌ 32MB</strong>：32MB L3缓存常见于高端x86服务器CPU，龙芯桌面版未达此容量。"
+);
+
+// 第36题
+addSingle(0, "飞腾S2500处理器最多支持多少个核心？", 
+    ["A. 32核", "B. 48核", "C. 64核", "D. 128核"], 
+    "C", 
+    "飞腾S2500为64核服务器CPU。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 32核</strong>：32核是早期服务器规格，S2500为64核。<br><br><strong>B ❌ 48核</strong>：暂无48核飞腾产品。<br><br><strong>C ✅ 64核</strong>：飞腾S2500采用多芯片封装，集成64个ARMv8核心。<br><br><strong>D ❌ 128核</strong>：128核目前是Ampere等厂商的ARM服务器CPU，飞腾尚未推出。"
+);
+
+// 第37题
+addSingle(0, "兆芯KX-6000的集成显卡型号是？", 
+    ["A. ZX C960", "B. AMD Radeon", "C. NVIDIA GT", "D. Intel UHD"], 
+    "A", 
+    "兆芯KX-6000集成ZX C960显卡。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ ZX C960</strong>：兆芯自研的ZX C960集成显卡，支持DX11、OpenGL 4.5。<br><br><strong>B ❌ AMD Radeon</strong>：AMD独立显卡品牌，非兆芯集成显卡。<br><br><strong>C ❌ NVIDIA GT</strong>：NVIDIA独立显卡品牌，非兆芯集成方案。<br><br><strong>D ❌ Intel UHD</strong>：Intel集成显卡，与兆芯无关。"
+);
+
+// 第38题
+addSingle(0, "龙芯3A5000的功耗设计(TDP)约为？", 
+    ["A. 15W", "B. 35W", "C. 65W", "D. 95W"], 
+    "B", 
+    "龙芯3A5000 TDP约35W。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 15W</strong>：15W是移动低功耗CPU的TDP，如龙芯2K系列。<br><br><strong>B ✅ 35W</strong>：龙芯3A5000桌面处理器典型TDP约35W，功耗控制优秀。<br><br><strong>C ❌ 65W</strong>：65W是Intel桌面处理器典型TDP，龙芯3A5000功耗更低。<br><br><strong>D ❌ 95W</strong>：95W是高性能桌面CPU的TDP，龙芯未达到此功耗。"
+);
+
+// 第39题
+addSingle(0, "飞腾处理器的安全架构名称是？", 
+    ["A. TrustZone", "B. 安全处理器(PSPA)", "C. SGX", "D. TEE"], 
+    "B", 
+    "飞腾PSPA是国产CPU安全架构标准。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ TrustZone</strong>：TrustZone是ARM公司的安全技术，飞腾在此基础上发展PSPA。<br><br><strong>B ✅ 安全处理器(PSPA)</strong>：PSPA（Platform Security Processor Architecture）是飞腾主导的国产CPU安全架构标准。<br><br><strong>C ❌ SGX</strong>：SGX是Intel的软件保护扩展技术。<br><br><strong>D ❌ TEE</strong>：TEE（可信执行环境）是通用概念，非飞腾特有命名。"
+);
+
+// 第40题
+addSingle(0, "龙芯3C5000L服务器CPU的TDP约为？", 
+    ["A. 35W", "B. 65W", "C. 95W", "D. 150W"], 
+    "D", 
+    "龙芯3C5000L TDP约150W。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 35W</strong>：这是桌面版3A5000的TDP。<br><br><strong>B ❌ 65W</strong>：65W是入门级服务器CPU功耗。<br><br><strong>C ❌ 95W</strong>：95W是中等服务器CPU功耗，龙芯3C5000L为150W。<br><br><strong>D ✅ 150W</strong>：龙芯3C5000L为16核服务器CPU，TDP约150W，面向数据中心。"
+);
+
+// 第41题
+addSingle(0, "华为鲲鹏920处理器最多支持多少条PCIe通道？", 
+    ["A. 16 lanes", "B. 32 lanes", "C. 64 lanes", "D. 128 lanes"], 
+    "C", 
+    "鲲鹏920支持64条PCIe 4.0通道。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 16 lanes</strong>：16条PCIe通道是桌面CPU规格。<br><br><strong>B ❌ 32 lanes</strong>：32条是入门服务器规格。<br><br><strong>C ✅ 64 lanes</strong>：鲲鹏920集成64条PCIe 4.0通道，满足服务器扩展需求。<br><br><strong>D ❌ 128 lanes</strong>：128条通道是高端x86服务器或专用计算卡规格。"
+);
+
+// 第42题
+addSingle(0, "龙芯3A5000支持的最高内存频率是？", 
+    ["A. DDR4 2400", "B. DDR4 2666", "C. DDR4 3200", "D. DDR5 4800"], 
+    "C", 
+    "龙芯3A5000支持DDR4 3200。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ DDR4 2400</strong>：DDR4 2400是老一代内存频率，龙芯3A3000支持。<br><br><strong>B ❌ DDR4 2666</strong>：DDR4 2666是过渡规格。<br><br><strong>C ✅ DDR4 3200</strong>：龙芯3A5000内存控制器支持DDR4 3200规格。<br><br><strong>D ❌ DDR5 4800</strong>：龙芯3A5000未支持DDR5，DDR5需要新一代内存控制器。"
+);
+
+// 第43题
+addSingle(0, "申威SW26010处理器主要用于哪个超算系统？", 
+    ["A. 天河二号", "B. 神威·太湖之光", "C. 曙光6000", "D. 天河一号"], 
+    "B", 
+    "申威SW26010用于神威·太湖之光。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 天河二号</strong>：天河二号使用Intel Xeon Phi和国产加速器，非申威处理器。<br><br><strong>B ✅ 神威·太湖之光</strong>：神威·太湖之光超算全部采用申威SW26010众核处理器。<br><br><strong>C ❌ 曙光6000</strong>：曙光6000主要使用Intel/AMD和海光处理器。<br><br><strong>D ❌ 天河一号</strong>：天河一号使用Intel Xeon和NVIDIA GPU。"
+);
+
+// 第44题
+addSingle(0, "龙芯二进制翻译系统LATS支持翻译哪种架构的应用？", 
+    ["A. x86", "B. ARM", "C. RISC-V", "D. PowerPC"], 
+    "A", 
+    "LATS主要翻译x86架构应用。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ x86</strong>：LATS主要针对x86架构的Linux应用进行二进制翻译，在龙芯平台上运行。<br><br><strong>B ❌ ARM</strong>：ARM应用已在飞腾等平台原生运行，LATS不专注于ARM。<br><br><strong>C ❌ RISC-V</strong>：RISC-V是新兴架构，目前LATS不支持。<br><br><strong>D ❌ PowerPC</strong>：PowerPC在国产CPU中已较少使用，LATS不涉及。"
+);
+
+// 第45题
+addSingle(0, "飞腾腾云S2500的缓存架构包含几级？", 
+    ["A. L1+L2", "B. L1+L2+L3", "C. L1+L2+L3+L4", "D. L2+L3"], 
+    "B", 
+    "飞腾S2500采用L1、L2、L3三级缓存架构。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ L1+L2</strong>：仅两级缓存在现代高性能CPU中不够用。<br><br><strong>B ✅ L1+L2+L3</strong>：飞腾S2500采用典型三级缓存架构，L3缓存作为最后一级共享缓存。<br><br><strong>C ❌ L1+L2+L3+L4</strong>：四级缓存常见于Intel某些型号，飞腾未采用。<br><br><strong>D ❌ L2+L3</strong>：缺少L1缓存不现实，L1是CPU最快缓存。"
+);
+
+// 第46题
+addSingle(0, "以下哪个国产CPU不支持PCIe 4.0？", 
+    ["A. 鲲鹏920", "B. 飞腾S2500", "C. 龙芯3A5000", "D. 兆芯KX-6000"], 
+    "C", 
+    "龙芯3A5000支持PCIe 3.0，不支持4.0。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 鲲鹏920</strong>：鲲鹏920支持PCIe 4.0，提供高带宽IO。<br><br><strong>B ❌ 飞腾S2500</strong>：飞腾S2500支持PCIe 3.0/4.0混合方案。<br><br><strong>C ✅ 龙芯3A5000</strong>：龙芯3A5000仅支持PCIe 3.0，暂未支持4.0。<br><br><strong>D ❌ 兆芯KX-6000</strong>：兆芯KX-6000支持PCIe 3.0/4.0，具体看版本。"
+);
+
+// 第47题
+addSingle(0, "海光C86处理器采用的封装类型是？", 
+    ["A. LGA 4094", "B. LGA 1200", "C. BGA", "D. PGA"], 
+    "A", 
+    "海光C86采用LGA 4094封装。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ LGA 4094</strong>：海光C86系列（如海光7000）采用LGA 4094插槽封装，兼容AMD SP3平台。<br><br><strong>B ❌ LGA 1200</strong>：LGA 1200是Intel第10-11代桌面CPU封装。<br><br><strong>C ❌ BGA</strong>：BGA是焊接式封装，用于嵌入式或移动处理器，海光采用可更换插槽封装。<br><br><strong>D ❌ PGA</strong>：PGA是AMD桌面CPU传统封装，海光服务器产品使用LGA。"
+);
+
+// 第48题
+addSingle(0, "龙芯3A5000的LA464微架构每周期指令数(IPC)比上一代提升约？", 
+    ["A. 10%", "B. 30%", "C. 50%", "D. 100%"], 
+    "B", 
+    "LA464比上一代GS464E IPC提升约30%。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 10%</strong>：提升10%属于小修小改，LA464是重大升级。<br><br><strong>B ✅ 30%</strong>：龙芯官方数据，LA464相比GS464E微架构IPC提升约30%。<br><br><strong>C ❌ 50%</strong>：50%提升需要微架构较大变革，LA464未达到。<br><br><strong>D ❌ 100%</strong>：IPC翻倍属于架构代际跨越，LA464暂未实现。"
+);
+
+// 第49题
+addSingle(0, "飞腾腾锐D2000的制造工艺是？", 
+    ["A. 14nm", "B. 12nm", "C. 28nm", "D. 7nm"], 
+    "B", 
+    "飞腾D2000采用12nm工艺。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 14nm</strong>：14nm是Intel工艺节点，D2000使用台积电12nm。<br><br><strong>B ✅ 12nm</strong>：飞腾腾锐D2000基于台积电12nm FinFET工艺制造。<br><br><strong>C ❌ 28nm</strong>：28nm是老工艺，如飞腾FT-1500A/4使用，D2000更先进。<br><br><strong>D ❌ 7nm</strong>：7nm是鲲鹏920等高密度芯片工艺，D2000暂未采用。"
+);
+
+// 第50题 - 龙芯3A5000内存控制器通道数
+addSingle(0, "龙芯3A5000集成的内存控制器通道数是多少？", 
+    ["A. 单通道", "B. 双通道", "C. 四通道", "D. 八通道"], 
+    "B", 
+    "龙芯3A5000支持双通道DDR4内存。",
+    "🔍 【选项逐项精析】<br><br>" +
+    "<strong>A ❌ 单通道</strong>：单通道内存控制器仅支持一条内存通道，理论带宽为64位，在DDR4 3200频率下带宽约25.6GB/s。单通道内存带宽对于现代多核处理器（龙芯3A5000为4核）会造成明显的带宽瓶颈，尤其是在内存密集型应用（如大数据处理、数据库查询）中，CPU核心可能因等待内存数据而闲置，严重制约整体性能。目前单通道设计仅见于极低端嵌入式处理器或入门级Atom类产品，龙芯3A5000作为桌面级处理器不会采用此设计。<br><br>" +
+    "<strong>B ✅ 双通道</strong>：龙芯3A5000集成了双通道DDR4内存控制器，这是桌面处理器的标准配置。双通道可提供128位内存位宽，在DDR4 3200频率下理论带宽可达51.2GB/s。双通道能够有效满足龙芯3A5000四个核心的内存访问需求，减少核心间争抢内存带宽的情况。实际测试表明，双通道相比单通道在内存复制、多任务处理等场景下性能提升约30%-50%。龙芯3A5000通过双通道设计，在功耗和性能之间取得了良好平衡，是桌面级处理器的主流选择。<br><br>" +
+    "<strong>C ❌ 四通道</strong>：四通道内存控制器可提供256位内存位宽，理论带宽翻倍至约102.4GB/s。四通道设计主要出现在服务器级处理器中，例如龙芯3C5000服务器CPU（16核）采用四通道设计以满足多核心并发访问需求。对于仅有4核的龙芯3A5000桌面处理器而言，四通道会造成不必要的成本增加和主板布线复杂度提升，同时内存控制器本身也会消耗更多芯片面积和功耗。四通道对于桌面应用场景属于“性能过剩”，龙芯3A5000未采用此规格。<br><br>" +
+    "<strong>D ❌ 八通道</strong>：八通道内存控制器是高端服务器和HPC领域的专属配置，可提供512位内存位宽，理论带宽超过200GB/s。八通道设计常见于AMD EPYC、Intel Xeon Scalable以及国产海光C86系列等服务器处理器，用于满足数十个核心同时对内存子系统的高带宽需求。桌面处理器如龙芯3A5000仅4个核心，八通道设计既不经济也无必要，内存控制器本身会占用大量芯片面积（约占总芯片面积的10%-15%），得不偿失。因此龙芯3A5000未采用八通道设计。"
+);
+
+// 第51题 - 国产CPU硬件虚拟化支持
+addSingle(0, "以下哪个国产CPU支持硬件虚拟化扩展？", 
+    ["A. 龙芯3A5000", "B. 飞腾S2500", "C. 海光C86", "D. 以上都是"], 
+    "D", 
+    "所有主流国产CPU均支持硬件虚拟化。",
+    "🔍 【选项逐项精析】<br><br>" +
+    "<strong>A ✅ 龙芯3A5000（支持）</strong>：龙芯3A5000基于自主LoongArch指令集架构，完整实现了硬件虚拟化扩展功能。在LoongArch架构中，龙芯设计了专门的虚拟机控制结构（VMCS）和虚拟机进入/退出机制，支持将物理CPU核心划分为多个虚拟CPU核心供虚拟机使用。龙芯的硬件虚拟化支持KVM（Kernel-based Virtual Machine）标准接口，可在麒麟V10、统信UOS等国产操作系统上直接运行虚拟机。通过硬件辅助虚拟化，虚拟机可达到接近物理机的性能（通常可达90%-95%），相比纯软件模拟的QEMU（性能约10%-20%）有质的飞跃。这使得龙芯平台可以承载一云多芯、云桌面等虚拟化场景。<br><br>" +
+    "<strong>B ✅ 飞腾S2500（支持）</strong>：飞腾S2500基于ARMv8.2架构，完整实现了ARM Virtualization Extensions（ARM虚拟化扩展）。ARM虚拟化扩展包括Hyp模式（EL2）、VHE（Virtualization Host Extensions）和SVE（Scalable Vector Extensions for virtualization）等特性。飞腾S2500作为64核服务器处理器，硬件虚拟化是其核心能力之一。通过ARM的Stage-2页表转换（类似于x86的EPT），虚拟机可以直接访问物理内存而无需VMM介入，大幅提升内存访问效率。飞腾平台广泛支持OpenStack、Docker、K8s等云原生技术，在电信、政务云等领域已有大量基于飞腾虚拟化的实际部署案例。<br><br>" +
+    "<strong>C ✅ 海光C86（支持）</strong>：海光C86处理器兼容x86-64指令集，完整实现了AMD-V（AMD虚拟化技术）和IOMMU（输入输出内存管理单元）。AMD-V包括嵌套页表（NPT，即AMD的EPT实现）、快速虚拟化索引（RVI）等硬件加速特性。海光C86作为服务器级处理器（最高32核/64线程），其硬件虚拟化表现与AMD EPYC原生产品相当。海光平台支持VMware ESXi、KVM、Xen、Hyper-V等多种虚拟化软件栈，可在一台物理服务器上运行数十台虚拟机。由于x86生态成熟，海光C86在信创虚拟化改造项目中具有明显的生态兼容性优势，尤其在需要迁移原有x86虚拟化环境的场景中表现出色。<br><br>" +
+    "<strong>D ✅ 以上都是（正确答案）</strong>：龙芯3A5000、飞腾S2500、海光C86均支持硬件虚拟化扩展，且各有特色。龙芯凭借自主LoongArch指令集，实现了完全自主可控的虚拟化方案，不依赖国外技术授权；飞腾基于ARM架构，在移动端生态和边缘计算虚拟化方面具有天然优势；海光则兼容x86生态，虚拟化迁移成本最低。三大厂商的硬件虚拟化支持共同构成了信创云平台——“一云多芯”的技术基础，使得在同一朵云中混合调度x86、ARM、LoongArch等不同架构的物理资源成为可能。因此，正确答案为D，以上国产CPU均支持硬件虚拟化。"
+);
+// 第52题（全局第613题）- 龙芯处理器的技术特点（多选题）
+addMulti(0, "以下属于龙芯处理器的技术特点的是？", 
+    ["A. 自主LoongArch指令集", "B. 兼容部分MIPS指令", "C. 支持x86硬件虚拟化", "D. 仅支持嵌入式场景"], 
+    ["A", "B"], 
+    "龙芯拥有自主LoongArch指令集，同时保持对MIPS指令的部分兼容以过渡生态。",
+    "🔍 【选项逐项精析】<br><br>" +
+    "<strong>A ✅ 自主LoongArch指令集</strong>：龙芯中科于2020年发布了完全自主的LoongArch（龙芯架构）指令集，这是龙芯处理器的核心技术特点。LoongArch拥有完全自主知识产权，不受任何国外技术授权限制。龙芯3A5000及后续产品（3C5000、3D5000等）均采用LoongArch指令集。相比早期依赖MIPS授权的产品，自主指令集使得龙芯在指令集层面实现了真正的自主可控，可以自由扩展指令功能，无需担心授权到期或被禁运的风险。<br><br>" +
+    "<strong>B ✅ 兼容部分MIPS指令</strong>：龙芯早期产品（3A1000、3A2000、3A3000系列）获得MIPS指令集授权，积累了大量的MIPS生态应用。为了帮助存量MIPS应用平滑迁移，龙芯在LoongArch指令集中设计了MIPS兼容模式，可以二进制兼容运行部分MIPS指令集的应用程序。这一兼容特性大大降低了从MIPS平台向LoongArch平台迁移的成本，保护了用户在MIPS生态上的软件投资，体现了龙芯对技术生态延续性的重视。<br><br>" +
+    "<strong>C ❌ 支持x86硬件虚拟化</strong>：龙芯处理器虽然支持硬件虚拟化（LoongArch架构内置了虚拟机扩展），但这里的关键词是“x86硬件虚拟化”。龙芯支持的是LoongArch架构上的虚拟化（如在龙芯上运行龙芯架构的虚拟机），而非直接支持x86硬件虚拟化。x86硬件虚拟化（如Intel VT-x、AMD-V）是x86架构特有的技术。龙芯可以通过二进制翻译（LATS系统）运行部分x86应用，但这属于软件翻译而非硬件级别的x86虚拟化支持。因此该选项描述不准确。<br><br>" +
+    "<strong>D ❌ 仅支持嵌入式场景</strong>：这个表述完全错误。龙芯处理器的产品线非常丰富：3A系列面向桌面终端（如3A5000用于台式机和笔记本），3C系列面向服务器和数据中心（如3C5000为16核服务器CPU），2K系列面向工控和嵌入式场景（如2K1000）。因此龙芯不仅支持嵌入式场景，更在桌面和服务器领域有广泛布局。\"仅支持嵌入式\"是对龙芯产品线的严重误解。"
+);
+
+// 第53题（全局第614题）- 飞腾处理器在信创生态中的优势（多选题）
+addMulti(0, "飞腾处理器在信创生态中的优势包括？", 
+    ["A. 基于ARMv8架构，生态完善", "B. 桌面与服务器场景均有适配", "C. 功耗控制优秀", "D. 完全不依赖国外技术"], 
+    ["A", "B", "C"], 
+    "飞腾基于ARMv8生态成熟，产品覆盖桌面和服务器，功耗控制优秀，但仍依赖ARM架构授权。",
+    "🔍 【选项逐项精析】<br><br>" +
+    "<strong>A ✅ 基于ARMv8架构，生态完善</strong>：飞腾获得ARMv8架构永久授权，这是飞腾最大的生态优势之一。ARM架构在全球拥有数百万开发者，广泛应用于移动设备、嵌入式、服务器等领域。基于ARMv8意味着飞腾可以共享ARM庞大的软件生态——包括操作系统（Android、Linux发行版、各种嵌入式OS）、开发工具（GCC、LLVM、ARM Compiler）、应用软件（大量的ARM Linux应用）。相比其他国产架构，ARM生态的成熟度大大降低了飞腾平台的软件适配成本。<br><br>" +
+    "<strong>B ✅ 桌面与服务器场景均有适配</strong>：飞腾是国产CPU中产品线最完整的企业之一。桌面领域有FT-2000/4（4核）、腾锐D2000（8核，主频2.3-2.6GHz），满足办公和家用需求；服务器领域有FT-1500A/16（16核）、腾云S2500（64核），覆盖从边缘服务器到数据中心的核心应用。这种“桌面+服务器”的双线布局使得飞腾可以支撑全栈信创方案，从终端到云端形成完整闭环，在信创集采和方案集成中具有明显优势。<br><br>" +
+    "<strong>C ✅ 功耗控制优秀</strong>：飞腾处理器在功耗控制方面表现优异。以FT-2000/4为例，TDP约10W，无需风扇即可稳定运行；腾锐D2000（8核）TDP约25W；服务器芯片FT-1500A/16约40W，S2500（64核）约150W。对比同类产品：Intel桌面CPU通常在65-125W，AMD EPYC服务器芯片在180-280W。飞腾的低功耗特性使其特别适合对能耗敏感的场景，如飞腾派等嵌入式开发板、无风扇工控设备、边缘计算节点等，也为数据中心节省了大量电力和散热成本。<br><br>" +
+    "<strong>D ❌ 完全不依赖国外技术</strong>：此表述过于绝对。飞腾处理器虽然实现了大部分核心技术自主，但其指令集架构基于ARMv8授权，需要向ARM公司支付授权费用并遵守ARM的授权条款。ARM是英国公司，其技术仍属于国外技术。此外，飞腾的制造工艺（如台积电12nm/16nm）也依赖国外晶圆代工厂。真正“完全不依赖国外技术”的是龙芯（完全自主LoongArch指令集）和申威（自主SW64指令集）。飞腾的优势是在自主可控和生态成熟之间取得了较好的平衡，而非完全不依赖国外技术，因此该选项不选。"
+);
+
+// ===================== 第1章结束，共51道单选题 =====================
 
     // ===================== 第2章 国产操作系统（原题保留）=====================
     addSingle(1, "银河麒麟桌面版V10默认包管理器是？", ["A. apt", "B. yum", "C. dnf", "D. zypper"], "A", "银河麒麟桌面基于Ubuntu/Debian使用apt。", null);
@@ -853,8 +1150,7 @@
     addJudge(9, "应用迁移项目必须进行压力测试。", true, "压力测试验证性能指标，确保满足生产并发要求。", null);
     
     // ===================== 多选题目补充 =====================
-    addMulti(0, "以下属于龙芯处理器的技术特点的是？", ["A. 自主LoongArch指令集", "B. 兼容部分MIPS指令", "C. 支持x86硬件虚拟化", "D. 仅支持嵌入式场景"], ["A","B"], "龙芯LoongArch指令集完全自主，同时提供MIPS兼容模式。", null);
-    addMulti(0, "飞腾处理器在信创生态中的优势包括？", ["A. 基于ARMv8架构，生态完善", "B. 桌面与服务器场景均有适配", "C. 功耗控制优秀", "D. 完全不依赖国外技术"], ["A","B","C"], "飞腾基于ARMv8永久授权，生态成熟；产品覆盖桌面和服务器。", null);
+    
     addMulti(1, "以下属于麒麟操作系统的版本类型的是？", ["A. 桌面版", "B. 服务器版", "C. 嵌入式版", "D. 手机版"], ["A","B","C"], "麒麟操作系统有桌面版、服务器版、嵌入式版。", null);
     addMulti(1, "统信UOS操作系统的特点包括？", ["A. 基于Debian开发", "B. 支持图形界面与命令行操作", "C. 适配龙芯、飞腾等国产CPU", "D. 仅支持办公场景"], ["A","B","C"], "统信UOS基于Debian，提供图形和命令行双模式，适配多种国产CPU。", null);
     addMulti(2, "以下哪些是国产数据库的代表厂商？", ["A. 海量数据（HighGo）", "B. 达梦数据库", "C. 人大金仓", "D. Oracle", "E. 华为GaussDB"], ["A","B","C","E"], "Oracle为国外产品，其余均为国产数据库核心厂商。", null);
