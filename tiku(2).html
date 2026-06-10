@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <mea name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>信创适配迁移赛 · 章节分类完整题库 | 1000+原题完整版</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -570,95 +570,745 @@ addMulti(0, "飞腾处理器在信创生态中的优势包括？",
 
 // ===================== 第1章结束，共51道单选题 =====================
 
-    // ===================== 第2章 国产操作系统（原题保留）=====================
-    addSingle(1, "银河麒麟桌面版V10默认包管理器是？", ["A. apt", "B. yum", "C. dnf", "D. zypper"], "A", "银河麒麟桌面基于Ubuntu/Debian使用apt。", null);
-    addSingle(1, "替换Windows Server+IIS的信创常用组合是？", ["A. 麒麟OS+Nginx/TongWeb", "B. CentOS+Apache", "C. Ubuntu+Tomcat", "D. Debian+Lighttpd"], "A", "银河麒麟/统信+东方通或Nginx是主流信创Web方案。", null);
-    addSingle(1, "麒麟V10临时关闭防火墙命令？", ["A. systemctl stop firewalld", "B. ufw disable", "C. service iptables stop", "D. firewall-cmd --stop"], "A", "麒麟V10使用firewalld服务。", null);
-    addSingle(1, "统信UOS与银河麒麟的软件包格式？", ["A. .rpm/.deb", "B. .exe", "C. .apk", "D. .dmg"], "A", "桌面版多为.deb，服务器版可能.rpm。", null);
-    addSingle(1, "查看麒麟内核版本的正确命令？", ["A. uname -r", "B. kernelver", "C. osinfo", "D. ver"], "A", "uname -r显示内核版本。", null);
-    addSingle(1, "统信UOS Server版默认包管理器？", ["A. apt", "B. dnf", "C. yum", "D. pacman"], "A", "统信UOS Server同样基于Debian使用apt。", null);
-    addSingle(1, "银河麒麟高级服务器版默认包管理器？", ["A. apt", "B. yum", "C. dnf", "D. rpm"], "C", "麒麟V10服务器版基于CentOS使用dnf。", null);
-    addSingle(1, "统信UOS桌面版采用哪个桌面环境？", ["A. GNOME", "B. KDE", "C. DDE", "D. Xfce"], "C", "统信UOS自研桌面环境DDE。", null);
-    addSingle(1, "麒麟系统备份还原工具？", ["A. kylin-backup", "B. timeshift", "C. rsync", "D. 以上都可"], "D", "多种工具可配合使用。", null);
-    addSingle(1, "麒麟V10中修改主机名的正确文件？", ["A. /etc/hostname", "B. /etc/hosts", "C. /etc/sysconfig/network", "D. /etc/name"], "A", "主机名配置文件为/etc/hostname。", null);
-    addSingle(1, "统信UOS软件商店安装包后缀？", ["A. .deb", "B. .rpm", "C. .exe", "D. .appimage"], "A", "统信基于Debian，使用.deb格式。", null);
-    addSingle(1, "银河麒麟V10基于哪个Linux发行版？", ["A. Ubuntu", "B. CentOS", "C. Debian", "D. openSUSE"], "C", "麒麟桌面基于Debian。", null);
-    addSingle(1, "麒麟V10中启用SELinux命令？", ["A. setenforce 1", "B. selinux enable", "C. start selinux", "D. systemctl enable selinux"], "A", "setenforce 1临时启用。", null);
-    addSingle(1, "麒麟V10中查看系统版本命令？", ["A. cat /etc/os-release", "B. version", "C. uname -a", "D. hostnamectl"], "A", "/etc/os-release包含详细版本信息。", null);
-    addSingle(1, "麒麟V10中启用SSH服务命令？", ["A. systemctl start sshd", "B. service ssh start", "C. start ssh", "D. /etc/init.d/ssh start"], "A", "麒麟使用systemd管理sshd服务。", null);
-    addSingle(1, "统信UOS安装deb包命令？", ["A. dpkg -i", "B. rpm -ivh", "C. apt install", "D. yum install"], "A", "dpkg -i用于安装本地deb包。", null);
-    addSingle(1, "麒麟V10中修改系统时区命令？", ["A. timedatectl set-timezone", "B. tzselect", "C. ln -sf /usr/share/zoneinfo", "D. 以上均可"], "D", "多种方法均可修改时区。", null);
-    addSingle(1, "麒麟V10中查看CPU信息命令？", ["A. lscpu", "B. cpuid", "C. cat /proc/cpuinfo", "D. 以上都对"], "D", "lscpu和/proc/cpuinfo均可。", null);
-    addSingle(1, "麒麟操作系统是由哪家机构主导研发？", ["A. 华为", "B. 中科院软件所", "C. 中国电子（CEC）", "D. 华为+中科院联合"], "C", "麒麟软件有限公司由中国电子(CEC)等联合成立。", null);
-    addSingle(1, "统信UOS操作系统主要基于哪个开源发行版？", ["A. CentOS", "B. Ubuntu", "C. Debian", "D. Fedora"], "C", "统信UOS基于Debian unstable分支。", null);
-    addSingle(1, "在国产操作系统中，用于查看当前系统版本信息的命令是？", ["A. cat /proc/version", "B. uname -r", "C. cat /etc/os-release", "D. lsb_release -a"], "C", "/etc/os-release是systemd发行版的标准文件。", null);
-    addSingle(1, "以下哪个命令可用于查询Linux系统中已安装的包列表？", ["A. rpm -qa", "B. dpkg -l", "C. yum list installed", "D. 以上均可"], "D", "不同发行版命令不同。", null);
-    addSingle(1, "在麒麟或统信系统中，若要查看当前登录用户是谁，可使用命令？", ["A. whoami", "B. id", "C. who", "D. 以上均可"], "D", "三者均可但信息详略不同。", null);
-    addSingle(1, "国产操作系统默认使用的包管理器，麒麟系统一般为？", ["A. apt", "B. yum", "C. dnf", "D. pacman"], "A", "银河麒麟桌面版基于Debian使用apt。", null);
-    addSingle(1, "在统信UOS中，若需安装软件包，应使用命令？", ["A. apt install", "B. yum install", "C. dpkg -i", "D. uos-pkg install"], "A", "统信UOS使用apt作为包管理器前端。", null);
-    addSingle(1, "麒麟操作系统的服务器版默认采用的包管理器是？", ["A. apt", "B. yum/dnf", "C. dpkg", "D. pacman"], "B", "银河麒麟服务器版V10基于CentOS，使用yum或dnf。", null);
-    addSingle(1, "统信UOS服务器版的基础发行版是？", ["A. Debian", "B. CentOS", "C. Ubuntu Server", "D. Fedora"], "A", "统信UOS全系列均基于Debian开发。", null);
-    addSingle(1, "在麒麟系统中，修改主机名的命令是？", ["A. hostnamectl set-hostname", "B. rename", "C. chname", "D. change-host"], "A", "hostnamectl set-hostname是systemd发行版的标准命令。", null);
-    addSingle(1, "统信UOS中查看网络连接状态的命令是？", ["A. ifconfig/ip addr", "B. net use", "C. ping", "D. traceroute"], "A", "ifconfig和ip addr均可查看网卡IP配置。", null);
-    addSingle(1, "麒麟系统中关闭防火墙的命令是？", ["A. systemctl stop firewalld", "B. shutdown -h now", "C. iptables -F", "D. ufw disable"], "A", "麒麟使用firewalld防火墙。", null);
-    addSingle(1, "统信UOS中安装deb格式软件包的命令是？", ["A. dpkg -i", "B. rpm -ivh", "C. yum install", "D. dnf install"], "A", "dpkg -i package.deb安装本地deb包。", null);
-    addSingle(1, "在麒麟系统中，查看磁盘空间使用情况的命令是？", ["A. df -h", "B. du -sh", "C. lsblk", "D. fdisk -l"], "A", "df -h显示文件系统磁盘空间使用情况。", null);
-    addSingle(1, "统信UOS中实时查看日志文件的命令是？", ["A. tail -f", "B. head -n", "C. cat", "D. more"], "A", "tail -f 文件名可实时追踪日志文件新增内容。", null);
-    addSingle(1, "麒麟系统中修改文件权限为可执行的命令是？", ["A. chmod +x", "B. chown", "C. chgrp", "D. umask"], "A", "chmod +x 文件名添加执行权限。", null);
-    addSingle(1, "统信UOS中切换到root用户的命令是？", ["A. su -", "B. sudo", "C. login root", "D. switch user"], "A", "su - 完全切换到root用户环境。", null);
-    addSingle(1, "麒麟操作系统的默认包管理工具是？", ["A. apt", "B. yum", "C. pacman", "D. zypper"], "A", "麒麟桌面版基于Debian使用apt。", null);
-    addSingle(1, "统信UOS的桌面环境主要基于哪个开源项目？", ["A. GNOME", "B. KDE", "C. Deepin Desktop Environment", "D. Xfce"], "C", "统信UOS使用自研的DDE桌面环境。", null);
-    addSingle(1, "麒麟操作系统默认使用的初始化系统是？", ["A. SysV init", "B. systemd", "C. Upstart", "D. OpenRC"], "B", "麒麟V10使用systemd作为init系统。", null);
-    addSingle(1, "统信UOS中，网络配置文件通常存放在哪个目录下？", ["A. /etc/network/", "B. /etc/netplan/", "C. /etc/sysconfig/network/", "D. /etc/NetworkManager/"], "A", "UOS传统网络配置在/etc/network/interfaces。", null);
-    addSingle(1, "麒麟操作系统的默认字符编码设置文件是？", ["A. /etc/locale.conf", "B. /etc/sysconfig/i18n", "C. /etc/default/locale", "D. /etc/encoding"], "A", "麒麟使用systemd风格的locale.conf。", null);
-    addSingle(1, "统信UOS的启动菜单引导程序是？", ["A. GRUB2", "B. LILO", "C. Syslinux", "D. U-Boot"], "A", "UOS默认使用GRUB2引导启动。", null);
-    addSingle(1, "麒麟操作系统下，如何设置一个服务开机自启动？", ["A. systemctl enable", "B. systemctl start", "C. systemctl status", "D. systemctl daemon-reload"], "A", "systemctl enable 服务名创建符号链接实现开机自启。", null);
-    addSingle(1, "统信UOS中，查看当前用户环境变量的命令是？", ["A. env", "B. set", "C. echo \$ENV", "D. export"], "A", "env命令显示当前用户的所有环境变量。", null);
-    addSingle(1, "麒麟系统中，用于生成SSH密钥对的命令是？", ["A. ssh-keygen", "B. ssh-genkey", "C. ssh-create", "D. ssh-mkkey"], "A", "ssh-keygen生成RSA/ED25519密钥对。", null);
-    addSingle(1, "统信UOS的默认Shell是？", ["A. sh", "B. bash", "C. zsh", "D. fish"], "B", "UOS默认使用bash（Bourne Again Shell）。", null);
-    addSingle(1, "麒麟操作系统支持的最大文件大小取决于什么？", ["A. 文件系统类型", "B. 内存大小", "C. 磁盘容量", "D. CPU位数"], "A", "文件系统类型决定最大文件大小。", null);
-    addSingle(1, "统信UOS中，用于修复文件系统错误的命令是？", ["A. fsck", "B. repairfs", "C. chkfs", "D. fixfs"], "A", "fsck（file system check）检查并修复文件系统错误。", null);
-    addSingle(1, "麒麟操作系统如何关闭SELinux？", ["A. 设置SELINUX=disabled", "B. setenforce 1", "C. systemctl stop selinux", "D. 删除SELinux包"], "A", "编辑/etc/selinux/config设置SELINUX=disabled，重启生效。", null);
-    addSingle(1, "统信UOS的应用程序启动器配置文件通常位于哪里？", ["A. /usr/share/applications", "B. /etc/applications", "C. /usr/local/apps", "D. /opt/applications"], "A", ".desktop桌面快捷方式文件存放在/usr/share/applications。", null);
-    addSingle(1, "麒麟系统中，查看系统启动时间的命令是？", ["A. uptime", "B. last boot", "C. systemd-analyze", "D. who -b"], "C", "systemd-analyze time显示内核和系统启动耗时分析。", null);
-    addSingle(1, "统信UOS如何设置系统代理？", ["A. 编辑/etc/environment", "B. export命令临时设置", "C. 通过控制面板设置", "D. 以上都是"], "D", "三种方法均可：配置文件永久生效、export临时生效、图形界面设置。", null);
-    addSingle(1, "麒麟操作系统下，查看所有监听端口的命令是？", ["A. netstat -tuln", "B. ss -tuln", "C. lsof -i", "D. 以上都是"], "D", "netstat、ss、lsof -i均可查看端口监听和占用情况。", null);
-    addSingle(1, "统信UOS中，用于更新initramfs的命令是？", ["A. update-initramfs", "B. mkinitramfs", "C. dracut", "D. mkinitrd"], "A", "update-initramfs -u更新当前内核的initramfs镜像。", null);
-    addSingle(1, "麒麟操作系统的默认字符编码设置文件是？", ["A. /etc/locale.conf", "B. /etc/sysconfig/i18n", "C. /etc/default/locale", "D. /etc/encoding"], "A", "麒麟使用systemd风格的locale.conf，传统版用/etc/sysconfig/i18n。", null);
-    addSingle(1, "统信UOS中，切换用户但不加载环境变量的命令是？", ["A. su -", "B. su", "C. su -m", "D. su -l"], "B", "su切换用户但保留原环境变量，su -或su -l加载目标用户环境。", null);
-    addSingle(1, "麒麟操作系统如何手动挂载ISO文件？", ["A. mount -o loop", "B. mount -t iso", "C. mount iso", "D. mount -f iso"], "A", "mount -o loop ISO文件 挂载点，将ISO作为回环设备挂载。", null);
-    addSingle(1, "统信UOS的磁盘管理图形化工具名称是？", ["A. GParted", "B. Disk Utility", "C. 磁盘管理器", "D. KDE Partition Manager"], "A", "UOS预装GParted作为磁盘分区管理图形工具。", null);
-    addSingle(1, "麒麟操作系统中，用于检查软件包依赖关系的命令是？", ["A. apt-cache depends", "B. dpkg -depends", "C. apt depends", "D. pkg-depends"], "A", "apt-cache depends 包名查看依赖关系。", null);
-    addSingle(1, "统信UOS如何开启远程桌面服务？", ["A. 安装vino并配置", "B. 启用xrdp", "C. 使用VNC", "D. 以上都是"], "D", "UOS支持vino（VNC）、xrdp（RDP）、TigerVNC等多种远程桌面方案。", null);
-    addSingle(1, "麒麟系统下，查看CPU信息的命令是？", ["A. lscpu", "B. cat /proc/cpuinfo", "C. cpuinfo", "D. 以上都是"], "D", "lscpu汇总显示，/proc/cpuinfo显示原始内核信息。", null);
-    addSingle(1, "统信UOS的默认邮件传输代理是什么？", ["A. Postfix", "B. Sendmail", "C. Exim", "D. 无默认MTA"], "D", "UOS默认不安装MTA，用户可按需安装Postfix等邮件服务。", null);
-    addSingle(1, "麒麟操作系统中，如何查看某个命令的二进制文件路径？", ["A. which", "B. whereis", "C. type", "D. 以上都是"], "D", "which在PATH中查找，whereis查二进制+源码+手册，type查shell内置或外部命令。", null);
-    addSingle(1, "统信UOS的打印机管理服务名称是？", ["A. cups", "B. printd", "C. lpd", "D. spooler"], "A", "CUPS（Common UNIX Printing System）是Linux标准打印系统。", null);
-    addSingle(1, "麒麟系统下，如何永久添加静态路由？", ["A. 写入/etc/network/interfaces", "B. 使用route add永久参数", "C. 写入/etc/sysconfig/network-scripts/route-eth0", "D. 写入/etc/rc.local"], "C", "RPM系系统通过route-eth0文件配置静态路由，Debian系用/etc/network/interfaces。", null);
-    addSingle(1, "统信UOS的启动日志存放在哪里？", ["A. /var/log/boot.log", "B. /var/log/startup.log", "C. /var/log/dmesg", "D. /var/log/syslog"], "A", "boot.log记录系统启动过程中的服务和脚本输出。", null);
-    addSingle(1, "麒麟操作系统如何禁用IPv6？", ["A. 内核参数ipv6.disable=1", "B. 编辑/etc/sysctl.conf", "C. 网络管理器设置", "D. 以上都是"], "D", "三种方法：内核参数、sysctl配置、NetworkManager图形界面。", null);
-    addSingle(1, "在麒麟系统中，查看系统日志命令？", ["A. journalctl", "B. dmesg", "C. tail -f /var/log/messages", "D. 以上都是"], "D", "journalctl、dmesg、messages均可查看日志。", null);
-    addSingle(1, "麒麟系统中软件安装方式？", ["A. apt install", "B. 软件商店", "C. dpkg -i", "D. 以上都是"], "D", "麒麟支持多种软件安装方式。", null);
-    addSingle(1, "统信UOS系统监控工具？", ["A. 系统监视器", "B. top", "C. htop", "D. 以上都是"], "D", "多种工具均可监控系统资源。", null);
-    addSingle(1, "麒麟V10中用户管理命令？", ["A. useradd", "B. usermod", "C. passwd", "D. 以上都是"], "D", "useradd/usermod/passwd/userdel管理用户。", null);
-    addSingle(1, "麒麟操作系统的版本类型包括？", ["A. 桌面版", "B. 服务器版", "C. 嵌入式版", "D. 以上都是"], "D", "麒麟有桌面版、服务器版、嵌入式版。", null);
-    addSingle(1, "统信UOS支持的文件系统类型有？", ["A. ext4", "B. xfs", "C. btrfs", "D. 以上都是"], "D", "统信UOS支持ext4/xfs/btrfs等多种文件系统。", null);
-    addSingle(1, "麒麟操作系统的安全特性包括？", ["A. SELinux", "B. 安全审计", "C. 强制访问控制", "D. 以上都是"], "D", "麒麟安全框架：SELinux、audit审计、MAC强制访问控制。", null);
-    addSingle(1, "统信UOS的特色功能包括？", ["A. 应用商店", "B. 备份还原工具", "C. 多屏协同", "D. 以上都是"], "D", "UOS特色：应用商店、备份还原、多屏协同、云账户同步。", null);
-    addSingle(1, "在麒麟系统中，常用的系统监控命令有？", ["A. top", "B. htop", "C. glances", "D. 以上都是"], "D", "top/htop进程监控，glances综合监控。", null);
-    addSingle(1, "统信UOS的软件包管理方式支持哪些格式？", ["A. deb", "B. flatpak", "C. snap", "D. 以上都是"], "D", "UOS原生deb，商店支持flatpak/snap/AppImage通用格式。", null);
-    addSingle(1, "麒麟操作系统支持的文件系统类型有？", ["A. ext4", "B. xfs", "C. btrfs", "D. 以上都是"], "D", "麒麟支持ext4/xfs/btrfs原生。", null);
-    addSingle(1, "统信UOS的网络配置方式包括哪些？", ["A. 图形界面", "B. nmcli", "C. 手动修改配置文件", "D. 以上都是"], "D", "UOS支持图形界面、nmcli命令行、/etc/network/interfaces等多种方式。", null);
-    addSingle(1, "在麒麟系统中，用户和组管理命令有？", ["A. useradd", "B. groupadd", "C. usermod", "D. 以上都是"], "D", "useradd/groupadd添加，usermod修改，passwd设置密码。", null);
-    addSingle(1, "统信UOS的图形界面故障排查方法有？", ["A. 重启桌面环境", "B. 查看Xorg日志", "C. 检查显卡驱动", "D. 以上都是"], "D", "方法：重启DDE、Xorg日志分析、驱动检查、Ctrl+Alt+F2切tty。", null);
-    addSingle(1, "麒麟操作系统的备份与恢复工具有？", ["A. tar", "B. rsync", "C. dd", "D. 以上都是"], "D", "tar打包，rsync同步，dd镜像，麒麟自带图形备份工具。", null);
-    addSingle(1, "统信UOS的远程管理方式支持？", ["A. SSH", "B. VNC", "C. RDP", "D. 以上都是"], "D", "UOS支持SSH命令行、VNC/RDP远程桌面。", null);
-    addSingle(1, "麒麟系统中，服务管理的常见操作包括？", ["A. 启动", "B. 停止", "C. 重启", "D. 以上都是"], "D", "systemctl start/stop/restart/status 服务名。", null);
-    addSingle(1, "统信UOS的磁盘分区工具包括哪些？", ["A. fdisk", "B. parted", "C. gparted", "D. 以上都是"], "D", "fdisk/parted命令行，gparted图形化。", null);
-    addSingle(1, "麒麟操作系统的内核升级步骤包含？", ["A. 下载新内核", "B. 安装新内核", "C. 更新引导配置", "D. 以上都是"], "D", "升级步骤：下载→安装→update-grub→重启验证。", null);
-    addSingle(1, "统信UOS的日志管理工具有？", ["A. journalctl", "B. logrotate", "C. rsyslog", "D. 以上都是"], "D", "journalctl查systemd日志，logrotate轮转，rsyslog系统日志服务。", null);
-    addSingle(1, "麒麟系统的权限管理机制包括？", ["A. 传统Unix权限", "B. ACL", "C. 能力机制", "D. 以上都是"], "D", "权限体系：rwx权限、ACL扩展、capability细粒度授权、SELinux强制访问控制。", null);
-    
+   // ===================== 第2章 国产操作系统（89道原题完整版 + 每题4选项深度解析）=====================
+// 说明: 本模块共89道单选题，每题均提供“选项逐项精析”，详细解释为何选该项、为何不选其他项。
+
+// 第1题
+addSingle(1, "银河麒麟桌面版V10默认包管理器是？", 
+    ["A. apt", "B. yum", "C. dnf", "D. zypper"], 
+    "A", 
+    "银河麒麟桌面基于Ubuntu/Debian使用apt。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ apt</strong>：银河麒麟桌面版V10基于Debian/Ubuntu生态，使用apt（Advanced Package Tool）作为默认包管理器。apt是最常用的Debian系包管理工具，支持自动解决依赖关系，常用命令包括apt install、apt update、apt upgrade等。<br><br><strong>B ❌ yum</strong>：yum是Red Hat系Linux发行版（如RHEL、CentOS 7及以前）的包管理器，基于RPM包格式。麒麟桌面版基于Debian，不使用yum。<br><br><strong>C ❌ dnf</strong>：dnf是yum的下一代版本，用于Fedora、RHEL 8+、银河麒麟服务器版V10（基于CentOS）中，麒麟桌面版不使用。<br><br><strong>D ❌ zypper</strong>：zypper是openSUSE和SUSE Linux Enterprise的包管理器，与麒麟生态无关。"
+);
+
+// 第2题
+addSingle(1, "替换Windows Server+IIS的信创常用组合是？", 
+    ["A. 麒麟OS+Nginx/TongWeb", "B. CentOS+Apache", "C. Ubuntu+Tomcat", "D. Debian+Lighttpd"], 
+    "A", 
+    "银河麒麟/统信+东方通或Nginx是主流信创Web方案。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 麒麟OS+Nginx/TongWeb</strong>：信创替代Windows Server+IIS的标准方案是使用国产操作系统（银河麒麟或统信UOS）搭配国产中间件（东方通TongWeb、中创InforSuite）或开源高性能Web服务器Nginx。这符合信创“全栈国产”的要求。<br><br><strong>B ❌ CentOS+Apache</strong>：CentOS是开源操作系统，但非国产；Apache是开源Web服务器。虽然技术可行，但不符合信创对国产化的严格要求。<br><br><strong>C ❌ Ubuntu+Tomcat</strong>：Ubuntu是国外发行版，Tomcat是国外开源软件，不满足信创国密合规要求。<br><br><strong>D ❌ Debian+Lighttpd</strong>：Debian和Lighttpd均为国外开源项目，不属于信创推荐方案。"
+);
+
+// 第3题
+addSingle(1, "麒麟V10临时关闭防火墙命令？", 
+    ["A. systemctl stop firewalld", "B. ufw disable", "C. service iptables stop", "D. firewall-cmd --stop"], 
+    "A", 
+    "麒麟V10使用firewalld服务。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ systemctl stop firewalld</strong>：麒麟V10使用firewalld作为防火墙管理服务，通过systemctl命令可以管理系统服务。systemctl stop firewalld会立即停止防火墙服务，但重启后会恢复。若要永久关闭可使用systemctl disable firewalld --now。<br><br><strong>B ❌ ufw disable</strong>：ufw（Uncomplicated Firewall）是Ubuntu/Debian的防火墙前端工具，麒麟V10默认未安装ufw，使用firewalld替代。<br><br><strong>C ❌ service iptables stop</strong>：麒麟V10使用firewalld在底层管理iptables规则，直接停止iptables服务可能不会完全生效，且这是传统的SysV init管理方式，麒麟使用systemd。<br><br><strong>D ❌ firewall-cmd --stop</strong>：firewall-cmd是firewalld的命令行配置工具，没有--stop参数。正确的停止firewalld服务的命令是systemctl stop firewalld。"
+);
+
+// 第4题
+addSingle(1, "统信UOS与银河麒麟的软件包格式？", 
+    ["A. .rpm/.deb", "B. .exe", "C. .apk", "D. .dmg"], 
+    "A", 
+    "桌面版多为.deb，服务器版可能.rpm。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ .rpm/.deb</strong>：统信UOS全系列基于Debian，使用.deb包格式；银河麒麟桌面版基于Debian使用.deb，服务器版基于CentOS使用.rpm。因此两者软件包格式涵盖.deb和.rpm。<br><br><strong>B ❌ .exe</strong>：.exe是Windows可执行文件格式，不能在Linux原生运行。<br><br><strong>C ❌ .apk</strong>：.apk是Android应用包格式，虽然Linux内核可以运行Android容器，但不是国产操作系统的主力软件包格式。<br><br><strong>D ❌ .dmg</strong>：.dmg是macOS的磁盘镜像格式，与国产操作系统无关。"
+);
+
+// 第5题
+addSingle(1, "查看麒麟内核版本的正确命令？", 
+    ["A. uname -r", "B. kernelver", "C. osinfo", "D. ver"], 
+    "A", 
+    "uname -r显示内核版本。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ uname -r</strong>：uname（Unix name）命令用于显示系统信息，-r参数专门显示内核发行版本号，输出如\"4.19.90-24-generic\"。<br><br><strong>B ❌ kernelver</strong>：这不是标准的Linux命令，不存在此系统工具。<br><br><strong>C ❌ osinfo</strong>：这不是标准命令，查看OS发行版信息的正确命令是cat /etc/os-release或lsb_release -a。<br><br><strong>D ❌ ver</strong>：ver是Windows系统命令，用于显示Windows版本，在Linux中无效。"
+);
+
+// 第6题
+addSingle(1, "统信UOS Server版默认包管理器？", 
+    ["A. apt", "B. dnf", "C. yum", "D. pacman"], 
+    "A", 
+    "统信UOS Server同样基于Debian使用apt。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ apt</strong>：统信UOS全系列（桌面版、服务器版、专业版）均基于Debian生态，使用apt作为默认包管理器。服务器版只是内核参数和服务配置不同，包管理方式不变。<br><br><strong>B ❌ dnf</strong>：dnf是Red Hat系包管理器，统信UOS不属于Red Hat生态。<br><br><strong>C ❌ yum</strong>：yum是CentOS 7及以前版本的包管理器，统信UOS不使用。<br><br><strong>D ❌ pacman</strong>：pacman是Arch Linux的包管理器，与UOS无关。"
+);
+
+// 第7题
+addSingle(1, "银河麒麟高级服务器版默认包管理器？", 
+    ["A. apt", "B. yum", "C. dnf", "D. rpm"], 
+    "C", 
+    "麒麟V10服务器版基于CentOS使用dnf。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ apt</strong>：麒麟桌面版使用apt，但服务器版V10改用基于CentOS的rpm生态。<br><br><strong>B ❌ yum</strong>：yum是CentOS 7的包管理器，麒麟V10服务器版基于CentOS 8+，使用dnf替代yum。<br><br><strong>C ✅ dnf</strong>：银河麒麟高级服务器版V10基于CentOS 8+，使用dnf作为默认包管理器。dnf是yum的下一代版本，依赖解析更快，使用libsolv库。<br><br><strong>D ❌ rpm</strong>：rpm是底层包管理工具，但不自动处理依赖关系，用户通常使用dnf/yum而非直接调用rpm安装软件。"
+);
+
+// 第8题
+addSingle(1, "统信UOS桌面版采用哪个桌面环境？", 
+    ["A. GNOME", "B. KDE", "C. DDE", "D. Xfce"], 
+    "C", 
+    "统信UOS自研桌面环境DDE。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ GNOME</strong>：GNOME是Linux常见桌面环境，统信UOS早期版本基于GNOME，但现版本改用自研DDE。<br><br><strong>B ❌ KDE</strong>：KDE是另一款流行桌面环境，UOS未采用。<br><br><strong>C ✅ DDE</strong>：DDE（Deepin Desktop Environment）是统信UOS母公司深度科技自研的桌面环境，美观易用，与Windows操作习惯类似，已深度优化。<br><br><strong>D ❌ Xfce</strong>：Xfce是轻量级桌面环境，麒麟有Xfce定制版，但UOS使用功能更丰富的DDE。"
+);
+
+// 第9题
+addSingle(1, "麒麟系统备份还原工具？", 
+    ["A. kylin-backup", "B. timeshift", "C. rsync", "D. 以上都可"], 
+    "D", 
+    "多种工具可配合使用。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ kylin-backup</strong>：麒麟系统自带图形化备份还原工具kylin-backup，可进行系统备份、文件备份和系统还原。<br><br><strong>B ✅ timeshift</strong>：timeshift是Linux系统级备份工具，类似Windows系统还原，支持RSYNC和BTRFS模式，麒麟官方仓库可安装。<br><br><strong>C ✅ rsync</strong>：rsync是命令行增量备份和文件同步工具，功能强大，常用于脚本化备份方案。<br><br><strong>D ✅ 以上都可</strong>：三种工具在麒麟系统下均可使用，用户可根据场景选择合适的备份策略。"
+);
+
+// 第10题
+addSingle(1, "麒麟V10中修改主机名的正确文件？", 
+    ["A. /etc/hostname", "B. /etc/hosts", "C. /etc/sysconfig/network", "D. /etc/name"], 
+    "A", 
+    "主机名配置文件为/etc/hostname。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ /etc/hostname</strong>：麒麟V10使用systemd，主机名永久配置文件为/etc/hostname，修改后需重启或执行hostnamectl set-hostname使生效。<br><br><strong>B ❌ /etc/hosts</strong>：/etc/hosts用于静态主机名到IP地址的解析映射，不是主机名配置文件。<br><br><strong>C ❌ /etc/sysconfig/network</strong>：这是Red Hat系（CentOS 6及以前）的主机名配置文件，麒麟V10不使用。<br><br><strong>D ❌ /etc/name</strong>：这不是标准的Linux配置文件。"
+);
+
+// 第11题
+addSingle(1, "统信UOS软件商店安装包后缀？", 
+    ["A. .deb", "B. .rpm", "C. .exe", "D. .appimage"], 
+    "A", 
+    "统信基于Debian，使用.deb格式。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ .deb</strong>：统信UOS基于Debian生态，软件包格式为.deb，软件商店从仓库下载.deb包进行安装。<br><br><strong>B ❌ .rpm</strong>：.rpm是Red Hat系包格式，统信不支持直接安装。<br><br><strong>C ❌ .exe</strong>：.exe是Windows格式，无法在统信原生运行。<br><br><strong>D ❌ .appimage</strong>：.appimage是跨发行版独立可执行格式，统信可运行，但不是软件商店的默认安装包格式。"
+);
+
+// 第12题
+addSingle(1, "银河麒麟V10基于哪个Linux发行版？", 
+    ["A. Ubuntu", "B. CentOS", "C. Debian", "D. openSUSE"], 
+    "C", 
+    "麒麟桌面基于Debian。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ Ubuntu</strong>：Ubuntu本身基于Debian，麒麟曾基于Ubuntu，但V10版本转向直接基于Debian。<br><br><strong>B ❌ CentOS</strong>：麒麟服务器版V10基于CentOS，但桌面版基于Debian。<br><br><strong>C ✅ Debian</strong>：银河麒麟桌面版V10基于Debian unstable分支，使用apt包管理器，内核为Linux 5.4+。<br><br><strong>D ❌ openSUSE</strong>：openSUSE是SUSE系发行版，与麒麟无关。"
+);
+
+// 第13题
+addSingle(1, "麒麟V10中启用SELinux命令？", 
+    ["A. setenforce 1", "B. selinux enable", "C. start selinux", "D. systemctl enable selinux"], 
+    "A", 
+    "setenforce 1临时启用。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ setenforce 1</strong>：setenforce命令用于临时切换SELinux模式，1表示Enforcing（强制模式），0表示Permissive（宽容模式）。该命令立即生效但重启后失效。<br><br><strong>B ❌ selinux enable</strong>：这不是有效命令，SELinux没有此命令。<br><br><strong>C ❌ start selinux</strong>：SELinux不是systemd服务，不能通过start命令启动。<br><br><strong>D ❌ systemctl enable selinux</strong>：SELinux不是系统服务，不能用systemctl管理。永久启用需修改/etc/selinux/config中SELINUX=enforcing。"
+);
+
+// 第14题
+addSingle(1, "麒麟V10中查看系统版本命令？", 
+    ["A. cat /etc/os-release", "B. version", "C. uname -a", "D. hostnamectl"], 
+    "A", 
+    "/etc/os-release包含详细版本信息。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ cat /etc/os-release</strong>：/etc/os-release是systemd发行版的标准文件，包含NAME、VERSION、ID、PRETTY_NAME等字段，是查看麒麟版本的权威来源。<br><br><strong>B ❌ version</strong>：这不是标准Linux命令。<br><br><strong>C ❌ uname -a</strong>：uname显示内核版本和系统架构，不显示发行版版本号（如麒麟V10的具体版本）。<br><br><strong>D ❌ hostnamectl</strong>：hostnamectl显示主机名和操作系统名称，但版本信息不如/etc/os-release详细。"
+);
+
+// 第15题
+addSingle(1, "麒麟V10中启用SSH服务命令？", 
+    ["A. systemctl start sshd", "B. service ssh start", "C. start ssh", "D. /etc/init.d/ssh start"], 
+    "A", 
+    "麒麟使用systemd管理sshd服务。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ systemctl start sshd</strong>：麒麟V10使用systemd作为初始化系统，通过systemctl命令管理服务，sshd是SSH服务的守护进程名。<br><br><strong>B ❌ service ssh start</strong>：service命令是旧式SysV init管理方式，麒麟V10虽兼容但推荐用systemctl。<br><br><strong>C ❌ start ssh</strong>：这不是标准服务管理命令。<br><br><strong>D ❌ /etc/init.d/ssh start</strong>：这是SysV init脚本的直接调用方式，已过时，且麒麟的服务脚本通常名为sshd而非ssh。"
+);
+
+// 第16题
+addSingle(1, "统信UOS安装deb包命令？", 
+    ["A. dpkg -i", "B. rpm -ivh", "C. apt install", "D. yum install"], 
+    "A", 
+    "dpkg -i用于安装本地deb包。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ dpkg -i</strong>：dpkg是Debian系底层包管理工具，-i参数表示安装（install），用于安装本地.deb文件，如dpkg -i package.deb。<br><br><strong>B ❌ rpm -ivh</strong>：rpm命令用于.rpm包，统信UOS使用.deb格式，不支持rpm。<br><br><strong>C ❌ apt install</strong>：apt install用于从在线仓库安装软件包，不是安装本地.deb文件的命令。<br><br><strong>D ❌ yum install</strong>：yum是Red Hat系包管理器，统信UOS不使用。"
+);
+
+// 第17题
+addSingle(1, "麒麟V10中修改系统时区命令？", 
+    ["A. timedatectl set-timezone", "B. tzselect", "C. ln -sf /usr/share/zoneinfo", "D. 以上均可"], 
+    "D", 
+    "多种方法均可修改时区。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ timedatectl set-timezone</strong>：timedatectl是systemd的系统时间管理工具，set-timezone参数直接设置时区，如timedatectl set-timezone Asia/Shanghai。<br><br><strong>B ✅ tzselect</strong>：tzselect是交互式时区选择向导，运行后根据提示选择地区城市，最后输出TZ环境变量设置建议，需手动配置。<br><br><strong>C ✅ ln -sf /usr/share/zoneinfo</strong>：传统方法是将/etc/localtime符号链接到/usr/share/zoneinfo下的对应时区文件，如ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime。<br><br><strong>D ✅ 以上均可</strong>：三种方法在麒麟V10下均可成功修改系统时区。"
+);
+
+// 第18题
+addSingle(1, "麒麟V10中查看CPU信息命令？", 
+    ["A. lscpu", "B. cpuid", "C. cat /proc/cpuinfo", "D. 以上都对"], 
+    "D", 
+    "lscpu和/proc/cpuinfo均可。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ lscpu</strong>：lscpu命令从sysfs和/proc/cpuinfo收集CPU信息并以人类可读格式输出，包括架构、核心数、线程数、型号、主频等。<br><br><strong>B ✅ cpuid</strong>：cpuid工具可以解码x86/ARM CPU的详细信息，包括指令集支持、缓存层次等，需单独安装。<br><br><strong>C ✅ cat /proc/cpuinfo</strong>：/proc/cpuinfo是内核暴露的CPU信息虚拟文件，直接查看可获取原始CPU数据。<br><br><strong>D ✅ 以上都对</strong>：三种命令均可查看CPU信息，lscpu最简洁，cat /proc/cpuinfo最原始，cpuid最详细。"
+);
+
+// 第19题
+addSingle(1, "麒麟操作系统是由哪家机构主导研发？", 
+    ["A. 华为", "B. 中科院软件所", "C. 中国电子（CEC）", "D. 华为+中科院联合"], 
+    "C", 
+    "麒麟软件有限公司由中国电子(CEC)等联合成立。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 华为</strong>：华为是硬件厂商，主要产品是鲲鹏芯片和欧拉操作系统（openEuler），与麒麟OS无关。<br><br><strong>B ❌ 中科院软件所</strong>：中科院软件所研发了红旗Linux，不是麒麟操作系统的主要研发机构。<br><br><strong>C ✅ 中国电子（CEC）</strong>：麒麟软件有限公司由中国电子（CEC）、天津市政府、国防科技大学等联合成立，CEC是主导方。<br><br><strong>D ❌ 华为+中科院联合</strong>：麒麟OS的研发与华为和中科院软件所无直接关联。"
+);
+
+// 第20题
+addSingle(1, "统信UOS操作系统主要基于哪个开源发行版？", 
+    ["A. CentOS", "B. Ubuntu", "C. Debian", "D. Fedora"], 
+    "C", 
+    "统信UOS基于Debian unstable分支。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ CentOS</strong>：CentOS是Red Hat系发行版，统信UOS基于Debian生态，使用.deb包格式。<br><br><strong>B ❌ Ubuntu</strong>：Ubuntu基于Debian，统信UOS早期与Ubuntu有关联，但现版本直接基于Debian unstable开发。<br><br><strong>C ✅ Debian</strong>：统信UOS（含桌面版、服务器版、专业版）基于Debian unstable分支构建，使用apt包管理器。<br><br><strong>D ❌ Fedora</strong>：Fedora是Red Hat系的前沿发行版，与统信UOS无关。"
+);
+
+// 第21题
+addSingle(1, "在国产操作系统中，用于查看当前系统版本信息的命令是？", 
+    ["A. cat /proc/version", "B. uname -r", "C. cat /etc/os-release", "D. lsb_release -a"], 
+    "C", 
+    "/etc/os-release是systemd发行版的标准文件。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ cat /proc/version</strong>：显示Linux内核版本和编译信息，不包含发行版版本号。<br><br><strong>B ❌ uname -r</strong>：仅显示内核版本号，如5.4.0-100-generic。<br><br><strong>C ✅ cat /etc/os-release</strong>：标准发行版信息文件，包含NAME、VERSION、ID、PRETTY_NAME等，如\"Kylin V10\"。<br><br><strong>D ❌ lsb_release -a</strong>：需要安装lsb-release包，部分系统未预装，不如/etc/os-release通用。"
+);
+
+// 第22题
+addSingle(1, "以下哪个命令可用于查询Linux系统中已安装的包列表？", 
+    ["A. rpm -qa", "B. dpkg -l", "C. yum list installed", "D. 以上均可"], 
+    "D", 
+    "不同发行版命令不同。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ rpm -qa</strong>：RPM系发行版（如麒麟服务器版V10、CentOS）使用rpm -qa列出所有已安装包。<br><br><strong>B ✅ dpkg -l</strong>：Debian系发行版（如统信UOS、麒麟桌面版）使用dpkg -l列出已安装包。<br><br><strong>C ✅ yum list installed</strong>：yum包管理器前端也提供列出已安装包的功能（yum list installed）。<br><br><strong>D ✅ 以上均可</strong>：根据发行版不同，三种命令在不同环境下均可查询已安装包列表。"
+);
+
+// 第23题
+addSingle(1, "在麒麟或统信系统中，若要查看当前登录用户是谁，可使用命令？", 
+    ["A. whoami", "B. id", "C. who", "D. 以上均可"], 
+    "D", 
+    "三者均可但信息详略不同。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ whoami</strong>：显示当前有效用户名，输出最简洁，如\"kylin\"。<br><br><strong>B ✅ id</strong>：显示用户ID、组ID及所属组信息，同时显示用户名。<br><br><strong>C ✅ who</strong>：显示所有登录会话信息（用户名、终端、登录时间、来源IP），当前用户包含在其中。<br><br><strong>D ✅ 以上均可</strong>：三种命令均可用于查看当前用户名，信息详略不同，可根据需求选择。"
+);
+
+// 第24题
+addSingle(1, "国产操作系统默认使用的包管理器，麒麟系统一般为？", 
+    ["A. apt", "B. yum", "C. dnf", "D. pacman"], 
+    "A", 
+    "银河麒麟桌面版基于Debian使用apt。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ apt</strong>：麒麟桌面版基于Debian，默认使用apt包管理器。<br><br><strong>B ❌ yum</strong>：麒麟服务器版V10使用dnf（yum的后继），桌面版不使用yum。<br><br><strong>C ❌ dnf</strong>：麒麟服务器版V10使用dnf，但桌面版不使用。<br><br><strong>D ❌ pacman</strong>：pacman是Arch Linux的包管理器，与麒麟无关。"
+);
+
+// 第25题
+addSingle(1, "在统信UOS中，若需安装软件包，应使用命令？", 
+    ["A. apt install", "B. yum install", "C. dpkg -i", "D. uos-pkg install"], 
+    "A", 
+    "统信UOS使用apt作为包管理器前端。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ apt install</strong>：统信UOS基于Debian，使用apt install从仓库在线安装软件包，自动处理依赖。<br><br><strong>B ❌ yum install</strong>：yum是Red Hat系包管理器，统信UOS不使用。<br><br><strong>C ❌ dpkg -i</strong>：dpkg -i用于安装本地.deb文件，不自动解决依赖，不适用于从仓库在线安装。<br><br><strong>D ❌ uos-pkg install</strong>：这不是标准命令，统信没有此命令。"
+);
+
+// 第26题
+addSingle(1, "麒麟操作系统的服务器版默认采用的包管理器是？", 
+    ["A. apt", "B. yum/dnf", "C. dpkg", "D. pacman"], 
+    "B", 
+    "银河麒麟服务器版V10基于CentOS，使用yum或dnf。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ apt</strong>：麒麟桌面版使用apt，但服务器版基于CentOS，不使用apt。<br><br><strong>B ✅ yum/dnf</strong>：麒麟V10服务器版基于CentOS 8+，使用dnf（向下兼容yum命令）作为包管理器。<br><br><strong>C ❌ dpkg</strong>：dpkg是Debian系底层工具，服务器版使用rpm生态，不使用dpkg。<br><br><strong>D ❌ pacman</strong>：pacman是Arch系包管理器，与麒麟无关。"
+);
+
+// 第27题
+addSingle(1, "统信UOS服务器版的基础发行版是？", 
+    ["A. Debian", "B. CentOS", "C. Ubuntu Server", "D. Fedora"], 
+    "A", 
+    "统信UOS全系列均基于Debian开发。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ Debian</strong>：统信UOS全系列（桌面版、服务器版、专业版）统一基于Debian unstable分支。<br><br><strong>B ❌ CentOS</strong>：麒麟服务器版基于CentOS，统信UOS服务器版仍基于Debian。<br><br><strong>C ❌ Ubuntu Server</strong>：Ubuntu基于Debian，但统信UOS直接基于Debian而非Ubuntu。<br><br><strong>D ❌ Fedora</strong>：Fedora是Red Hat系发行版，与UOS无关。"
+);
+
+// 第28题
+addSingle(1, "在麒麟系统中，修改主机名的命令是？", 
+    ["A. hostnamectl set-hostname", "B. rename", "C. chname", "D. change-host"], 
+    "A", 
+    "hostnamectl set-hostname是systemd发行版的标准命令。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ hostnamectl set-hostname</strong>：麒麟使用systemd，hostnamectl set-hostname是修改主机名的标准命令，立即生效并持久化。<br><br><strong>B ❌ rename</strong>：rename命令用于批量重命名文件，不是修改主机名的命令。<br><br><strong>C ❌ chname</strong>：这不是Linux标准命令。<br><br><strong>D ❌ change-host</strong>：这不是Linux标准命令。"
+);
+
+// 第29题
+addSingle(1, "统信UOS中查看网络连接状态的命令是？", 
+    ["A. ifconfig/ip addr", "B. net use", "C. ping", "D. traceroute"], 
+    "A", 
+    "ifconfig和ip addr均可查看网卡IP配置。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ ifconfig/ip addr</strong>：ifconfig是传统网络配置查看命令，ip addr是iproute2套件中的现代替代命令，两者均可查看网卡IP地址和状态。<br><br><strong>B ❌ net use</strong>：net use是Windows系统命令，用于映射网络驱动器，Linux中不存在。<br><br><strong>C ❌ ping</strong>：ping用于测试网络连通性，不显示网络连接状态配置。<br><br><strong>D ❌ traceroute</strong>：traceroute用于追踪路由路径，不显示本机网络配置。"
+);
+
+// 第30题
+addSingle(1, "麒麟系统中关闭防火墙的命令是？", 
+    ["A. systemctl stop firewalld", "B. shutdown -h now", "C. iptables -F", "D. ufw disable"], 
+    "A", 
+    "麒麟使用firewalld防火墙。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ systemctl stop firewalld</strong>：麒麟使用firewalld管理防火墙，停止firewalld服务即可临时关闭防火墙。<br><br><strong>B ❌ shutdown -h now</strong>：这是系统关机命令，与防火墙无关。<br><br><strong>C ❌ iptables -F</strong>：iptables -F会清空所有防火墙规则，但不会停止iptables服务，且firewalld可能重新加载规则。<br><br><strong>D ❌ ufw disable</strong>：ufw是Ubuntu的防火墙前端，麒麟系统未预装ufw。"
+);
+
+// 第31题
+addSingle(1, "统信UOS中安装deb格式软件包的命令是？", 
+    ["A. dpkg -i", "B. rpm -ivh", "C. yum install", "D. dnf install"], 
+    "A", 
+    "dpkg -i package.deb安装本地deb包。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ dpkg -i</strong>：dpkg是Debian系底层包管理工具，-i参数安装本地.deb文件。<br><br><strong>B ❌ rpm -ivh</strong>：rpm命令用于.rpm格式，统信UOS使用.deb格式。<br><br><strong>C ❌ yum install</strong>：yum是Red Hat系包管理器，统信UOS不使用。<br><br><strong>D ❌ dnf install</strong>：dnf是Red Hat系下一代包管理器，统信UOS不使用。"
+);
+
+// 第32题
+addSingle(1, "在麒麟系统中，查看磁盘空间使用情况的命令是？", 
+    ["A. df -h", "B. du -sh", "C. lsblk", "D. fdisk -l"], 
+    "A", 
+    "df -h显示文件系统磁盘空间使用情况。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ df -h</strong>：df（disk free）命令显示文件系统的磁盘空间使用情况，-h参数以人类可读格式显示（如1G、234M）。<br><br><strong>B ❌ du -sh</strong>：du（disk usage）命令用于统计目录或文件占用的磁盘空间，而非查看整个文件系统的剩余空间。<br><br><strong>C ❌ lsblk</strong>：lsblk列出块设备信息（分区、磁盘），不显示磁盘空间使用率。<br><br><strong>D ❌ fdisk -l</strong>：fdisk是磁盘分区工具，-l显示分区表信息，不显示文件系统空间使用情况。"
+);
+
+// 第33题
+addSingle(1, "统信UOS中实时查看日志文件的命令是？", 
+    ["A. tail -f", "B. head -n", "C. cat", "D. more"], 
+    "A", 
+    "tail -f 文件名可实时追踪日志文件新增内容。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ tail -f</strong>：tail -f（follow模式）会持续输出文件新增的内容，是实时监控日志的标准命令。<br><br><strong>B ❌ head -n</strong>：head命令显示文件开头部分，-n指定行数，但不会持续追踪更新。<br><br><strong>C ❌ cat</strong>：cat一次性输出整个文件内容，不会实时追踪日志更新。<br><br><strong>D ❌ more</strong>：more分页显示文件内容，同样不支持实时追踪。"
+);
+
+// 第34题
+addSingle(1, "麒麟系统中修改文件权限为可执行的命令是？", 
+    ["A. chmod +x", "B. chown", "C. chgrp", "D. umask"], 
+    "A", 
+    "chmod +x 文件名添加执行权限。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ chmod +x</strong>：chmod（change mode）修改文件权限，+x为所有用户添加执行权限，使文件可运行。<br><br><strong>B ❌ chown</strong>：chown（change owner）修改文件所有者和所属组，不修改权限。<br><br><strong>C ❌ chgrp</strong>：chgrp（change group）修改文件所属组，不修改权限。<br><br><strong>D ❌ umask</strong>：umask设置新建文件的默认权限掩码，不修改已有文件权限。"
+);
+
+// 第35题
+addSingle(1, "统信UOS中切换到root用户的命令是？", 
+    ["A. su -", "B. sudo", "C. login root", "D. switch user"], 
+    "A", 
+    "su - 完全切换到root用户环境。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ su -</strong>：su -（或su - root）切换到root用户，同时加载root的环境变量和配置文件（如PATH、~/.bashrc），获得完整root环境。<br><br><strong>B ❌ sudo</strong>：sudo是临时提权执行单条命令，而非切换用户身份持续操作。<br><br><strong>C ❌ login root</strong>：login是登录命令，但通常用于虚拟终端登录，不是切换用户的常用方式。<br><br><strong>D ❌ switch user</strong>：这不是Linux标准命令。"
+);
+
+// 第36题
+addSingle(1, "麒麟操作系统的默认包管理工具是？", 
+    ["A. apt", "B. yum", "C. pacman", "D. zypper"], 
+    "A", 
+    "麒麟桌面版基于Debian使用apt。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ apt</strong>：麒麟桌面版基于Debian，apt是默认包管理工具。<br><br><strong>B ❌ yum</strong>：麒麟服务器版使用dnf/yum，但桌面版使用apt。<br><br><strong>C ❌ pacman</strong>：pacman是Arch Linux的包管理器，与麒麟无关。<br><br><strong>D ❌ zypper</strong>：zypper是openSUSE的包管理器，与麒麟无关。"
+);
+
+// 第37题
+addSingle(1, "统信UOS的桌面环境主要基于哪个开源项目？", 
+    ["A. GNOME", "B. KDE", "C. Deepin Desktop Environment", "D. Xfce"], 
+    "C", 
+    "统信UOS使用自研的DDE桌面环境。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ GNOME</strong>：GNOME是Linux主流桌面环境之一，但统信UOS使用自研DDE，非GNOME。<br><br><strong>B ❌ KDE</strong>：KDE是另一款主流桌面环境，使用Qt框架，UOS未采用。<br><br><strong>C ✅ Deepin Desktop Environment</strong>：统信UOS使用深度科技自研的DDE桌面环境，美观易用，支持深色模式、多桌面等特性。<br><br><strong>D ❌ Xfce</strong>：Xfce是轻量级桌面环境，麒麟有Xfce定制版，但UOS使用功能更丰富的DDE。"
+);
+
+// 第38题
+addSingle(1, "麒麟操作系统默认使用的初始化系统是？", 
+    ["A. SysV init", "B. systemd", "C. Upstart", "D. OpenRC"], 
+    "B", 
+    "麒麟V10使用systemd作为init系统。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ SysV init</strong>：SysV init是传统初始化系统，麒麟V10已采用systemd替代。<br><br><strong>B ✅ systemd</strong>：麒麟V10使用systemd作为init系统，通过systemctl管理服务，启动速度快，支持并行启动。<br><br><strong>C ❌ Upstart</strong>：Upstart是Ubuntu曾使用的事件驱动init系统，现已退役。<br><br><strong>D ❌ OpenRC</strong>：OpenRC是Gentoo和Alpine Linux使用的init系统，麒麟未采用。"
+);
+
+// 第39题
+addSingle(1, "统信UOS中，网络配置文件通常存放在哪个目录下？", 
+    ["A. /etc/network/", "B. /etc/netplan/", "C. /etc/sysconfig/network/", "D. /etc/NetworkManager/"], 
+    "A", 
+    "UOS传统网络配置在/etc/network/interfaces。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ /etc/network/</strong>：统信UOS基于Debian，网络接口配置文件为/etc/network/interfaces，该目录下包含接口配置。<br><br><strong>B ❌ /etc/netplan/</strong>：netplan是Ubuntu 18.04+引入的网络配置方案，UOS未使用。<br><br><strong>C ❌ /etc/sysconfig/network/</strong>：这是Red Hat系网络配置目录，UOS基于Debian不使用。<br><br><strong>D ❌ /etc/NetworkManager/</strong>：NetworkManager是图形化网络管理工具，其配置文件在/etc/NetworkManager/，但底层网络配置文件仍在/etc/network/。"
+);
+
+// 第40题
+addSingle(1, "麒麟操作系统的默认字符编码设置文件是？", 
+    ["A. /etc/locale.conf", "B. /etc/sysconfig/i18n", "C. /etc/default/locale", "D. /etc/encoding"], 
+    "A", 
+    "麒麟使用systemd风格的locale.conf。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ /etc/locale.conf</strong>：麒麟V10使用systemd，系统区域设置文件为/etc/locale.conf，包含LANG、LC_*等变量。<br><br><strong>B ❌ /etc/sysconfig/i18n</strong>：这是Red Hat系（CentOS 6/7）的区域设置文件，麒麟不使用。<br><br><strong>C ❌ /etc/default/locale</strong>：这是Debian/Ubuntu的区域设置文件，麒麟V10采用systemd风格而非此路径。<br><br><strong>D ❌ /etc/encoding</strong>：这不是标准的区域配置文件。"
+);
+
+// 第41题
+addSingle(1, "统信UOS的启动菜单引导程序是？", 
+    ["A. GRUB2", "B. LILO", "C. Syslinux", "D. U-Boot"], 
+    "A", 
+    "UOS默认使用GRUB2引导启动。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ GRUB2</strong>：统信UOS使用GRUB2（GRand Unified Bootloader 2）作为默认引导程序，支持多系统启动、引导修复等功能。<br><br><strong>B ❌ LILO</strong>：LILO（LInux LOader）是老旧的引导程序，已被GRUB2取代。<br><br><strong>C ❌ Syslinux</strong>：Syslinux主要用于轻量级环境（如USB启动盘），不是桌面系统的主流引导程序。<br><br><strong>D ❌ U-Boot</strong>：U-Boot主要用于嵌入式系统和开发板（如ARM架构），不适用于x86桌面系统。"
+);
+
+// 第42题
+addSingle(1, "麒麟操作系统下，如何设置一个服务开机自启动？", 
+    ["A. systemctl enable", "B. systemctl start", "C. systemctl status", "D. systemctl daemon-reload"], 
+    "A", 
+    "systemctl enable 服务名创建符号链接实现开机自启。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ systemctl enable</strong>：systemctl enable创建服务的符号链接到/etc/systemd/system/multi-user.target.wants/，实现开机自动启动。<br><br><strong>B ❌ systemctl start</strong>：systemctl start用于立即启动服务，但不设置开机自启。<br><br><strong>C ❌ systemctl status</strong>：systemctl status查看服务的当前运行状态，不修改自启配置。<br><br><strong>D ❌ systemctl daemon-reload</strong>：daemon-reload重新加载systemd配置文件，在修改.service文件后使用，不设置自启。"
+);
+
+// 第43题
+addSingle(1, "统信UOS中，查看当前用户环境变量的命令是？", 
+    ["A. env", "B. set", "C. echo \$ENV", "D. export"], 
+    "A", 
+    "env命令显示当前用户的所有环境变量。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ env</strong>：env命令显示当前用户的所有环境变量，格式为KEY=VALUE，是最常用的环境变量查看命令。<br><br><strong>B ❌ set</strong>：set命令显示所有shell变量（包括环境变量和局部变量），输出内容比env更多。<br><br><strong>C ❌ echo \$ENV</strong>：echo \$ENV只显示ENV这一个环境变量的值，不能查看所有。<br><br><strong>D ❌ export</strong>：export用于设置或导出环境变量，单独执行export可显示已导出的变量，但不如env全面。"
+);
+
+// 第44题
+addSingle(1, "麒麟系统中，用于生成SSH密钥对的命令是？", 
+    ["A. ssh-keygen", "B. ssh-genkey", "C. ssh-create", "D. ssh-mkkey"], 
+    "A", 
+    "ssh-keygen生成RSA/ED25519密钥对。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ ssh-keygen</strong>：ssh-keygen是OpenSSH套件的密钥生成工具，默认生成RSA 3072位密钥对（私钥id_rsa，公钥id_rsa.pub）。<br><br><strong>B ❌ ssh-genkey</strong>：这不是标准SSH命令。<br><br><strong>C ❌ ssh-create</strong>：这不是标准SSH命令。<br><br><strong>D ❌ ssh-mkkey</strong>：这不是标准SSH命令。"
+);
+
+// 第45题
+addSingle(1, "统信UOS的默认Shell是？", 
+    ["A. sh", "B. bash", "C. zsh", "D. fish"], 
+    "B", 
+    "UOS默认使用bash（Bourne Again Shell）。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ sh</strong>：sh是Bourne Shell，功能较基础，通常是指向bash或其他兼容shell的符号链接，不是默认交互式shell。<br><br><strong>B ✅ bash</strong>：统信UOS默认Shell为bash（Bourne Again Shell），支持命令补全、历史记录、别名等丰富功能。<br><br><strong>C ❌ zsh</strong>：zsh是功能更强大的shell，但不是系统默认，需手动安装和配置。<br><br><strong>D ❌ fish</strong>：fish是友好的交互式shell，非默认，需额外安装。"
+);
+
+// 第46题
+addSingle(1, "麒麟操作系统支持的最大文件大小取决于什么？", 
+    ["A. 文件系统类型", "B. 内存大小", "C. 磁盘容量", "D. CPU位数"], 
+    "A", 
+    "文件系统类型决定最大文件大小。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 文件系统类型</strong>：不同文件系统支持的最大单文件大小不同，如ext4最大16TB，XFS最大8EB，这是由文件系统设计决定的。<br><br><strong>B ❌ 内存大小</strong>：内存大小影响系统运行性能，但不直接限制单文件的最大体积。<br><br><strong>C ❌ 磁盘容量</strong>：磁盘容量限制总存储空间，但单文件可小于等于磁盘剩余空间，磁盘容量本身不限制单文件大小上限。<br><br><strong>D ❌ CPU位数</strong>：32位系统由于地址空间限制，单文件最大2GB，但64位系统下CPU位数不构成限制，主要仍看文件系统。"
+);
+
+// 第47题
+addSingle(1, "统信UOS中，用于修复文件系统错误的命令是？", 
+    ["A. fsck", "B. repairfs", "C. chkfs", "D. fixfs"], 
+    "A", 
+    "fsck（file system check）检查并修复文件系统错误。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ fsck</strong>：fsck（File System Check）是Linux文件系统检查和修复的标准工具，支持ext2/ext3/ext4/xfs等多种文件系统。<br><br><strong>B ❌ repairfs</strong>：这不是标准Linux命令。<br><br><strong>C ❌ chkfs</strong>：这不是标准Linux命令。<br><br><strong>D ❌ fixfs</strong>：这不是标准Linux命令。"
+);
+
+// 第48题
+addSingle(1, "麒麟操作系统如何关闭SELinux？", 
+    ["A. 设置SELINUX=disabled", "B. setenforce 1", "C. systemctl stop selinux", "D. 删除SELinux包"], 
+    "A", 
+    "编辑/etc/selinux/config设置SELINUX=disabled，重启生效。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 设置SELINUX=disabled</strong>：编辑/etc/selinux/config文件，将SELINUX=enforcing改为SELINUX=disabled，重启系统后永久关闭SELinux。<br><br><strong>B ❌ setenforce 1</strong>：setenforce 1是启用SELinux（Enforcing模式），与关闭相反。<br><br><strong>C ❌ systemctl stop selinux</strong>：SELinux不是systemd服务，不能用systemctl停止。<br><br><strong>D ❌ 删除SELinux包</strong>：删除SELinux相关包（libselinux等）会导致系统严重问题，不推荐。"
+);
+
+// 第49题
+addSingle(1, "统信UOS的应用程序启动器配置文件通常位于哪里？", 
+    ["A. /usr/share/applications", "B. /etc/applications", "C. /usr/local/apps", "D. /opt/applications"], 
+    "A", 
+    ".desktop桌面快捷方式文件存放在/usr/share/applications。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ /usr/share/applications</strong>：统信UOS遵循XDG规范，应用程序的.desktop快捷方式文件存放在/usr/share/applications/目录。<br><br><strong>B ❌ /etc/applications</strong>：这不是标准存放.desktop文件的目录。<br><br><strong>C ❌ /usr/local/apps</strong>：自编译或第三方软件可能安装到此目录，但不是标准.desktop文件位置。<br><br><strong>D ❌ /opt/applications</strong>：/opt是可选软件包安装目录，不是系统级.desktop文件的默认位置。"
+);
+
+// 第50题
+addSingle(1, "麒麟系统中，查看系统启动时间的命令是？", 
+    ["A. uptime", "B. last boot", "C. systemd-analyze", "D. who -b"], 
+    "C", 
+    "systemd-analyze time显示内核和系统启动耗时分析。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ uptime</strong>：uptime显示系统已运行时间（从启动到现在的时间长度），而非启动具体耗时。<br><br><strong>B ❌ last boot</strong>：last命令可查看系统启动历史记录，但不是专门的启动时间分析工具。<br><br><strong>C ✅ systemd-analyze</strong>：systemd-analyze time显示内核启动时间和各服务启动耗时，是分析系统启动性能的专业工具。<br><br><strong>D ❌ who -b</strong>：who -b显示系统最后一次启动的日期和时间，但不显示启动各阶段的详细耗时。"
+);
+
+// 第51题
+addSingle(1, "统信UOS如何设置系统代理？", 
+    ["A. 编辑/etc/environment", "B. export命令临时设置", "C. 通过控制面板设置", "D. 以上都是"], 
+    "D", 
+    "三种方法均可：配置文件永久生效、export临时生效、图形界面设置。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 编辑/etc/environment</strong>：在/etc/environment文件中添加http_proxy、https_proxy环境变量，重启后对所有用户永久生效。<br><br><strong>B ✅ export命令临时设置</strong>：执行export http_proxy=http://proxy:port在当前终端会话中临时生效。<br><br><strong>C ✅ 通过控制面板设置</strong>：统信UOS控制面板提供网络代理的图形化配置界面，设置后系统级生效。<br><br><strong>D ✅ 以上都是</strong>：三种方法均可设置系统代理，可根据需求选择临时或永久、命令行或图形界面方式。"
+);
+
+// 第52题
+addSingle(1, "麒麟操作系统下，查看所有监听端口的命令是？", 
+    ["A. netstat -tuln", "B. ss -tuln", "C. lsof -i", "D. 以上都是"], 
+    "D", 
+    "netstat、ss、lsof -i均可查看端口监听和占用情况。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ netstat -tuln</strong>：netstat -tuln显示所有TCP（-t）和UDP（-u）监听端口（-l），-n以数字格式显示端口号。<br><br><strong>B ✅ ss -tuln</strong>：ss是netstat的现代替代命令，速度更快，-tuln参数效果相同。<br><br><strong>C ✅ lsof -i</strong>：lsof -i列出所有网络连接，包括监听端口和已建立连接，可通过grep过滤监听状态。<br><br><strong>D ✅ 以上都是</strong>：三种命令均可用于查看监听端口，ss是netstat的升级版，lsof功能更全面。"
+);
+
+// 第53题
+addSingle(1, "统信UOS中，用于更新initramfs的命令是？", 
+    ["A. update-initramfs", "B. mkinitramfs", "C. dracut", "D. mkinitrd"], 
+    "A", 
+    "update-initramfs -u更新当前内核的initramfs镜像。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ update-initramfs</strong>：update-initramfs是Debian/Ubuntu系的initramfs更新工具，-u参数更新当前内核的initramfs镜像。<br><br><strong>B ❌ mkinitramfs</strong>：mkinitramfs是底层命令，用于生成initramfs文件，但推荐使用update-initramfs封装。<br><br><strong>C ❌ dracut</strong>：dracut是Red Hat/Fedora系的initramfs生成工具，统信UOS基于Debian不使用。<br><br><strong>D ❌ mkinitrd</strong>：mkinitrd是旧版Red Hat系的initrd生成工具，已过时。"
+);
+
+// 第54题
+addSingle(1, "麒麟操作系统的默认字符编码设置文件是？", 
+    ["A. /etc/locale.conf", "B. /etc/sysconfig/i18n", "C. /etc/default/locale", "D. /etc/encoding"], 
+    "A", 
+    "麒麟使用systemd风格的locale.conf，传统版用/etc/sysconfig/i18n。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ /etc/locale.conf</strong>：麒麟V10使用systemd，区域设置文件为/etc/locale.conf。<br><br><strong>B ❌ /etc/sysconfig/i18n</strong>：麒麟V10（基于CentOS的服务器版）可能使用此文件，但桌面版采用systemd风格。<br><br><strong>C ❌ /etc/default/locale</strong>：Debian/Ubuntu系使用此路径，麒麟桌面版虽基于Debian但改用systemd风格。<br><br><strong>D ❌ /etc/encoding</strong>：这不是标准配置文件。"
+);
+
+// 第55题
+addSingle(1, "统信UOS中，切换用户但不加载环境变量的命令是？", 
+    ["A. su -", "B. su", "C. su -m", "D. su -l"], 
+    "B", 
+    "su切换用户但保留原环境变量，su -或su -l加载目标用户环境。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ su -</strong>：su -（带连字符）会加载目标用户的完整环境变量和配置文件，与题目要求相反。<br><br><strong>B ✅ su</strong>：直接执行su（不带连字符）切换用户，但保留当前shell的环境变量，不加载目标用户的配置文件。<br><br><strong>C ❌ su -m</strong>：su -m保留当前环境（-m等效于不加载目标用户环境），但这不是标准写法。<br><br><strong>D ❌ su -l</strong>：su -l等同于su -，会加载目标用户完整环境。"
+);
+
+// 第56题
+addSingle(1, "麒麟操作系统如何手动挂载ISO文件？", 
+    ["A. mount -o loop", "B. mount -t iso", "C. mount iso", "D. mount -f iso"], 
+    "A", 
+    "mount -o loop ISO文件 挂载点，将ISO作为回环设备挂载。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ mount -o loop</strong>：mount -o loop ISO文件 挂载点 将ISO镜像作为回环设备（loop device）挂载，这是挂载ISO的标准方式。<br><br><strong>B ❌ mount -t iso</strong>：-t参数指定文件系统类型，正确的文件系统类型是iso9660，但通常可省略。<br><br><strong>C ❌ mount iso</strong>：缺少参数和挂载点，语法不完整。<br><br><strong>D ❌ mount -f iso</strong>：-f参数是“假挂载”（模拟），不实际挂载。"
+);
+
+// 第57题
+addSingle(1, "统信UOS的磁盘管理图形化工具名称是？", 
+    ["A. GParted", "B. Disk Utility", "C. 磁盘管理器", "D. KDE Partition Manager"], 
+    "A", 
+    "UOS预装GParted作为磁盘分区管理图形工具。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ GParted</strong>：GParted（GNOME Partition Editor）是Linux平台最流行的磁盘分区管理图形工具，统信UOS预装此工具。<br><br><strong>B ❌ Disk Utility</strong>：Disk Utility是macOS的磁盘工具，不是Linux软件。<br><br><strong>C ❌ 磁盘管理器</strong>：Windows的磁盘管理工具，非Linux。<br><br><strong>D ❌ KDE Partition Manager</strong>：KDE桌面环境的分区工具，UOS使用DDE（非KDE），预装的是GParted。"
+);
+
+// 第58题
+addSingle(1, "麒麟操作系统中，用于检查软件包依赖关系的命令是？", 
+    ["A. apt-cache depends", "B. dpkg -depends", "C. apt depends", "D. pkg-depends"], 
+    "A", 
+    "apt-cache depends 包名查看依赖关系。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ apt-cache depends</strong>：apt-cache depends 包名 查询指定包的依赖关系，显示PreDepends、Depends、Recommends等。<br><br><strong>B ❌ dpkg -depends</strong>：dpkg没有-depends参数，可用dpkg -I查看包信息但不专门展示依赖树。<br><br><strong>C ❌ apt depends</strong>：apt depends命令在某些Debian版本中存在，但不是标准写法，apt-cache depends更标准。<br><br><strong>D ❌ pkg-depends</strong>：这不是标准命令。"
+);
+
+// 第59题
+addSingle(1, "统信UOS如何开启远程桌面服务？", 
+    ["A. 安装vino并配置", "B. 启用xrdp", "C. 使用VNC", "D. 以上都是"], 
+    "D", 
+    "UOS支持vino（VNC）、xrdp（RDP）、TigerVNC等多种远程桌面方案。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 安装vino并配置</strong>：vino是GNOME桌面环境的VNC服务器，可通过设置开启远程桌面。<br><br><strong>B ✅ 启用xrdp</strong>：xrdp实现RDP协议，允许Windows自带远程桌面连接UOS。<br><br><strong>C ✅ 使用VNC</strong>：TigerVNC、RealVNC等VNC方案也支持UOS远程桌面。<br><br><strong>D ✅ 以上都是</strong>：统信UOS支持多种远程桌面方案，可根据需求选择。"
+);
+
+// 第60题
+addSingle(1, "麒麟系统下，查看CPU信息的命令是？", 
+    ["A. lscpu", "B. cat /proc/cpuinfo", "C. cpuinfo", "D. 以上都是"], 
+    "D", 
+    "lscpu汇总显示，/proc/cpuinfo显示原始内核信息。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ lscpu</strong>：lscpu从/proc/cpuinfo和sysfs收集信息并以表格形式显示，易读。<br><br><strong>B ✅ cat /proc/cpuinfo</strong>：直接读取内核暴露的CPU信息原始文件。<br><br><strong>C ❌ cpuinfo</strong>：这不是标准命令，可能是对/proc/cpuinfo的简写误解。<br><br><strong>D ✅ 以上都是</strong>：lscpu和cat /proc/cpuinfo均可查看CPU信息。"
+);
+
+// 第61题
+addSingle(1, "统信UOS的默认邮件传输代理是什么？", 
+    ["A. Postfix", "B. Sendmail", "C. Exim", "D. 无默认MTA"], 
+    "D", 
+    "UOS默认不安装MTA，用户可按需安装Postfix等邮件服务。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ Postfix</strong>：Postfix是流行的MTA（Mail Transfer Agent），但UOS默认未安装。<br><br><strong>B ❌ Sendmail</strong>：Sendmail是传统MTA，现代Linux发行版通常不再默认安装。<br><br><strong>C ❌ Exim</strong>：Exim是Debian系曾默认的MTA，但UOS未预装。<br><br><strong>D ✅ 无默认MTA</strong>：统信UOS为减少攻击面，默认不安装任何MTA，用户可根据需要自行安装Postfix或Exim。"
+);
+
+// 第62题
+addSingle(1, "麒麟操作系统中，如何查看某个命令的二进制文件路径？", 
+    ["A. which", "B. whereis", "C. type", "D. 以上都是"], 
+    "D", 
+    "which在PATH中查找，whereis查二进制+源码+手册，type查shell内置或外部命令。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ which</strong>：which命令在PATH环境变量中搜索命令的二进制文件位置。<br><br><strong>B ✅ whereis</strong>：whereis查找命令的二进制文件、源代码和man手册页。<br><br><strong>C ✅ type</strong>：type命令（shell内置）显示命令类型（alias、builtin、file），如type ls显示ls is /bin/ls。<br><br><strong>D ✅ 以上都是</strong>：三种命令均可用于定位命令位置，信息详略不同。"
+);
+
+// 第63题
+addSingle(1, "统信UOS的打印机管理服务名称是？", 
+    ["A. cups", "B. printd", "C. lpd", "D. spooler"], 
+    "A", 
+    "CUPS（Common UNIX Printing System）是Linux标准打印系统。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ cups</strong>：CUPS（Common UNIX Printing System）是Linux和macOS的标准打印服务，统信UOS使用CUPS管理打印机。<br><br><strong>B ❌ printd</strong>：这不是标准打印服务名称。<br><br><strong>C ❌ lpd</strong>：lpd（Line Printer Daemon）是传统BSD打印系统，已被CUPS取代。<br><br><strong>D ❌ spooler</strong>：spooler是打印队列的通用概念，不是具体服务名。"
+);
+
+// 第64题
+addSingle(1, "麒麟系统下，如何永久添加静态路由？", 
+    ["A. 写入/etc/network/interfaces", "B. 使用route add永久参数", "C. 写入/etc/sysconfig/network-scripts/route-eth0", "D. 写入/etc/rc.local"], 
+    "C", 
+    "RPM系系统通过route-eth0文件配置静态路由，Debian系用/etc/network/interfaces。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 写入/etc/network/interfaces</strong>：Debian系通过此文件配置静态路由，麒麟服务器版（RPM系）不使用。<br><br><strong>B ❌ 使用route add永久参数</strong>：route add命令临时添加路由，无永久参数，重启失效。<br><br><strong>C ✅ 写入/etc/sysconfig/network-scripts/route-eth0</strong>：麒麟服务器版（基于CentOS）通过在此文件中配置静态路由实现永久生效。<br><br><strong>D ❌ 写入/etc/rc.local</strong>：rc.local中写入route add命令可开机添加，但不是官方推荐的配置方式。"
+);
+
+// 第65题
+addSingle(1, "统信UOS的启动日志存放在哪里？", 
+    ["A. /var/log/boot.log", "B. /var/log/startup.log", "C. /var/log/dmesg", "D. /var/log/syslog"], 
+    "A", 
+    "boot.log记录系统启动过程中的服务和脚本输出。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ /var/log/boot.log</strong>：boot.log记录系统启动过程中各服务和脚本的输出信息。<br><br><strong>B ❌ /var/log/startup.log</strong>：这不是标准启动日志文件。<br><br><strong>C ❌ /var/log/dmesg</strong>：dmesg记录内核启动环形缓冲区信息，侧重于硬件驱动层。<br><br><strong>D ❌ /var/log/syslog</strong>：syslog记录系统运行时的通用日志，包含启动后的信息。"
+);
+
+// 第66题
+addSingle(1, "麒麟操作系统如何禁用IPv6？", 
+    ["A. 内核参数ipv6.disable=1", "B. 编辑/etc/sysctl.conf", "C. 网络管理器设置", "D. 以上都是"], 
+    "D", 
+    "三种方法：内核参数、sysctl配置、NetworkManager图形界面。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 内核参数ipv6.disable=1</strong>：在GRUB启动参数中添加ipv6.disable=1从内核层面完全禁用IPv6。<br><br><strong>B ✅ 编辑/etc/sysctl.conf</strong>：添加net.ipv6.conf.all.disable_ipv6=1，执行sysctl -p使能。<br><br><strong>C ✅ 网络管理器设置</strong>：NetworkManager图形界面中可将IPv6设置为\"禁用\"。<br><br><strong>D ✅ 以上都是</strong>：三种方法均可禁用IPv6，可根据需求选择。"
+);
+
+// 第67题
+addSingle(1, "在麒麟系统中，查看系统日志命令？", 
+    ["A. journalctl", "B. dmesg", "C. tail -f /var/log/messages", "D. 以上都是"], 
+    "D", 
+    "journalctl、dmesg、messages均可查看日志。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ journalctl</strong>：systemd的日志查看命令，可查询所有系统服务日志。<br><br><strong>B ✅ dmesg</strong>：查看内核环形缓冲区的启动和硬件日志。<br><br><strong>C ✅ tail -f /var/log/messages</strong>：messages是系统通用日志文件，tail -f实时监控。<br><br><strong>D ✅ 以上都是</strong>：三种方式均可查看系统日志。"
+);
+
+// 第68题
+addSingle(1, "麒麟系统中软件安装方式？", 
+    ["A. apt install", "B. 软件商店", "C. dpkg -i", "D. 以上都是"], 
+    "D", 
+    "麒麟支持多种软件安装方式。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ apt install</strong>：命令行从仓库在线安装。<br><br><strong>B ✅ 软件商店</strong>：图形化软件商店，搜索点击安装。<br><br><strong>C ✅ dpkg -i</strong>：安装本地.deb包文件。<br><br><strong>D ✅ 以上都是</strong>：麒麟支持多种软件安装方式。"
+);
+
+// 第69题
+addSingle(1, "统信UOS系统监控工具？", 
+    ["A. 系统监视器", "B. top", "C. htop", "D. 以上都是"], 
+    "D", 
+    "多种工具均可监控系统资源。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 系统监视器</strong>：统信UOS自带图形化系统监视器，类似Windows任务管理器。<br><br><strong>B ✅ top</strong>：命令行实时进程和资源监控。<br><br><strong>C ✅ htop</strong>：top的增强版，提供更友好的交互界面。<br><br><strong>D ✅ 以上都是</strong>：多种工具可供选择。"
+);
+
+// 第70题
+addSingle(1, "麒麟V10中用户管理命令？", 
+    ["A. useradd", "B. usermod", "C. passwd", "D. 以上都是"], 
+    "D", 
+    "useradd/usermod/passwd/userdel管理用户。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ useradd</strong>：添加新用户。<br><br><strong>B ✅ usermod</strong>：修改用户属性（主组、附加组、家目录等）。<br><br><strong>C ✅ passwd</strong>：设置或修改用户密码。<br><br><strong>D ✅ 以上都是</strong>：这三个命令是用户管理的基础工具集。"
+);
+
+// 第71题
+addSingle(1, "麒麟操作系统的版本类型包括？", 
+    ["A. 桌面版", "B. 服务器版", "C. 嵌入式版", "D. 以上都是"], 
+    "D", 
+    "麒麟有桌面版、服务器版、嵌入式版。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 桌面版</strong>：面向办公和家用场景。<br><br><strong>B ✅ 服务器版</strong>：面向数据中心和云服务器。<br><br><strong>C ✅ 嵌入式版</strong>：面向工控、物联网等嵌入式设备。<br><br><strong>D ✅ 以上都是</strong>：麒麟产品线覆盖桌面、服务器、嵌入式。"
+);
+
+// 第72题
+addSingle(1, "统信UOS支持的文件系统类型有？", 
+    ["A. ext4", "B. xfs", "C. btrfs", "D. 以上都是"], 
+    "D", 
+    "统信UOS支持ext4/xfs/btrfs等多种文件系统。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ ext4</strong>：Linux默认文件系统，稳定可靠。<br><br><strong>B ✅ xfs</strong>：高性能文件系统，适合大文件和大容量。<br><br><strong>C ✅ btrfs</strong>：支持快照、压缩等先进特性的文件系统。<br><br><strong>D ✅ 以上都是</strong>：UOS内核支持所有主流Linux文件系统。"
+);
+
+// 第73题
+addSingle(1, "麒麟操作系统的安全特性包括？", 
+    ["A. SELinux", "B. 安全审计", "C. 强制访问控制", "D. 以上都是"], 
+    "D", 
+    "麒麟安全框架：SELinux、audit审计、MAC强制访问控制。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ SELinux</strong>：Security-Enhanced Linux，提供细粒度强制访问控制。<br><br><strong>B ✅ 安全审计</strong>：auditd服务记录系统安全事件。<br><br><strong>C ✅ 强制访问控制</strong>：MAC机制（SELinux实现）。<br><br><strong>D ✅ 以上都是</strong>：麒麟集成了多层次安全特性。"
+);
+
+// 第74题
+addSingle(1, "统信UOS的特色功能包括？", 
+    ["A. 应用商店", "B. 备份还原工具", "C. 多屏协同", "D. 以上都是"], 
+    "D", 
+    "UOS特色：应用商店、备份还原、多屏协同、云账户同步。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 应用商店</strong>：图形化应用商店，一键安装软件。<br><br><strong>B ✅ 备份还原工具</strong>：系统级备份和还原功能。<br><br><strong>C ✅ 多屏协同</strong>：支持多显示器扩展和镜像。<br><br><strong>D ✅ 以上都是</strong>：UOS提供了丰富的特色功能。"
+);
+
+// 第75题
+addSingle(1, "在麒麟系统中，常用的系统监控命令有？", 
+    ["A. top", "B. htop", "C. glances", "D. 以上都是"], 
+    "D", 
+    "top/htop进程监控，glances综合监控。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ top</strong>：实时进程监控，系统自带。<br><br><strong>B ✅ htop</strong>：top增强版，需手动安装。<br><br><strong>C ✅ glances</strong>：跨平台综合监控工具，显示CPU/内存/磁盘/网络。<br><br><strong>D ✅ 以上都是</strong>：均可用于系统监控。"
+);
+
+// 第76题
+addSingle(1, "统信UOS的软件包管理方式支持哪些格式？", 
+    ["A. deb", "B. flatpak", "C. snap", "D. 以上都是"], 
+    "D", 
+    "UOS原生deb，商店支持flatpak/snap/AppImage通用格式。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ deb</strong>：原生Debian包格式。<br><br><strong>B ✅ flatpak</strong>：跨发行版应用沙箱格式。<br><br><strong>C ✅ snap</strong>：Ubuntu推广的通用包格式。<br><br><strong>D ✅ 以上都是</strong>：UOS软件商店支持多种包格式。"
+);
+
+// 第77题
+addSingle(1, "麒麟操作系统支持的文件系统类型有？", 
+    ["A. ext4", "B. xfs", "C. btrfs", "D. 以上都是"], 
+    "D", 
+    "麒麟支持ext4/xfs/btrfs原生。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ ext4</strong>：默认文件系统。<br><br><strong>B ✅ xfs</strong>：服务器常用文件系统。<br><br><strong>C ✅ btrfs</strong>：支持快照和压缩。<br><br><strong>D ✅ 以上都是</strong>：麒麟内核包含这些文件系统驱动。"
+);
+
+// 第78题
+addSingle(1, "统信UOS的网络配置方式包括哪些？", 
+    ["A. 图形界面", "B. nmcli", "C. 手动修改配置文件", "D. 以上都是"], 
+    "D", 
+    "UOS支持图形界面、nmcli命令行、/etc/network/interfaces等多种方式。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 图形界面</strong>：控制面板网络设置。<br><br><strong>B ✅ nmcli</strong>：NetworkManager命令行工具。<br><br><strong>C ✅ 手动修改配置文件</strong>：编辑/etc/network/interfaces。<br><br><strong>D ✅ 以上都是</strong>：UOS支持多种网络配置方式。"
+);
+
+// 第79题
+addSingle(1, "在麒麟系统中，用户和组管理命令有？", 
+    ["A. useradd", "B. groupadd", "C. usermod", "D. 以上都是"], 
+    "D", 
+    "useradd/groupadd添加，usermod修改，passwd设置密码。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ useradd</strong>：添加用户。<br><br><strong>B ✅ groupadd</strong>：添加用户组。<br><br><strong>C ✅ usermod</strong>：修改用户属性。<br><br><strong>D ✅ 以上都是</strong>：用户和组管理命令集。"
+);
+
+// 第80题
+addSingle(1, "统信UOS的图形界面故障排查方法有？", 
+    ["A. 重启桌面环境", "B. 查看Xorg日志", "C. 检查显卡驱动", "D. 以上都是"], 
+    "D", 
+    "方法：重启DDE、Xorg日志分析、驱动检查、Ctrl+Alt+F2切tty。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 重启桌面环境</strong>：重启DDE（Deepin Desktop Environment）。<br><br><strong>B ✅ 查看Xorg日志</strong>：/var/log/Xorg.0.log包含显示服务器错误。<br><br><strong>C ✅ 检查显卡驱动</strong>：确保显卡驱动正确加载。<br><br><strong>D ✅ 以上都是</strong>：多种排查方法可组合使用。"
+);
+
+// 第81题
+addSingle(1, "麒麟操作系统的备份与恢复工具有？", 
+    ["A. tar", "B. rsync", "C. dd", "D. 以上都是"], 
+    "D", 
+    "tar打包，rsync同步，dd镜像，麒麟自带图形备份工具。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ tar</strong>：打包压缩备份。<br><br><strong>B ✅ rsync</strong>：增量同步备份。<br><br><strong>C ✅ dd</strong>：磁盘镜像级备份。<br><br><strong>D ✅ 以上都是</strong>：多种备份工具可选。"
+);
+
+// 第82题
+addSingle(1, "统信UOS的远程管理方式支持？", 
+    ["A. SSH", "B. VNC", "C. RDP", "D. 以上都是"], 
+    "D", 
+    "UOS支持SSH命令行、VNC/RDP远程桌面。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ SSH</strong>：命令行远程管理。<br><br><strong>B ✅ VNC</strong>：图形化远程桌面（VNC协议）。<br><br><strong>C ✅ RDP</strong>：图形化远程桌面（RDP协议，使用xrdp）。<br><br><strong>D ✅ 以上都是</strong>：UOS支持多种远程管理协议。"
+);
+
+// 第83题
+addSingle(1, "麒麟系统中，服务管理的常见操作包括？", 
+    ["A. 启动", "B. 停止", "C. 重启", "D. 以上都是"], 
+    "D", 
+    "systemctl start/stop/restart/status 服务名。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 启动</strong>：systemctl start。<br><br><strong>B ✅ 停止</strong>：systemctl stop。<br><br><strong>C ✅ 重启</strong>：systemctl restart。<br><br><strong>D ✅ 以上都是</strong>：服务管理基础操作。"
+);
+
+// 第84题
+addSingle(1, "统信UOS的磁盘分区工具包括哪些？", 
+    ["A. fdisk", "B. parted", "C. gparted", "D. 以上都是"], 
+    "D", 
+    "fdisk/parted命令行，gparted图形化。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ fdisk</strong>：传统命令行分区工具。<br><br><strong>B ✅ parted</strong>：支持GPT和大于2TB磁盘的分区工具。<br><br><strong>C ✅ gparted</strong>：parted的图形化前端。<br><br><strong>D ✅ 以上都是</strong>：UOS提供多种分区工具。"
+);
+
+// 第85题
+addSingle(1, "麒麟操作系统的内核升级步骤包含？", 
+    ["A. 下载新内核", "B. 安装新内核", "C. 更新引导配置", "D. 以上都是"], 
+    "D", 
+    "升级步骤：下载→安装→update-grub→重启验证。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 下载新内核</strong>：通过包管理器下载新内核包。<br><br><strong>B ✅ 安装新内核</strong>：安装内核包和头文件。<br><br><strong>C ✅ 更新引导配置</strong>：执行update-grub更新GRUB配置。<br><br><strong>D ✅ 以上都是</strong>：内核升级需要完整步骤。"
+);
+
+// 第86题
+addSingle(1, "统信UOS的日志管理工具有？", 
+    ["A. journalctl", "B. logrotate", "C. rsyslog", "D. 以上都是"], 
+    "D", 
+    "journalctl查systemd日志，logrotate轮转，rsyslog系统日志服务。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ journalctl</strong>：systemd日志查看工具。<br><br><strong>B ✅ logrotate</strong>：日志轮转和压缩工具。<br><br><strong>C ✅ rsyslog</strong>：系统日志服务。<br><br><strong>D ✅ 以上都是</strong>：UOS使用完整的日志管理工具链。"
+);
+
+// 第87题
+addSingle(1, "麒麟系统的权限管理机制包括？", 
+    ["A. 传统Unix权限", "B. ACL", "C. 能力机制", "D. 以上都是"], 
+    "D", 
+    "权限体系：rwx权限、ACL扩展、capability细粒度授权、SELinux强制访问控制。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 传统Unix权限</strong>：rwx权限（所有者、组、其他）。<br><br><strong>B ✅ ACL</strong>：访问控制列表，为特定用户单独授权。<br><br><strong>C ✅ 能力机制</strong>：Linux Capabilities，细粒度权限分割。<br><br><strong>D ✅ 以上都是</strong>：麒麟支持多层次权限管理。"
+);
+
+// 第88题
+addSingle(1, "统信UOS的默认Shell是？", 
+    ["A. sh", "B. bash", "C. zsh", "D. fish"], 
+    "B", 
+    "UOS默认使用bash（Bourne Again Shell）。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ sh</strong>：Bourne Shell，功能基础，通常是指向bash的符号链接。<br><br><strong>B ✅ bash</strong>：统信UOS默认Shell为bash。<br><br><strong>C ❌ zsh</strong>：功能更强大但非默认。<br><br><strong>D ❌ fish</strong>：友好交互式shell，非默认。"
+);
+
+// 第89题
+addSingle(1, "麒麟操作系统的默认Shell是？", 
+    ["A. sh", "B. bash", "C. zsh", "D. fish"], 
+    "B", 
+    "麒麟默认使用bash（Bourne Again Shell）。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ sh</strong>：Bourne Shell，功能较基础。<br><br><strong>B ✅ bash</strong>：麒麟操作系统默认Shell为bash。<br><br><strong>C ❌ zsh</strong>：需手动安装和配置。<br><br><strong>D ❌ fish</strong>：非默认Shell。"
+);
+// 第90题（全局第617题）- 麒麟操作系统的版本类型（多选题）
+addMulti(1, "以下属于麒麟操作系统的版本类型的是？", 
+    ["A. 桌面版", "B. 服务器版", "C. 嵌入式版", "D. 手机版"], 
+    ["A", "B", "C"], 
+    "麒麟操作系统有桌面版、服务器版、嵌入式版三大产品线，覆盖不同应用场景。",
+    "🔍 【选项逐项精析】<br><br>" +
+    "<strong>A ✅ 桌面版</strong>：银河麒麟桌面版操作系统是面向台式机、笔记本等桌面终端的产品，提供图形化用户界面，预装办公软件、浏览器、影音播放等常用应用，满足日常办公和家庭使用需求。桌面版基于Debian生态，使用apt包管理器，默认采用UKUI或麒麟自研桌面环境。典型版本包括麒麟桌面版V10 SP1，广泛部署于党政机关和企事业单位的办公电脑。<br><br>" +
+    "<strong>B ✅ 服务器版</strong>：银河麒麟高级服务器版操作系统是面向数据中心、云服务器、企业级应用的产品，提供高稳定性、高性能和高安全性。服务器版基于CentOS生态，使用dnf/yum包管理器，默认不安装图形界面（最小化安装），支持主流国产数据库（达梦、金仓）、中间件（东方通、中创）的运行。典型版本包括麒麟服务器版V10，广泛应用于政务云、金融云等信创基础设施。<br><br>" +
+    "<strong>C ✅ 嵌入式版</strong>：银河麒麟嵌入式版操作系统是面向工控设备、物联网网关、智能终端等嵌入式场景的产品，具备轻量化、实时性强、可裁剪等特点。嵌入式版基于Linux内核裁剪，支持龙芯、飞腾、ARM等嵌入式CPU架构，最小镜像可控制在几十MB以内。典型应用场景包括轨道交通AFC系统、电力监控终端、金融POS机、航空航天设备等。<br><br>" +
+    "<strong>D ❌ 手机版</strong>：麒麟操作系统目前没有推出面向智能手机的版本。虽然麒麟基于Linux内核，理论上可移植到手机平台，但手机操作系统需要完整的应用生态支撑（如Android应用兼容层）。目前国产手机操作系统领域主要由华为鸿蒙OS（HarmonyOS）和开源鸿蒙（OpenHarmony）主导，麒麟操作系统未涉足手机端。因此该选项不属于麒麟的版本类型。"
+);
+
+// 第91题（全局第618题）- 统信UOS操作系统的特点（多选题）
+addMulti(1, "统信UOS操作系统的特点包括？", 
+    ["A. 基于Debian开发", "B. 支持图形界面与命令行操作", "C. 适配龙芯、飞腾等国产CPU", "D. 仅支持办公场景"], 
+    ["A", "B", "C"], 
+    "统信UOS基于Debian开发，提供图形和命令行双模式操作，适配多种国产CPU架构，应用场景覆盖办公、服务器、专业领域。",
+    "🔍 【选项逐项精析】<br><br>" +
+    "<strong>A ✅ 基于Debian开发</strong>：统信UOS全系列（桌面版、服务器版、专业版）均基于Debian unstable分支开发。Debian是全球最大的Linux发行版之一，拥有成熟的包管理系统（apt/dpkg）和丰富的软件仓库。基于Debian意味着UOS继承了其稳定性和生态兼容性，同时统信团队对内核和关键组件进行了深度优化和国产化适配，增加了对国产CPU（龙芯、飞腾、鲲鹏、兆芯等）的支持，并集成了国密算法等安全特性。<br><br>" +
+    "<strong>B ✅ 支持图形界面与命令行操作</strong>：统信UOS提供双模式操作方式。图形界面方面，UOS采用自研的DDE（Deepin Desktop Environment）桌面环境，界面美观易用，操作习惯接近Windows，降低用户迁移门槛，支持深色模式、多桌面、窗口特效等特性。命令行操作方面，UOS提供完整的bash shell环境，支持所有标准Linux命令，用户可通过终端进行高级系统配置、软件安装、服务管理等操作。这种双模式设计既满足普通用户的图形化需求，也满足专业用户的命令行高效操作需求。<br><br>" +
+    "<strong>C ✅ 适配龙芯、飞腾等国产CPU</strong>：统信UOS是信创生态中适配最广泛的操作系统之一，全面支持主流国产CPU架构：龙芯（LoongArch/MIPS架构）、飞腾（ARMv8架构）、鲲鹏（ARMv8架构）、海光（x86架构）、兆芯（x86架构）、申威（SW64架构）等。UOS针对不同CPU架构进行了深度优化，包括编译器优化（-march参数调优）、内核适配（不同架构的设备树/ACPI）、用户态软件包的多架构支持等。这使得UOS可以在各种国产硬件平台上提供一致的用户体验，是实现\"一云多芯\"云平台的关键基础软件。<br><br>" +
+    "<strong>D ❌ 仅支持办公场景</strong>：此表述完全错误。统信UOS的应用场景远不止办公领域。桌面版虽然可用于日常办公（WPS、永中Office、PDF阅读、浏览器等），但UOS服务器版可承载数据库（达梦、金仓、海量）、中间件（东方通、中创）、Web服务（Nginx、Apache）等企业级负载；UOS专业版面向开发人员，支持VS Code、JetBrains系列IDE、Docker、K8s等开发工具；UOS还广泛应用于教育（电子教室）、医疗（HIS系统）、金融（柜台终端）、能源（工业控制）等多个行业领域。因此，\"仅支持办公场景\"是对UOS能力的严重低估和误解。"
+);
+
+// ===================== 第2章结束，共89道单选题 =====================    
     // ===================== 第3章 国产数据库（原题保留）=====================
     addSingle(2, "以下哪个是国产关系型数据库？", ["A. MySQL", "B. Oracle", "C. 达梦DM8", "D. MongoDB"], "C", "达梦DM8是武汉达梦公司研发的国产关系型数据库。", null);
     addSingle(2, "将MySQL迁移到人大金仓KingbaseES时，哪个函数通常需要语法转换？", ["A. SUM()", "B. IFNULL()", "C. COUNT(*)", "D. NOW()"], "B", "IFNULL()在金仓中对应COALESCE或NVL。", null);
