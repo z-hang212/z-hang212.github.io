@@ -1312,649 +1312,746 @@ addMulti(1, "统信UOS操作系统的特点包括？",
    // ===================== 第3章 国产数据库（79道原题完整版 + 每题4选项深度解析）=====================
 // 说明: 本模块共79道单选题，每题均提供“选项逐项精析”，详细解释为何选该项、为何不选其他项。
 
+/// ===================== 第3章 国产数据库（100道迁移适配专题 + 每题4选项深度解析）=====================
+// 说明: 本模块聚焦海量数据库Vastbase G100的迁移适配，含单选40题+多选30题+判断30题。
+
+// ==================== 一、单项选择题（40题）====================
+
 // 第1题
-addSingle(2, "以下哪个是国产关系型数据库？", 
-    ["A. MySQL", "B. Oracle", "C. 达梦DM8", "D. MongoDB"], 
+addSingle(2, "海量数据库Vastbase G100是基于以下哪个开源内核开发的企业级关系型数据库？", 
+    ["A. PostgreSQL", "B. MySQL", "C. openGauss", "D. Oracle"], 
     "C", 
-    "达梦DM8是武汉达梦公司研发的国产关系型数据库。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ MySQL</strong>：MySQL是由瑞典MySQL AB公司开发，后被Sun和Oracle收购的开源关系型数据库，属于国外产品。<br><br><strong>B ❌ Oracle</strong>：Oracle Database是美国甲骨文公司的商业关系型数据库，不属于国产。<br><br><strong>C ✅ 达梦DM8</strong>：达梦DM8是武汉达梦数据库股份有限公司自主研发的关系型数据库管理系统，是信创领域主流的国产数据库之一，支持SQL标准，兼容多种数据库语法。<br><br><strong>D ❌ MongoDB</strong>：MongoDB是美国公司的NoSQL文档型数据库，不是关系型数据库，也不属于国产。"
+    "Vastbase G100基于openGauss内核开发，融合了多年对各行业应用场景的深入理解。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ PostgreSQL</strong>：PostgreSQL是功能强大的开源数据库，但Vastbase G100并非直接基于PostgreSQL，而是基于华为openGauss内核。<br><br><strong>B ❌ MySQL</strong>：MySQL是Oracle公司旗下的开源数据库，Vastbase G100不基于MySQL。<br><br><strong>C ✅ openGauss</strong>：Vastbase G100是海量数据基于华为openGauss内核深度开发的企业级关系型数据库，在openGauss基础上增加了大量企业级特性和兼容性增强。<br><br><strong>D ❌ Oracle</strong>：Oracle是国外商业数据库，Vastbase是国产自研产品。"
 );
 
 // 第2题
-addSingle(2, "将MySQL迁移到人大金仓KingbaseES时，哪个函数通常需要语法转换？", 
-    ["A. SUM()", "B. IFNULL()", "C. COUNT(*)", "D. NOW()"], 
+addSingle(2, "Vastbase数据库默认监听端口是：", 
+    ["A. 3306", "B. 5432", "C. 1521", "D. 6379"], 
     "B", 
-    "IFNULL()在金仓中对应COALESCE或NVL。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ SUM()</strong>：SUM()是SQL标准聚合函数，计算数值列的总和，所有数据库都支持，语法完全兼容，无需转换。<br><br><strong>B ✅ IFNULL()</strong>：IFNULL()是MySQL特有的函数，用于处理NULL值替换。人大金仓KingbaseES基于PostgreSQL内核，使用COALESCE()或NVL()函数替代，需要语法转换。<br><br><strong>C ❌ COUNT(*)</strong>：COUNT(*)是SQL标准聚合函数，统计记录行数，所有数据库语法一致，无需转换。<br><br><strong>D ❌ NOW()</strong>：NOW()在MySQL中返回当前日期时间，KingbaseES中CURRENT_TIMESTAMP功能相同，部分版本也兼容NOW()。"
+    "Vastbase G100默认端口为5432。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 3306</strong>：3306是MySQL数据库的默认端口。<br><br><strong>B ✅ 5432</strong>：Vastbase G100继承openGauss/PostgreSQL生态，默认监听端口为5432。<br><br><strong>C ❌ 1521</strong>：1521是Oracle数据库的默认监听端口。<br><br><strong>D ❌ 6379</strong>：6379是Redis缓存数据库的默认端口。"
 );
 
 // 第3题
-addSingle(2, "达梦DTS迁移工具最常用功能是？", 
-    ["A. 代码格式化", "B. 结构迁移与数据同步", "C. SQL自动调优", "D. 前端生成"], 
+addSingle(2, "登录Vastbase数据库的命令行客户端工具是：", 
+    ["A. psql", "B. vsql", "C. mysql", "D. gsql"], 
     "B", 
-    "DTS核心能力：结构迁移、全量/增量同步及数据校验。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 代码格式化</strong>：代码格式化是IDE或SQL开发工具的功能，达梦DTS（Data Transmission Service）专注于数据迁移，不包含代码格式化功能。<br><br><strong>B ✅ 结构迁移与数据同步</strong>：达梦DTS的核心功能是将源数据库（Oracle、MySQL、SQL Server等）的表结构、索引、约束、数据迁移到达梦数据库，支持全量迁移和增量同步。<br><br><strong>C ❌ SQL自动调优</strong>：SQL自动调优是数据库性能优化工具的功能，达梦有单独的DMAMO（自动工作负载仓库）进行性能分析，DTS不包含此功能。<br><br><strong>D ❌ 前端生成</strong>：前端生成是低代码平台的功能，与数据库迁移工具无关。"
+    "Vastbase提供vsql命令行工具用于登录数据库。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ psql</strong>：psql是PostgreSQL的客户端工具，Vastbase虽然兼容PG生态，但提供了专用客户端vsql。<br><br><strong>B ✅ vsql</strong>：vsql是Vastbase G100专有的命令行客户端工具，用于登录和管理数据库。<br><br><strong>C ❌ mysql</strong>：mysql是MySQL数据库的客户端工具。<br><br><strong>D ❌ gsql</strong>：gsql是openGauss的客户端工具，Vastbase使用vsql。"
 );
 
 // 第4题
-addSingle(2, "达梦中与MySQL LIMIT m,n等效写法？", 
-    ["A. LIMIT n OFFSET m", "B. TOP n", "C. ROWNUM", "D. FETCH FIRST"], 
-    "A", 
-    "达梦支持标准SQL的LIMIT ... OFFSET。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ LIMIT n OFFSET m</strong>：达梦支持标准SQL的LIMIT子句，LIMIT记录数 OFFSET偏移量 等效于MySQL的LIMIT m,n（先偏移m行，再取n行）。<br><br><strong>B ❌ TOP n</strong>：TOP n是SQL Server/Sybase的分页写法，达梦不支持此语法。<br><br><strong>C ❌ ROWNUM</strong>：ROWNUM是Oracle的伪列分页方式，达梦虽兼容部分Oracle语法，但标准写法为LIMIT OFFSET。<br><br><strong>D ❌ FETCH FIRST</strong>：FETCH FIRST n ROWS ONLY是标准SQL的取前n行语法，达梦支持，但与LIMIT m,n的偏移取页功能不等效。"
+addSingle(2, "Vastbase安装前，需要将RemoveIPC参数设置为no，其主要原因是：", 
+    ["A. 提高数据库安装速度", "B. 防止操作系统清理数据库使用的共享内存资源导致宕机", "C. 提升数据库查询性能", "D. 满足安全合规要求"], 
+    "B", 
+    "当RemoveIPC=yes时，操作系统会在用户退出时清理IPC资源，可能导致Vastbase使用的共享内存被回收而引发数据库宕机。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 提高数据库安装速度</strong>：RemoveIPC参数与安装速度无关。<br><br><strong>B ✅ 防止操作系统清理数据库使用的共享内存资源导致宕机</strong>：这是核心原因。Vastbase使用共享内存（Shared Memory）作为进程间通信机制，当RemoveIPC=yes时，系统会在用户退出时清理IPC资源，可能导致数据库使用的共享内存被回收，造成数据库进程崩溃或宕机。<br><br><strong>C ❌ 提升数据库查询性能</strong>：RemoveIPC不影响查询性能。<br><br><strong>D ❌ 满足安全合规要求</strong>：这与安全合规无关。"
 );
 
 // 第5题
-addSingle(2, "MySQL中的AUTO_INCREMENT在达梦对应？", 
-    ["A. IDENTITY", "B. SERIAL", "C. AUTO", "D. SEQUENCE"], 
-    "A", 
-    "达梦使用IDENTITY自增列。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ IDENTITY</strong>：达梦数据库使用IDENTITY关键字创建自增列，如\"列名 INT IDENTITY(1,1)\"，功能等同于MySQL的AUTO_INCREMENT。<br><br><strong>B ❌ SERIAL</strong>：SERIAL是PostgreSQL的自增列类型，达梦不使用此关键字。<br><br><strong>C ❌ AUTO</strong>：AUTO不是达梦的自增关键字，容易与AUTO_INCREMENT混淆。<br><br><strong>D ❌ SEQUENCE</strong>：SEQUENCE是序列对象，需要通过NEXTVAL获取下一个值，不是列属性级别的自增，与AUTO_INCREMENT机制不同。"
+addSingle(2, "Vastbase支持的数据库兼容模式不包括：", 
+    ["A. Oracle（A）", "B. MySQL（B）", "C. PostgreSQL（PG）", "D. DB2"], 
+    "D", 
+    "Vastbase支持Oracle、MySQL、PostgreSQL、SQL Server四种兼容模式。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ Oracle（A）</strong>：Vastbase支持Oracle兼容模式（A模式），方便Oracle应用迁移。<br><br><strong>B ❌ MySQL（B）</strong>：Vastbase支持MySQL兼容模式（B模式），方便MySQL应用迁移。<br><br><strong>C ❌ PostgreSQL（PG）</strong>：Vastbase原生支持PostgreSQL兼容模式（PG模式）。<br><br><strong>D ✅ DB2</strong>：Vastbase目前不支持DB2兼容模式。"
 );
 
 // 第6题
-addSingle(2, "达梦数据库默认端口？", 
-    ["A. 3306", "B. 5432", "C. 5236", "D. 1521"], 
-    "C", 
-    "达梦DM8默认端口5236。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 3306</strong>：3306是MySQL数据库的默认端口。<br><br><strong>B ❌ 5432</strong>：5432是PostgreSQL数据库的默认端口，海量数据库（基于PG）也使用此端口。<br><br><strong>C ✅ 5236</strong>：达梦DM8数据库默认服务端口为5236，这是达梦官方指定的默认端口号。<br><br><strong>D ❌ 1521</strong>：1521是Oracle数据库的默认监听端口。"
+addSingle(2, "在Vastbase中修改管理员密码的SQL命令是：", 
+    ["A. ALTER USER vbadmin PASSWORD 'newpass'", "B. ALTER USER vbadmin IDENTIFIED BY 'newpass'", "C. UPDATE pg_authid SET rolpassword='newpass' WHERE rolname='vbadmin'", "D. SET PASSWORD FOR vbadmin = 'newpass'"], 
+    "B", 
+    "Vastbase使用ALTER USER ... IDENTIFIED BY语法修改密码。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ ALTER USER ... PASSWORD</strong>：这是MySQL风格的语法，Vastbase不支持。<br><br><strong>B ✅ ALTER USER ... IDENTIFIED BY</strong>：这是Vastbase/PostgreSQL修改密码的标准语法。<br><br><strong>C ❌ UPDATE pg_authid</strong>：直接修改系统表是不安全的操作，不推荐且需要极高权限。<br><br><strong>D ❌ SET PASSWORD FOR</strong>：这是MySQL的修改密码语法。"
 );
 
 // 第7题
-addSingle(2, "人大金仓数据库默认端口？", 
-    ["A. 54321", "B. 5432", "C. 1521", "D. 3306"], 
-    "A", 
-    "KingbaseES默认端口54321。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ 54321</strong>：人大金仓KingbaseES数据库默认服务端口为54321，这是金仓官方指定的默认端口号。<br><br><strong>B ❌ 5432</strong>：5432是PostgreSQL的默认端口，金仓基于PG但改用54321避免冲突。<br><br><strong>C ❌ 1521</strong>：1521是Oracle数据库的默认端口。<br><br><strong>D ❌ 3306</strong>：3306是MySQL数据库的默认端口。"
+addSingle(2, "Vastbase G100遵循的国际安全标准级别是：", 
+    ["A. EAL3+", "B. EAL4+", "C. EAL5+", "D. EAL6+"], 
+    "B", 
+    "Vastbase G100遵循EAL4+国际安全标准。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ EAL3+</strong>：EAL3+级别较低，Vastbase达到更高安全等级。<br><br><strong>B ✅ EAL4+</strong>：Vastbase G100遵循EAL4+（评估保证级别4增强）国际安全标准，这是企业级数据库的安全认证级别。<br><br><strong>C ❌ EAL5+</strong>：EAL5+是更高级别，主要用于军事等极高安全场景，Vastbase暂未达到此级别。<br><br><strong>D ❌ EAL6+</strong>：EAL6+是最高安全级别，仅用于极特殊场景。"
 );
 
 // 第8题
-addSingle(2, "达梦数据库大小写敏感参数？", 
-    ["A. CASE_SENSITIVE", "B. IGNORECASE", "C. LOWER_CASE", "D. SENSITIVE"], 
+addSingle(2, "在Vastbase中创建数据库的基本SQL语句是：", 
+    ["A. CREATE DATABASE database_name", "B. CREATE DB database_name", "C. NEW DATABASE database_name", "D. INIT DATABASE database_name"], 
     "A", 
-    "达梦初始化参数CASE_SENSITIVE控制大小写。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ CASE_SENSITIVE</strong>：达梦数据库在初始化实例时通过CASE_SENSITIVE参数控制标识符（表名、列名）的大小写敏感性，默认值为Y（大小写敏感）。<br><br><strong>B ❌ IGNORECASE</strong>：IGNORECASE不是达梦的参数，是某些编程语言中忽略大小写的配置。<br><br><strong>C ❌ LOWER_CASE</strong>：LOWER_CASE不是达梦的参数，lower()是转换小写的函数。<br><br><strong>D ❌ SENSITIVE</strong>：SENSITIVE过于简略，达梦的正确参数名是CASE_SENSITIVE。"
+    "CREATE DATABASE是SQL标准建库命令。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ CREATE DATABASE database_name</strong>：这是SQL标准的创建数据库命令，所有主流数据库都支持。<br><br><strong>B ❌ CREATE DB</strong>：DB是DATABASE的缩写，不是标准SQL语法。<br><br><strong>C ❌ NEW DATABASE</strong>：这不是SQL标准命令。<br><br><strong>D ❌ INIT DATABASE</strong>：INIT DATABASE不是有效的SQL命令。"
 );
 
 // 第9题
-addSingle(2, "openGauss数据库基于哪个开源项目？", 
-    ["A. MySQL", "B. PostgreSQL", "C. SQLite", "D. Oracle"], 
-    "B", 
-    "openGauss基于PostgreSQL 9.2内核。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ MySQL</strong>：MySQL是Oracle公司的开源数据库，openGauss不基于MySQL。<br><br><strong>B ✅ PostgreSQL</strong>：华为openGauss数据库基于PostgreSQL 9.2.4内核开发，在PG基础上增加了企业级特性（高可用、性能优化、安全增强等）。<br><br><strong>C ❌ SQLite</strong>：SQLite是轻量级嵌入式数据库，openGauss是企业级数据库，不基于SQLite。<br><br><strong>D ❌ Oracle</strong>：Oracle是商业数据库，openGauss是开源项目，不基于Oracle。"
+addSingle(2, "在Vastbase中创建表的SQL语句，以下写法正确的是：", 
+    ["A. CREATE TABLE students (id INT, name VARCHAR(50));", "B. CREATE TABLE students (id INT, name VARCHAR(50)) ENGINE=InnoDB;", "C. CREATE TABLE students (id INT, name VARCHAR(50)) STORAGE=HEAP;", "D. CREATE TABLE students (id INT, name VARCHAR(50)) TABLESPACE=users;"], 
+    "A", 
+    "Vastbase基于openGauss内核，创建表语法为标准SQL，不需要指定存储引擎。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ CREATE TABLE ...</strong>：这是标准SQL建表语法，Vastbase完全支持。<br><br><strong>B ❌ ENGINE=InnoDB</strong>：ENGINE是MySQL特有的存储引擎指定语法，Vastbase不支持。<br><br><strong>C ❌ STORAGE=HEAP</strong>：这是某些数据库指定内存存储的语法，Vastbase不支持。<br><br><strong>D ❌ TABLESPACE=users</strong>：Vastbase创建表时指定表空间的语法是TABLESPACE users（不加等号）。"
 );
 
 // 第10题
-addSingle(2, "达梦数据库逻辑备份工具？", 
-    ["A. dexp", "B. mysqldump", "C. expdp", "D. pg_dump"], 
-    "A", 
-    "达梦逻辑导出工具为dexp。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ dexp</strong>：dexp是达梦数据库的逻辑导出工具，用于将数据库对象和数据导出为DMP文件，支持全库导出、用户级导出、表级导出。<br><br><strong>B ❌ mysqldump</strong>：mysqldump是MySQL的逻辑备份工具，不适用于达梦。<br><br><strong>C ❌ expdp</strong>：expdp是Oracle的数据泵导出工具，达梦不使用。<br><br><strong>D ❌ pg_dump</strong>：pg_dump是PostgreSQL的逻辑备份工具，达梦有自己的工具集。"
+addSingle(2, "Vastbase中查看所有数据库列表的SQL命令是：", 
+    ["A. SHOW DATABASES", "B. SELECT datname FROM pg_database", "C. LIST DATABASES", "D. \\l"], 
+    "B", 
+    "Vastbase基于openGauss内核，使用SELECT datname FROM pg_database查看所有数据库。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ SHOW DATABASES</strong>：这是MySQL的语法，Vastbase不支持。<br><br><strong>B ✅ SELECT datname FROM pg_database</strong>：pg_database是系统表，存储所有数据库信息，这是标准的查询方式。<br><br><strong>C ❌ LIST DATABASES</strong>：这不是SQL标准命令。<br><br><strong>D ❌ \\l</strong>：\\l是psql/vsql客户端的元命令，用于在客户端中查看数据库列表，但不是SQL命令。"
 );
 
 // 第11题
-addSingle(2, "人大金仓默认管理工具？", 
-    ["A. KDTS", "B. KStudio", "C. DBeaver", "D. Navicat"], 
-    "B", 
-    "KStudio是官方图形化管理工具。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ KDTS</strong>：KDTS（Kingbase Data Transmission Service）是金仓的数据迁移工具，不是日常管理工具。<br><br><strong>B ✅ KStudio</strong>：KStudio是人大金仓官方提供的图形化集成管理工具，支持SQL编辑、对象管理、数据浏览、性能监控等功能。<br><br><strong>C ❌ DBeaver</strong>：DBeaver是第三方通用数据库客户端，支持金仓但不是官方默认管理工具。<br><br><strong>D ❌ Navicat</strong>：Navicat是第三方商业数据库客户端，支持多种数据库但不是金仓官方工具。"
+addSingle(2, "启动Vastbase数据库服务使用的命令是：", 
+    ["A. vb_ctl start", "B. pg_ctl start", "C. systemctl start vastbase", "D. start_vastbase.sh"], 
+    "A", 
+    "启动Vastbase使用vb_ctl start命令。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ vb_ctl start</strong>：Vastbase提供vb_ctl工具来管理数据库服务，vb_ctl start用于启动服务。<br><br><strong>B ❌ pg_ctl start</strong>：pg_ctl是PostgreSQL的控制工具，虽然Vastbase兼容PG生态，但使用专用vb_ctl。<br><br><strong>C ❌ systemctl start vastbase</strong>：如果Vastbase配置为系统服务，可以使用systemctl，但这不是默认的管理方式。<br><br><strong>D ❌ start_vastbase.sh</strong>：这不是标准的管理命令。"
 );
 
 // 第12题
-addSingle(2, "达梦数据库表空间扩展方式？", 
-    ["A. 自动扩展", "B. 手动添加文件", "C. 重新初始化", "D. 删除重建"], 
-    "A", 
-    "达梦支持表空间自动扩展。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ 自动扩展</strong>：达梦数据库表空间支持自动扩展功能，当数据文件空间不足时自动增加大小，减少DBA手工干预。<br><br><strong>B ❌ 手动添加文件</strong>：手动添加数据文件也是一种扩展方式，但题目问的是达梦支持的扩展方式，自动扩展是更便捷的特性。<br><br><strong>C ❌ 重新初始化</strong>：重新初始化会丢失所有数据，不是表空间扩展的正确方式。<br><br><strong>D ❌ 删除重建</strong>：删除重建会造成数据丢失，不可取。"
+addSingle(2, "Vastbase实例化安装时，共享内存（shared_buffers）的默认值为：", 
+    ["A. 系统内存的1/2", "B. 系统内存的1/4", "C. 固定值512MB", "D. 系统内存的1/8"], 
+    "B", 
+    "Vastbase实例化安装时，shared_buffers默认值为系统内存的1/4。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 系统内存的1/2</strong>：1/2过大，会导致内存浪费和操作系统资源不足。<br><br><strong>B ✅ 系统内存的1/4</strong>：这是Vastbase实例化安装时shared_buffers的默认配置值，是平衡性能与资源的最佳实践。<br><br><strong>C ❌ 固定值512MB</strong>：Vastbase不是固定值，而是根据系统内存动态计算。<br><br><strong>D ❌ 系统内存的1/8</strong>：1/8偏小，是某些其他数据库的默认值。"
 );
 
 // 第13题
-addSingle(2, "达梦数据库JDBC驱动类名？", 
-    ["A. dm.jdbc.driver.DmDriver", "B. com.dameng.jdbc.Driver", "C. com.dm.Driver", "D. dm8.jdbc.Driver"], 
-    "A", 
-    "标准驱动为dm.jdbc.driver.DmDriver。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ dm.jdbc.driver.DmDriver</strong>：这是达梦数据库官方JDBC驱动类的完整类名，用于注册驱动和建立数据库连接。<br><br><strong>B ❌ com.dameng.jdbc.Driver</strong>：这是人大金仓KingbaseES的JDBC驱动类名，不是达梦的。<br><br><strong>C ❌ com.dm.Driver</strong>：这是达梦旧版本可能使用的类名，新版已更新为dm.jdbc.driver.DmDriver。<br><br><strong>D ❌ dm8.jdbc.Driver</strong>：这不是达梦官方使用的JDBC驱动类名格式。"
+addSingle(2, "Vastbase安装过程中设置的超级管理员密码长度要求是：", 
+    ["A. 4-8个字符", "B. 6-12个字符", "C. 8-16个字符", "D. 至少16个字符"], 
+    "C", 
+    "Vastbase安装时超级管理员密码要求8-16个字符。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 4-8个字符</strong>：密码过短不符合安全要求。<br><br><strong>B ❌ 6-12个字符</strong>：长度下限不足。<br><br><strong>C ✅ 8-16个字符</strong>：Vastbase安装时密码长度要求为8-16个字符，确保基本安全性。<br><br><strong>D ❌ 至少16个字符</strong>：16字符是更高安全级别的要求，Vastbase默认要求8-16。"
 );
 
 // 第14题
-addSingle(2, "达梦数据库导入dmp文件工具？", 
-    ["A. dimp", "B. imp", "C. restore", "D. dload"], 
-    "A", 
-    "dimp是达梦逻辑导入工具。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ dimp</strong>：dimp是达梦数据库的逻辑导入工具，与dexp配合使用，用于将dexp导出的DMP文件导入到达梦数据库中。<br><br><strong>B ❌ imp</strong>：imp是Oracle的逻辑导入工具，不适用于达梦。<br><br><strong>C ❌ restore</strong>：restore是达梦的物理恢复命令，用于还原备份集，不是逻辑导入工具。<br><br><strong>D ❌ dload</strong>：这不是达梦的标准工具名称。"
+addSingle(2, "在Vastbase中创建用户的SQL语句是：", 
+    ["A. CREATE USER username WITH PASSWORD 'password'", "B. CREATE USER username IDENTIFIED BY 'password'", "C. ADD USER username PASSWORD 'password'", "D. NEW USER username"], 
+    "B", 
+    "Vastbase使用CREATE USER ... IDENTIFIED BY语法创建用户。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ WITH PASSWORD</strong>：这不是Vastbase/PostgreSQL的语法。<br><br><strong>B ✅ CREATE USER ... IDENTIFIED BY</strong>：这是Vastbase创建用户的标准语法。<br><br><strong>C ❌ ADD USER</strong>：这不是SQL标准命令。<br><br><strong>D ❌ NEW USER</strong>：这不是SQL标准命令。"
 );
 
 // 第15题
-addSingle(2, "人大金仓数据库备份命令？", 
-    ["A. sys_dump", "B. kdb_dump", "C. kingbase_dump", "D. dumpdb"], 
+addSingle(2, "在Vastbase中授予用户对某张表的查询权限，正确的SQL语句是：", 
+    ["A. GRANT SELECT ON table_name TO username", "B. GRANT QUERY ON table_name TO username", "C. GRANT SELECT TABLE table_name TO username", "D. GRANT READ ON table_name TO username"], 
     "A", 
-    "sys_dump是KingbaseES逻辑备份工具。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ sys_dump</strong>：人大金仓KingbaseES基于PostgreSQL内核，继承并保留了pg_dump工具，改名为sys_dump，用于逻辑备份数据库。<br><br><strong>B ❌ kdb_dump</strong>：这不是金仓的标准备份命令。<br><br><strong>C ❌ kingbase_dump</strong>：虽然不是官方标准命令，但部分文档可能有此别名，官方标准为sys_dump。<br><br><strong>D ❌ dumpdb</strong>：这不是金仓的备份命令。"
+    "GRANT SELECT ON table_name TO username是授予表查询权限的标准语法。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ GRANT SELECT ON table_name TO username</strong>：这是标准SQL授权语法。<br><br><strong>B ❌ GRANT QUERY</strong>：QUERY不是有效的权限关键字。<br><br><strong>C ❌ GRANT SELECT TABLE</strong>：语法错误，多余TABLE关键字。<br><br><strong>D ❌ GRANT READ</strong>：READ不是Vastbase的权限关键字。"
 );
 
 // 第16题
-addSingle(2, "国产数据库'海量数据库（HighGo DB）'在架构上兼容哪种主流开源数据库？", 
-    ["A. MySQL", "B. Oracle", "C. PostgreSQL", "D. SQLite"], 
-    "C", 
-    "海量数据库基于PostgreSQL内核开发。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ MySQL</strong>：海量数据库不使用MySQL内核，MySQL是Oracle公司的开源数据库。<br><br><strong>B ❌ Oracle</strong>：Oracle是商业数据库，海量数据库不基于Oracle。<br><br><strong>C ✅ PostgreSQL</strong>：海量数据库（HighGo DB）基于PostgreSQL内核开发，在PG基础上增加了企业级特性、国密算法支持、Oracle兼容性等。<br><br><strong>D ❌ SQLite</strong>：SQLite是轻量级嵌入式数据库，海量数据库是企业级数据库，不基于SQLite。"
+addSingle(2, "Vastbase中回收用户权限的SQL语句是：", 
+    ["A. REMOVE privilege ON object FROM user", "B. REVOKE privilege ON object FROM user", "C. DELETE privilege ON object FROM user", "D. UNGRANT privilege ON object FROM user"], 
+    "B", 
+    "REVOKE是回收权限的标准SQL命令。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ REMOVE</strong>：REMOVE不是权限管理关键字。<br><br><strong>B ✅ REVOKE ... FROM</strong>：REVOKE是回收权限的标准SQL命令。<br><br><strong>C ❌ DELETE</strong>：DELETE用于删除数据，不是权限管理。<br><br><strong>D ❌ UNGRANT</strong>：这不是SQL标准命令。"
 );
 
 // 第17题
-addSingle(2, "海量数据库的默认端口是？", 
-    ["A. 3306", "B. 1433", "C. 5432", "D. 1521"], 
+addSingle(2, "数据库迁移过程中，数据一致性校验的核心手段不包括：", 
+    ["A. 迁移前后记录数比对", "B. 关键字段值校验", "C. 仅依赖迁移工具日志", "D. 使用CRC64等校验工具"], 
     "C", 
-    "PostgreSQL默认端口5432，海量数据库继承此设置。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 3306</strong>：3306是MySQL数据库的默认端口。<br><br><strong>B ❌ 1433</strong>：1433是SQL Server数据库的默认端口。<br><br><strong>C ✅ 5432</strong>：海量数据库基于PostgreSQL内核，继承PostgreSQL的默认端口5432。<br><br><strong>D ❌ 1521</strong>：1521是Oracle数据库的默认端口。"
+    "仅依赖迁移工具日志不能有效验证数据一致性，需要通过多维度的数据比对来确认。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 迁移前后记录数比对</strong>：记录数比对是数据一致性校验的基本手段。<br><br><strong>B ❌ 关键字段值校验</strong>：对关键业务字段进行值比对，确保数据内容一致。<br><br><strong>C ✅ 仅依赖迁移工具日志</strong>：迁移工具日志只能记录操作过程，不能验证数据本身的一致性，这是不可靠的做法。<br><br><strong>D ❌ 使用CRC64等校验工具</strong>：CRC64校验可以有效验证数据的完整性。"
 );
 
 // 第18题
-addSingle(2, "以下哪项不是海量数据库的典型特性？", 
-    ["A. 支持SQL标准", "B. 兼容PostgreSQL协议", "C. 支持存储过程与触发器", "D. 仅支持Windows平台"], 
-    "D", 
-    "海量数据库支持主流Linux发行版和Windows Server。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 支持SQL标准</strong>：海量数据库支持SQL-92、SQL:1999、SQL:2003等标准，这是数据库的基本特性。<br><br><strong>B ❌ 兼容PostgreSQL协议</strong>：海量数据库基于PostgreSQL内核，完全兼容PostgreSQL通信协议和语法。<br><br><strong>C ❌ 支持存储过程与触发器</strong>：海量数据库支持PL/pgSQL存储过程和触发器，是企业级数据库的标准功能。<br><br><strong>D ✅ 仅支持Windows平台</strong>：海量数据库支持主流Linux发行版（麒麟、统信、CentOS、Ubuntu）和Windows Server，并非仅支持Windows。"
+addSingle(2, "在Vastbase中创建索引的SQL语句是：", 
+    ["A. CREATE INDEX idx_name ON table_name (column_name)", "B. ADD INDEX idx_name ON table_name (column_name)", "C. CREATE INDEX idx_name FOR table_name (column_name)", "D. ALTER TABLE table_name ADD INDEX idx_name (column_name)"], 
+    "A", 
+    "CREATE INDEX是创建索引的标准SQL语法。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ CREATE INDEX ... ON</strong>：这是SQL标准创建索引语法。<br><br><strong>B ❌ ADD INDEX</strong>：这是MySQL的ALTER TABLE语法，Vastbase不支持。<br><br><strong>C ❌ CREATE INDEX ... FOR</strong>：FOR不是正确的关键字，应使用ON。<br><br><strong>D ❌ ALTER TABLE ... ADD INDEX</strong>：这是MySQL的语法。"
 );
 
 // 第19题
-addSingle(2, "在海量数据库中，查看当前所有数据库的命令是？", 
-    ["A. SHOW DATABASES;", "B. \\l", "C. SELECT datname FROM pg_database;", "D. LIST DATABASES;"], 
-    "C", 
-    "psql客户端中\\l是快捷方式，实际SQL查询为pg_database系统表。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ SHOW DATABASES;</strong>：SHOW DATABASES是MySQL的命令，海量数据库（基于PG）不支持此语法。<br><br><strong>B ❌ \\l</strong>：\\l是psql客户端中的元命令，用于列出所有数据库，但不是标准SQL语句。<br><br><strong>C ✅ SELECT datname FROM pg_database;</strong>：这是标准SQL查询语句，从系统表pg_database中查询所有数据库名称，可在任何客户端执行。<br><br><strong>D ❌ LIST DATABASES;</strong>：这不是标准SQL命令，也不是海量数据库支持的命令。"
+addSingle(2, "Vastbase中删除表的SQL语句是：", 
+    ["A. DROP TABLE table_name", "B. DELETE TABLE table_name", "C. REMOVE TABLE table_name", "D. TRUNCATE TABLE table_name"], 
+    "A", 
+    "DROP TABLE删除表及其结构和数据。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ DROP TABLE</strong>：删除整个表（结构和数据）。<br><br><strong>B ❌ DELETE TABLE</strong>：DELETE用于删除数据，不能删除表结构。<br><br><strong>C ❌ REMOVE TABLE</strong>：这不是SQL标准命令。<br><br><strong>D ❌ TRUNCATE TABLE</strong>：TRUNCATE只删除数据，保留表结构。"
 );
 
 // 第20题
-addSingle(2, "创建新数据库时，以下哪个命令是正确的？", 
-    ["A. CREATE DATABASE mydb;", "B. NEW DATABASE mydb;", "C. ADD DATABASE mydb;", "D. INIT DATABASE mydb;"], 
-    "A", 
-    "CREATE DATABASE是SQL标准命令。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ CREATE DATABASE mydb;</strong>：这是SQL标准中创建数据库的命令，所有主流数据库（MySQL、PostgreSQL、达梦、金仓、海量）都支持。<br><br><strong>B ❌ NEW DATABASE mydb;</strong>：这不是SQL标准命令，SQL中没有NEW DATABASE语法。<br><br><strong>C ❌ ADD DATABASE mydb;</strong>：这不是SQL标准命令，ADD通常用于ALTER TABLE添加列。<br><br><strong>D ❌ INIT DATABASE mydb;</strong>：这不是SQL标准命令，initdb是初始化数据库集群的程序名，不是SQL语句。"
+addSingle(2, "Vastbase中导入数据文件的常用工具是：", 
+    ["A. vsql", "B. vb_ctl", "C. COPY命令或vsql -f", "D. pg_dump"], 
+    "C", 
+    "Vastbase支持使用COPY命令导入数据文件，或使用vsql -f执行SQL脚本文件。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ vsql</strong>：vsql是客户端登录工具，本身不直接导入数据，需配合-f参数或COPY命令。<br><br><strong>B ❌ vb_ctl</strong>：vb_ctl是服务管理工具，不用于数据导入。<br><br><strong>C ✅ COPY命令或vsql -f</strong>：COPY命令可从文件导入数据，vsql -f可执行SQL脚本。<br><br><strong>D ❌ pg_dump</strong>：pg_dump是导出工具，不是导入工具。"
 );
 
 // 第21题
-addSingle(2, "在海量数据库中，查看表结构的命令是？", 
-    ["A. DESCRIBE table_name;", "B. \\d table_name", "C. SHOW CREATE TABLE table_name;", "D. SELECT * FROM table_name LIMIT 0;"], 
+addSingle(2, "数据库事务的ACID特性中，'D'代表：", 
+    ["A. Data", "B. Durability（持久性）", "C. Distribution", "D. Dependency"], 
     "B", 
-    "psql中\\d table_name显示列、索引、约束等信息。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ DESCRIBE table_name;</strong>：DESCRIBE（或DESC）是MySQL和Oracle的命令，海量数据库（基于PG）不支持此语法。<br><br><strong>B ✅ \\d table_name</strong>：在psql客户端中使用\\d元命令查看表结构，显示列名、数据类型、约束、索引等信息。<br><br><strong>C ❌ SHOW CREATE TABLE table_name;</strong>：SHOW CREATE TABLE是MySQL的命令，显示建表语句，海量数据库不支持。<br><br><strong>D ❌ SELECT * FROM table_name LIMIT 0;</strong>：此语句只返回空结果集，不显示表结构信息。"
+    "ACID：A原子性、C一致性、I隔离性、D持久性。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ Data</strong>：Data是数据，不是ACID中的D。<br><br><strong>B ✅ Durability（持久性）</strong>：持久性确保事务提交后数据永久保存，即使系统故障也不会丢失。<br><br><strong>C ❌ Distribution</strong>：分布性与ACID无关。<br><br><strong>D ❌ Dependency</strong>：依赖性与ACID无关。"
 );
 
 // 第22题
-addSingle(2, "若想查询某表中所有记录，正确SQL语句是？", 
-    ["A. SELECT ALL FROM table;", "B. SELECT * FROM table;", "C. FETCH ALL FROM table;", "D. GET * FROM table;"], 
-    "B", 
-    "SELECT * FROM table是最基础查询语句。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ SELECT ALL FROM table;</strong>：SELECT ALL用于显示所有行（与SELECT DISTINCT相对），但语法应为SELECT ALL * FROM table，省略*是错误的。<br><br><strong>B ✅ SELECT * FROM table;</strong>：这是SQL标准中最基础的查询语句，星号(*)表示选择所有列，查询表中所有记录。<br><br><strong>C ❌ FETCH ALL FROM table;</strong>：FETCH是游标操作命令，不能直接用于查询表所有记录。<br><br><strong>D ❌ GET * FROM table;</strong>：GET不是SQL标准命令。"
+addSingle(2, "Vastbase中查看当前数据库所有表的命令是：", 
+    ["A. \\dt", "B. SHOW TABLES", "C. SELECT * FROM pg_tables", "D. LIST TABLES"], 
+    "A", 
+    "vsql客户端中使用\\dt查看所有表；也可用SELECT * FROM pg_tables。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ \\dt</strong>：在vsql客户端中，\\dt是查看所有表的最便捷元命令。<br><br><strong>B ❌ SHOW TABLES</strong>：这是MySQL的语法。<br><br><strong>C ❌ SELECT * FROM pg_tables</strong>：这也是正确方法，但题目问的是命令，\\dt更符合客户端工具的操作习惯。<br><br><strong>D ❌ LIST TABLES</strong>：这不是标准命令。"
 );
 
 // 第23题
-addSingle(2, "海量数据库中，用于导入外部SQL脚本文件的客户端命令是？", 
-    ["A. \\import filename.sql", "B. \\i filename.sql", "C. SOURCE filename.sql", "D. RUN filename.sql"], 
-    "B", 
-    "psql中使用\\i filename.sql执行脚本文件。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ \\import filename.sql</strong>：这不是psql客户端的标准元命令。<br><br><strong>B ✅ \\i filename.sql</strong>：在psql客户端中，\\i（或\\include）命令用于执行外部SQL脚本文件，是导入脚本的标准方式。<br><br><strong>C ❌ SOURCE filename.sql</strong>：SOURCE是MySQL客户端的命令，海量数据库的psql客户端不支持。<br><br><strong>D ❌ RUN filename.sql</strong>：这不是psql客户端的标准命令。"
+addSingle(2, "在Vastbase中修改表结构的SQL语句是：", 
+    ["A. ALTER TABLE table_name ADD column_name datatype", "B. MODIFY TABLE table_name ADD column_name datatype", "C. UPDATE TABLE table_name ADD column_name datatype", "D. CHANGE TABLE table_name ADD column_name datatype"], 
+    "A", 
+    "ALTER TABLE是修改表结构的标准SQL命令。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ ALTER TABLE ... ADD</strong>：这是标准SQL修改表结构语法。<br><br><strong>B ❌ MODIFY TABLE</strong>：这不是SQL标准命令。<br><br><strong>C ❌ UPDATE TABLE</strong>：UPDATE用于更新数据，不是修改结构。<br><br><strong>D ❌ CHANGE TABLE</strong>：这是MySQL的语法，Vastbase不支持。"
 );
 
 // 第24题
-addSingle(2, "海量数据库（Vastbase）主要基于哪个开源数据库内核开发？", 
-    ["A. MySQL", "B. PostgreSQL", "C. Oracle", "D. MongoDB"], 
+addSingle(2, "数据迁移中，将数据从MySQL迁移至Vastbase时，以下哪项是最需要关注的兼容性问题？", 
+    ["A. 网络带宽", "B. SQL语法差异（如自增列定义、日期函数等）", "C. 服务器CPU型号", "D. 磁盘I/O性能"], 
     "B", 
-    "海量数据库基于PostgreSQL内核开发。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ MySQL</strong>：MySQL是Oracle公司的开源数据库，Vastbase不基于MySQL。<br><br><strong>B ✅ PostgreSQL</strong>：海量数据公司的Vastbase数据库基于PostgreSQL开源内核开发，在PG基础上增加了企业级特性、国密算法、Oracle兼容性等。<br><br><strong>C ❌ Oracle</strong>：Oracle是商业数据库，Vastbase不基于Oracle。<br><br><strong>D ❌ MongoDB</strong>：MongoDB是NoSQL文档数据库，Vastbase是关系型数据库。"
+    "异构数据库迁移最核心的关注点是SQL语法和数据类型差异。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 网络带宽</strong>：网络带宽影响迁移速度但不是兼容性核心问题。<br><br><strong>B ✅ SQL语法差异</strong>：MySQL和Vastbase在自增列（AUTO_INCREMENT vs SERIAL）、日期函数（NOW() vs CURRENT_TIMESTAMP）、字符串函数等方面存在差异，是迁移适配的核心工作。<br><br><strong>C ❌ 服务器CPU型号</strong>：CPU型号与数据库迁移的兼容性无关。<br><br><strong>D ❌ 磁盘I/O性能</strong>：性能是迁移后的调优问题，不是兼容性核心关注点。"
 );
 
 // 第25题
-addSingle(2, "达梦数据库（DM）使用的默认端口号是？", 
-    ["A. 3306", "B. 5236", "C. 1521", "D. 5432"], 
-    "B", 
-    "达梦DM8默认服务端口5236。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 3306</strong>：3306是MySQL数据库的默认端口。<br><br><strong>B ✅ 5236</strong>：达梦DM8数据库默认服务端口为5236。<br><br><strong>C ❌ 1521</strong>：1521是Oracle数据库的默认端口。<br><br><strong>D ❌ 5432</strong>：5432是PostgreSQL/海量数据库的默认端口。"
+addSingle(2, "Vastbase中导出数据的常用命令是：", 
+    ["A. vsql -c \"COPY table_name TO '/path/file.csv' CSV HEADER\"", "B. vb_ctl export", "C. pg_dump", "D. 以上都可以"], 
+    "D", 
+    "COPY命令可导出CSV，pg_dump可逻辑备份，vsql -c可执行任意SQL。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ COPY ... TO</strong>：将表数据导出为CSV格式。<br><br><strong>B ❌ vb_ctl export</strong>：vb_ctl是服务管理工具，没有export功能。<br><br><strong>C ✅ pg_dump</strong>：pg_dump是逻辑备份工具，可导出数据库对象和数据。<br><br><strong>D ✅ 以上都可以</strong>：A和C都是有效的导出方式。"
 );
 
 // 第26题
-addSingle(2, "在SQL中，用于查询数据的命令是？", 
-    ["A. SELECT", "B. INSERT", "C. UPDATE", "D. DELETE"], 
-    "A", 
-    "SELECT查询数据。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ SELECT</strong>：SELECT是SQL中的数据查询语言（DQL）核心命令，用于从数据库中检索数据。<br><br><strong>B ❌ INSERT</strong>：INSERT是数据操作语言（DML）命令，用于向表中插入新数据。<br><br><strong>C ❌ UPDATE</strong>：UPDATE是DML命令，用于修改表中已有数据。<br><br><strong>D ❌ DELETE</strong>：DELETE是DML命令，用于删除表中数据。"
+addSingle(2, "以下关于Vastbase中表空间（Tablespace）的说法，正确的是：", 
+    ["A. Vastbase不支持表空间", "B. 表空间用于定义数据在物理磁盘上的存储位置", "C. 表空间只能由超级管理员创建", "D. 表空间与数据库无关"], 
+    "B", 
+    "表空间定义数据库对象在物理磁盘上的存储位置。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ Vastbase不支持表空间</strong>：Vastbase完全支持表空间管理。<br><br><strong>B ✅ 表空间用于定义数据在物理磁盘上的存储位置</strong>：这是表空间的核心功能，用于控制数据的物理存储位置。<br><br><strong>C ❌ 表空间只能由超级管理员创建</strong>：普通用户如果被授予CREATE TABLESPACE权限也可以创建。<br><br><strong>D ❌ 表空间与数据库无关</strong>：表空间与数据库密切相关，可在创建数据库或表时指定。"
 );
 
 // 第27题
-addSingle(2, "海量数据库G100支持的事务隔离级别默认是？", 
-    ["A. 读未提交", "B. 读已提交", "C. 可重复读", "D. 串行化"], 
+addSingle(2, "数据库迁移完成后，性能测试的主要目的是：", 
+    ["A. 验证数据是否完整", "B. 确保迁移后系统运行指标达标", "C. 检查应用功能是否正常", "D. 验证网络安全策略"], 
     "B", 
-    "PostgreSQL/海量数据库默认读已提交（Read Committed）。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 读未提交</strong>：Read Uncommitted允许脏读，大多数数据库（包括PostgreSQL）不支持此级别或将其映射为Read Committed。<br><br><strong>B ✅ 读已提交</strong>：海量数据库基于PostgreSQL，默认事务隔离级别为Read Committed（读已提交），避免脏读。<br><br><strong>C ❌ 可重复读</strong>：Repeatable Read在PG中通过快照实现，但不是默认级别。<br><br><strong>D ❌ 串行化</strong>：Serializable是最严格级别，但不是默认级别。"
+    "大赛明确要求完成迁移后系统的功能性能验证，确保各项运行指标达标。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 验证数据是否完整</strong>：数据完整性校验属于数据一致性验证环节。<br><br><strong>B ✅ 确保迁移后系统运行指标达标</strong>：性能测试的核心目标是验证迁移后系统的响应时间、吞吐量等运行指标是否满足要求。<br><br><strong>C ❌ 检查应用功能是否正常</strong>：功能验证属于功能测试范畴。<br><br><strong>D ❌ 验证网络安全策略</strong>：安全策略属于安全测试范畴。"
 );
 
 // 第28题
-addSingle(2, "人大金仓数据库（Kingbase）主要兼容哪种数据库的语法？", 
-    ["A. SQL Server", "B. Oracle", "C. DB2", "D. Sybase"], 
+addSingle(2, "信创数据库迁移适配中，应用代码迁移通常涉及：", 
+    ["A. 重写所有业务逻辑", "B. 调整应用程序中的SQL语句以适配目标数据库语法", "C. 更换编程语言", "D. 重新设计用户界面"], 
     "B", 
-    "金仓KingbaseES提供Oracle兼容模式。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ SQL Server</strong>：金仓主要兼容Oracle语法，对SQL Server兼容性有限。<br><br><strong>B ✅ Oracle</strong>：人大金仓KingbaseES提供Oracle兼容模式，支持PL/SQL存储过程、Oracle函数、数据类型等，便于Oracle应用迁移到金仓。<br><br><strong>C ❌ DB2</strong>：DB2是IBM数据库，金仓不主要兼容DB2。<br><br><strong>D ❌ Sybase</strong>：Sybase是较早的商业数据库，金仓不主要兼容Sybase。"
+    "应用代码迁移的核心是调整SQL语句适配目标数据库语法。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 重写所有业务逻辑</strong>：业务逻辑通常不需要重写，只需适配数据库层。<br><br><strong>B ✅ 调整应用程序中的SQL语句以适配目标数据库语法</strong>：这是代码迁移的核心工作，包括SQL语法、函数、数据类型映射等。<br><br><strong>C ❌ 更换编程语言</strong>：更换语言成本过高，不是迁移适配的常规做法。<br><br><strong>D ❌ 重新设计用户界面</strong>：用户界面与数据库迁移无关。"
 );
 
 // 第29题
-addSingle(2, "GaussDB是哪家公司的数据库产品？", 
-    ["A. 阿里巴巴", "B. 腾讯", "C. 华为", "D. 百度"], 
-    "C", 
-    "华为GaussDB企业级分布式数据库。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 阿里巴巴</strong>：阿里巴巴的数据库产品包括OceanBase（蚂蚁集团）、PolarDB（阿里云）。<br><br><strong>B ❌ 腾讯</strong>：腾讯的数据库产品包括TDSQL、CynosDB。<br><br><strong>C ✅ 华为</strong>：GaussDB是华为公司推出的企业级分布式关系型数据库，支持分布式部署和高性能事务处理。<br><br><strong>D ❌ 百度</strong>：百度的数据库产品包括BaikalDB等。"
+addSingle(2, "Vastbase中查看当前数据库连接用户的命令是：", 
+    ["A. SELECT CURRENT_USER", "B. SELECT USER()", "C. SHOW USER", "D. WHOAMI"], 
+    "A", 
+    "SELECT CURRENT_USER返回当前会话的用户名。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ SELECT CURRENT_USER</strong>：这是Vastbase/PostgreSQL查看当前用户的标准SQL命令。<br><br><strong>B ❌ SELECT USER()</strong>：这是MySQL的函数语法。<br><br><strong>C ❌ SHOW USER</strong>：这不是Vastbase的命令。<br><br><strong>D ❌ WHOAMI</strong>：whoami是操作系统命令，不是SQL命令。"
 );
 
 // 第30题
-addSingle(2, "在PostgreSQL（及海量）中，用于备份数据库的命令行工具是？", 
-    ["A. mysqldump", "B. pg_dump", "C. expdp", "D. bcp"], 
-    "B", 
-    "pg_dump是PostgreSQL逻辑备份工具。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ mysqldump</strong>：mysqldump是MySQL数据库的逻辑备份工具，不适用于PostgreSQL/海量。<br><br><strong>B ✅ pg_dump</strong>：pg_dump是PostgreSQL（及其衍生版如海量、金仓）的逻辑备份工具，可导出数据库为SQL脚本或自定义格式文件。<br><br><strong>C ❌ expdp</strong>：expdp是Oracle的数据泵导出工具。<br><br><strong>D ❌ bcp</strong>：bcp是SQL Server的大容量复制工具。"
+addSingle(2, "数据库迁移中，数据整理的主要工作不包括：", 
+    ["A. 识别并清理脏数据", "B. 处理数据格式不一致", "C. 修改操作系统主题", "D. 解决字段长度超限问题"], 
+    "C", 
+    "操作系统主题与数据整理无关。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 识别并清理脏数据</strong>：数据整理的核心工作之一。<br><br><strong>B ❌ 处理数据格式不一致</strong>：数据整理的核心工作之一。<br><br><strong>C ✅ 修改操作系统主题</strong>：操作系统主题与数据整理无关。<br><br><strong>D ❌ 解决字段长度超限问题</strong>：数据整理的核心工作之一。"
 );
 
 // 第31题
-addSingle(2, "国产数据库迁移中，最困难的部分通常是？", 
-    ["A. 表结构迁移", "B. 存储过程和触发器的迁移", "C. 数据导入", "D. 用户权限迁移"], 
-    "B", 
-    "存储过程涉及PL/SQL方言差异，工作量最大。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 表结构迁移</strong>：表结构（DDL）相对标准化，大多数数据库都有迁移工具自动转换，难度较低。<br><br><strong>B ✅ 存储过程和触发器的迁移</strong>：存储过程、触发器、函数中包含大量的PL/SQL（Oracle）或T-SQL（SQL Server）方言代码，不同数据库的PL语法差异巨大，需要大量手工改写，是迁移中最耗时、最困难的部分。<br><br><strong>C ❌ 数据导入</strong>：数据导入可通过批量工具完成，难度中等。<br><br><strong>D ❌ 用户权限迁移</strong>：用户和权限模型相对简单，迁移难度较低。"
+addSingle(2, "Vastbase中创建模式（Schema）的SQL语句是：", 
+    ["A. CREATE SCHEMA schema_name", "B. CREATE DATABASE schema_name", "C. CREATE USER schema_name", "D. CREATE TABLESPACE schema_name"], 
+    "A", 
+    "CREATE SCHEMA是创建模式的标准SQL命令。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ CREATE SCHEMA</strong>：这是创建模式的标准SQL语法。<br><br><strong>B ❌ CREATE DATABASE</strong>：创建的是数据库而非模式。<br><br><strong>C ❌ CREATE USER</strong>：创建的是用户而非模式。<br><br><strong>D ❌ CREATE TABLESPACE</strong>：创建的是表空间而非模式。"
 );
 
 // 第32题
-addSingle(2, "OceanBase数据库的架构特点是？", 
-    ["A. 共享存储", "B. Shared-Nothing", "C. 单机版", "D. 仅支持行存储"], 
+addSingle(2, "数据迁移过程中，使用CRC64校验和的主要作用是：", 
+    ["A. 加密传输数据", "B. 校验数据一致性", "C. 压缩存储空间", "D. 提升查询速度"], 
     "B", 
-    "OceanBase采用Shared-Nothing无共享架构。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 共享存储</strong>：共享存储架构（如Oracle RAC）多个节点共享同一存储，OceanBase采用Shared-Nothing。<br><br><strong>B ✅ Shared-Nothing</strong>：OceanBase采用Shared-Nothing无共享架构，每个节点独立拥有CPU、内存、磁盘，通过分布式协议协同工作，具有高扩展性和高可用性。<br><br><strong>C ❌ 单机版</strong>：OceanBase是分布式数据库，虽然支持单机部署，但核心优势在于分布式。<br><br><strong>D ❌ 仅支持行存储</strong>：OceanBase同时支持行存储和列存储（行列混存）。"
+    "CRC64校验和用于验证迁移前后数据的一致性。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 加密传输数据</strong>：CRC64不是加密算法，是校验算法。<br><br><strong>B ✅ 校验数据一致性</strong>：CRC64通过计算数据的校验和，对比迁移前后的值来验证数据是否一致。<br><br><strong>C ❌ 压缩存储空间</strong>：校验和与压缩无关。<br><br><strong>D ❌ 提升查询速度</strong>：校验和与查询性能无关。"
 );
 
 // 第33题
-addSingle(2, "在海量数据库中，创建表的SQL语句是？", 
-    ["A. CREATE TABLE", "B. NEW TABLE", "C. ADD TABLE", "D. MAKE TABLE"], 
-    "A", 
-    "CREATE TABLE是SQL标准建表命令。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ CREATE TABLE</strong>：CREATE TABLE是SQL标准的建表命令，所有关系型数据库都支持。<br><br><strong>B ❌ NEW TABLE</strong>：这不是SQL标准命令。<br><br><strong>C ❌ ADD TABLE</strong>：ADD通常用于ALTER TABLE添加列，不是建表命令。<br><br><strong>D ❌ MAKE TABLE</strong>：这不是SQL标准命令。"
+addSingle(2, "Vastbase的vb_ctl restart命令的作用是：", 
+    ["A. 仅重启数据库内核", "B. 重启整个数据库服务", "C. 重启操作系统", "D. 仅刷新配置文件"], 
+    "B", 
+    "vb_ctl restart重启整个数据库服务。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 仅重启数据库内核</strong>：重启的是整个数据库服务而非仅内核。<br><br><strong>B ✅ 重启整个数据库服务</strong>：vb_ctl restart停止并重新启动数据库服务。<br><br><strong>C ❌ 重启操作系统</strong>：这是操作系统级别的重启，与vb_ctl无关。<br><br><strong>D ❌ 仅刷新配置文件</strong>：刷新配置不需要重启，使用vb_ctl reload。"
 );
 
 // 第34题
-addSingle(2, "数据库连接池的作用是？", 
-    ["A. 增加数据库存储", "B. 复用数据库连接，提高性能", "C. 备份数据库", "D. 加密数据库"], 
-    "B", 
-    "连接池复用物理连接，减少握手和认证开销。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 增加数据库存储</strong>：连接池不增加数据库存储容量，存储由数据库本身管理。<br><br><strong>B ✅ 复用数据库连接，提高性能</strong>：连接池预先创建并维护一组数据库连接，应用程序复用这些连接，避免频繁创建和销毁连接的开销（TCP握手、认证等），大幅提升性能。<br><br><strong>C ❌ 备份数据库</strong>：备份是数据库管理任务，与连接池无关。<br><br><strong>D ❌ 加密数据库</strong>：加密是数据库安全特性，与连接池无关。"
+addSingle(2, "数据库迁移方案中，'评估工作量'环节主要评估：", 
+    ["A. 迁移所需的时间和人力成本", "B. 迁移后的硬件采购成本", "C. 办公场地费用", "D. 市场推广费用"], 
+    "A", 
+    "工作量评估主要评估迁移所需的时间和人力成本。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 迁移所需的时间和人力成本</strong>：工作量评估的核心内容。<br><br><strong>B ❌ 迁移后的硬件采购成本</strong>：属于硬件成本评估，不是工作量评估。<br><br><strong>C ❌ 办公场地费用</strong>：与迁移无关。<br><br><strong>D ❌ 市场推广费用</strong>：与迁移无关。"
 );
 
 // 第35题
-addSingle(2, "TiDB数据库兼容哪种协议？", 
-    ["A. MySQL协议", "B. PostgreSQL协议", "C. Oracle协议", "D. SQL Server协议"], 
-    "A", 
-    "TiDB兼容MySQL协议和语法。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ MySQL协议</strong>：TiDB是开源的分布式NewSQL数据库，完全兼容MySQL 5.7协议和MySQL生态工具，MySQL应用可以无缝迁移到TiDB。<br><br><strong>B ❌ PostgreSQL协议</strong>：TiDB不兼容PostgreSQL协议，PG应用需要适配。<br><br><strong>C ❌ Oracle协议</strong>：TiDB不兼容Oracle协议。<br><br><strong>D ❌ SQL Server协议</strong>：TiDB不兼容SQL Server协议。"
+addSingle(2, "Vastbase中授予用户创建数据库权限的SQL语句是：", 
+    ["A. GRANT CREATE DATABASE TO username", "B. GRANT CREATEDB TO username", "C. GRANT CREATE DB TO username", "D. GRANT DB_CREATE TO username"], 
+    "B", 
+    "Vastbase使用CREATEDB权限控制用户创建数据库的能力。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ GRANT CREATE DATABASE</strong>：这不是Vastbase的有效权限名称。<br><br><strong>B ✅ GRANT CREATEDB TO username</strong>：CREATEDB是Vastbase中控制创建数据库权限的正确关键字。<br><br><strong>C ❌ GRANT CREATE DB</strong>：语法错误。<br><br><strong>D ❌ GRANT DB_CREATE</strong>：这不是Vastbase的权限名称。"
 );
 
 // 第36题
-addSingle(2, "在海量数据库中，查看当前连接数的视图是？", 
-    ["A. pg_stat_activity", "B. vsession", "C. sys.sysprocesses", "D. information_schema"], 
-    "A", 
-    "pg_stat_activity系统视图显示当前所有数据库连接及其状态。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ pg_stat_activity</strong>：pg_stat_activity是PostgreSQL/海量数据库中查看当前所有连接和活动会话的系统视图，包含pid、usename、application_name、state等字段。<br><br><strong>B ❌ vsession</strong>：vsession是Oracle的动态性能视图。<br><br><strong>C ❌ sys.sysprocesses</strong>：sys.sysprocesses是SQL Server的系统表。<br><br><strong>D ❌ information_schema</strong>：information_schema是SQL标准元数据视图，包含表、列信息，不包含活动连接信息。"
+addSingle(2, "以下关于数据库迁移后数据校验的说法，正确的是：", 
+    ["A. 只需校验记录总数", "B. 需要多维度校验，包括记录数、字段值、业务逻辑等", "C. 只需校验主键字段", "D. 迁移工具自动完成校验，无需人工干预"], 
+    "B", 
+    "数据校验需要多维度进行，确保数据完整性和正确性。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 只需校验记录总数</strong>：记录数相同但字段值可能不一致。<br><br><strong>B ✅ 需要多维度校验</strong>：包括记录数、字段值、业务逻辑等多个维度的全面校验。<br><br><strong>C ❌ 只需校验主键字段</strong>：仅校验主键不足以验证数据完整性。<br><br><strong>D ❌ 迁移工具自动完成校验</strong>：迁移工具不能完全替代人工校验。"
 );
 
 // 第37题
-addSingle(2, "下列哪个不是关系型数据库？", 
-    ["A. Oracle", "B. MySQL", "C. Redis", "D. PostgreSQL"], 
-    "C", 
-    "Redis是键值型NoSQL数据库，非关系型。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ Oracle</strong>：Oracle是关系型数据库管理系统（RDBMS）。<br><br><strong>B ❌ MySQL</strong>：MySQL是关系型数据库管理系统。<br><br><strong>C ✅ Redis</strong>：Redis是键值存储的NoSQL数据库，不支持SQL查询和表关系，不属于关系型数据库。<br><br><strong>D ❌ PostgreSQL</strong>：PostgreSQL是关系型数据库管理系统。"
+addSingle(2, "Vastbase安装前，关闭透明大页（Transparent Huge Pages）的主要目的是：", 
+    ["A. 节省磁盘空间", "B. 避免对数据库性能产生负面影响", "C. 提高系统安全性", "D. 加快数据库安装速度"], 
+    "B", 
+    "开启透明大页会对数据库性能产生负面影响，安装前需要关闭。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 节省磁盘空间</strong>：透明大页与磁盘空间无关。<br><br><strong>B ✅ 避免对数据库性能产生负面影响</strong>：透明大页会导致数据库内存管理效率降低，引起性能抖动，需要关闭。<br><br><strong>C ❌ 提高系统安全性</strong>：与安全性无关。<br><br><strong>D ❌ 加快数据库安装速度</strong>：与安装速度无关。"
 );
 
 // 第38题
-addSingle(2, "数据库ACID特性中，I代表？", 
-    ["A. 原子性", "B. 一致性", "C. 隔离性", "D. 持久性"], 
-    "C", 
-    "ACID：Atomicity原子性、Consistency一致性、Isolation隔离性、Durability持久性。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 原子性</strong>：原子性对应A（Atomicity）。<br><br><strong>B ❌ 一致性</strong>：一致性对应C（Consistency）。<br><br><strong>C ✅ 隔离性</strong>：隔离性对应I（Isolation），指并发执行的事务相互隔离，互不干扰。<br><br><strong>D ❌ 持久性</strong>：持久性对应D（Durability）。"
+addSingle(2, "Vastbase中查看表结构的命令是：", 
+    ["A. \\d table_name", "B. DESC table_name", "C. SHOW CREATE TABLE table_name", "D. EXPLAIN table_name"], 
+    "A", 
+    "vsql客户端中使用\\d命令查看表结构。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ \\d table_name</strong>：在vsql客户端中，\\d是查看表结构的标准元命令。<br><br><strong>B ❌ DESC table_name</strong>：这是Oracle/MySQL的语法。<br><br><strong>C ❌ SHOW CREATE TABLE</strong>：这是MySQL的语法。<br><br><strong>D ❌ EXPLAIN table_name</strong>：EXPLAIN用于查看执行计划，不是查看表结构。"
 );
 
 // 第39题
-addSingle(2, "海量数据库支持的操作系统不包括？", 
-    ["A. 麒麟", "B. 统信", "C. Windows XP", "D. CentOS"], 
-    "C", 
-    "海量数据库支持主流Linux和Windows Server，XP已停止维护不支持。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 麒麟</strong>：海量数据库支持银河麒麟操作系统。<br><br><strong>B ❌ 统信</strong>：海量数据库支持统信UOS操作系统。<br><br><strong>C ✅ Windows XP</strong>：Windows XP已停止技术支持多年，海量数据库不支持此老旧系统。<br><br><strong>D ❌ CentOS</strong>：海量数据库支持CentOS 7/8等主流Linux发行版。"
+addSingle(2, "数据库迁移后，迁移文档通常不包括：", 
+    ["A. 迁移方案", "B. 部署运维手册", "C. 测试报告", "D. 用户满意度调查"], 
+    "D", 
+    "大赛要求提交迁移方案、部署运维手册及测试报告，用户满意度调查不属于技术迁移文档。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 迁移方案</strong>：迁移文档的核心内容。<br><br><strong>B ❌ 部署运维手册</strong>：迁移文档的核心内容。<br><br><strong>C ❌ 测试报告</strong>：迁移文档的核心内容。<br><br><strong>D ✅ 用户满意度调查</strong>：不属于技术迁移文档范畴。"
 );
 
 // 第40题
-addSingle(2, "用于数据库性能分析的工具AWR通常指？", 
-    ["A. 自动工作负载仓库", "B. 自动写入日志", "C. 高级Web报表", "D. 应用接口"], 
-    "A", 
-    "AWR（Automatic Workload Repository）是Oracle性能分析工具。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ 自动工作负载仓库</strong>：AWR（Automatic Workload Repository）是Oracle数据库自动工作负载仓库，用于收集、统计和分析数据库性能数据。<br><br><strong>B ❌ 自动写入日志</strong>：自动写入日志与AWR无关。<br><br><strong>C ❌ 高级Web报表</strong>：与AWR无关。<br><br><strong>D ❌ 应用接口</strong>：与AWR无关。"
+addSingle(2, "在Vastbase中，以下关于用户权限的说法正确的是：", 
+    ["A. 新创建的用户默认拥有所有权限", "B. 新创建的用户默认没有任何权限，需要授予", "C. 只有超级管理员可以创建用户", "D. 用户权限只能通过ALTER USER修改"], 
+    "B", 
+    "新创建的用户默认没有任何权限，需要由管理员授予。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 新创建的用户默认拥有所有权限</strong>：出于安全考虑，新用户默认无任何权限。<br><br><strong>B ✅ 新创建的用户默认没有任何权限，需要授予</strong>：这是Vastbase的最小权限原则。<br><br><strong>C ❌ 只有超级管理员可以创建用户</strong>：具有CREATEROLE权限的用户也可以创建用户。<br><br><strong>D ❌ 用户权限只能通过ALTER USER修改</strong>：权限通过GRANT/REVOKE管理，ALTER USER用于修改用户属性。"
 );
 
+// ==================== 二、多项选择题（30题）====================
+
 // 第41题
-addSingle(2, "在迁移Oracle到国产库时，VARCHAR2类型通常映射为？", 
-    ["A. VARCHAR", "B. TEXT", "C. CLOB", "D. BLOB"], 
-    "A", 
-    "Oracle VARCHAR2在PostgreSQL/达梦/金仓中映射为VARCHAR。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ VARCHAR</strong>：Oracle的VARCHAR2(长度)与标准SQL的VARCHAR(长度)语义相同，迁移时通常直接映射为VARCHAR。<br><br><strong>B ❌ TEXT</strong>：TEXT是无长度限制的大文本类型，VARCHAR2有长度限制，映射为TEXT会改变语义。<br><br><strong>C ❌ CLOB</strong>：CLOB是大字符对象，用于存储大文本（超过4KB），普通VARCHAR2不应映射为CLOB。<br><br><strong>D ❌ BLOB</strong>：BLOB是二进制大对象，用于存储二进制数据，VARCHAR2是字符数据，不应映射为BLOB。"
+addMulti(2, "Vastbase G100数据库的安装前必选配置项包括：", 
+    ["A. 关闭防火墙或配置白名单", "B. 关闭透明大页", "C. 配置时区为中国时区", "D. 设置RemoveIPC=no", "E. 配置内核参数"], 
+    ["A", "B", "C", "D", "E"], 
+    "Vastbase安装前需要进行多项系统配置，包括防火墙、透明大页、时区、RemoveIPC和内核参数。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 关闭防火墙或配置白名单</strong>：确保数据库端口可访问。<br><br><strong>B ✅ 关闭透明大页</strong>：避免性能负面影响。<br><br><strong>C ✅ 配置时区为中国时区</strong>：确保时间戳正确。<br><br><strong>D ✅ 设置RemoveIPC=no</strong>：防止共享内存被回收。<br><br><strong>E ✅ 配置内核参数</strong>：如sem、shmmax等参数优化。"
 );
 
 // 第42题
-addSingle(2, "海量数据库的日志文件通常存放在？", 
-    ["A. /var/log/vastbase", "B. /data/log", "C. pg_log", "D. /tmp"], 
-    "C", 
-    "PostgreSQL/海量数据库日志默认在pg_log目录。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ /var/log/vastbase</strong>：这不是默认日志路径，但可配置。<br><br><strong>B ❌ /data/log</strong>：这是自定义路径，非默认。<br><br><strong>C ✅ pg_log</strong>：海量数据库（基于PostgreSQL）的日志文件默认存放在数据目录下的pg_log子目录中。<br><br><strong>D ❌ /tmp</strong>：/tmp是临时文件目录，不适合存放数据库日志。"
+addMulti(2, "Vastbase支持的数据库兼容模式包括：", 
+    ["A. Oracle", "B. MySQL", "C. PostgreSQL", "D. SQL Server", "E. MongoDB"], 
+    ["A", "B", "C", "D"], 
+    "Vastbase支持Oracle、MySQL、PostgreSQL、SQL Server四种兼容模式。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ Oracle（A模式）</strong>：支持Oracle语法兼容。<br><br><strong>B ✅ MySQL（B模式）</strong>：支持MySQL语法兼容。<br><br><strong>C ✅ PostgreSQL（PG模式）</strong>：原生PostgreSQL兼容。<br><br><strong>D ✅ SQL Server</strong>：支持SQL Server语法兼容。<br><br><strong>E ❌ MongoDB</strong>：MongoDB是NoSQL文档数据库，Vastbase是关系型数据库，不支持MongoDB兼容。"
 );
 
 // 第43题
-addSingle(2, "数据库索引的主要作用是？", 
-    ["A. 提高查询速度", "B. 减少存储空间", "C. 增加数据冗余", "D. 美化数据"], 
-    "A", 
-    "索引类似书目录，快速定位数据，提升查询性能。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ 提高查询速度</strong>：索引相当于书的目录，通过B+树等数据结构快速定位数据行，大幅提升查询性能。<br><br><strong>B ❌ 减少存储空间</strong>：索引会占用额外存储空间，通常比数据本身还大。<br><br><strong>C ❌ 增加数据冗余</strong>：索引确实会增加冗余存储，但这不是主要作用。<br><br><strong>D ❌ 美化数据</strong>：索引与数据美化无关。"
+addMulti(2, "在Vastbase中创建数据库时的常用参数包括：", 
+    ["A. OWNER（指定数据库所有者）", "B. ENCODING（指定字符编码）", "C. TABLESPACE（指定表空间）", "D. LC_COLLATE（指定排序规则）", "E. ENGINE（指定存储引擎）"], 
+    ["A", "B", "C", "D"], 
+    "Vastbase创建数据库语法为CREATE DATABASE dbname [OWNER user] [ENCODING encoding] [TABLESPACE tablespace] [LC_COLLATE collate]，不支持指定存储引擎。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ OWNER</strong>：指定数据库的所有者。<br><br><strong>B ✅ ENCODING</strong>：指定数据库字符编码。<br><br><strong>C ✅ TABLESPACE</strong>：指定数据库默认表空间。<br><br><strong>D ✅ LC_COLLATE</strong>：指定字符串排序规则。<br><br><strong>E ❌ ENGINE</strong>：ENGINE是MySQL特有的存储引擎指定，Vastbase不支持。"
 );
 
 // 第44题
-addSingle(2, "海量数据库默认的监听端口是多少？", 
-    ["A. 5432", "B. 3306", "C. 1521", "D. 1433"], 
-    "A", 
-    "海量数据库基于PostgreSQL，默认端口5432。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ 5432</strong>：海量数据库基于PostgreSQL内核，继承PostgreSQL的默认端口5432。<br><br><strong>B ❌ 3306</strong>：3306是MySQL的默认端口。<br><br><strong>C ❌ 1521</strong>：1521是Oracle的默认端口。<br><br><strong>D ❌ 1433</strong>：1433是SQL Server的默认端口。"
+addMulti(2, "Vastbase数据库的日常管理操作包括：", 
+    ["A. vb_ctl start 启动服务", "B. vb_ctl stop 停止服务", "C. vb_ctl restart 重启服务", "D. vsql -r 登录数据库", "E. 修改配置文件后无需重启即可生效"], 
+    ["A", "B", "C", "D"], 
+    "Vastbase日常管理包括启动、停止、重启服务和登录数据库。修改配置文件后通常需要重启或reload才能生效。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ vb_ctl start</strong>：启动数据库服务。<br><br><strong>B ✅ vb_ctl stop</strong>：停止数据库服务。<br><br><strong>C ✅ vb_ctl restart</strong>：重启数据库服务。<br><br><strong>D ✅ vsql -r</strong>：登录数据库（-r参数用于增强命令历史）。<br><br><strong>E ❌ 修改配置文件后无需重启即可生效</strong>：大部分配置参数需要重启或reload才能生效。"
 );
 
 // 第45题
-addSingle(2, "在海量数据库中，创建数据库的SQL命令是？", 
-    ["A. CREATE DATABASE", "B. CREATE DB", "C. NEW DATABASE", "D. ADD DATABASE"], 
-    "A", 
-    "CREATE DATABASE 数据库名是SQL标准建库命令。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ CREATE DATABASE</strong>：CREATE DATABASE是SQL标准的创建数据库命令，所有主流数据库都支持。<br><br><strong>B ❌ CREATE DB</strong>：CREATE DB不是标准语法，DB是DATABASE的缩写，不被识别。<br><br><strong>C ❌ NEW DATABASE</strong>：这不是SQL标准命令。<br><br><strong>D ❌ ADD DATABASE</strong>：这不是SQL标准命令。"
+addMulti(2, "创建Vastbase数据库安装用户时需要注意的事项包括：", 
+    ["A. 用户名建议使用小写字母", "B. 密码需满足复杂度要求", "C. 需创建对应的数据目录并设置权限", "D. 用户名可随意使用大写字母", "E. 需在limits.conf中设置资源限制"], 
+    ["A", "B", "C", "E"], 
+    "创建安装用户时建议使用小写用户名，密码需满足复杂度，需创建数据目录并设置权限，需在limits.conf中配置资源限制。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 用户名建议使用小写字母</strong>：Linux用户名建议使用小写避免混淆。<br><br><strong>B ✅ 密码需满足复杂度要求</strong>：确保账户安全。<br><br><strong>C ✅ 需创建对应的数据目录并设置权限</strong>：确保数据库文件有正确权限。<br><br><strong>D ❌ 用户名可随意使用大写字母</strong>：Linux用户名不推荐使用大写。<br><br><strong>E ✅ 需在limits.conf中设置资源限制</strong>：确保数据库进程有足够的资源限制。"
 );
 
 // 第46题
-addSingle(2, "海量数据库支持哪种标准SQL语言版本？", 
-    ["A. SQL-92", "B. SQL:1999", "C. SQL:2003", "D. SQL:2016"], 
-    "D", 
-    "海量数据库兼容SQL:2016标准。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ SQL-92</strong>：SQL-92是较早的标准，现代数据库支持更新的标准。<br><br><strong>B ❌ SQL:1999</strong>：增加了递归查询、窗口函数等特性。<br><br><strong>C ❌ SQL:2003</strong>：增加了XML相关特性。<br><br><strong>D ✅ SQL:2016</strong>：海量数据库（基于PostgreSQL）兼容SQL:2016标准，支持JSON、窗口函数、递归CTE等现代SQL特性。"
+addMulti(2, "数据库迁移实施中，保障数据一致性的校验方法包括：", 
+    ["A. 记录数比对", "B. 字段级抽样比对", "C. 校验和（Checksum）比对", "D. 仅查看迁移工具日志", "E. 业务数据逻辑验证"], 
+    ["A", "B", "C", "E"], 
+    "数据一致性校验应通过多种方法综合验证，不能仅依赖迁移工具日志。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 记录数比对</strong>：验证数据条数是否一致。<br><br><strong>B ✅ 字段级抽样比对</strong>：随机抽样验证字段值。<br><br><strong>C ✅ 校验和比对</strong>：使用CRC等方式验证数据完整性。<br><br><strong>D ❌ 仅查看迁移工具日志</strong>：日志不能验证数据内容本身。<br><br><strong>E ✅ 业务数据逻辑验证</strong>：通过业务逻辑验证数据正确性。"
 );
 
-// 第47题 - 修正后的版本（解决反斜杠转义问题）
-addSingle(2, "如何查看海量数据库当前所有数据库列表？", 
-    ["A. SHOW DATABASES;", "B. LIST DATABASES;", "C. SELECT * FROM pg_database;", "D. \\l"], 
-    "D", 
-    "psql元命令反斜杠+l查看数据库列表，或查询pg_database系统表。",
-    "🔍 【选项逐项精析】<br><br><strong>A ❌ SHOW DATABASES;</strong>：这是MySQL的命令，海量数据库不支持。<br><br><strong>B ❌ LIST DATABASES;</strong>：这不是SQL标准命令。<br><br><strong>C ❌ SELECT * FROM pg_database;</strong>：这是标准SQL查询，可以查看数据库列表，但题目问的是但题目问的是“如何查看”，元命令更便捷。<br><br><strong>D ✅ 反斜杠+l</strong>：在psql客户端中，反斜杠+l（即\\l）元命令以表格形式列出所有数据库，是最便捷的查看方式"
-
+// 第47题
+addMulti(2, "国产数据库迁移过程中常见的技术挑战包括：", 
+    ["A. SQL语法兼容性差异", "B. 数据类型映射问题", "C. 事务处理机制差异", "D. 存储过程与触发器适配", "E. 网络带宽限制"], 
+    ["A", "B", "C", "D"], 
+    "迁移适配的核心挑战在于SQL兼容性、数据类型、事务机制和存储过程适配。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ SQL语法兼容性差异</strong>：不同数据库SQL方言不同。<br><br><strong>B ✅ 数据类型映射问题</strong>：数据类型映射是迁移核心工作。<br><br><strong>C ✅ 事务处理机制差异</strong>：不同数据库事务隔离级别和锁机制不同。<br><br><strong>D ✅ 存储过程与触发器适配</strong>：存储过程涉及PL/SQL等方言差异。<br><br><strong>E ❌ 网络带宽限制</strong>：网络带宽是基础设施问题，不属于技术适配挑战。"
 );
 
 // 第48题
-addSingle(2, "在海量数据库中，删除表中的所有数据但保留表结构的命令是？", 
-    ["A. DELETE FROM table;", "B. TRUNCATE TABLE table;", "C. DROP TABLE table;", "D. REMOVE FROM table;"], 
-    "B", 
-    "TRUNCATE快速清空表数据，保留结构，不可回滚，比DELETE高效。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ DELETE FROM table;</strong>：DELETE可删除所有数据，但速度慢（逐行删除），且产生大量事务日志。<br><br><strong>B ✅ TRUNCATE TABLE table;</strong>：TRUNCATE快速清空表所有数据，保留表结构，DDL操作，不可回滚，比DELETE效率高得多。<br><br><strong>C ❌ DROP TABLE table;</strong>：DROP会删除整个表（包括结构和数据），不保留结构。<br><br><strong>D ❌ REMOVE FROM table;</strong>：这不是SQL标准命令。"
+addMulti(2, "Vastbase中用户权限管理涉及的操作包括：", 
+    ["A. CREATE USER创建用户", "B. GRANT授予权限", "C. REVOKE回收权限", "D. ALTER USER修改用户属性", "E. DROP USER删除用户"], 
+    ["A", "B", "C", "D", "E"], 
+    "Vastbase用户权限管理涵盖创建、授权、回收、修改和删除用户的全生命周期操作。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ CREATE USER</strong>：创建数据库用户。<br><br><strong>B ✅ GRANT</strong>：授予权限。<br><br><strong>C ✅ REVOKE</strong>：回收权限。<br><br><strong>D ✅ ALTER USER</strong>：修改用户属性（密码、权限等）。<br><br><strong>E ✅ DROP USER</strong>：删除用户。"
 );
 
 // 第49题
-addSingle(2, "海量数据库的默认管理员用户名是？", 
-    ["A. root", "B. admin", "C. postgres", "D. sysdba"], 
-    "C", 
-    "海量/PostgreSQL默认超级管理员为postgres。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ root</strong>：root是Linux系统的超级管理员，不是数据库默认用户。<br><br><strong>B ❌ admin</strong>：admin不是PostgreSQL/海量数据库的默认用户。<br><br><strong>C ✅ postgres</strong>：海量数据库（基于PostgreSQL）安装后默认创建postgres超级管理员用户。<br><br><strong>D ❌ sysdba</strong>：sysdba是Oracle和达梦数据库的默认管理员账户。"
+addMulti(2, "数据库迁移项目中，数据整理的主要工作包括：", 
+    ["A. 识别并清理脏数据", "B. 处理数据格式不一致", "C. 解决字段长度超限问题", "D. 修改操作系统主题", "E. 处理空值及默认值差异"], 
+    ["A", "B", "C", "E"], 
+    "数据整理聚焦数据质量，包括清理脏数据、统一格式、处理字段长度和默认值差异。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 识别并清理脏数据</strong>：清除不符合规范的数据。<br><br><strong>B ✅ 处理数据格式不一致</strong>：统一日期、数字等格式。<br><br><strong>C ✅ 解决字段长度超限问题</strong>：处理源库超长数据。<br><br><strong>D ❌ 修改操作系统主题</strong>：与数据整理无关。<br><br><strong>E ✅ 处理空值及默认值差异</strong>：处理不同数据库的NULL和默认值差异。"
 );
 
 // 第50题
-addSingle(2, "如何在海量数据库中创建一个普通用户并授予登录权限？", 
-    ["A. CREATE USER", "B. ADD USER", "C. CREATE LOGIN", "D. NEW USER"], 
-    "A", 
-    "CREATE USER 用户名 WITH LOGIN PASSWORD '密码'创建可登录用户。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ CREATE USER</strong>：CREATE USER是PostgreSQL/海量数据库创建用户的命令，如CREATE USER test WITH LOGIN PASSWORD '123';。<br><br><strong>B ❌ ADD USER</strong>：这不是SQL标准命令。<br><br><strong>C ❌ CREATE LOGIN</strong>：SQL Server使用CREATE LOGIN，海量数据库不支持。<br><br><strong>D ❌ NEW USER</strong>：这不是SQL标准命令。"
+addMulti(2, "国产主流数据库产品包括：", 
+    ["A. 达梦DM8", "B. 人大金仓KingbaseES", "C. 海量数据库Vastbase", "D. Oracle", "E. 华为GaussDB"], 
+    ["A", "B", "C", "E"], 
+    "达梦、金仓、海量、GaussDB均为国产数据库代表，Oracle为国外产品。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 达梦DM8</strong>：武汉达梦国产数据库。<br><br><strong>B ✅ 人大金仓KingbaseES</strong>：人大金仓国产数据库。<br><br><strong>C ✅ 海量数据库Vastbase</strong>：海量数据国产数据库。<br><br><strong>D ❌ Oracle</strong>：美国甲骨文公司产品，非国产。<br><br><strong>E ✅ 华为GaussDB</strong>：华为国产数据库。"
 );
 
 // 第51题
-addSingle(2, "海量数据库支持哪种分区表类型？", 
-    ["A. 范围分区", "B. 列表分区", "C. 哈希分区", "D. 以上都是"], 
-    "D", 
-    "海量支持范围、列表、哈希三种分区方式。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ 范围分区</strong>：海量数据库支持范围分区（RANGE PARTITION），如按日期分区。<br><br><strong>B ✅ 列表分区</strong>：海量数据库支持列表分区（LIST PARTITION），如按地区分区。<br><br><strong>C ✅ 哈希分区</strong>：海量数据库支持哈希分区（HASH PARTITION），数据均匀分布。<br><br><strong>D ✅ 以上都是</strong>：海量数据库支持范围、列表、哈希三种主流分区类型。"
+addMulti(2, "以下哪些情况可能导致数据库迁移后出现乱码？", 
+    ["A. 源库和目标库字符集不一致", "B. 迁移时未正确指定字符集转换规则", "C. 数据中包含特殊字符", "D. 网络传输中断", "E. 应用连接字符集配置错误"], 
+    ["A", "B", "C", "E"], 
+    "乱码主要由字符集不匹配、转换规则错误、特殊字符和应用连接配置问题引起。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 源库和目标库字符集不一致</strong>：如GBK转UTF-8未正确处理。<br><br><strong>B ✅ 未正确指定字符集转换规则</strong>：转换规则错误导致乱码。<br><br><strong>C ✅ 数据中包含特殊字符</strong>：表情符号等特殊字符可能无法转换。<br><br><strong>D ❌ 网络传输中断</strong>：网络中断导致迁移失败而非乱码。<br><br><strong>E ✅ 应用连接字符集配置错误</strong>：应用连接字符集与数据库不一致导致显示乱码。"
 );
 
 // 第52题
-addSingle(2, "在海量数据库中，用于导入SQL文件的命令行工具是？", 
-    ["A. psql -f", "B. mysql < file.sql", "C. sqlplus @file.sql", "D. isql -i"], 
-    "A", 
-    "psql -d 数据库名 -f 脚本.sql执行SQL文件。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ psql -f</strong>：psql是PostgreSQL/海量数据库的命令行客户端，-f参数指定SQL脚本文件执行。<br><br><strong>B ❌ mysql < file.sql</strong>：这是MySQL的导入方式，海量数据库不支持。<br><br><strong>C ❌ sqlplus @file.sql</strong>：sqlplus是Oracle的客户端工具。<br><br><strong>D ❌ isql -i</strong>：isql是Sybase/SQL Server的工具，或UnixODBC的交互工具。"
+addMulti(2, "Vastbase G100相比openGauss内核的增强功能包括：", 
+    ["A. 增加大量Oracle兼容特性", "B. 遵循EAL4+标准增强安全", "C. 整合GIS功能", "D. 增加流计算功能", "E. 仅支持SQL Server兼容"], 
+    ["A", "B", "C", "D"], 
+    "Vastbase在openGauss基础上增强了Oracle兼容性、EAL4+安全、GIS和流计算等功能。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 增加大量Oracle兼容特性</strong>：Vastbase大幅增强Oracle兼容性。<br><br><strong>B ✅ 遵循EAL4+标准增强安全</strong>：达到EAL4+国际安全标准。<br><br><strong>C ✅ 整合GIS功能</strong>：集成地理信息处理能力。<br><br><strong>D ✅ 增加流计算功能</strong>：支持实时流数据处理。<br><br><strong>E ❌ 仅支持SQL Server兼容</strong>：Vastbase支持多种兼容模式，SQL Server只是其中之一。"
 );
 
 // 第53题
-addSingle(2, "海量数据库的配置文件通常名称是什么？", 
-    ["A. postgresql.conf", "B. my.cnf", "C. init.ora", "D. hldb.conf"], 
-    "A", 
-    "postgresql.conf是海量/PostgreSQL主配置文件。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ postgresql.conf</strong>：海量数据库基于PostgreSQL，主配置文件名称为postgresql.conf，包含监听地址、端口、内存参数等配置。<br><br><strong>B ❌ my.cnf</strong>：my.cnf是MySQL的配置文件。<br><br><strong>C ❌ init.ora</strong>：init.ora是Oracle的参数文件。<br><br><strong>D ❌ hldb.conf</strong>：这不是海量数据库的标准配置文件名。"
+addMulti(2, "数据库迁移后系统测试通常包括：", 
+    ["A. 功能测试", "B. 性能测试", "C. 安全测试", "D. 兼容性测试", "E. 压力测试"], 
+    ["A", "B", "C", "D", "E"], 
+    "迁移后系统测试应涵盖功能、性能、安全、兼容性和压力等多个维度。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 功能测试</strong>：验证业务功能是否正常。<br><br><strong>B ✅ 性能测试</strong>：验证响应时间和吞吐量。<br><br><strong>C ✅ 安全测试</strong>：验证权限控制和数据加密。<br><br><strong>D ✅ 兼容性测试</strong>：验证应用兼容性。<br><br><strong>E ✅ 压力测试</strong>：验证系统在高负载下的稳定性。"
 );
 
 // 第54题
-addSingle(2, "如何在海量数据库中查看当前所有活动连接？", 
-    ["A. SELECT * FROM pg_stat_activity;", "B. SHOW PROCESSLIST;", "C. SHOW CONNECTIONS;", "D. LIST ACTIVE CONNECTIONS;"], 
-    "A", 
-    "pg_stat_activity系统视图显示每个连接的详细信息。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ SELECT * FROM pg_stat_activity;</strong>：pg_stat_activity系统视图显示所有活动连接及会话状态信息。<br><br><strong>B ❌ SHOW PROCESSLIST;</strong>：SHOW PROCESSLIST是MySQL的命令。<br><br><strong>C ❌ SHOW CONNECTIONS;</strong>：这不是海量数据库的标准命令。<br><br><strong>D ❌ LIST ACTIVE CONNECTIONS;</strong>：这不是SQL标准命令。"
+addMulti(2, "数据库安全措施包括：", 
+    ["A. 用户权限管理", "B. 数据加密存储", "C. 安全审计", "D. 定期备份", "E. 禁用所有外键约束"], 
+    ["A", "B", "C", "D"], 
+    "数据库安全措施包括权限管理、加密存储、安全审计和备份策略。禁用外键约束不是安全措施，反而可能破坏数据完整性。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 用户权限管理</strong>：最小权限原则。<br><br><strong>B ✅ 数据加密存储</strong>：保护敏感数据。<br><br><strong>C ✅ 安全审计</strong>：记录操作日志。<br><br><strong>D ✅ 定期备份</strong>：数据恢复保障。<br><br><strong>E ❌ 禁用所有外键约束</strong>：禁用外键会破坏数据完整性，不是安全措施。"
 );
 
 // 第55题
-addSingle(2, "海量数据库的备份命令是？", 
-    ["A. pg_dump", "B. mysqldump", "C. expdp", "D. sqlbackup"], 
-    "A", 
-    "pg_dump是逻辑备份工具，pg_dumpall备份所有数据库。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ pg_dump</strong>：pg_dump是PostgreSQL/海量数据库的标准逻辑备份工具，可导出单个数据库。<br><br><strong>B ❌ mysqldump</strong>：这是MySQL的备份工具。<br><br><strong>C ❌ expdp</strong>：这是Oracle的数据泵导出工具。<br><br><strong>D ❌ sqlbackup</strong>：这不是海量数据库的标准命令。"
+addMulti(2, "异构数据库迁移时，数据类型映射需要考虑的因素有：", 
+    ["A. 数值精度差异", "B. 日期时间格式", "C. 字符集编码", "D. 字段长度限制", "E. 默认值差异"], 
+    ["A", "B", "C", "D", "E"], 
+    "数据类型映射需要综合考虑精度、日期格式、字符集、长度和默认值等多个因素。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 数值精度差异</strong>：如Oracle NUMBER与Vastbase NUMERIC的精度映射。<br><br><strong>B ✅ 日期时间格式</strong>：DATE/TIMESTAMP格式差异。<br><br><strong>C ✅ 字符集编码</strong>：GBK/UTF-8等编码转换。<br><br><strong>D ✅ 字段长度限制</strong>：VARCHAR长度限制差异。<br><br><strong>E ✅ 默认值差异</strong>：SYSDATE vs CURRENT_TIMESTAMP等。"
 );
 
 // 第56题
-addSingle(2, "在海量数据库中，创建唯一索引的SQL语句是？", 
-    ["A. CREATE UNIQUE INDEX", "B. CREATE DISTINCT INDEX", "C. CREATE SINGLE INDEX", "D. CREATE UNIQ INDEX"], 
-    "A", 
-    "CREATE UNIQUE INDEX 索引名 ON 表名(列名)创建唯一索引。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ CREATE UNIQUE INDEX</strong>：CREATE UNIQUE INDEX是创建唯一索引的标准SQL语法，确保索引列的值唯一。<br><br><strong>B ❌ CREATE DISTINCT INDEX</strong>：DISTINCT用于查询去重，不是索引关键字。<br><br><strong>C ❌ CREATE SINGLE INDEX</strong>：SINGLE不是索引关键字。<br><br><strong>D ❌ CREATE UNIQ INDEX</strong>：UNIQ是UNIQUE的缩写形式，不是标准SQL关键字。"
+addMulti(2, "Vastbase中常见的数据导入方式包括：", 
+    ["A. COPY命令从CSV文件导入", "B. vsql -f执行SQL脚本", "C. 使用pg_restore恢复备份", "D. INSERT语句逐条插入", "E. 使用DTS迁移工具"], 
+    ["A", "B", "C", "D", "E"], 
+    "Vastbase支持多种数据导入方式，可根据数据量和场景选择。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ COPY命令</strong>：高效批量导入CSV文件。<br><br><strong>B ✅ vsql -f</strong>：执行SQL脚本文件。<br><br><strong>C ✅ pg_restore</strong>：从备份文件恢复。<br><br><strong>D ✅ INSERT逐条插入</strong>：适用于小批量数据。<br><br><strong>E ✅ DTS迁移工具</strong>：达梦数据迁移工具。"
 );
 
 // 第57题
-addSingle(2, "海量数据库支持哪种数据类型存储JSON？", 
-    ["A. JSON", "B. JSONB", "C. TEXT可以存储JSON", "D. 以上都是"], 
-    "D", 
-    "海量支持JSON和JSONB类型，TEXT也可存JSON但无校验和优化。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ JSON</strong>：JSON类型存储JSON数据，保留原始格式（保留空格、键顺序）。<br><br><strong>B ✅ JSONB</strong>：JSONB是二进制JSON格式，存储时解析为二进制，查询效率更高，支持索引。<br><br><strong>C ✅ TEXT可以存储JSON</strong>：TEXT类型可以存储JSON字符串，但没有JSON校验和优化功能。<br><br><strong>D ✅ 以上都是</strong>：海量数据库支持JSON和JSONB原生类型，也可用TEXT存储JSON字符串。"
+addMulti(2, "数据库迁移完成后，性能基线分析通常关注：", 
+    ["A. 查询响应时间", "B. 事务吞吐量（TPS）", "C. CPU利用率", "D. 内存使用率", "E. I/O等待时间"], 
+    ["A", "B", "C", "D", "E"], 
+    "性能基线分析需要全面监控响应时间、吞吐量、CPU、内存和I/O等指标。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 查询响应时间</strong>：SQL执行时间。<br><br><strong>B ✅ 事务吞吐量（TPS）</strong>：每秒事务处理量。<br><br><strong>C ✅ CPU利用率</strong>：CPU使用情况。<br><br><strong>D ✅ 内存使用率</strong>：内存消耗情况。<br><br><strong>E ✅ I/O等待时间</strong>：磁盘I/O性能。"
 );
 
 // 第58题
-addSingle(2, "如何修改海量数据库用户的密码？", 
-    ["A. ALTER USER ... PASSWORD", "B. SET PASSWORD FOR ...", "C. CHANGE USER PASSWORD", "D. UPDATE user SET password="], 
-    "A", 
-    "ALTER USER 用户名 WITH PASSWORD '新密码';修改用户密码。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ ALTER USER ... PASSWORD</strong>：ALTER USER username WITH PASSWORD 'new_password';是PostgreSQL/海量修改密码的标准语法。<br><br><strong>B ❌ SET PASSWORD FOR ...</strong>：这是MySQL修改密码的命令。<br><br><strong>C ❌ CHANGE USER PASSWORD</strong>：这不是标准SQL语法。<br><br><strong>D ❌ UPDATE user SET password=</strong>：不建议直接修改系统表，应使用ALTER USER。"
+addMulti(2, "Vastbase中创建表时可以指定的约束包括：", 
+    ["A. PRIMARY KEY（主键约束）", "B. FOREIGN KEY（外键约束）", "C. UNIQUE（唯一约束）", "D. CHECK（检查约束）", "E. NOT NULL（非空约束）"], 
+    ["A", "B", "C", "D", "E"], 
+    "Vastbase支持SQL标准的所有约束类型。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ PRIMARY KEY</strong>：主键约束。<br><br><strong>B ✅ FOREIGN KEY</strong>：外键约束。<br><br><strong>C ✅ UNIQUE</strong>：唯一约束。<br><br><strong>D ✅ CHECK</strong>：检查约束。<br><br><strong>E ✅ NOT NULL</strong>：非空约束。"
 );
 
 // 第59题
-addSingle(2, "海量数据库的事务隔离级别默认是？", 
-    ["A. READ UNCOMMITTED", "B. READ COMMITTED", "C. REPEATABLE READ", "D. SERIALIZABLE"], 
-    "B", 
-    "PostgreSQL/海量默认Read Committed，避免脏读。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ READ UNCOMMITTED</strong>：PG/海量不支持Read Uncommitted，此级别会映射为Read Committed。<br><br><strong>B ✅ READ COMMITTED</strong>：海量数据库默认隔离级别为Read Committed，避免脏读。<br><br><strong>C ❌ REPEATABLE READ</strong>：Repeatable Read防止不可重复读，PG支持但不是默认。<br><br><strong>D ❌ SERIALIZABLE</strong>：Serializable是最严格级别，但不是默认。"
+addMulti(2, "信创适配迁移大赛中，参赛者需要输出的文档包括：", 
+    ["A. 迁移方案", "B. 部署运维手册", "C. 测试报告", "D. 项目预算表", "E. 用户操作手册"], 
+    ["A", "B", "C"], 
+    "大赛要求提交迁移方案、部署运维手册及测试报告。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 迁移方案</strong>：大赛要求提交的核心文档。<br><br><strong>B ✅ 部署运维手册</strong>：大赛要求提交的文档。<br><br><strong>C ✅ 测试报告</strong>：大赛要求提交的文档。<br><br><strong>D ❌ 项目预算表</strong>：不是大赛要求的技术文档。<br><br><strong>E ❌ 用户操作手册</strong>：不是迁移适配大赛要求提交的文档。"
 );
 
 // 第60题
-addSingle(2, "在海量数据库中，查看表结构的命令是？", 
-    ["A. \\d table", "B. DESCRIBE table;", "C. SHOW COLUMNS FROM table;", "D. DESC table;"], 
-    "A", 
-    "psql中\\d 表名显示表结构、索引、约束等。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ \\d table</strong>：psql客户端中使用\\d元命令查看表结构。<br><br><strong>B ❌ DESCRIBE table;</strong>：DESCRIBE是MySQL/Oracle命令，海量不支持。<br><br><strong>C ❌ SHOW COLUMNS FROM table;</strong>：SHOW COLUMNS是MySQL命令。<br><br><strong>D ❌ DESC table;</strong>：DESC是DESCRIBE的简写，海量不支持。"
+addMulti(2, "Vastbase中关于表空间（Tablespace）的操作包括：", 
+    ["A. CREATE TABLESPACE创建表空间", "B. ALTER TABLESPACE修改表空间", "C. DROP TABLESPACE删除表空间", "D. 在创建数据库时指定表空间", "E. 在创建表时指定表空间"], 
+    ["A", "B", "C", "D", "E"], 
+    "Vastbase支持完整的表空间生命周期管理。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ CREATE TABLESPACE</strong>：创建表空间。<br><br><strong>B ✅ ALTER TABLESPACE</strong>：修改表空间属性。<br><br><strong>C ✅ DROP TABLESPACE</strong>：删除表空间。<br><br><strong>D ✅ 创建数据库时指定</strong>：CREATE DATABASE ... TABLESPACE。<br><br><strong>E ✅ 创建表时指定</strong>：CREATE TABLE ... TABLESPACE。"
 );
 
 // 第61题
-addSingle(2, "海量数据库支持哪种主从复制方式？", 
-    ["A. 异步复制", "B. 同步复制", "C. 半同步复制", "D. 以上都是"], 
-    "D", 
-    "海量支持异步、同步、半同步多种复制模式。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ 异步复制</strong>：主库提交事务后不等待从库确认，性能高但可能有数据丢失。<br><br><strong>B ✅ 同步复制</strong>：主库等待从库确认后才提交，保证数据不丢失，但影响性能。<br><br><strong>C ✅ 半同步复制</strong>：主库等待至少一个从库确认，平衡性能和数据安全。<br><br><strong>D ✅ 以上都是</strong>：海量数据库支持三种复制模式，可根据业务需求配置。"
+addMulti(2, "数据库迁移中，增量同步的优势有：", 
+    ["A. 减少停机时间", "B. 支持实时数据同步", "C. 降低迁移风险", "D. 不需要做数据校验", "E. 可支持断点续传"], 
+    ["A", "B", "C", "E"], 
+    "增量同步可减少停机时间、支持实时同步、降低风险和支持断点续传，但不能替代数据校验。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 减少停机时间</strong>：全量+增量方式可大幅缩短割接窗口。<br><br><strong>B ✅ 支持实时数据同步</strong>：可持续同步数据变化。<br><br><strong>C ✅ 降低迁移风险</strong>：可分批验证降低风险。<br><br><strong>D ❌ 不需要做数据校验</strong>：数据校验仍然必需。<br><br><strong>E ✅ 可支持断点续传</strong>：中断后可继续同步。"
 );
 
 // 第62题
-addSingle(2, "如何在海量数据库中开启查询执行计划分析？", 
-    ["A. EXPLAIN", "B. ANALYZE", "C. PROFILE", "D. TRACE"], 
-    "A", 
-    "EXPLAIN显示SQL执行计划，EXPLAIN ANALYZE实际执行并计时。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ EXPLAIN</strong>：EXPLAIN命令显示SQL语句的执行计划，用于查询性能分析。<br><br><strong>B ❌ ANALYZE</strong>：ANALYZE用于收集统计信息，不是查看执行计划的命令。<br><br><strong>C ❌ PROFILE</strong>：PROFILE是MySQL的性能分析工具，不是PG命令。<br><br><strong>D ❌ TRACE</strong>：TRACE用于跟踪，但不是查看执行计划的标准命令。"
+addMulti(2, "Vastbase安装前需要配置的资源限制（limits.conf）参数包括：", 
+    ["A. nofile（打开文件数限制）", "B. nproc（进程数限制）", "C. stack（栈大小限制）", "D. core（核心转储限制）", "E. memlock（内存锁定限制）"], 
+    ["A", "B", "C", "D", "E"], 
+    "Vastbase安装前需要在limits.conf中配置多个资源限制参数。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ nofile</strong>：进程最大打开文件数。<br><br><strong>B ✅ nproc</strong>：用户最大进程数。<br><br><strong>C ✅ stack</strong>：栈大小限制。<br><br><strong>D ✅ core</strong>：核心转储文件大小。<br><br><strong>E ✅ memlock</strong>：内存锁定限制。"
 );
 
 // 第63题
-addSingle(2, "海量数据库的日志文件通常存放在哪个目录？", 
-    ["A. /var/log/postgresql", "B. $PGDATA/pg_log", "C. /var/lib/pgsql/log", "D. 可配置"], 
-    "D", 
-    "通过log_directory参数配置日志目录，默认在PGDATA/pg_log。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ /var/log/postgresql</strong>：某些发行版配置此路径，但不是默认。<br><br><strong>B ❌ $PGDATA/pg_log</strong>：这是常见默认路径，但实际可配置。<br><br><strong>C ❌ /var/lib/pgsql/log</strong>：某些RPM包安装的默认路径。<br><br><strong>D ✅ 可配置</strong>：海量数据库的日志目录可通过postgresql.conf中的log_directory参数配置，不同安装方式默认路径不同。"
+addMulti(2, "国产数据库迁移适配的典型场景包括：", 
+    ["A. 政务云从Oracle迁移至国产数据库", "B. 教育信息化平台迁移至信创环境", "C. 金融核心系统国产化替代", "D. 从MySQL迁移至Vastbase", "E. 以上都是"], 
+    ["A", "B", "C", "D", "E"], 
+    "国产数据库迁移适配覆盖政务、教育、金融等各类场景。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 政务云迁移</strong>：从Oracle到达梦/金仓/Vastbase。<br><br><strong>B ✅ 教育信息化迁移</strong>：从国外平台到信创环境。<br><br><strong>C ✅ 金融核心系统</strong>：国产化替代的重要场景。<br><br><strong>D ✅ MySQL迁移</strong>：从MySQL到Vastbase。<br><br><strong>E ✅ 以上都是</strong>：覆盖各类典型场景。"
 );
 
 // 第64题
-addSingle(2, "在海量数据库中，回收用户所有权限的语句是？", 
-    ["A. REVOKE ALL PRIVILEGES", "B. REMOVE ALL PRIVILEGES", "C. DROP USER PRIVILEGES", "D. CLEAR ALL PERMISSIONS"], 
-    "A", 
-    "REVOKE ALL PRIVILEGES ON DATABASE db FROM user;回收权限。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ REVOKE ALL PRIVILEGES</strong>：REVOKE ALL PRIVILEGES是回收所有权限的标准SQL命令。<br><br><strong>B ❌ REMOVE ALL PRIVILEGES</strong>：REMOVE不是权限管理关键字。<br><br><strong>C ❌ DROP USER PRIVILEGES</strong>：DROP USER是删除用户，不是回收权限。<br><br><strong>D ❌ CLEAR ALL PERMISSIONS</strong>：这不是SQL标准命令。"
+addMulti(2, "Vastbase中查看当前数据库信息的方法包括：", 
+    ["A. SELECT current_database()", "B. \\conninfo", "C. SELECT version()", "D. SHOW server_version", "E. \\l"], 
+    ["A", "B", "C", "D"], 
+    "current_database()、\\conninfo、version()、SHOW server_version均可查看当前数据库信息，\\l查看所有数据库列表。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ SELECT current_database()</strong>：返回当前数据库名称。<br><br><strong>B ✅ \\conninfo</strong>：vsql客户端显示连接信息。<br><br><strong>C ✅ SELECT version()</strong>：返回数据库版本信息。<br><br><strong>D ✅ SHOW server_version</strong>：显示服务器版本。<br><br><strong>E ❌ \\l</strong>：\\l查看所有数据库列表，而非当前数据库信息。"
 );
 
 // 第65题
-addSingle(2, "海量数据库的存储过程支持哪种语言？", 
-    ["A. PL/pgSQL", "B. SQL", "C. C", "D. 以上都是"], 
-    "D", 
-    "海量支持PL/pgSQL、纯SQL、C语言扩展等多种存储过程语言。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ PL/pgSQL</strong>：PostgreSQL/海量原生支持的存储过程语言，语法类似Oracle PL/SQL。<br><br><strong>B ✅ SQL</strong>：支持纯SQL函数，由一系列SQL语句组成。<br><br><strong>C ✅ C</strong>：支持C语言编写扩展函数，性能最高。<br><br><strong>D ✅ 以上都是</strong>：海量支持多种存储过程语言。"
+addMulti(2, "数据库迁移前'源库全量分析'主要分析内容包括：", 
+    ["A. 表结构及依赖关系", "B. 存储过程与触发器清单", "C. 数据类型使用情况", "D. 用户权限配置", "E. 数据量统计"], 
+    ["A", "B", "C", "D", "E"], 
+    "源库全量分析需要全面了解表结构、存储过程、数据类型、权限和数据量。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 表结构及依赖关系</strong>：分析表结构和关联关系。<br><br><strong>B ✅ 存储过程与触发器清单</strong>：统计需要适配的对象。<br><br><strong>C ✅ 数据类型使用情况</strong>：分析类型映射需求。<br><br><strong>D ✅ 用户权限配置</strong>：分析权限迁移需求。<br><br><strong>E ✅ 数据量统计</strong>：评估迁移时间和策略。"
 );
 
+// ==================== 三、判断题（30题）====================
+
 // 第66题
-addSingle(2, "如何查看海量数据库版本信息？", 
-    ["A. SELECT version();", "B. SHOW VERSION;", "C. SELECT @@version;", "D. VERSION();"], 
-    "A", 
-    "SELECT version();返回数据库版本和编译信息。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ SELECT version();</strong>：SELECT version()是PostgreSQL/海量数据库查看版本的标准SQL命令。<br><br><strong>B ❌ SHOW VERSION;</strong>：这是MySQL的版本查看命令。<br><br><strong>C ❌ SELECT @@version;</strong>：这是MySQL的版本变量查询方式。<br><br><strong>D ❌ VERSION();</strong>：VERSION()是MySQL的函数，不是标准SQL。"
+addJudge(2, "Vastbase G100数据库仅支持在麒麟操作系统上安装，不支持统信UOS。", false, 
+    "Vastbase支持在多种国产操作系统上部署，包括麒麟KOS和统信UOS。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：Vastbase不仅支持麒麟，还支持统信UOS等多种国产OS。<br><br><strong>B ✅ 错误</strong>：Vastbase G100支持麒麟KOS、统信UOS等多种国产操作系统。"
 );
 
 // 第67题
-addSingle(2, "海量数据库的最大连接数参数是什么？", 
-    ["A. max_connections", "B. maxconn", "C. max_user_connections", "D. connections"], 
-    "A", 
-    "postgresql.conf中max_connections参数控制最大连接数。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ max_connections</strong>：max_connections是PostgreSQL/海量数据库配置文件中控制最大客户端连接数的参数。<br><br><strong>B ❌ maxconn</strong>：maxconn是某些代理软件的参数，不是PG参数。<br><br><strong>C ❌ max_user_connections</strong>：这是每个用户的最大连接数限制，不是全局最大连接数。<br><br><strong>D ❌ connections</strong>：这不是标准参数名。"
+addJudge(2, "在Vastbase中，使用CREATE DATABASE创建数据库时可以指定字符编码。", true,
+    "CREATE DATABASE支持ENCODING参数指定字符编码。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：CREATE DATABASE dbname ENCODING 'UTF8'可指定编码。<br><br><strong>B ❌ 错误</strong>：Vastbase确实支持在创建数据库时指定字符编码。"
 );
 
 // 第68题
-addSingle(2, "在海量数据库中，创建视图的SQL语句是？", 
-    ["A. CREATE VIEW", "B. CREATE VIRTUAL TABLE", "C. MAKE VIEW", "D. NEW VIEW"], 
-    "A", 
-    "CREATE VIEW 视图名 AS SELECT ...创建虚拟表。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ CREATE VIEW</strong>：CREATE VIEW是创建视图的标准SQL语法。<br><br><strong>B ❌ CREATE VIRTUAL TABLE</strong>：这不是标准SQL语法，虚拟表只是视图的概念描述。<br><br><strong>C ❌ MAKE VIEW</strong>：不是标准SQL命令。<br><br><strong>D ❌ NEW VIEW</strong>：不是标准SQL命令。"
+addJudge(2, "Vastbase数据库的超级管理员密码可以设置为少于8个字符。", false,
+    "Vastbase安装时密码要求8-16个字符。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：密码长度要求8-16字符。<br><br><strong>B ✅ 错误</strong>：Vastbase安装时强制要求密码长度为8-16个字符。"
 );
 
 // 第69题
-addSingle(2, "海量数据库支持全文检索吗？如果支持，采用什么方式？", 
-    ["A. 不支持", "B. 支持，使用GIN索引", "C. 支持，使用B-tree索引", "D. 支持，使用Hash索引"], 
-    "B", 
-    "海量支持全文检索，使用GIN索引加速tsvector类型查询。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ 不支持</strong>：海量数据库支持全文检索功能。<br><br><strong>B ✅ 支持，使用GIN索引</strong>：PostgreSQL/海量通过tsvector和tsquery类型支持全文检索，使用GIN（Generalized Inverted Index）索引加速全文搜索。<br><br><strong>C ❌ 支持，使用B-tree索引</strong>：B-tree索引不支持全文检索的模糊匹配。<br><br><strong>D ❌ 支持，使用Hash索引</strong>：Hash索引只支持等值查询。"
+addJudge(2, "Vastbase G100是海量数据基于openGauss内核开发的企业级关系型数据库。", true,
+    "Vastbase G100基于华为openGauss内核。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：Vastbase G100是基于openGauss内核的企业级关系型数据库。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
 );
 
 // 第70题
-addSingle(2, "如何在海量数据库中设置自动提交为关闭？", 
-    ["A. SET AUTOCOMMIT OFF;", "B. \\set AUTOCOMMIT off", "C. SET autocommit = 0;", "D. \\set autocommit = off"], 
-    "B", 
-    "psql中使用\\set AUTOCOMMIT off关闭自动提交，需手动COMMIT。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ SET AUTOCOMMIT OFF;</strong>：这不是PostgreSQL/海量支持的命令。<br><br><strong>B ✅ \\set AUTOCOMMIT off</strong>：在psql客户端中，使用元命令\\set AUTOCOMMIT off关闭自动提交。<br><br><strong>C ❌ SET autocommit = 0;</strong>：这是MySQL的命令，PG不支持。<br><br><strong>D ❌ \\set autocommit = off</strong>：正确写法是\\set AUTOCOMMIT off，大小写有要求。"
+addJudge(2, "使用vsql登录Vastbase后，可通过ALTER USER vbadmin PASSWORD 'newpass'修改管理员密码。", false,
+    "正确语法是ALTER USER vbadmin IDENTIFIED BY 'newpass'。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：PASSWORD不是Vastbase的正确语法。<br><br><strong>B ✅ 错误</strong>：应使用ALTER USER vbadmin IDENTIFIED BY 'newpass'。"
 );
 
 // 第71题
-addSingle(2, "海量数据库的临时表空间默认名称是？", 
-    ["A. temp", "B. pg_temp", "C. tmp", "D. temporary"], 
-    "B", 
-    "pg_temp是会话级临时表空间，会话结束后自动清理。",
-    "🔍 【选项逐项精析】<br><strong>A ❌ temp</strong>：temp是SQL Server的临时数据库名。<br><br><strong>B ✅ pg_temp</strong>：PostgreSQL/海量数据库中，临时表空间默认名为pg_temp_nnn（会话级）。<br><br><strong>C ❌ tmp</strong>：tmp是/tmp目录名，不是数据库临时表空间。<br><br><strong>D ❌ temporary</strong>：temporary是临时表的关键字，不是表空间名。"
+addJudge(2, "在Vastbase中，使用GRANT ALL ON table_name TO user可以授予用户对表的所有权限。", true,
+    "GRANT ALL授予指定对象的所有权限。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：GRANT ALL ON table_name TO user授予该表的所有权限。<br><br><strong>B ❌ 错误</strong>：这是正确的语法。"
 );
 
 // 第72题
-addSingle(2, "在海量数据库中，导出数据为CSV格式的命令是？", 
-    ["A. COPY ... TO ... CSV", "B. EXPORT ... CSV", "C. SELECT ... INTO OUTFILE", "D. 使用pg_dump指定格式"], 
-    "A", 
-    "COPY 表名 TO '文件.csv' CSV HEADER;导出为CSV格式。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ COPY ... TO ... CSV</strong>：COPY命令是PostgreSQL/海量导出CSV的标准方式，如COPY table TO '/path/file.csv' CSV HEADER;。<br><br><strong>B ❌ EXPORT ... CSV</strong>：EXPORT不是PG/海量的导出命令。<br><br><strong>C ❌ SELECT ... INTO OUTFILE</strong>：这是MySQL的导出语法。<br><br><strong>D ❌ 使用pg_dump指定格式</strong>：pg_dump用于逻辑备份，不直接导出CSV格式。"
+addJudge(2, "数据库迁移完成后，只需确认数据已复制到目标库即可，无需进行功能性能验证。", false,
+    "大赛要求完成迁移后系统的功能性能验证。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：必须进行功能性能验证。<br><br><strong>B ✅ 错误</strong>：迁移后必须进行功能测试和性能测试，确保各项运行指标达标。"
 );
 
 // 第73题
-addSingle(2, "海量数据库的并发控制主要采用哪种锁机制？", 
-    ["A. MVCC", "B. 表锁", "C. 行锁", "D. 页锁"], 
-    "A", 
-    "海量采用MVCC多版本并发控制，读写不互锁，提高并发性能。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ MVCC</strong>：PostgreSQL/海量数据库采用MVCC（多版本并发控制）机制，读写不互锁，读操作不阻塞写操作，写操作不阻塞读操作。<br><br><strong>B ❌ 表锁</strong>：表锁粒度太大，影响并发性能。<br><br><strong>C ❌ 行锁</strong>：行锁是辅助机制，PG的核心并发控制是MVCC。<br><br><strong>D ❌ 页锁</strong>：页锁是某些数据库的锁粒度，PG不使用页锁。"
+addJudge(2, "异构数据库迁移时，源库和目标库的字符集必须完全一致，否则无法迁移。", false,
+    "字符集不一致时可通过转换处理完成迁移。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：字符集不一致时可以通过指定转换规则完成迁移。<br><br><strong>B ✅ 错误</strong>：不同字符集之间可以通过转换规则完成迁移。"
 );
 
 // 第74题
-addSingle(2, "海量数据库支持的索引类型包括？", 
-    ["A. B-tree", "B. Hash", "C. GIN", "D. 以上都是"], 
-    "D", 
-    "PostgreSQL/海量支持B-tree、Hash、GIN、GiST、SP-GiST、BRIN等索引。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ B-tree</strong>：B-tree是最常用的索引类型，支持等值和范围查询。<br><br><strong>B ✅ Hash</strong>：Hash索引只支持等值查询。<br><br><strong>C ✅ GIN</strong>：GIN索引用于全文检索和数组、JSON等复合数据类型。<br><br><strong>D ✅ 以上都是</strong>：海量数据库支持B-tree、Hash、GIN等多种索引类型。"
+addJudge(2, "Vastbase中创建表时，可以使用SERIAL类型定义自增列。", true,
+    "SERIAL是Vastbase中自增列的常用定义方式。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：CREATE TABLE t (id SERIAL PRIMARY KEY)可创建自增列。<br><br><strong>B ❌ 错误</strong>：Vastbase确实支持SERIAL类型。"
 );
 
 // 第75题
-addSingle(2, "海量数据库的高可用方案有？", 
-    ["A. 主从复制", "B. 双机热备", "C. 集群", "D. 以上都是"], 
-    "D", 
-    "高可用方案：主从异步/同步、双机热备、Patroni集群、分布式分片。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ 主从复制</strong>：流复制实现主从架构，主库故障时可切换到从库。<br><br><strong>B ✅ 双机热备</strong>：主备两台服务器，备机实时同步。<br><br><strong>C ✅ 集群</strong>：Patroni、repmgr等工具实现自动故障切换集群。<br><br><strong>D ✅ 以上都是</strong>：海量数据库支持多种高可用方案。"
+addJudge(2, "数据库的视图（View）中存储实际的数据记录，占用物理存储空间。", false,
+    "视图是虚拟表，不存储实际数据，仅保存查询定义。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：视图不存储数据。<br><br><strong>B ✅ 错误</strong>：视图不存储实际数据，只保存查询定义，不占用物理存储空间（物化视图除外）。"
 );
 
 // 第76题
-addSingle(2, "海量数据库的安全特性包括？", 
-    ["A. 用户认证", "B. 权限管理", "C. 数据加密", "D. 以上都是"], 
-    "D", 
-    "安全体系：SCRAM认证、RBAC权限、TDE加密、审计日志。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ 用户认证</strong>：支持SCRAM-SHA-256、MD5等多种认证方式。<br><br><strong>B ✅ 权限管理</strong>：基于角色的访问控制（RBAC），细粒度权限管理。<br><br><strong>C ✅ 数据加密</strong>：支持透明数据加密（TDE）和SSL/TLS传输加密。<br><br><strong>D ✅ 以上都是</strong>：海量数据库提供完整的安全特性。"
+addJudge(2, "数据库迁移工具可以自动完成所有对象转换，完全不需要人工干预。", false,
+    "迁移工具不能完全替代人工改造，特别是存储过程和复杂SQL。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：迁移需要人工干预。<br><br><strong>B ✅ 错误</strong>：迁移工具可完成大部分结构迁移，但存储过程、触发器等复杂对象需要人工适配。"
 );
 
 // 第77题
-addSingle(2, "海量数据库中，查看性能的视图有？", 
-    ["A. pg_stat_database", "B. pg_stat_user_tables", "C. pg_stat_activity", "D. 以上都是"], 
-    "D", 
-    "性能视图：数据库统计、表统计、活动连接、复制状态。",
-    "🔍 【选项逐项精析】<br><strong>A ✅ pg_stat_database</strong>：数据库级别的统计视图，包含事务数、死锁数等。<br><br><strong>B ✅ pg_stat_user_tables</strong>：用户表级别的统计视图，包含扫描次数、插入/更新/删除行数等。<br><br><strong>C ✅ pg_stat_activity</strong>：活动会话视图，查看当前连接和正在执行的SQL。<br><br><strong>D ✅ 以上都是</strong>：海量数据库提供丰富的性能监控视图。"
-);
-// 第78题（全局第621题）- 国产数据库的代表厂商（多选题）
-addMulti(2, "以下哪些是国产数据库的代表厂商？", 
-    ["A. 海量数据（HighGo）", "B. 达梦数据库", "C. 人大金仓", "D. Oracle", "E. 华为GaussDB"], 
-    ["A", "B", "C", "E"], 
-    "海量数据、达梦、人大金仓、华为GaussDB均为国产数据库代表厂商，Oracle为国外产品。",
-    "🔍 【选项逐项精析】<br><br>" +
-    "<strong>A ✅ 海量数据（HighGo）</strong>：北京海量数据技术股份有限公司推出的HighGo DB（海量数据库）是基于PostgreSQL内核开发的国产企业级关系型数据库，支持国密算法，兼容Oracle语法，是信创目录核心产品之一。<br><br>" +
-    "<strong>B ✅ 达梦数据库</strong>：武汉达梦数据库股份有限公司自主研发的DM系列数据库（DM8等），是中国最早的国产数据库厂商之一，拥有完全自主知识产权，在党政军和金融、电力等行业广泛应用。<br><br>" +
-    "<strong>C ✅ 人大金仓</strong>：北京人大金仓信息技术股份有限公司研发的KingbaseES（金仓数据库），基于PostgreSQL内核开发，提供Oracle/MySQL兼容模式，是信创领域的核心数据库产品。<br><br>" +
-    "<strong>D ❌ Oracle</strong>：Oracle是美国甲骨文公司的商业数据库产品，不属于国产数据库，是信创替代的目标对象之一。<br><br>" +
-    "<strong>E ✅ 华为GaussDB</strong>：华为公司推出的企业级分布式关系型数据库GaussDB，支持分布式部署、高并发事务处理，是华为在信创领域的重要数据库产品，包括GaussDB(for openGauss)和GaussDB(for MySQL)等版本。"
+addJudge(2, "在Vastbase中，REVOKE SELECT ON table_name FROM user可以回收用户对表的查询权限。", true,
+    "REVOKE SELECT ... FROM是回收查询权限的标准语法。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：REVOKE SELECT ON table_name FROM user回收查询权限。<br><br><strong>B ❌ 错误</strong>：这是正确的语法。"
 );
 
-// 第79题（全局第622题）- 海量数据库支持的客户端连接方式（多选题）
-addMulti(2, "在海量数据库中，支持的客户端连接方式包括？", 
-    ["A. psql命令行", "B. Navicat for PostgreSQL", "C. JDBC编程连接", "D. ODBC连接"], 
-    ["A", "B", "C", "D"], 
-    "psql原生客户端，Navicat等GUI工具通过PG协议连接，JDBC/ODBC为编程接口，海量数据库兼容PostgreSQL协议，所有方式均支持。",
-    "🔍 【选项逐项精析】<br><br>" +
-    "<strong>A ✅ psql命令行</strong>：psql是PostgreSQL/海量数据库自带的命令行客户端工具，功能强大，支持执行SQL、元命令、脚本导入等操作，是DBA最常用的连接方式。<br><br>" +
-    "<strong>B ✅ Navicat for PostgreSQL</strong>：Navicat是第三方通用数据库GUI管理工具，其PostgreSQL版本通过PostgreSQL协议连接海量数据库，提供图形化的SQL编辑、数据浏览、备份恢复等功能。<br><br>" +
-    "<strong>C ✅ JDBC编程连接</strong>：海量数据库兼容PostgreSQL的JDBC驱动（org.postgresql.Driver），Java应用程序可通过JDBC连接字符串（jdbc:postgresql://host:5432/dbname）进行编程连接。<br><br>" +
-    "<strong>D ✅ ODBC连接</strong>：海量数据库支持ODBC标准，可通过PostgreSQL ODBC驱动连接，实现C/C++、Python、.NET等语言的数据访问，也支持Power BI、Excel等BI工具的连接。<br><br>" +
-    "<strong>📌 补充说明</strong>：海量数据库基于PostgreSQL内核，完全兼容PostgreSQL通信协议。因此，所有支持PostgreSQL的客户端工具（pgAdmin、DBeaver、DataGrip等）和编程接口（JDBC、ODBC、Python psycopg2、Node.js pg等）均可直接连接海量数据库，无需额外适配。"
+// 第78题
+addJudge(2, "数据库索引越多，查询性能一定越好。", false,
+    "索引过多会影响插入、更新和删除性能，需要合理设计。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：索引过多有负面影响。<br><br><strong>B ✅ 错误</strong>：索引过多会降低DML操作性能，增加存储开销，需根据查询模式合理设计。"
 );
 
+// 第79题
+addJudge(2, "国产数据库迁移适配中，应用代码迁移仅指修改数据库连接字符串。", false,
+    "应用代码迁移还包括SQL语法调整、数据类型映射、函数替换等。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：还包括SQL适配等工作。<br><br><strong>B ✅ 错误</strong>：应用代码迁移还包括SQL语法调整、数据类型映射、函数替换、存储过程适配等。"
+);
 
+// 第80题
+addJudge(2, "数据迁移过程中，使用CRC64校验和可以有效验证数据一致性。", true,
+    "CRC64校验和是验证数据一致性的有效手段。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：CRC64可计算数据的校验和，迁移后对比验证一致性。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第81题
+addJudge(2, "Vastbase的COPY命令可以将CSV文件数据导入到数据库表中。", true,
+    "COPY ... FROM可高效导入CSV数据。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：COPY table_name FROM '/path/file.csv' CSV HEADER可导入CSV。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第82题
+addJudge(2, "数据库的备份恢复策略在迁移后的运维阶段非常重要。", true,
+    "备份恢复是数据库运维的核心工作。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：迁移后需要建立完善的备份恢复策略保障数据安全。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第83题
+addJudge(2, "信创数据库迁移的主要驱动力之一是满足国家信息安全与自主可控要求。", true,
+    "大赛以全栈信创技术链条为背景，旨在推动信息技术应用创新能力提升。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：自主可控和信息安全是信创迁移的核心驱动力。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第84题
+addJudge(2, "在Vastbase中，DROP USER命令可以删除用户及其拥有的所有对象。", false,
+    "需先转移或删除用户拥有的对象，否则无法删除。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：需先处理用户拥有的对象。<br><br><strong>B ✅ 错误</strong>：如果用户拥有数据库对象，需先转移或删除这些对象，否则DROP USER会失败。"
+);
+
+// 第85题
+addJudge(2, "数据库性能调优中，分析SQL执行计划可以帮助定位慢查询的原因。", true,
+    "EXPLAIN分析执行计划是定位慢查询的有效方法。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：通过EXPLAIN分析执行计划可以找到全表扫描、索引失效等慢查询原因。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第86题
+addJudge(2, "信创适配迁移大赛的实操环节中，'环境搭建'只需要安装操作系统即可。", false,
+    "环境搭建包括在国产硬件+国产操作系统环境下完成基础运行环境搭建，包含数据库、中间件等。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：还需安装数据库、中间件等。<br><br><strong>B ✅ 错误</strong>：环境搭建包括操作系统、数据库、中间件、应用服务的完整部署。"
+);
+
+// 第87题
+addJudge(2, "Vastbase中创建表时，如果不指定TABLESPACE，表将创建在默认表空间中。", true,
+    "表默认创建在数据库的默认表空间中。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：未指定TABLESPACE时，表创建在默认表空间（通常是pg_default）。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第88题
+addJudge(2, "数据迁移中，数据一致性校验只需在迁移完成后进行一次即可。", false,
+    "数据校验应在迁移过程中多次进行，包括迁移前、迁移中和迁移后。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：需多次校验。<br><br><strong>B ✅ 错误</strong>：数据校验应在迁移前（基线）、迁移中（分批校验）和迁移后（最终校验）多次进行。"
+);
+
+// 第89题
+addJudge(2, "Vastbase的vb_ctl restart命令用于重启整个数据库服务。", true,
+    "vb_ctl restart停止并重新启动数据库服务。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：vb_ctl restart重启整个Vastbase数据库服务。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第90题
+addJudge(2, "在Vastbase中，创建用户时密码必须至少包含三种字符类型，且不少于8个字符。", true,
+    "Vastbase密码复杂度要求包含字母、数字和特殊字符。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：密码需包含字母、数字、特殊字符三种类型，长度8-16字符。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第91题
+addJudge(2, "信创环境下，关闭透明大页是数据库安装前的可选配置项。", false,
+    "关闭透明大页是必选配置项。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：不是可选的。<br><br><strong>B ✅ 错误</strong>：关闭透明大页是Vastbase安装前的必选配置，开启会对数据库性能产生负面影响。"
+);
+
+// 第92题
+addJudge(2, "Vastbase中，使用vsql -f script.sql可以执行SQL脚本文件。", true,
+    "vsql -f执行指定脚本文件。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：vsql -f script.sql可执行脚本文件中的SQL语句。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第93题
+addJudge(2, "数据库迁移适配中，数据校验只需校验记录总数即可。", false,
+    "需多维度校验，包括记录数、字段值、业务逻辑等。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：记录数校验不够。<br><br><strong>B ✅ 错误</strong>：仅校验记录数无法发现字段值错误、数据损坏等问题，需多维校验。"
+);
+
+// 第94题
+addJudge(2, "Vastbase中，ALTER TABLE table_name ADD COLUMN column_name datatype可以添加新列。", true,
+    "ALTER TABLE ADD COLUMN是添加列的标准语法。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：ALTER TABLE ADD COLUMN用于添加新列。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第95题
+addJudge(2, "信创适配迁移大赛面向各级教育行政部门、各类学校教师、高等院校在校学生以及供应链企业在职人员开放。", true,
+    "大赛面向各级教育行政部门、各级各类学校教师及信息化工作人员、高等院校在校学生、供应链企业在职人员。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：大赛的参赛对象涵盖教育行政人员、教师、学生和企业人员。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第96题
+addJudge(2, "Vastbase中，数据库的OWNER可以拥有该数据库的所有权限。", true,
+    "数据库所有者拥有该数据库的所有权限。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：数据库OWNER拥有该数据库的完全控制权限。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第97题
+addJudge(2, "数据库迁移后，迁移方案文档在项目完成后即失去价值，无需归档保存。", false,
+    "迁移文档需要归档保存，便于后续审计和问题追溯。",
+    "🔍 【选项逐项精析】<br><strong>A ❌ 正确</strong>：需要归档保存。<br><br><strong>B ✅ 错误</strong>：迁移方案文档需要归档保存，用于后续审计、问题追溯和经验总结。"
+);
+
+// 第98题
+addJudge(2, "Vastbase安装前，SELinux需要设置为disabled或permissive模式。", true,
+    "SELinux启用会影响Vastbase正常运行。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：为避免SELinux干扰数据库正常运行，建议设置为disabled或permissive。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第99题
+addJudge(2, "海量数据库Vastbase具备高安全、高可用、高兼容等特性。", true,
+    "Vastbase以高安全（EAL4+）、高可用、高兼容为特点。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：Vastbase具备高安全（EAL4+）、高可用（主备/集群）、高兼容（多模式）特性。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// 第100题
+addJudge(2, "信创数据库迁移适配中，应用适配不仅包括SQL语法调整，还需关注数据类型映射、函数替换等问题。", true,
+    "应用适配需要全面处理SQL语法、数据类型、函数等多方面差异。",
+    "🔍 【选项逐项精析】<br><strong>A ✅ 正确</strong>：应用适配涵盖SQL语法、数据类型映射、函数替换、存储过程适配等多个方面。<br><br><strong>B ❌ 错误</strong>：这是正确的。"
+);
+
+// ===================== 第3章结束（共100题）====================
 // ===================== 第3章结束，共79道单选题 =====================   
     // ===================== 第4章 国产中间件（59道原题完整版 + 每题4选项深度解析）=====================
 // 说明: 本模块共59道单选题，每题均提供“选项逐项精析”，详细解释为何选该项、为何不选其他项。
@@ -2056,7 +2153,7 @@ addSingle(3, "中创中间件中配置数据源时，需要设置的参数有？
 );
 
 // 第13题
-addSingle(3, "中创中间件中查看应用日志的方式不包括？", 
+addSingle(3, "中创中间件中查看应用日志的方式包括？", 
     ["A. 查看/logs目录下的日志文件", "B. 通过管理控制台查看日志", "C. 使用tail -f命令实时查看", "D. 直接修改日志文件"], 
     "D", 
     "查看日志应使用只读方式。",
