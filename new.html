@@ -1,0 +1,3423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>信创题库 · 刷题框架</title>
+    <style>
+        /* ===== 全局重置 & 变量 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        :root {
+            --primary: #1d3b5c;
+            --primary-light: #eef3f9;
+            --primary-dark: #143049;
+            --success: #1a8c4a;
+            --success-bg: #e6f6ee;
+            --danger: #c73b3b;
+            --danger-bg: #fdeeec;
+            --border-light: #e6edf5;
+            --text-dark: #0a1e32;
+            --text-muted: #5f7697;
+            --shadow: 0 20px 60px rgba(0, 20, 40, 0.10);
+            --radius-card: 24px;
+            --radius-btn: 40px;
+            --transition: 0.2s ease;
+        }
+
+        body {
+            background: #f4f7fc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .app-container {
+            max-width: 1100px;
+            width: 100%;
+            background: white;
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow);
+            padding: 24px 28px 32px;
+            transition: all 0.25s;
+        }
+
+        /* ===== 头部 ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header h1 small {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-left: 4px;
+        }
+
+        .stats {
+            background: var(--primary-light);
+            padding: 6px 16px;
+            border-radius: var(--radius-btn);
+            font-size: 14px;
+            color: var(--primary);
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stats .num {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* ===== 分类标签 ===== */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 14px;
+        }
+
+        .category-tab {
+            background: transparent;
+            border: none;
+            padding: 6px 18px;
+            border-radius: var(--radius-btn);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .category-tab:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .category-tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(26, 67, 113, 0.15);
+        }
+
+        /* ===== 主体：题号目录 + 题目 ===== */
+        .main-area {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        /* ---- 左侧题号目录 ---- */
+        .question-nav {
+            flex: 0 0 64px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            max-height: 540px;
+            overflow-y: auto;
+            padding-right: 4px;
+            scrollbar-width: thin;
+        }
+
+        .question-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .question-nav::-webkit-scrollbar-thumb {
+            background: #cbdae7;
+            border-radius: 10px;
+        }
+
+        .q-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #dde6f0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+            user-select: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .q-dot:hover {
+            border-color: #8aa9cc;
+            background: #f5f9ff;
+            transform: scale(1.04);
+        }
+
+        .q-dot.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(26, 67, 113, 0.2);
+        }
+
+        .q-dot.answered-correct {
+            border-color: var(--success);
+            background: var(--success-bg);
+            color: #0f5c31;
+        }
+
+        .q-dot.answered-wrong {
+            border-color: var(--danger);
+            background: var(--danger-bg);
+            color: #a13030;
+        }
+
+        .q-dot.revealed-correct {
+            border-color: var(--success);
+            background: var(--success);
+            color: white;
+        }
+
+        .q-dot.revealed-wrong {
+            border-color: var(--danger);
+            background: var(--danger);
+            color: white;
+        }
+
+        /* ---- 右侧题目 ---- */
+        .question-area {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .question-card {
+            background: #fafcff;
+            border-radius: var(--radius-card);
+            padding: 24px 28px;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
+        }
+
+        .question-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .q-type {
+            background: #e3eaf3;
+            padding: 2px 14px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 12px;
+            color: var(--primary);
+        }
+
+        .q-number-text {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        /* ---- 选项 ---- */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 12px 18px;
+            background: white;
+            border-radius: 16px;
+            border: 1.5px solid #e0e9f2;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .option-item:hover {
+            background: #f5f9ff;
+            border-color: #b2c9e0;
+        }
+
+        .option-item.selected {
+            border-color: var(--primary);
+            background: #f0f6fe;
+        }
+
+        .option-item.correct-reveal {
+            border-color: var(--success);
+            background: var(--success-bg);
+        }
+
+        .option-item.wrong-reveal {
+            border-color: var(--danger);
+            background: var(--danger-bg);
+        }
+
+        .option-item.disabled {
+            pointer-events: none;
+            opacity: 0.85;
+        }
+
+        .option-label {
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 28px;
+        }
+
+        .option-text {
+            color: #1b2f47;
+        }
+
+        /* ---- 判断题 ---- */
+        .judge-group {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .judge-btn {
+            padding: 10px 36px;
+            border-radius: var(--radius-btn);
+            border: 2px solid #d3dfeb;
+            background: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--primary);
+        }
+
+        .judge-btn:hover {
+            background: var(--primary-light);
+            border-color: #9db7d1;
+        }
+
+        .judge-btn.selected-true {
+            border-color: var(--success);
+            background: var(--success-bg);
+        }
+
+        .judge-btn.selected-false {
+            border-color: var(--danger);
+            background: var(--danger-bg);
+        }
+
+        .judge-btn.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* ---- 反馈 ---- */
+        .feedback {
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-size: 15px;
+            margin-top: 6px;
+            display: none;
+            line-height: 1.5;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: var(--success-bg);
+            color: #0f5c31;
+            border-left: 4px solid var(--success);
+        }
+
+        .feedback.wrong {
+            background: var(--danger-bg);
+            color: #a13030;
+            border-left: 4px solid var(--danger);
+        }
+
+        .feedback .explain {
+            margin-top: 6px;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        /* ===== 底部按钮 ===== */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 9px 24px;
+            border-radius: var(--radius-btn);
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            background: var(--primary-light);
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 6px 14px rgba(26, 67, 113, 0.18);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #cbdae7;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-light);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
+        /* ===== 移动端适配 ===== */
+        @media (max-width: 700px) {
+            body {
+                padding: 8px;
+            }
+
+            .app-container {
+                padding: 16px;
+                border-radius: 20px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .header h1 small {
+                font-size: 12px;
+            }
+
+            .stats {
+                font-size: 12px;
+                padding: 4px 12px;
+                gap: 10px;
+            }
+
+            .category-tab {
+                font-size: 13px;
+                padding: 4px 14px;
+            }
+
+            .main-area {
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            /* 题号导航变成横向滚动 */
+            .question-nav {
+                flex: unset;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                overflow-y: visible;
+                max-height: none;
+                padding: 6px 2px 10px 2px;
+                gap: 6px;
+                width: 100%;
+                border-bottom: 1px solid var(--border-light);
+                margin-bottom: 4px;
+                scrollbar-width: thin;
+            }
+
+            .question-nav::-webkit-scrollbar {
+                height: 4px;
+            }
+
+            .question-nav::-webkit-scrollbar-thumb {
+                background: #cbdae7;
+                border-radius: 10px;
+            }
+
+            .q-dot {
+                flex: 0 0 36px;
+                width: 36px;
+                height: 36px;
+                font-size: 13px;
+            }
+
+            .question-card {
+                padding: 18px 16px;
+                border-radius: 18px;
+            }
+
+            .question-text {
+                font-size: 16px;
+                margin-bottom: 16px;
+            }
+
+            .option-item {
+                padding: 10px 14px;
+                gap: 10px;
+            }
+
+            .judge-btn {
+                padding: 8px 24px;
+                font-size: 14px;
+                flex: 1 1 auto;
+                text-align: center;
+            }
+
+            .feedback {
+                font-size: 14px;
+                padding: 12px 14px;
+            }
+
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .btn-group {
+                justify-content: center;
+            }
+
+            .btn {
+                padding: 8px 18px;
+                font-size: 13px;
+                flex: 1 1 auto;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            .stats {
+                justify-content: space-around;
+            }
+            .q-dot {
+                flex: 0 0 32px;
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
+            }
+            .question-text {
+                font-size: 15px;
+            }
+            .option-item {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            .btn {
+                font-size: 12px;
+                padding: 6px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container" id="app">
+        <!-- 头部 -->
+        <div class="header">
+            <h1>📘 信创题库 <small>综合·乱序</small></h1>
+            <div class="stats">
+                <span>📌 <span class="num" id="totalCount">0</span></span>
+                <span>✅ <span class="num" id="doneCount">0</span></span>
+                <span>🎯 <span class="num" id="rightCount">0</span></span>
+            </div>
+        </div>
+
+        <!-- 分类标签 -->
+        <div class="category-tabs" id="categoryTabs"></div>
+
+        <!-- 主体 -->
+        <div class="main-area">
+            <div class="question-nav" id="questionNav"></div>
+            <div class="question-area">
+                <div id="questionContainer"></div>
+                <div class="action-bar">
+                    <div class="btn-group">
+                        <button class="btn btn-outline" id="prevBtn">⬅ 上一题</button>
+                        <button class="btn btn-outline" id="nextBtn">下一题 ➡</button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-outline" id="resetBtn">🔄 重新开始</button>
+                        <button class="btn btn-primary" id="showAnswerBtn">💡 显示答案</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ================================================================
+        //  1. 题库管理器
+        // ================================================================
+        const QuestionBank = {
+            items: [],
+            _idCounter: 1,
+
+            addSingle(category, question, options, answerIndex, explanation = '') {
+                this.items.push({
+                    id: this._idCounter++,
+                    category,
+                    type: 'single',
+                    question,
+                    options: options.slice(),
+                    answer: answerIndex,
+                    explanation
+                });
+                return this;
+            },
+
+            addJudge(category, question, answer, explanation = '') {
+                this.items.push({
+                    id: this._idCounter++,
+                    category,
+                    type: 'judge',
+                    question,
+                    answer,
+                    explanation
+                });
+                return this;
+            },
+
+            getQuestions() { return this.items; },
+
+            getByCategory(category) {
+                if (category === '全部') return this.items;
+                return this.items.filter(q => q.category === category);
+            },
+
+            getAllCategories() {
+                const cats = this.items.map(q => q.category);
+                return ['全部', ...new Set(cats)];
+            },
+
+            clear() {
+                this.items = [];
+                this._idCounter = 1;
+                return this;
+            },
+
+            // 打乱顺序（Fisher–Yates）
+            shuffle() {
+                const arr = this.items;
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                // 重置 id 使其连续（便于显示）
+                arr.forEach((q, idx) => q.id = idx + 1);
+                this._idCounter = arr.length + 1;
+                return this;
+            }
+        };
+
+        // ================================================================
+        //  2. 题库初始化（全部章节综合，最后打乱）
+        // ================================================================
+        (function initQuestions() {
+            // ========== 数据库 ==========
+            QuestionBank
+                .addSingle('数据库', 'Vastbase G100 是基于哪个开源内核研发的？',
+                    ['MySQL', 'PostgreSQL', 'openGauss', 'SQLite'],
+                    2, 'Vastbase 是基于华为开源的 openGauss 内核研发的。'
+                )
+                .addSingle('数据库', 'Vastbase 默认的兼容模式是？',
+                    ['MySQL (B)', 'Oracle (A)', 'PostgreSQL (PG)', 'SQL Server (MSSQL)'],
+                    1, '默认兼容模式为 Oracle 兼容 (A)。'
+                )
+                .addSingle('数据库', 'Vastbase 数据库的默认端口是？',
+                    ['3306', '1521', '5432', '6379'],
+                    2, 'Vastbase 默认端口为 5432。'
+                )
+                .addSingle('数据库', 'Vastbase 的主进程是？',
+                    ['vbworker', 'vbpostmaster', 'checkpointer', 'walwriter'],
+                    1, 'vbpostmaster 是主进程，负责监听和派发任务。'
+                )
+                .addSingle('数据库', '以下哪个进程负责把内存中的脏数据提前写到磁盘？',
+                    ['walwriter', 'checkpointer', 'bgwriter', 'vbworker'],
+                    2, 'bgwriter (后台写手) 负责提前将脏数据写入磁盘。'
+                )
+                .addSingle('数据库', '查看表结构的元命令是？',
+                    ['\\dt', '\\d 表名', '\\l', '\\c'],
+                    1, '\\d 表名 用于查看表结构。'
+                )
+                .addSingle('数据库', 'SM2 算法属于哪种类型的加密？',
+                    ['对称加密', '非对称加密', '哈希摘要', '流加密'],
+                    1, 'SM2 是非对称加密算法。'
+                )
+                .addSingle('数据库', '以下哪个不属于三权分立中的角色？',
+                    ['系统管理员 (sysadmin)', '安全管理员 (sso)', '运维管理员 (opsadmin)',
+                    '审计管理员 (auditadmin)'
+                    ],
+                    2, '三权分立包含：系统管理员、安全管理员、审计管理员。'
+                )
+                .addSingle('数据库', '分区表中，按年份范围分区的类型属于？',
+                    ['列表分区 (LIST)', '范围分区 (RANGE)', '哈希分区 (HASH)', '复合分区'],
+                    1, '按时间范围分区属于 RANGE 分区。'
+                )
+                .addSingle('数据库', '以下哪个命令用于在线创建索引（不阻塞读写）？',
+                    ['CREATE INDEX', 'CREATE INDEX ONLINE', 'CREATE INDEX CONCURRENTLY',
+                    'CREATE INDEX NOWAIT'
+                    ],
+                    2, 'CONCURRENTLY 选项可以在线创建索引，不阻塞 DML。'
+                )
+                .addSingle('数据库', '以下关于序列的说法正确的是？',
+                    ['序列是一种函数', '序列可以回退重新分配', 'nextval() 获取下一个值并递增',
+                    'currval() 获取下一个值'
+                    ],
+                    2, 'nextval() 获取下一个值并自动递增。'
+                )
+                .addSingle('数据库', 'PITR 的核心实现原理是？',
+                    ['仅靠全量备份', '仅靠归档日志', '全量备份 + 归档日志', '增量备份 + 日志备份'],
+                    2, 'PITR = 全量备份 + 归档日志 (WAL) 的组合。'
+                )
+                .addJudge('数据库', 'Vastbase 采用多线程架构。',
+                    false, 'Vastbase 采用多进程架构。'
+                )
+                .addJudge('数据库', '删除用户时，同名 Schema 会被同步删除。',
+                    true, '删除用户时，同名 Schema 也会被级联删除。'
+                )
+                .addJudge('数据库', 'Vastbase 的默认索引类型是 GIN。',
+                    false, '默认索引类型是 B-Tree。'
+                )
+                .addJudge('数据库', '开启归档模式后就不需要再做全量备份了。',
+                    false, '归档不能替代全量备份。'
+                )
+                .addJudge('数据库', 'PITR 是“全量备份 + 归档日志”的组合恢复技术。',
+                    true, 'PITR 依赖全量备份 + 归档日志。'
+                )
+                .addJudge('数据库', 'Vastbase 的登录命令是 vsql。',
+                    false, '登录命令是 `sql -r -d 数据库名`。'
+                )
+                .addJudge('数据库', 'VDS 是 Vastbase 的命令行客户端工具。',
+                    false, 'VDS 是图形化 IDE。'
+                )
+                .addJudge('数据库', 'SM3 是哈希摘要算法，不可逆。',
+                    true, 'SM3 是哈希摘要算法，不可逆。'
+                );
+// ================================================================
+//  题库初始化（数据库部分 · 题库2前100题 原封不动）
+// ================================================================
+(function initQuestions() {
+    // ================================================================
+    // 一、单选题（第1-40题）
+    // ================================================================
+    QuestionBank
+        // 第1题
+        .addSingle('数据库', 'Vastbase数据库的技术血统链路是？\nA. MySQL → openGauss → Vastbase\nB. PostgreSQL → openGauss → Vastbase\nC. Oracle → PostgreSQL → Vastbase\nD. openGauss → PostgreSQL → Vastbase',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档明确指出"技术血统链路：PostgreSQL → openGauss → Vastbase"。Vastbase是基于华为开源的openGauss内核研发的，而openGauss本身脱胎于PostgreSQL。A选项错在MySQL，C选项错在Oracle直接到PostgreSQL，D选项顺序反了。'
+        )
+        // 第2题
+        .addSingle('数据库', 'Vastbase数据库的默认端口是？\nA. 3306\nB. 1521\nC. 5432\nD. 6379',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档中"实例进程架构"部分明确写到"vbpostmaster负责监听端口（5432）"。3306是MySQL的默认端口，1521是Oracle的默认端口，6379是Redis的默认端口。'
+        )
+        // 第3题
+        .addSingle('数据库', '以下哪个进程是Vastbase的总管家（主进程），负责监听端口和接收客户端连接？\nA. vbworker\nB. bgwriter\nC. walwriter\nD. vbpostmaster',
+            ['A', 'B', 'C', 'D'], 3,
+            '文档进程表中明确标注vbpostmaster是"总管家（主进程）"，负责启动、监听端口、接收客户端连接请求并派活给子进程。vbworker是一线服务员负责执行SQL，bgwriter是后台写手，walwriter是日志写手。'
+        )
+        // 第4题
+        .addSingle('数据库', '在Vastbase安装过程中，选择兼容模式时输入字母B代表什么？\nA. Oracle兼容\nB. MySQL兼容\nC. PostgreSQL兼容\nD. SQL Server兼容',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档"安装交互选项"中明确：A=Oracle（默认）、B=MySQL、PG=PostgreSQL、MSSQL=SQL Server。这是一个高频易错点，很多人会误以为A是MySQL或B是Oracle。'
+        )
+        // 第5题
+        .addSingle('数据库', '以下哪个进程负责把WAL操作日志写入磁盘？\nA. checkpointer\nB. bgwriter\nC. walwriter\nD. vbpostmaster',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档进程表中walwriter的职责是"把操作日志（WAL）写入磁盘，用于故障恢复"。checkpointer负责把脏数据刷盘，bgwriter是后台写手，vbpostmaster是主进程。'
+        )
+        // 第6题
+        .addSingle('数据库', '关于Vastbase安装前的系统配置，以下哪项不关闭会导致数据库崩溃或无法启动？\nA. SELinux\nB. 防火墙\nC. RemoveIPC\nD. swap分区',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档明确强调"RemoveIPC不关闭会导致数据库崩溃/无法启动，是安装前必做的系统配置"。SELinux和防火墙不关闭会影响安装或连接但不会直接导致崩溃，swap分区没有必须关闭的要求。'
+        )
+        // 第7题
+        .addSingle('数据库', '在vsql中，用于查看所有数据库列表的元命令是？\nA. \\dt\nB. \\l\nC. \\db\nD. \\dn',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档元命令表中明确：\\l 列出所有数据库。\\dt是列出当前schema下所有表，\\db是列出所有表空间，\\dn是列出所有模式。'
+        )
+        // 第8题
+        .addSingle('数据库', 'Vastbase的默认索引类型是？\nA. GIN\nB. GiST\nC. B-Tree\nD. Hash',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档"索引"部分明确指出"默认索引类型：B-Tree"。GIN和GiST是其他类型的索引，用于特定场景（如全文检索），Hash也是可选类型但不是默认。'
+        )
+        // 第9题
+        .addSingle('数据库', '以下关于序列（Sequence）的说法，正确的是？\nA. 序列是函数，不是数据库对象\nB. currval()每次调用都会生成一个新值并递增\nC. nextval()用于获取序列的下一个值\nD. 事务回滚后，已分配的序列值会被重新使用',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档明确"nextval()拿新号，currval()看当前号"。序列是数据库对象而非函数（易错点A错）；currval()不递增只查看当前值（B错）；序列不能回退，事务回滚后已分配值不再使用（D错，文档明确"序列不能回退，事务回滚也不会再用"）。'
+        )
+        // 第10题
+        .addSingle('数据库', '在三权分立架构中，负责创建用户、分配角色和授予权限的是？\nA. 系统管理员（sysadmin）\nB. 安全管理员（sso）\nC. 审计管理员（auditadmin）\nD. 超级管理员',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档三权分立表格明确"安全管理员（sso）管用户创建、角色分配、权限授予"。系统管理员管启停备份，审计管理员管查日志，三权分立架构中没有超级管理员角色。'
+        )
+        // 第11题
+        .addSingle('数据库', '以下哪个元命令用于查看指定表的结构？\nA. \\dt 表名\nB. \\d 表名\nC. \\db 表名\nD. \\du 表名',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档元命令表中明确"\\d 表名 查看表结构"。\\dt是列出所有表，\\db是列出表空间，\\du是列出用户，三者都加表名无意义。'
+        )
+        // 第12题
+        .addSingle('数据库', 'Vastbase数据库的停止命令是？\nA. vastbase-ctl stop\nB. vb_ctl stop\nC. pg_ctl stop\nD. systemctl stop vastbase',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档"启停与登录"表格明确停止命令是vb_ctl stop。vastbase-ctl是错误写法（易错点），pg_ctl是原生PostgreSQL的命令不适用于Vastbase，systemctl是系统服务管理命令不直接用于Vastbase。'
+        )
+        // 第13题
+        .addSingle('数据库', '以下哪种分区方式最适合按时间区间存储订单数据？\nA. LIST分区\nB. HASH分区\nC. RANGE分区\nD. 复合分区',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档分区表表格明确"范围分区（RANGE）按时间区间分，适合场景：日志表、订单表（按年月）"。LIST适合按固定值（如地区），HASH适合均匀分散数据。'
+        )
+        // 第14题
+        .addSingle('数据库', '安装Vastbase时，软件安装目录和数据存储目录的要求是？\nA. 必须放在同一目录下\nB. 必须分开，且安装路径必须为空\nC. 可以共用，但需设置相同权限\nD. 没有特殊要求',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档"安装规划"部分明确"软件目录（/vastdata/app/）与数据目录（/vastdata/data/）分开"且"核心原则：安装路径必须为空"。A和C说必须同一是错误的，D说没有要求也错误。这也是高频易错点。'
+        )
+        // 第15题
+        .addSingle('数据库', '在Vastbase中创建索引时，使用哪个关键字可以不阻塞读写操作？\nA. ONLINE\nB. CONCURRENTLY\nC. UNIQUE\nD. IF NOT EXISTS',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档"在线建索引（⭐）"明确"CREATE INDEX CONCURRENTLY ...（不阻塞读写）"。ONLINE是其他数据库的语法，Vastbase使用CONCURRENTLY。UNIQUE用于创建唯一索引，IF NOT EXISTS用于条件创建。'
+        )
+        // 第16题
+        .addSingle('数据库', 'Vastbase安装前需要关闭RemoveIPC，以下配置文件需要修改的是？\nA. 仅 /etc/systemd/logind.conf\nB. 仅 /usr/lib/systemd/system/systemd-logind.service\nC. 两个文件都需要配置\nD. 两个文件都不需要，直接修改内核参数即可',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档明确"需配置两个文件"：/etc/systemd/logind.conf和/usr/lib/systemd/system/systemd-logind.service。只配置一个是易错点（文档高频易错点表中明确列出此错误）。'
+        )
+        // 第17题
+        .addSingle('数据库', '关于Vastbase登录命令，以下写法正确的是？\nA. vsql -r -d vastbase\nB. sql -r -d vastbase\nC. vsql -r -p vastbase\nD. vastbase-sql -r -d',
+            ['A', 'B', 'C', 'D'], 0,
+            '文档登录命令示例为"vsql -r -d vastbase"。客户端工具名是vsql不是sql（B错），-p参数后应跟端口号而非数据库名（C错），vastbase-sql不存在（D错）。'
+        )
+        // 第18题
+        .addSingle('数据库', 'SM4国密算法属于什么类型的加密算法？\nA. 非对称加密\nB. 哈希摘要\nC. 对称加密\nD. 数字签名',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档国密算法表格明确"SM4 对称加密（同一个密钥）"。SM2是非对称加密，SM3是哈希摘要。文档最后总结"SM2签合同，SM3存密码，SM4加密数据"。'
+        )
+        // 第19题
+        .addSingle('数据库', '以下哪个不是Vastbase的兼容模式选项？\nA. A（Oracle）\nB. B（MySQL）\nC. C（DB2）\nD. MSSQL',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档明确四种兼容模式：A=Oracle、B=MySQL、PG=PostgreSQL、MSSQL=SQL Server。DB2不在其中，属于干扰项。'
+        )
+        // 第20题
+        .addSingle('数据库', '在vsql中，\\du和\\dg命令的功能是？\nA. 完全不同\nB. 功能相同，都是列出所有用户/角色\nC. 一个列用户，一个列角色\nD. 一个列数据库，一个列表',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档元命令表明确"\\du和\\dg 列出所有用户/角色"，且高频易错点中专门指出两者"功能相同"。不要被名字迷惑以为一个管用户一个管角色。'
+        )
+        // 第21题
+        .addSingle('数据库', '以下哪个进程负责定期把内存中的数据刷到磁盘以防止数据丢失？\nA. walwriter\nB. bgwriter\nC. checkpointer\nD. vbworker',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档进程表中checkpointer的职责是"定期把内存中的数据刷到磁盘上，防止断电丢数据"。walwriter写WAL日志，bgwriter写脏数据（是辅助角色），vbworker执行SQL。'
+        )
+        // 第22题
+        .addSingle('数据库', 'Schema是数据库对象的集合，它属于以下哪个层级？\nA. 实例之上\nB. 数据库之下、表之上\nC. 表之下\nD. 与数据库平级',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档明确"阶级关系：实例 → 数据库 → Schema(模式) → 表/索引/视图..."。所以Schema位于数据库之下、表之上。'
+        )
+        // 第23题
+        .addSingle('数据库', '停止Vastbase时，推荐使用哪个关闭模式以避免数据丢失风险？\nA. -m immediate\nB. -m fast\nC. -m smart\nD. -m force',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档高频易错点明确"-m immediate是推荐模式 ❌ 推荐 -m fast，immediate有数据丢失风险 ⚠️"。smart会等待所有客户端断开，force不是有效参数。'
+        )
+        // 第24题
+        .addSingle('数据库', '以下哪个元命令用于列出所有表空间？\nA. \\l\nB. \\dt\nC. \\db\nD. \\dn',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档元命令表中"\\db 列出所有表空间"。\\l是列数据库，\\dt是列表，\\dn是列模式。高频易错点中专门指出"\\db 列数据库 ❌ \\db=列表空间"。'
+        )
+        // 第25题
+        .addSingle('数据库', '关于Vastbase License（授权文件）的说法，正确的是？\nA. License过期时数据库仍可正常启动\nB. License过期时启动报错，需在postgresql.conf中添加license_path\nC. License文件只需放在任意目录即可自动识别\nD. Vastbase社区版不需要License',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档明确"License过期时启动报错：License expired, database start failed"以及"解决方法：在postgresql.conf中增加 license_path=\'/path/to/license\'"。A说仍可启动错误，C说自动识别错误，D文档未提及社区版免License。'
+        )
+        // 第26题
+        .addSingle('数据库', 'Vastbase Data Studio（VDS）的连接基于什么协议？\nA. ODBC\nB. JDBC\nC. OLE DB\nD. ADO.NET',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档"VDS介绍"明确"VDS是Vastbase专属的图形化管理工具，C/S架构，基于JDBC连接数据库"。高频易错点也指出"VDS基于ODBC ❌ 基于 JDBC"。'
+        )
+        // 第27题
+        .addSingle('数据库', 'Vastbase的安装兼容模式中，字母A代表什么？\nA. MySQL兼容\nB. Oracle兼容\nC. PostgreSQL兼容\nD. SQL Server兼容',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档明确"A=Oracle（默认）、B=MySQL、PG=PostgreSQL、MSSQL=SQL Server"。这是反向考察，之前考了B代表什么，现在考A代表什么。'
+        )
+        // 第28题
+        .addSingle('数据库', '在Vastbase中，查看当前序列的当前值（不递增）应使用哪个函数？\nA. currval()\nB. nextval()\nC. lastval()\nD. getval()',
+            ['A', 'B', 'C', 'D'], 0,
+            '文档总结"nextval()拿新号，currval()看当前号"且明确currval()不递增。nextval()会递增，lastval()返回最近一次nextval的值但文档未重点提及，getval()不存在。'
+        )
+        // 第29题
+        .addSingle('数据库', '以下关于Vastbase约束的说法，正确的是？\nA. PRIMARY KEY和UNIQUE完全一样\nB. 约束只能在建表时定义\nC. NOT NULL约束确保字段不能为空\nD. FOREIGN KEY用于唯一标识一行',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档约束表格明确NOT NULL作用"不能为空"。PRIMARY KEY = NOT NULL + UNIQUE，二者不一样（A错）；约束可在建表时或ALTER TABLE添加（B错）；FOREIGN KEY是外键用于参照而非唯一标识一行（D错）。'
+        )
+        // 第30题
+        .addSingle('数据库', 'Vastbase安装前，内核参数kernel.sem包含几个参数？\nA. 3个\nB. 4个\nC. 5个\nD. 6个',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档内核参数表格明确"kernel.sem 信号量参数：SEMMSL、SEMMNS、SEMOPM、SEMMNI（4个值）"。高频易错点也指出"kernel.sem有3个参数 ❌ 4个"。'
+        )
+        // 第31题
+        .addSingle('数据库', '关于索引和表的关系，以下说法正确的是？\nA. 索引可以先于表创建\nB. 表存在之后才能创建索引\nC. 索引和表可以独立存在互不影响\nD. 删除表时索引自动保留',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档"概述"明确"索引在表创建之后才能创建，不能先于表存在"。索引依赖于表，删除表时索引也会被删除（D错）。'
+        )
+        // 第32题
+        .addSingle('数据库', '以下备份方式中，占用空间最小的是？\nA. 全量备份\nB. 增量备份\nC. WAL归档\nD. 逻辑备份',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档备份恢复表格明确"增量备份 只备份上次备份后新增/修改的数据 空间占用 小"。全量备份占用大，WAL归档持续增长，逻辑备份取决于数据量。'
+        )
+        // 第33题
+        .addSingle('数据库', '安装Vastbase时，若依赖包缺失，安装程序会？\nA. 自动忽略缺失的依赖继续安装\nB. 提示警告但继续安装\nC. 安装中止，需配置yum安装缺失包后重试\nD. 自动从网络下载缺失包',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档"安装交互选项"中明确"依赖包检查：缺失时安装程序中止，配置yum安装缺失包后重试"。A和B说忽略或警告后继续均错误，D说自动下载也错误。'
+        )
+        // 第34题
+        .addSingle('数据库', 'Vastbase基于openGauss内核，openGauss是哪个公司开源的关系型数据库内核？\nA. 海量数据\nB. 华为\nC. 阿里\nD. 腾讯',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档明确"openGauss是华为开源的关系型数据库内核，海量数据在其基础上进行了大量企业级增强"。海量数据是Vastbase的研发公司但不是openGauss的开源方。'
+        )
+        // 第35题
+        .addSingle('数据库', 'Vastbase的安装前准备中，vm.swappiness内核参数推荐值是多少？\nA. 0\nB. 10~20\nC. 50\nD. 100',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档内核参数表格明确"vm.swappiness 使用swap倾向性，推荐 10~20（数值越低越少用swap）"。0是极端值不推荐，50和100是默认或高swap倾向值。'
+        )
+        // 第36题
+        .addSingle('数据库', '以下哪个选项是Vastbase安装前必须关闭的服务？\nA. httpd\nB. firewalld\nC. mysql\nD. nginx',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档"安装前准备"明确"关闭防火墙：systemctl stop firewalld.service"。httpd、mysql、nginx与Vastbase安装无直接冲突，不是必须关闭的。'
+        )
+        // 第37题
+        .addSingle('数据库', '在vsql元命令中，用于列出当前schema下所有表的是？\nA. \\l\nB. \\dt\nC. \\dT\nD. \\db',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档元命令表中"\\dt 列出当前schema下所有表"。\\l是列数据库，\\dT是列数据类型，\\db是列表空间。'
+        )
+        // 第38题
+        .addSingle('数据库', 'Vastbase推荐的内存配置中，shared_buffers建议设置为物理内存的多少？\nA. 10%~20%\nB. 25%~40%\nC. 50%~60%\nD. 80%~90%',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档高频易错点明确"shared_buffers越大越好 ❌ 建议物理内存的25%~40%"。这是最佳实践值，过大或过小都会影响性能。'
+        )
+        // 第39题
+        .addSingle('数据库', '在Vastbase中，创建表时复制表结构和数据应使用以下哪个语句？\nA. CREATE TABLE 新表 LIKE 原表 INCLUDING ALL\nB. CREATE TABLE 新表 AS SELECT * FROM 原表\nC. CREATE TABLE 新表 LIKE 原表\nD. COPY 原表 TO 新表',
+            ['A', 'B', 'C', 'D'], 1,
+            '文档"常用结构语句"表格中"复制表数据：CREATE TABLE ... AS SELECT ..."。A是复制结构（含所有属性）但不复制数据，C只复制结构不复制数据，D的COPY语法不用于此场景。高频易错点也专门区分了LIKE和AS SELECT的区别。'
+        )
+        // 第40题
+        .addSingle('数据库', 'Vastbase的三权分立中，以下哪个角色负责查看审计日志？\nA. 系统管理员（sysadmin）\nB. 安全管理员（sso）\nC. 审计管理员（auditadmin）\nD. 数据库所有者',
+            ['A', 'B', 'C', 'D'], 2,
+            '文档三权分立表格明确"审计管理员（auditadmin）管查看日志、审计谁干了什么"。系统管理员管设备，安全管理员管权限，数据库所有者不是三权分立中的角色。'
+        )
+
+    // ================================================================
+    // 二、多选题（第41-60题）
+    // 注意：多选题在现有框架中用单选模拟，选项合并显示，答案索引指向正确选项组合
+    // ================================================================
+    
+        // 第41题
+        .addSingle('数据库', 'Vastbase数据库的核心特性包括以下哪些？（多选）\nA. 深度兼容Oracle、MySQL、PostgreSQL三大体系\nB. 采用多进程架构\nC. 支持GIS空间数据、时序数据、向量检索三种引擎\nD. 基于MySQL内核自主研发',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"高兼容"特性写明深度兼容三大体系；B正确，文档"实例进程架构"部分明确Vastbase采用多进程架构；C正确，文档"多模态"特性写明支持三种引擎；D错误，Vastbase基于openGauss内核而非MySQL。正确答案：ABC'
+        )
+        // 第42题
+        .addSingle('数据库', '以下关于Vastbase安装前系统配置的说法，正确的有？（多选）\nA. 需关闭防火墙：systemctl stop firewalld.service\nB. 需禁用SELinux：SELINUX=disabled\nC. 需关闭RemoveIPC：RemoveIPC=no\nD. vm.swappiness推荐设置为0',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"安装前准备"要求关闭防火墙且需stop+disable两条；B正确，文档要求SELINUX=disabled且需重启生效；C正确，RemoveIPC必须设为no；D错误，vm.swappiness推荐10~20，不是0。高频易错点中专门指出"vm.swappiness越高越好 ❌ 推荐10~20"。正确答案：ABC'
+        )
+        // 第43题
+        .addSingle('数据库', '以下关于Schema的描述，正确的有？（多选）\nA. Schema是数据库内部的逻辑分组和命名空间\nB. 创建用户时会自动创建一个同名的Schema\nC. 删除用户时同名Schema自动保留\nD. Schema属于创建它的数据库，不可跨数据库共享',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"Schema是数据库对象的集合，是数据库内部的逻辑分组和命名空间"；B正确，文档"创建用户时，会在当前数据库中自动创建一个同名的Schema"；C错误，文档"删除用户时同名Schema同步删除"；D正确，文档"Schema只属于创建它的数据库"。高频易错点也专门指出"删除用户时同名Schema保留 ❌ 同步删除"和"Schema可跨数据库共享 ❌ 只属于创建它的数据库"。正确答案：ABD'
+        )
+        // 第44题
+        .addSingle('数据库', '以下关于Vastbase三权分立的描述，正确的有？（多选）\nA. 系统管理员管设备运行，负责启停和备份恢复\nB. 安全管理员管权限，负责创建用户和授予权限\nC. 审计管理员管日志，负责查看审计记录\nD. 系统管理员可以给自己授权',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档三权分立表格"系统管理员管数据库启停、备份恢复、性能调优"；B正确，"安全管理员管用户创建、角色分配、权限授予"；C正确，"审计管理员管查看日志、审计谁干了什么"；D错误，文档"系统管理员不能给自己授权，权限归安全管理员管"。正确答案：ABC'
+        )
+        // 第45题
+        .addSingle('数据库', '以下属于国密算法的是？（多选）\nA. SM2\nB. SM3\nC. SM4\nD. AES',
+            ['A', 'B', 'C', 'D'], -1,
+            '文档国密算法表格列出了SM2、SM3、SM4三种国密算法。AES是美国国家标准，不属于国密算法。SM2是非对称加密用于数字签名，SM3是哈希摘要，SM4是对称加密。正确答案：ABC'
+        )
+        // 第46题
+        .addSingle('数据库', '以下关于Vastbase分区表的说法，正确的有？（多选）\nA. RANGE分区适合按时间区间存储\nB. LIST分区适合按固定值列表分割\nC. HASH分区适合将数据平均分散\nD. 分区表的数据全部存储在主表中',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"RANGE分区按时间区间分，适合日志表、订单表"；B正确，"LIST分区按固定值列表分，如按地区"；C正确，"HASH分区按哈希值均匀分布，数据平均分散"；D错误，文档"数据实际存在子表里，主表只是逻辑定义"。正确答案：ABC'
+        )
+        // 第47题
+        .addSingle('数据库', '以下关于Vastbase备份恢复的说法，正确的有？（多选）\nA. vb_probackup支持全量备份和增量备份\nB. 增量备份只备份上次备份后新增或修改的数据\nC. WAL归档记录的是数据文件的完整快照\nD. 全量备份+增量备份+WAL归档可实现任意时间点恢复',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"vb_probackup是Vastbase自带的物理备份工具，支持全量备份和增量备份"；B正确，文档"增量备份只备份上次备份后新增/修改的数据"；C错误，文档"WAL归档记录的是WAL操作日志"而非数据快照；D正确，文档"全量打底，增量补充，WAL保实时，三者结合可恢复到任意时间点"即PITR技术。正确答案：ABD'
+        )
+        // 第48题
+        .addSingle('数据库', '关于Vastbase的vsql元命令，以下说法正确的有？（多选）\nA. \\l 用于列出所有数据库\nB. \\dt 用于列出当前schema下的所有表\nC. \\d 表名 用于查看表结构\nD. \\db 用于列出所有数据库',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档元命令表"\\l 列出所有数据库"；B正确，"\\dt 列出当前schema下所有表"；C正确，"\\d 表名 查看表结构"；D错误，高频易错点明确"\\db=列表空间"而非列数据库，列数据库用\\l。正确答案：ABC'
+        )
+        // 第49题
+        .addSingle('数据库', '以下关于Vastbase兼容模式的说法，正确的有？（多选）\nA. 安装时必须选择兼容模式\nB. A代表Oracle兼容，是默认选项\nC. 安装完成后可以随时切换兼容模式\nD. B代表MySQL兼容',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档安装交互选项中兼容模式是必选项且"安装后不可更改"；B正确，文档"A=Oracle（默认）"；C错误，文档"兼容模式安装后不可更改"是超高频考点；D正确，"B=MySQL"。正确答案：ABD'
+        )
+        // 第50题
+        .addSingle('数据库', '以下哪些命令或操作可以用于查看Vastbase数据库的状态？（多选）\nA. vb_ctl status\nB. systemctl status vastbase\nC. vsql登录后执行 \\l\nD. ps -ef | grep vbpostmaster',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"查看状态 vb_ctl status"；B错误，Vastbase不是系统服务，systemctl status vastbase命令不存在（除非手动注册为服务）；C正确，vsql登录后\\l可查看数据库列表，间接确认数据库可连接；D正确，通过查看进程是否存在可判断数据库是否运行。本题考察多种查看状态的方式，区分系统命令和数据库命令。正确答案：ACD'
+        )
+        // 第51题
+        .addSingle('数据库', '关于Vastbase的约束，以下说法正确的有？（多选）\nA. PRIMARY KEY = NOT NULL + UNIQUE\nB. FOREIGN KEY用于参照另一张表\nC. CHECK约束用于条件检查\nD. 约束只能通过CREATE TABLE定义',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"PRIMARY KEY = NOT NULL + UNIQUE"；B正确，文档"FOREIGN KEY外键，参照另一表"；C正确，文档"CHECK条件检查"；D错误，文档"约束可在建表时定义，或通过ALTER TABLE ... ADD后续添加"。正确答案：ABC'
+        )
+        // 第52题
+        .addSingle('数据库', '关于Vastbase索引，以下说法正确的有？（多选）\nA. 默认索引类型是B-Tree\nB. CREATE UNIQUE INDEX用于创建唯一索引\nC. 使用CONCURRENTLY可以在线创建索引，不阻塞DML操作\nD. 索引越多越好，可以提高所有查询性能',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"默认索引类型：B-Tree"；B正确，文档"唯一索引 CREATE UNIQUE INDEX"；C正确，文档"在线建索引 CREATE INDEX CONCURRENTLY ...（不阻塞读写）"；D错误，文档"不良索引会造成空间浪费、IO消耗，甚至访问效率不升反降"。正确答案：ABC'
+        )
+        // 第53题
+        .addSingle('数据库', '以下关于Vastbase启动命令参数的说法，正确的有？（多选）\nA. -D 用于指定数据目录路径\nB. -W 表示等待所有事务完成再返回\nC. -T 用于指定超时时间\nD. -m 用于指定关闭模式，仅用于stop命令',
+            ['A', 'B', 'C', 'D'], -1,
+            '文档"启停与登录"表格中列出所有参数：-D指定数据目录，-W等待所有事务完成再返回，-T指定超时时间，-m指定关闭模式仅用于stop命令。全部正确。正确答案：ABCD'
+        )
+        // 第54题
+        .addSingle('数据库', '以下关于Vastbase序列（Sequence）的说法，正确的有？（多选）\nA. 序列是数据库对象\nB. nextval()用于获取下一个值并递增\nC. currval()用于查看当前值，不递增\nD. 事务回滚后，已分配的序列值会被重新使用',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"序列是数据库对象"且高频易错点"序列是函数 ❌ 序列是数据库对象，nextval()才是函数"；B正确，文档"nextval()拿新号"即获取新值并递增；C正确，文档"currval()看当前号"即不递增；D错误，文档"序列不能回退，事务回滚也不会再用"。正确答案：ABC'
+        )
+        // 第55题
+        .addSingle('数据库', '以下关于Vastbase安装的说法，正确的有？（多选）\nA. 需单独创建vastbase用户和用户组\nB. 软件目录和数据目录应分开\nC. 安装路径必须为空\nD. 安装完成后需执行 source ~/.bashrc',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"groupadd vastbase"和"useradd -g vastbase vastbase"；B正确，"软件安装目录和数据存储目录分开"；C正确，"核心原则：安装路径必须为空"；D正确，"安装完成：source ~/.bashrc"。全部正确。正确答案：ABCD'
+        )
+        // 第56题
+        .addSingle('数据库', '以下哪些是Vastbase数据库的进程？（多选）\nA. vbpostmaster\nB. checkpointer\nC. bgwriter\nD. mysqld',
+            ['A', 'B', 'C', 'D'], -1,
+            '文档进程架构表格中列出了vbpostmaster、checkpointer、bgwriter、walwriter、vbworker等进程。mysqld是MySQL的进程，不属于Vastbase。正确答案：ABC'
+        )
+        // 第57题
+        .addSingle('数据库', '以下关于VDS（Vastbase Data Studio）的说法，正确的有？（多选）\nA. VDS是图形化管理工具\nB. VDS基于JDBC连接数据库\nC. VDS需要安装才能使用\nD. VDS是C/S架构',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"VDS是Vastbase专属的图形化管理工具"；B正确，"基于JDBC连接数据库"；C错误，文档"安装方式：解压即完成（免安装）"；D正确，"C/S架构"。正确答案：ABD'
+        )
+        // 第58题
+        .addSingle('数据库', '以下关于Vastbase删除操作的说法，正确的有？（多选）\nA. 删除用户时同名Schema同步删除\nB. DROP TABLE时加上CASCADE会级联删除依赖该表的对象\nC. RESTRICT表示有依赖对象时拒绝删除\nD. DROP INDEX时需加CASCADE参数',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"删除用户时同名Schema同步删除"；B正确，文档"CASCADE=级联删除依赖对象"；C正确，文档"RESTRICT=有依赖则拒绝删除（默认）"；D错误，文档"删除索引：DROP INDEX 索引名"不需要加CASCADE。正确答案：ABC'
+        )
+        // 第59题
+        .addSingle('数据库', '以下关于Vastbase进程职责的说法，正确的有？（多选）\nA. vbpostmaster负责监听端口和接收客户端连接\nB. checkpointer负责把脏数据刷到磁盘\nC. walwriter负责写WAL日志\nD. bgwriter负责定期将内存数据刷盘',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"vbpostmaster负责启动、监听端口、接收客户端连接请求"；B正确，"checkpointer定期把内存中的数据刷到磁盘上"；C正确，"walwriter把操作日志（WAL）写入磁盘"；D错误，bgwriter是"把内存中的脏数据提前写到磁盘，减轻存盘专员的压力"，而"定期将内存数据刷盘"是checkpointer的职责。正确答案：ABC'
+        )
+        // 第60题
+        .addSingle('数据库', '以下关于Vastbase内核参数配置的说法，正确的有？（多选）\nA. kernel.sem有4个参数：SEMMSL、SEMMNS、SEMOPM、SEMMNI\nB. vm.swappiness推荐值为10~20\nC. kernel.shmmax推荐为系统内存×0.5\nD. fs.aio-max-nr推荐为1048576',
+            ['A', 'B', 'C', 'D'], -1,
+            'A正确，文档"kernel.sem 信号量参数：SEMMSL、SEMMNS、SEMOPM、SEMMNI（4个值）"；B正确，"vm.swappiness 推荐 10~20"；C正确，"kernel.shmmax 推荐：系统内存×0.5"；D正确，"fs.aio-max-nr 推荐 1048576"。全部正确。正确答案：ABCD'
+        )
+
+    // ================================================================
+    // 三、判断题（第61-100题）
+    // ================================================================
+
+        // 第61题
+        .addSingle('数据库', 'Vastbase是基于PostgreSQL原生开发的数据库。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档明确Vastbase"基于开源openGauss内核自主研发"而非基于PostgreSQL原生开发。技术链路是PostgreSQL → openGauss → Vastbase，中间经过了openGauss的企业级增强。高频易错点指出"Vastbase基于PostgreSQL原生开发 ❌ 基于 openGauss 内核"。'
+        )
+        // 第62题
+        .addSingle('数据库', 'Vastbase的技术链路是：PostgreSQL → openGauss → Vastbase。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档"技术血统链路：PostgreSQL → openGauss → Vastbase"表述完全一致，正确。'
+        )
+        // 第63题
+        .addSingle('数据库', 'Vastbase兼容DB2数据库语法。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档明确Vastbase兼容四种模式：Oracle(A)、MySQL(B)、PG、MSSQL。DB2不在兼容列表中。高频易错点专门指出"Vastbase兼容DB2 ❌ 四种模式：Oracle(A)、MySQL(B)、PG、MSSQL"。'
+        )
+        // 第64题
+        .addSingle('数据库', 'EAL4+是中国的等保等级标准。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档高频易错点明确"EAL4+是等保等级 ❌ EAL4+是 CC标准 的安全评估等级"。EAL（Evaluation Assurance Level）是国际通用CC标准（Common Criteria）中的安全评估等级，不是中国等保标准。'
+        )
+        // 第65题
+        .addSingle('数据库', 'Vastbase安装时选择兼容模式，A代表Oracle兼容，是默认选项。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档安装交互选项中明确"A=Oracle（默认）、B=MySQL、PG=PostgreSQL、MSSQL=SQL Server"。正确。'
+        )
+        // 第66题
+        .addSingle('数据库', 'Vastbase的兼容模式在安装完成后可以通过修改配置文件切换。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档超高频考点"兼容模式安装后不可更改"。一旦安装时选择了某种兼容模式，后期无法通过修改配置文件切换，需重新安装。高频易错点专门列出此项。'
+        )
+        // 第67题
+        .addSingle('数据库', '安装Vastbase前，只需执行systemctl stop firewalld.service即可，不需要disable。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档"安装前准备"明确需要"stop + disable两条"：systemctl stop firewalld.service（立即生效）和systemctl disable firewalld.service（永久生效）。只执行stop重启后防火墙会重新开启。高频易错点专门指出"关防火墙只执行stop ❌ 需要 stop + disable 两条"。'
+        )
+        // 第68题
+        .addSingle('数据库', 'SELinux设置enforcing模式不影响Vastbase安装。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档要求"SELINUX=disabled"，且高频易错点明确指出"SELinux设enforcing也行 ❌ 必须 disabled，需重启生效"。enforcing模式下SELinux会拦截数据库进程的许多操作导致安装失败或运行异常。'
+        )
+        // 第69题
+        .addSingle('数据库', 'RemoveIPC必须设置为no，否则会导致数据库崩溃。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档明确"RemoveIPC不关闭会导致数据库崩溃/无法启动，是安装前必做的系统配置"。这是安装前最重要的配置项之一，正确。'
+        )
+        // 第70题
+        .addSingle('数据库', 'RemoveIPC配置只需修改/etc/systemd/logind.conf一个文件即可生效。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档明确"需配置两个文件"：/etc/systemd/logind.conf和/usr/lib/systemd/system/systemd-logind.service。且配置后需执行systemctl daemon-reload和systemctl restart systemd-logind。高频易错点专门指出"只配置/etc/logind.conf即可 ❌ 需配置两个文件"。'
+        )
+        // 第71题
+        .addSingle('数据库', 'Vastbase的默认端口是3306。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档明确Vastbase默认端口是5432。3306是MySQL的默认端口。高频易错点专门列出"默认端口是3306 ❌ 默认端口是5432"。'
+        )
+        // 第72题
+        .addSingle('数据库', 'Vastbase登录命令是vsql -r -d 数据库名。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档登录命令示例"vsql -r -d vastbase"，格式正确。高频易错点也指出"登录命令是sql -r -d ❌ 登录命令是vsql -r -d"。'
+        )
+        // 第73题
+        .addSingle('数据库', 'Vastbase的启动命令是vb_ctl start。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档"启停与登录"表格明确启动命令为vb_ctl start。高频易错点也指出"启动命令是vastbase-ctl start ❌ vb_ctl start"。'
+        )
+        // 第74题
+        .addSingle('数据库', '停止Vastbase时可以使用kill -9强制终止。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档高频易错点明确"停止可用kill -9 ❌ 必须用 vb_ctl stop，禁用kill -9"。使用kill -9可能导致数据丢失或数据库状态不一致，必须使用vb_ctl stop正常关闭。'
+        )
+        // 第75题
+        .addSingle('数据库', 'Vastbase的vsql元命令中，\\l用于列出所有表。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档元命令表中"\\l 列出所有数据库"而非所有表。列出所有表用\\dt。高频易错点"\\l 列表 ❌ \\l=列数据库，列表用\\dt"。'
+        )
+        // 第76题
+        .addSingle('数据库', '\\du和\\dg功能不同，一个列用户一个列角色。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档明确"\\du和\\dg 列出所有用户/角色"且高频易错点"功能不同 ❌ 功能相同"。两者功能完全相同，都是列出所有用户和角色。'
+        )
+        // 第77题
+        .addSingle('数据库', '在Vastbase中，Schema就是用户，二者完全等同。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档高频易错点"Schema就是用户 ❌ Schema是对象集合，User是登录账号"。用户是登录账号用于身份认证，Schema是数据库对象的逻辑容器。二者概念完全不同，只是创建用户时会自动生成同名Schema。'
+        )
+        // 第78题
+        .addSingle('数据库', '删除用户时，同名的Schema会被同步删除。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档高频易错点"删除用户时同名Schema保留 ❌ 删除用户时同名Schema同步删除"。删除用户时系统会自动删除同名的Schema，如果Schema中有对象需先处理依赖关系。'
+        )
+        // 第79题
+        .addSingle('数据库', 'Schema可以跨数据库共享访问。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档高频易错点"Schema可跨数据库共享 ❌ Schema只属于创建它的数据库"。Schema是数据库内部的逻辑分组，不能跨数据库访问。'
+        )
+        // 第80题
+        .addSingle('数据库', 'VDS（Vastbase Data Studio）是命令行工具，需要安装才能使用。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档"VDS是图形化管理工具"且"安装方式：解压即完成（免安装）"。高频易错点"VDS是命令行 ❌ VDS是图形化IDE"和"VDS需安装 ❌ VDS解压即用（免安装）"。'
+        )
+        // 第81题
+        .addSingle('数据库', 'VDS基于JDBC协议连接数据库。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档"VDS基于JDBC连接数据库"。高频易错点也指出"VDS基于ODBC ❌ 基于 JDBC"。'
+        )
+        // 第82题
+        .addSingle('数据库', '在Vastbase中，索引可以先于表创建。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档"索引在表创建之后才能创建，不能先于表存在"。高频易错点"索引可先于表创建 ❌ 表先存在才能建索引"。'
+        )
+        // 第83题
+        .addSingle('数据库', 'Vastbase的默认索引类型是GIN。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档"默认索引类型：B-Tree"。高频易错点"默认索引是GIN ❌ 默认是B-Tree"。GIN是全文检索等特定场景使用的索引类型。'
+        )
+        // 第84题
+        .addSingle('数据库', '使用CONCURRENTLY关键字创建索引会阻塞读写操作。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档"CREATE INDEX CONCURRENTLY ...（不阻塞读写）"。使用CONCURRENTLY的目的就是在线创建索引不阻塞DML操作。高频易错点"普通创建不阻塞业务 ❌ 普通创建阻塞DML；在线CONCURRENTLY才不阻塞"。'
+        )
+        // 第85题
+        .addSingle('数据库', 'PRIMARY KEY约束包含了NOT NULL和UNIQUE的特性。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档"PRIMARY KEY = NOT NULL + UNIQUE"。主键必须唯一且不能为空，所以包含了这两个约束的特性。'
+        )
+        // 第86题
+        .addSingle('数据库', '约束只能在建表时定义，不能通过ALTER TABLE后续添加。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档"约束可在建表时定义，或通过 ALTER TABLE ... ADD 后续添加"。高频易错点"约束只能建表时定义 ❌ 建表时 或 ALTER TABLE后续添加"。'
+        )
+        // 第87题
+        .addSingle('数据库', 'Vastbase的checkpointer进程负责写WAL日志。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档checkpointer职责是"定期把内存中的数据刷到磁盘上"，walwriter负责"把操作日志（WAL）写入磁盘"。高频易错点"checkpointer负责写WAL日志 ❌ checkpointer负责把脏数据刷到磁盘；写WAL的是walwriter"。'
+        )
+        // 第88题
+        .addSingle('数据库', '开启归档后就不需要再做全量备份了。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档"归档不能替代全量备份，必须配合使用"。全量备份是恢复的基础，归档日志需要配合全量备份才能实现完整恢复（PITR）。高频易错点"开了归档就不需要备份了 ❌ 归档不能替代全量备份"。'
+        )
+        // 第89题
+        .addSingle('数据库', 'PITR是"全量备份+归档日志"的组合恢复技术。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档"PITR是\'全量备份+归档日志\'的组合恢复技术"。PITR（Point-In-Time Recovery）通过全量备份加上归档日志重放来实现任意时间点的恢复。'
+        )
+        // 第90题
+        .addSingle('数据库', 'SM2是对称加密算法，SM4是非对称加密算法。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档"SM2 非对称加密"、"SM4 对称加密"。正好说反了。高频易错点"SM2是对称加密 ❌ SM2是非对称加密；SM4是对称加密"。'
+        )
+        // 第91题
+        .addSingle('数据库', 'Vastbase安装时，软件目录和数据目录必须分开。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档"软件安装目录（不存储具体数据，空间需求小）"和"数据存储目录（存储具体数据，需根据业务规划空间）"必须分开。高频易错点"软件目录和数据目录可共用 ❌ 必须分开"。'
+        )
+        // 第92题
+        .addSingle('数据库', '安装Vastbase时选择N表示自动初始化实例。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档安装交互选项"Y=自动初始化；N=仅装软件，手工vb_initdb"。选择N不会自动初始化，需手工执行vb_initdb。高频易错点"选N会自动初始化 ❌ 选N=仅装软件，需手工vb_initdb"。'
+        )
+        // 第93题
+        .addSingle('数据库', '在vsql中，\\c命令用于创建数据库。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档元命令表中"\\c 库名 切换数据库"而非创建数据库。创建数据库使用SQL语句CREATE DATABASE。高频易错点"\\c 创建库 ❌ \\c=切换库"。'
+        )
+        // 第94题
+        .addSingle('数据库', '删除表时使用RESTRICT选项会级联删除依赖该表的对象。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档"RESTRICT=有依赖则拒绝删除（默认）"、"CASCADE=级联删除依赖对象"。RESTRICT是拒绝删除而非级联删除，说反了。高频易错点"RESTRICT和CASCADE效果一样 ❌ CASCADE=级联删除，RESTRICT=拒绝删除（默认）"。'
+        )
+        // 第95题
+        .addSingle('数据库', 'Vastbase中work_mem是所有进程共享的内存区域。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档高频易错点"work_mem是所有进程共享的 ❌ work_mem是每个进程独享的"。work_mem是每个进程独立分配的工作内存，用于排序、哈希等操作，不是共享内存。'
+        )
+        // 第96题
+        .addSingle('数据库', '使用分区表时，数据实际存储在子表中，主表只是逻辑定义。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档"数据实际存在子表里，主表只是逻辑定义"。分区表的主表不存储实际数据，数据分布在各个子分区表中。'
+        )
+        // 第97题
+        .addSingle('数据库', 'Vastbase安装前需要检查Python版本，麒麟/openEuler要求Python 3.7.X。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档高频易错点"麒麟Python版本3.6.X ❌ 麒麟/openEuler要求Python 3.7.X；CentOS要求3.6.X"。不同操作系统对Python版本要求不同，麒麟/openEuler要求3.7.X。'
+        )
+        // 第98题
+        .addSingle('数据库', '内核参数kernel.shmmni推荐值为系统内存×80%/PAGE_SIZE。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档内核参数表格"kernel.shmall 共享内存总页数，推荐：系统内存×80%/PAGE_SIZE"而"kernel.shmmni 共享内存段最大数量，默认即可"。两者张冠李戴了，kernel.shmall才是那个公式。'
+        )
+        // 第99题
+        .addSingle('数据库', '安全管理员（sso）在三权分立中可以修改数据库中的数据。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 1,
+            '文档三权分立"安全管理员管用户创建、角色分配、权限授予"，管的是权限而非数据。审计管理员"只能看日志，不能改数据"。只有系统管理员和拥有表权限的用户可以修改数据。'
+        )
+        // 第100题
+        .addSingle('数据库', 'SM3是哈希摘要算法，用于密码存储和数据完整性校验，是不可逆的。（判断）\nA. 正确\nB. 错误',
+            ['A', 'B'], 0,
+            '文档"SM3 哈希摘要 密码存储、数据完整性校验（类似MD5/SHA）"。哈希摘要算法的特点是不可逆，即无法从摘要反推原始数据。'
+        )
+    // 101
+    .addSingle('数据库', 'Vastbase的底层内核来源于以下哪一项？\nA. 原生PostgreSQL\nB. openGauss\nC. MySQL\nD. Oracle',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：Vastbase技术源头追溯至PostgreSQL，但并非直接基于原生PostgreSQL内核开发；B选项正确：海量数据Vastbase基于华为开源openGauss内核深度二次开发，完整技术链路为PostgreSQL→openGauss→Vastbase；C选项错误：MySQL是独立开源关系型数据库，仅提供语法兼容模式，无内核继承关系；D选项错误：Oracle是闭源商业数据库，Vastbase仅支持Oracle语法兼容，不使用其内核。'
+    )
+    // 102
+    .addSingle('数据库', 'Vastbase数据库默认服务监听端口是？\nA. 3306\nB. 1521\nC. 5432\nD. 5236',
+        ['A', 'B', 'C', 'D'], 2,
+        'A选项错误：3306是MySQL数据库默认服务端口；B选项错误：1521是Oracle数据库监听端口；C选项正确：5432为Vastbase、openGauss、原生PostgreSQL统一默认端口；D选项错误：5236是达梦DM8国产数据库默认端口。'
+    )
+    // 103
+    .addSingle('数据库', '国密算法中专门用于对称式数据存储与传输加密的是？\nA. SM2\nB. SM3\nC. SM4\nD. MD5',
+        ['A', 'B', 'C', 'D'], 2,
+        'A选项错误：SM2是非对称加密算法，用于数字签名、密钥交换，对标RSA；B选项错误：SM3是哈希摘要算法，用于密码校验、数据完整性校验，不可逆；C选项正确：SM4属于对称加密算法，使用同一密钥完成加密和解密，多用于业务数据加密存储与传输；D选项错误：MD5不属于国密算法，是老旧国际哈希算法，安全性存在缺陷。'
+    )
+    // 104
+    .addSingle('数据库', '创建索引时不阻塞表DML读写操作，需要增加的关键字是？\nA. UNIQUE\nB. CONCURRENTLY\nC. PRIMARY\nD. GIN',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：UNIQUE仅定义唯一索引约束，常规建索引依旧加排他锁，阻塞业务增删改；B选项正确：CREATE INDEX CONCURRENTLY为在线建索引语法，全程不加排他锁，不阻塞DML操作；C选项错误：PRIMARY用于定义主键约束，和无锁建索引无关联；D选项错误：GIN是全文检索类索引类型，无法解决建索引锁表问题。'
+    )
+    // 105
+    .addSingle('数据库', 'vsql工具中查询当前数据库下全部数据表的元命令是？\nA. \\l\nB. \\dt\nC. \\d\nD. \\db',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：\\l作用是列出实例内部所有数据库，不能查看数据表；B选项正确：\\dt展示当前Schema模式下所有普通数据表；C选项错误：\\d 表名 只能单独查看某一张表详细结构，无法批量查表；D选项错误：\\db用于查看数据库所有表空间信息。'
+    )
+    // 106
+    .addSingle('数据库', 'Vastbase中实现主键自增、生成唯一连续数字的专用数据库对象是？\nA. 索引\nB. 序列Sequence\nC. 约束\nD. 视图',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：索引仅优化查询速度，不具备生成自增数字的能力；B选项正确：序列专门生成不重复递增数值，用于替代MySQL的AUTO_INCREMENT自增主键；C选项错误：约束仅限制字段数据合法性，无法自动生成连续编号；D选项错误：视图是基于查询语句生成的虚拟表，和自增主键无关。'
+    )
+    // 107
+    .addSingle('数据库', '调用序列、获取下一个递增数值的函数是？\nA. currval()\nB. nextval()\nC. lastval()\nD. getval()',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：currval()仅查看当前会话已生成的序列值，不会递增序列号；B选项正确：nextval()会生成全新编号并自动递增序列内部计数；C选项错误：lastval()获取当前会话最后一次生成的序列值，不能获取下一个未使用的值；D选项错误：Vastbase无getval()内置函数，属于干扰虚构选项。'
+    )
+    // 108
+    .addSingle('数据库', 'Vastbase软件安装目录与数据存储目录规划规范要求？\nA. 共用同一个目录\nB. 必须分开独立目录\nC. 无任何强制规范\nD. 数据目录嵌套在软件目录内部',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：混放程序文件与业务数据会导致备份、扩容、故障排查流程混乱；B选项正确：官方安装规范强制两类目录物理分离，软件目录占用空间小，数据目录需预留大容量存储空间；C选项错误：安装手册明确目录分离为硬性规范，不允许随意混放；D选项错误：数据目录嵌套软件目录不符合运维标准，禁止使用。'
+    )
+    // 109
+    .addSingle('数据库', 'Vastbase安装交互界面中，兼容模式选项A代表哪种数据库语法兼容？\nA. MySQL\nB. Oracle\nC. PostgreSQL\nD. SQL Server',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：兼容模式B对应MySQL语法；B选项正确：A=Oracle，是系统默认兼容模式；C选项错误：PG标识代表PostgreSQL原生语法兼容；D选项错误：MSSQL标识代表SQL Server语法兼容。'
+    )
+    // 110
+    .addSingle('数据库', '安装Vastbase前，避免数据库进程崩溃的关键系统参数配置为？\nA. RemoveIPC=yes\nB. RemoveIPC=no\nC. IPCLimit=0\nD. IPCClose=1',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：RemoveIPC=yes会让操作系统自动销毁数据库进程通信资源，直接造成数据库崩溃；B选项正确：必须修改logind.conf与对应service文件设置RemoveIPC=no，保障进程间通信稳定；C选项错误：IPCLimit并非文档规定的标准内核配置参数，无实际作用；D选项错误：IPCClose不存在，属于虚构干扰参数。'
+    )
+    // 111
+    .addSingle('数据库', '未自动初始化实例时，手动初始化Vastbase数据目录的工具命令是？\nA. vb_ctl\nB. vb_initdb\nC. vsql\nD. vb_probackup',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：vb_ctl仅负责数据库启停、运行状态查看；B选项正确：vb_initdb是实例初始化专用工具，生成数据目录、系统元数据表；C选项错误：vsql是命令行客户端，仅用于连接数据库执行SQL语句；D选项错误：vb_probackup是物理备份与恢复工具。'
+    )
+    // 112
+    .addSingle('数据库', 'vsql中切换连接至指定数据库的元命令是？\nA. \\l\nB. \\c\nC. \\dn\nD. \\dp',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：\\l 查看实例内全部数据库列表；B选项正确：\\c 数据库名 切换当前会话所连接的数据库；C选项错误：\\dn 列出数据库内所有Schema模式；D选项错误：\\dp 查看表、视图、序列的权限分配详情。'
+    )
+    // 113
+    .addSingle('数据库', 'Vastbase授权License文件过期会直接出现哪种故障？\nA. 仅只读，禁止写入新增数据\nB. 数据库启动失败\nC. SQL查询响应缓慢卡顿\nD. 分区表功能直接失效',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：License过期不会限制读写权限，而是直接阻止实例启动；B选项正确：数据库启动阶段会校验授权文件，过期抛出License expired报错，实例启动终止；C选项错误：慢查询卡顿由索引、内存参数决定，和授权文件无关联；D选项错误：分区表失效仅与表定义、存储参数相关，不受License影响。'
+    )
+    // 114
+    .addSingle('数据库', 'Vastbase全局总管控主进程名称是？\nA. vbworker\nB. vbpostmaster\nC. walwriter\nD. checkpointer',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：vbworker是单会话工作进程，一个客户端连接对应一个vbworker；B选项正确：vbpostmaster是实例总主进程，监听5432端口、分发客户端连接、统一管理所有子进程；C选项错误：walwriter负责持久化WAL预写事务日志；D选项错误：checkpointer定期将内存脏数据批量刷入磁盘文件。'
+    )
+    // 115
+    .addSingle('数据库', 'vsql中查看表、视图、序列权限详情的元命令是？\nA. \\dp\nB. \\db\nC. \\dT\nD. \\?',
+        ['A', 'B', 'C', 'D'], 0,
+        'A选项正确：\\dp专门展示各类业务对象的用户权限、角色授权信息；B选项错误：\\db查看系统所有表空间存储配置；C选项错误：\\dT查看数据库自定义数据类型；D选项错误：\\? 调出全部vsql元命令帮助手册。'
+    )
+    // 116
+    .addSingle('数据库', '数据库环境中内核参数vm.swappiness推荐设置区间是？\nA. 0~5\nB. 10~20\nC. 50~60\nD. 90~100',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：0~5会几乎禁止系统使用swap，内存溢出时直接触发OOM杀死数据库进程；B选项正确：10~20平衡物理内存与swap分区，大幅减少磁盘交换IO，适配数据库高内存读写场景；C选项错误：50~60会频繁将内存数据交换至磁盘，严重降低数据库运行性能；D选项错误：90~100系统会优先使用swap分区，IO阻塞严重，数据库环境严禁使用。'
+    )
+    // 117
+    .addSingle('数据库', 'Vastbase图形化管理工具VDS的连接底层协议是？\nA. ODBC\nB. JDBC\nC. OCI\nD. TCP直连无驱动',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：ODBC多用于Windows平台异构数据库连接，不是VDS底层驱动；B选项正确：Vastbase Data Studio基于Java开发，依靠JDBC驱动完成数据库连接；C选项错误：OCI是Oracle数据库专属驱动协议；D选项错误：所有数据库图形管理工具必须配套驱动程序，无法裸TCP直接连接。'
+    )
+    // 118
+    .addSingle('数据库', '以下哪种表分区适合按月、按年存储订单、日志类时序数据？\nA. RANGE范围分区\nB. LIST列表分区\nC. HASH哈希分区\nD. TIME时间分区',
+        ['A', 'B', 'C', 'D'], 0,
+        'A选项正确：RANGE按照数值/时间区间划分数据，日志、订单等时序业务的标准分区方案；B选项错误：LIST用于存储固定离散值（省份、业务类型），不适合连续时间维度数据；C选项错误：HASH用于均匀打散数据，仅均衡存储压力，无区间划分能力；D选项错误：Vastbase无独立TIME分区类型，属于虚构干扰项，时间业务统一使用RANGE实现。'
+    )
+    // 119
+    .addSingle('数据库', '负责将Vastbase内存脏数据批量刷写到磁盘的后台进程是？\nA. walwriter\nB. checkpointer\nC. bgwriter\nD. vbworker',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：walwriter只写入事务WAL日志，不负责刷写业务数据表文件；B选项正确：checkpointer定期执行检查点，批量将内存修改后的脏数据落盘；C选项错误：bgwriter持续少量后台刷脏数据，仅减轻checkpointer工作压力，不是批量落盘专员；D选项错误：vbworker处理用户提交的SQL执行逻辑，无磁盘落盘职责。'
+    )
+    // 120
+    .addSingle('数据库', 'Vastbase安装时，初始化实例的数据目录路径要求？\nA. 目录可存在旧文件\nB. 目录必须为空文件夹\nC. 目录权限700以外均可\nD. 目录路径支持中文、空格',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：目录存在旧数据文件会引发冲突，初始化程序直接终止；B选项正确：官方强制数据目录初始化前为空，防止旧数据污染全新实例；C选项错误：数据库数据目录必须分配vastbase用户专属读写权限700；D选项错误：国产数据库安装路径禁止中文、空格、特殊符号。'
+    )
+    // 121
+    .addSingle('数据库', 'Vastbase三权分立中，专门负责数据库启停、备份、性能调优的角色是？\nA. sso安全管理员\nB. auditadmin审计管理员\nC. sysadmin系统管理员\nD. root操作系统管理员',
+        ['A', 'B', 'C', 'D'], 2,
+        'A选项错误：sso仅管理账号创建、权限授予与回收；B选项错误：auditadmin仅查看审计操作日志，无法操作数据库服务；C选项正确：sysadmin负责数据库运行维护、启停、备份、参数性能调优；D选项错误：root是操作系统账号，不属于数据库三权分立体系角色。'
+    )
+    // 122
+    .addSingle('数据库', '下列哪种SQL语法仅复制表结构，不复制表内数据？\nA. CREATE TABLE t2 AS SELECT * FROM t1;\nB. CREATE TABLE t2 (LIKE t1 INCLUDING ALL);\nC. CREATE SEQUENCE seq_t1 START 1;\nD. ALTER TABLE t1 ADD COLUMN test int;',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：AS SELECT会同时复制表结构+源表全部业务数据；B选项正确：LIKE INCLUDING ALL完整复制字段、约束、索引结构，不会同步任何数据；C选项错误：语句用于创建序列对象，和表复制无任何关系；D选项错误：仅给原有数据表新增字段，不存在表复制逻辑。'
+    )
+    // 123
+    .addSingle('数据库', '关闭Vastbase数据库，能最大程度保证数据完整、官方推荐使用的关闭模式是？\nA. immediate\nB. fast\nC. kill -9\nD. force',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：immediate强制回滚所有未提交事务，存在缓存数据丢失风险；B选项正确：fast等待当前事务正常提交后关闭实例，兼顾数据安全与停机效率，官方推荐；C选项错误：kill -9暴力杀死进程，极易损坏数据库数据文件；D选项错误：force不属于vb_ctl stop标准关闭参数，为无效干扰选项。'
+    )
+    // 124
+    .addSingle('数据库', '数据库架构层级从高到低排序正确的是？\nA. Schema → 实例 → 数据库 → 表\nB. 实例 → 数据库 → Schema → 表\nC. 数据库 → 实例 → Schema → 表\nD. 实例 → Schema → 数据库 → 表',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：整体层级顺序完全颠倒；B选项正确：顶层为实例，实例下包含多个数据库，单个数据库内包含多个Schema，Schema下存储表、索引等对象；C选项错误：实例层级高于数据库；D选项错误：数据库层级高于Schema模式。'
+    )
+    // 125
+    .addSingle('数据库', '以下哪项不属于Vastbase三权分立中sysadmin系统管理员可执行操作？\nA. sysadmin修改普通用户登录密码\nB. sso分配数据表查询权限\nC. auditadmin查询全量操作审计日志\nD. sysadmin执行数据库全量备份',
+        ['A', 'B', 'C', 'D'], 0,
+        'A选项正确（题目选不属于sysadmin操作）：修改用户密码、分配权限属于sso安全管理员专属职责，sysadmin无权操作；B选项错误：sso核心职能就是管理数据库账号与权限分配；C选项错误：auditadmin拥有查看全量审计日志的专属权限；D选项错误：数据库备份运维是sysadmin标准工作内容。'
+    )
+    // 126
+    .addSingle('数据库', 'Vastbase安装时校验依赖包缺失会发生？\nA. 跳过依赖直接完成安装\nB. 安装程序中止，补齐依赖后才可重试\nC. 自动yum在线安装缺失包\nD. 仅影响图形工具，数据库服务可正常运行',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：依赖缺失无法跳过校验，安装程序强制终止；B选项正确：所有核心依赖包校验失败会直接退出安装流程，需手动安装依赖后重试；C选项错误：安装程序无自动联网安装依赖能力，需手动配置yum安装；D选项错误：核心依赖缺失会导致数据库服务无法启动，不只是图形工具故障。'
+    )
+    // 127
+    .addSingle('数据库', 'WAL预写日志的核心作用是？\nA. 加速SQL语句查询执行速度\nB. 故障后数据恢复、保障事务ACID特性\nC. 持久化数据表索引数据\nD. 统计数据库访问流量数据',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：查询速度由索引、内存参数控制，和WAL日志无关；B选项正确：WAL完整记录全部事务操作，服务器宕机后依靠日志恢复数据，保障事务一致性；C选项错误：索引独立存储在数据文件，不存于WAL日志；D选项错误：访问流量统计依靠审计日志，并非WAL预写日志。'
+    )
+    // 128
+    .addSingle('数据库', '单进程最大打开文件句柄由哪个内核参数控制？\nA. fs.file-max\nB. fs.nr_open\nC. kernel.sem\nD. vm.swappiness',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：fs.file-max是操作系统全局最大文件句柄总数；B选项正确：fs.nr_open限制单个进程能够打开的最大文件数量；C选项错误：kernel.sem是信号量参数，和文件句柄无关联；D选项错误：vm.swappiness控制系统swap交换分区使用频率。'
+    )
+    // 129
+    .addSingle('数据库', 'Vastbase数据库业务部署时，默认推荐字符集配置？\nA. gbk\nB. utf8\nC. utf8mb4\nD. latin1',
+        ['A', 'B', 'C', 'D'], 2,
+        'A选项错误：gbk不兼容生僻汉字、emoji表情符号；B选项错误：普通utf8不支持4字节特殊字符，教育系统会出现乱码；C选项正确：utf8mb4完整兼容全部中文、表情、特殊字符，是信创教育系统迁移标准配置；D选项错误：latin1仅支持西欧字符，中文存储必然乱码。'
+    )
+    // 130
+    .addSingle('数据库', 'MySQL的LIMIT m,n分页语法，在Vastbase中等效标准写法是？\nA. LIMIT m OFFSET n\nB. LIMIT n OFFSET m\nC. SKIP m LIMIT n\nD. OFFSET n LIMIT m',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：参数顺序颠倒，分页查询结果完全错误；B选项正确：MySQL LIMIT 偏移量,条数 等价Vastbase LIMIT 条数 OFFSET 偏移量；C选项错误：Vastbase不支持SKIP关键字，属于MySQL特有语法；D选项错误：关键字顺序不符合数据库语法规范，执行报错。'
+    )
+    // 131
+    .addSingle('数据库', 'Vastbase Oracle兼容模式下，与MySQL IFNULL()等效的内置函数是？\nA. NVL()\nB. IFNULL()\nC. COALESCE()\nD. TO_CHAR()',
+        ['A', 'B', 'C', 'D'], 0,
+        'A选项正确：Oracle兼容模式下NVL是官方推荐替代IFNULL的判空函数；B选项错误：IFNULL仅做部分兼容，复杂联合查询场景容易出现语法报错；C选项错误：COALESCE支持多参数判空，语法更长，并非一对一等效替换；D选项错误：TO_CHAR用于日期、数字格式化转换，和空值判断无关。'
+    )
+    // 132
+    .addSingle('数据库', '查看Vastbase数据库实例当前运行状态的命令是？\nA. vb_ctl start\nB. vb_ctl stop\nC. vb_ctl status\nD. vb_ctl reload',
+        ['A', 'B', 'C', 'D'], 2,
+        'A选项错误：start命令作用是启动数据库实例；B选项错误：stop命令用于正常关闭数据库；C选项正确：status读取实例进程、端口、运行模式，输出完整运行状态信息；D选项错误：reload仅重载数据库配置文件，不查看运行状态。'
+    )
+    // 133
+    .addSingle('数据库', '分区表中，适合地区、业务类型等离散固定值场景的分区是？\nA. RANGE\nB. LIST\nC. HASH\nD. INTERVAL',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：RANGE适配连续区间（时间、数字），不适合离散枚举值；B选项正确：LIST枚举固定离散数值，常用于按省份、业务分类字段分区；C选项错误：HASH仅均匀打散数据，无分类枚举能力；D选项错误：INTERVAL是定时自动分区扩展语法，不属于三大基础分区类型。'
+    )
+    // 134
+    .addSingle('数据库', '数据库三权分立安全架构设计的核心目的是？\nA. 提升SQL查询执行性能\nB. 拆分权限、相互监督、提升数据安全等级\nC. 简化数据库日常运维操作流程\nD. 兼容多种数据库语法体系',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：权限隔离架构和SQL查询性能无任何关联；B选项正确：拆分运维、权限、审计三类独立权限，单一账号无法篡改、销毁数据，满足CC EAL4+安全标准；C选项错误：三权分立会增加操作校验流程，不会简化运维；D选项错误：多数据库语法兼容由安装兼容模式控制，与权限架构无关。'
+    )
+    // 135
+    .addSingle('数据库', 'Vastbase官方通过的安全评估标准等级为？\nA. EAL2\nB. EAL3\nC. EAL4+\nD. EAL5',
+        ['A', 'B', 'C', 'D'], 2,
+        'A、B选项错误：EAL2、EAL3安全等级偏低，无法满足政企信创项目安全要求；C选项正确：复习资料明确Vastbase遵循CC标准EAL4+安全增强级别；D选项错误：EAL5属于极高安全等级，市面上极少数据库产品通过该认证，Vastbase未达到。'
+    )
+    // 136
+    .addSingle('数据库', '物理备份工具vb_probackup无法实现以下哪项功能？\nA. 全量物理备份\nB. 增量物理备份\nC. 逻辑单表导出备份\nD. 配合WAL实现PITR任意时间点恢复',
+        ['A', 'B', 'C', 'D'], 2,
+        'A选项错误：全量备份是vb_probackup基础核心功能；B选项错误：工具支持基于全量备份生成增量备份文件；C选项正确：逻辑单表导出依靠vsql、exBase迁移平台，不属于物理备份工具能力；D选项错误：全量备份+增量备份+WAL归档日志可实现任意时间点数据恢复。'
+    )
+    // 137
+    .addSingle('数据库', 'VDS图形管理工具的产品定位是？\nA. 服务器端数据库运维后台程序\nB. 客户端可视化数据库管理工具\nC. 数据库批量备份脚本工具\nD. 操作系统内核参数调整程序',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：VDS运行在本地电脑，不属于服务器后台服务程序；B选项正确：C/S架构客户端工具，可视化完成建表、执行SQL、查看执行计划等操作；C选项错误：数据库备份操作使用vb_probackup工具，与VDS无关；D选项错误：内核参数需在操作系统配置文件手动修改，VDS无对应功能。'
+    )
+    // 138
+    .addSingle('数据库', 'kernel.shmmax内核参数含义是？\nA. 系统共享内存总页数\nB. 单个共享内存段最大容量\nC. 异步IO最大请求数\nD. 系统全局最大打开文件总数',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：kernel.shmall代表操作系统共享内存总页数；B选项正确：shmmax限制单段共享内存最大容量，配置值必须大于数据库shared_buffers；C选项错误：fs.aio-max-nr控制异步IO请求上限；D选项错误：fs.file-max控制全局文件句柄总数。'
+    )
+    // 139
+    .addSingle('数据库', '事务回滚后，已调用nextval消耗的序列值会？\nA. 自动回收、重复使用\nB. 永久丢弃，序列持续递增\nC. 事务提交才丢弃，回滚保留\nD. 自动重置为初始起始值',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：序列数值一旦生成不会回收复用，会出现主键断层；B选项正确：Sequence序列运行逻辑独立于事务，无论提交回滚，编号永久消耗；C选项错误：事务回滚不会保留已生成的序列号；D选项错误：序列无自动重置逻辑，如需重置需手动修改序列参数。'
+    )
+    // 140
+    .addSingle('数据库', '关闭操作系统防火墙并永久生效的命令是？\nA. systemctl stop firewalld\nB. systemctl disable firewalld\nC. firewall-cmd --reload\nD. setenforce 0',
+        ['A', 'B', 'C', 'D'], 1,
+        'A选项错误：stop仅临时关闭防火墙，服务器重启后自动恢复开启；B选项正确：disable取消防火墙开机自启，实现永久关闭；C选项错误：reload仅重载防火墙规则，不会关闭防火墙服务；D选项错误：setenforce 0临时关闭SELinux安全模块，和防火墙无关。'
+    )
+
+// ================================================================
+// 第141-160题（多选题）
+// ================================================================
+
+    // 141
+    .addSingle('数据库', '属于Vastbase核心后台常驻进程的有？（多选）\nA. vbpostmaster\nB. vbworker\nC. walwriter\nD. mysqld',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：vbpostmaster是实例全局总主进程，监听端口、管理所有子进程；B选项正确：vbworker为会话工作进程，每一条客户端连接对应一个该进程，负责执行SQL；C选项正确：walwriter持久化WAL预写日志，保障宕机数据可恢复；D选项错误：mysqld是MySQL数据库专属进程，Vastbase内核不存在该进程。正确答案：ABC'
+    )
+    // 142
+    .addSingle('数据库', '安装Vastbase前必须执行的操作系统前置配置包含？（多选）\nA. 关闭防火墙并禁用开机自启\nB. SELINUX修改为disabled并重启生效\nC. 修改logind.conf与service文件配置RemoveIPC=no\nD. 调整内核共享内存、信号量、文件句柄参数',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：防火墙会拦截5432数据库端口，必须临时关闭+永久禁启；B选项正确：SELinux强制访问控制会拦截数据库文件读写，必须关闭；C选项正确：RemoveIPC=yes会销毁进程通信资源，导致数据库崩溃，必须改为no；D选项正确：系统默认内核参数偏小，不调整会出现数据库启动失败、性能卡顿。正确答案：ABCD'
+    )
+    // 143
+    .addSingle('数据库', 'Vastbase三权分立包含三类数据库管理员角色？（多选）\nA. sysadmin系统管理员\nB. sso安全管理员\nC. auditadmin审计管理员\nD. root操作系统管理员',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：sysadmin负责启停、备份、性能调优、运维操作；B选项正确：sso负责创建用户、分配权限、管理账号密码；C选项正确：auditadmin仅可查看审计日志，追溯所有数据库操作；D选项错误：root是操作系统超级账号，不属于数据库内部三权分立角色。正确答案：ABC'
+    )
+    // 144
+    .addSingle('数据库', 'Vastbase官方支持的表分区类型包含？（多选）\nA. RANGE范围分区\nB. LIST列表分区\nC. HASH哈希分区\nD. TIME时间分区',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：RANGE按时间、数字区间分区，适配日志、订单时序业务；B选项正确：LIST按固定离散值分区，适配省份、业务分类等场景；C选项正确：HASH均匀打散数据，均衡各分区存储压力；D选项错误：Vastbase无独立TIME分区类型，时间业务统一使用RANGE实现。正确答案：ABC'
+    )
+    // 145
+    .addSingle('数据库', 'vb_ctl stop标准支持的数据库关闭模式有？（多选）\nA. smart\nB. fast\nC. immediate\nD. force',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：smart等待所有客户端主动断开连接后再关闭；B选项正确：fast等待现有事务提交后关闭，官方推荐、兼顾安全效率；C选项正确：immediate强制回滚未完成事务，快速停机；D选项错误：force不属于vb_ctl合法参数，暴力停机等价kill -9，禁止使用。正确答案：ABC'
+    )
+    // 146
+    .addSingle('数据库', '属于国家商用密码（国密）标准算法的是？（多选）\nA. SM2\nB. SM3\nC. SM4\nD. MD5',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：SM2非对称加密，用于数字签名、密钥交换；B选项正确：SM3哈希摘要算法，用于密码校验、数据完整性校验；C选项正确：SM4对称加密，用于业务数据存储、传输加密；D选项错误：MD5是国际老旧哈希算法，不属于国密算法体系。正确答案：ABC'
+    )
+    // 147
+    .addSingle('数据库', 'vsql中可以查询用户、角色信息的元命令有？（多选）\nA. \\du\nB. \\dg\nC. \\dt\nD. \\da',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：\\du列出数据库全部用户、角色及对应权限；B选项正确：\\dg功能与\\du完全等效，同样用于查询角色列表；C选项错误：\\dt仅用于查询当前Schema下的数据表；D选项错误：\\da用于查询数据库聚合函数。正确答案：AB'
+    )
+    // 148
+    .addSingle('数据库', 'Vastbase安装兼容模式支持的数据库语法体系包含？（多选）\nA. Oracle\nB. MySQL\nC. PostgreSQL\nD. SQL Server',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：选项A代表Oracle兼容，为系统默认模式；B选项正确：选项B代表MySQL兼容，适配教育系统MySQL迁移场景；C选项正确：PG标识代表原生PostgreSQL语法兼容；D选项正确：MSSQL标识代表SQL Server语法兼容。正确答案：ABCD'
+    )
+    // 149
+    .addSingle('数据库', '建表完成后，可以通过ALTER TABLE追加添加的约束类型有？（多选）\nA. NOT NULL\nB. UNIQUE唯一约束\nC. PRIMARY KEY主键\nD. FOREIGN KEY外键约束',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：ALTER TABLE ALTER COLUMN可后期设置字段非空；B选项正确：可通过ADD CONSTRAINT新增唯一约束；C选项正确：无主键的空白表支持事后添加主键约束；D选项正确：支持在建表完成后新增外键参照约束。正确答案：ABCD'
+    )
+    // 150
+    .addSingle('数据库', 'Vastbase物理备份工具vb_probackup支持哪些备份相关能力？（多选）\nA. 全量物理备份\nB. 增量物理备份\nC. WAL预写日志归档\nD. 单表逻辑导出备份',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：全量备份完整拷贝数据库所有数据文件；B选项正确：增量备份仅记录上次备份后变更的数据块，节省空间；C选项正确：配合WAL归档可实现任意时间点PITR恢复；D选项错误：单表逻辑导出属于逻辑备份，由vsql、exBase工具实现，不属于vb_probackup功能。正确答案：ABC'
+    )
+    // 151
+    .addSingle('数据库', 'Vastbase安装前需要提前部署的系统依赖软件包包含？（多选）\nA. zlib-devel\nB. libaio\nC. readline-devel\nD. openssl-devel',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：zlib-devel提供压缩库，用于日志、备份压缩；B选项正确：libaio提供异步IO能力，提升数据库磁盘读写性能；C选项正确：readline实现vsql命令行上下翻、交互功能；D选项正确：openssl-devel提供SSL、国密底层加密依赖库。正确答案：ABCD'
+    )
+    // 152
+    .addSingle('数据库', 'vsql常用元命令功能描述正确的有？（多选）\nA. \\l：查看实例下所有数据库\nB. \\dn：查看当前库全部Schema模式\nC. \\db：查看数据库表空间信息\nD. \\d 表名：查看指定表完整结构',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：\\l罗列实例中所有database数据库；B选项正确：\\dn展示当前数据库内全部Schema；C选项正确：\\db查询所有表空间存储路径、容量信息；D选项正确：\\d后拼接表名，展示字段、索引、约束、注释完整表结构。正确答案：ABCD'
+    )
+    // 153
+    .addSingle('数据库', 'Vastbase索引相关正确规则有？（多选）\nA. 必须先创建数据表，才能创建索引\nB. CREATE INDEX CONCURRENTLY在线建索引不锁表\nC. 默认索引类型为B-Tree索引\nD. 索引创建越多，查询速度一定越快',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：索引是依附数据表的二级对象，无表无法建立索引；B选项正确：CONCURRENTLY关键字不加排他锁，建索引期间不阻塞增删改；C选项正确：Vastbase创建普通索引时，默认采用B-Tree结构；D选项错误：冗余索引会大幅降低插入、更新、删除性能，并非越多越好。正确答案：ABC'
+    )
+    // 154
+    .addSingle('数据库', '数据库安装目录规划硬性规范要求？（多选）\nA. 软件程序目录与数据存储目录物理分离\nB. 数据目录初始化前必须为空文件夹\nC. 目录归属用户组为vastbase:vastbase\nD. 目录路径允许中文、空格特殊符号',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：官方强制分离，方便备份、扩容、故障隔离；B选项正确：目录存在旧文件会导致实例初始化冲突失败；C选项正确：数据库只能使用vastbase普通用户运行，禁止root权限；D选项错误：国产数据库安装路径禁止中文、空格、特殊字符，易引发启动报错。正确答案：ABC'
+    )
+    // 155
+    .addSingle('数据库', '以下属于Vastbase安全增强特性的是？（多选）\nA. 三权分立权限隔离\nB. SM2/SM3/SM4国密全链路加密\nC. 符合EAL4+安全评估标准\nD. 自动SQL性能优化引擎',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：三权分立拆分管理员权限，互相制衡，规避越权风险；B选项正确：全链路支持国密算法加密存储、传输、身份校验；C选项正确：产品通过CC标准EAL4+安全增强认证；D选项错误：SQL性能优化属于高性能特性，不属于安全相关能力。正确答案：ABC'
+    )
+    // 156
+    .addSingle('数据库', '内核共享内存相关核心参数包含？（多选）\nA. kernel.shmmax\nB. kernel.shmall\nC. kernel.shmmni\nD. vm.swappiness',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：kernel.shmmax控制单个共享内存段最大容量；B选项正确：kernel.shmall控制系统总共享内存页数；C选项正确：kernel.shmmni控制系统最大共享内存段数量；D选项错误：vm.swappiness用于控制swap交换频率，和共享内存无关。正确答案：ABC'
+    )
+    // 157
+    .addSingle('数据库', '序列Sequence常用操作函数包含？（多选）\nA. nextval() 获取新序列号并递增\nB. currval() 查询当前会话最新序列值\nC. lastval() 获取会话最后生成的序列值\nD. getval() 批量读取序列所有历史值',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：插入数据生成主键的核心函数，生成新编号并自增；B选项正确：查看当前会话已生成的序列值，不会消耗新编号；C选项正确：无需指定序列名，读取本会话最后一次使用的序列号；D选项错误：Vastbase无内置getval()函数，属于虚构干扰项。正确答案：ABC'
+    )
+    // 158
+    .addSingle('数据库', 'Schema模式相关正确知识点有？（多选）\nA. Schema隶属于单一数据库，不能跨数据库共享\nB. 创建用户时自动生成同名Schema\nC. 一个数据库内可创建多个不同Schema\nD. 删除用户时，同名Schema会同步级联删除',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：Schema是单个数据库内部命名空间，切换其他数据库无法访问；B选项正确：执行CREATE USER创建账号时，数据库自动生成同名Schema；C选项正确：支持多Schema划分业务模块，实现数据逻辑隔离；D选项正确：删除用户默认级联清理同名Schema及内部所有对象。正确答案：ABCD'
+    )
+    // 159
+    .addSingle('数据库', 'WAL预写日志归档搭配哪些组件可实现任意时间点恢复PITR？（多选）\nA. 全量物理备份\nB. 增量物理备份\nC. WAL归档日志文件\nD. VDS图形管理工具',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：全量备份提供完整数据快照，是恢复基础；B选项正确：增量备份减少恢复时数据同步耗时；C选项正确：归档日志记录备份完成后所有事务变更，实现精准时间点回退；D选项错误：VDS仅提供可视化操作界面，不参与底层数据恢复逻辑。正确答案：ABC'
+    )
+    // 160
+    .addSingle('数据库', '强制kill -9关闭数据库会产生哪些风险？（多选）\nA. 内存脏数据无法落盘，数据文件损坏\nB. 下次启动自动修复失败，实例无法启动\nC. WAL日志断裂，丢失未提交事务数据\nD. 仅影响临时会话，持久化数据完全安全',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：暴力杀进程不会执行刷盘操作，内存修改数据丢失、文件残缺；B选项正确：损坏的数据文件会触发实例启动校验失败，无法正常开机；C选项正确：未持久化的WAL日志直接丢失，造成业务数据缺失；D选项错误：持久化磁盘文件存在损坏风险，该描述完全错误。正确答案：ABC'
+    )
+
+// ================================================================
+// 第161-180题（判断题）
+// ================================================================
+
+    // 161
+    .addSingle('数据库', 'Vastbase安装时选定的兼容模式，部署完成后可直接切换，不用重建实例。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '兼容模式（Oracle/MySQL/PG/MSSQL）在实例初始化阶段写入底层系统元数据，安装初始化完成后语法解析规则固定，无在线切换命令。若需要更换兼容模式，必须清空原有数据目录，使用vb_initdb重新初始化全新实例，无法直接切换，因此题干说法错误。'
+    )
+    // 162
+    .addSingle('数据库', 'Vastbase Data Studio（VDS）需要完整安装程序才能运行，无法直接解压使用。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        'VDS是免安装客户端工具，安装包仅为压缩包，解压后直接双击启动程序即可连接数据库，底层依靠JDBC驱动通信，不需要系统级安装流程。题干描述与工具特性相反，说法错误。'
+    )
+    // 163
+    .addSingle('数据库', '主键约束等价于UNIQUE唯一约束，二者功能完全一致，可以互相替代。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '主键约束 = UNIQUE唯一性约束 + NOT NULL非空约束，二者存在明显区别：①一张表仅能创建1个主键，但可以创建多个唯一约束；②主键字段不允许NULL，唯一约束允许字段存储NULL空值；③主键会自动创建索引，唯一约束需手动创建。二者规则、使用场景完全不同，不可互相替代，题干错误。'
+    )
+    // 164
+    .addSingle('数据库', 'WAL归档日志可以独立完成数据库完整恢复，不需要配合全量备份文件。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        'WAL日志仅记录增量事务操作变更记录，不存储完整数据表原始数据。完整PITR时间点恢复的必备组合：全量备份提供基础数据快照 + WAL归档补齐备份后的所有数据变更。仅有WAL日志没有基础备份，无法恢复任何业务数据，题干说法错误。'
+    )
+    // 165
+    .addSingle('数据库', '内核参数vm.swappiness数值越高，操作系统越倾向把内存数据交换到swap磁盘分区。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        'vm.swappiness取值区间为0~100，数值越大，系统触发swap交换的阈值越低，会更频繁将内存数据置换到磁盘swap分区；数据库业务推荐配置10~20，减少磁盘IO卡顿。题干描述完全符合参数工作逻辑，说法正确。'
+    )
+    // 166
+    .addSingle('数据库', '创建索引时，数据表可以不存在，提前预创建索引提升后续入库速度。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '索引是依附数据表存在的二级数据库对象，数据库语法强制要求必须先创建数据表，才能基于表字段定义索引，不存在无表提前建索引的语法，执行会直接报错，题干说法错误。'
+    )
+    // 167
+    .addSingle('数据库', 'SELinux设置为enforcing模式不会干扰Vastbase安装与正常启动运行。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        'enforcing模式开启操作系统强制访问控制，会拦截数据库读写数据目录、监听5432端口、进程间通信的权限，直接导致安装失败、实例启动崩溃。安装前必须修改配置文件将SELINUX=disabled并重启服务器生效，题干说法错误。'
+    )
+    // 168
+    .addSingle('数据库', '序列执行事务回滚后，已消耗的序列编号会自动回收、重复分配使用。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        'Sequence序列运行逻辑独立于数据库事务，只要调用nextval()生成编号就会永久消耗，无论事务提交还是回滚，序列号只会持续递增，不存在回收复用机制，容易出现主键断层，题干描述错误。'
+    )
+    // 169
+    .addSingle('数据库', 'Schema模式仅能和创建它的数据库绑定，无法跨数据库访问、共享。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '数据库与Schema存在层级隔离，每个Schema只归属创建它的单个database，切换至其他数据库后，无法访问原库Schema下的表、索引等对象，不支持跨库共享Schema，题干描述正确。'
+    )
+    // 170
+    .addSingle('数据库', '使用CREATE TABLE t2 AS SELECT * FROM t1语法只会复制表结构，不会同步表内业务数据。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '`CREATE TABLE t2 AS SELECT * FROM t1`会完整复制源表字段结构 + 查询结果全部业务数据；如果仅需要纯表结构、不携带数据，必须使用`CREATE TABLE t2 (LIKE t1 INCLUDING ALL)`语法，题干颠倒语法功能，说法错误。'
+    )
+    // 171
+    .addSingle('数据库', '分区表的真实业务数据物理存储在主分区表中，子分区仅作为逻辑标识无数据。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '分区主表仅保存分区规则的逻辑定义，所有真实业务数据分散存储在各个子分区物理文件内；查询时数据库自动路由至对应子分区扫描数据，主分区不存储任何业务数据，题干说法错误。'
+    )
+    // 172
+    .addSingle('数据库', '三权分立体系下，系统管理员sysadmin可以自行分配用户权限、修改账号密码。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '三权分立核心是权限隔离制衡，用户创建、权限授予、密码修改属于安全管理员sso专属职能；sysadmin仅负责数据库启停、备份、性能运维，无账号权限管理能力，题干说法错误。'
+    )
+    // 173
+    .addSingle('数据库', 'Vastbase软件目录与数据存储目录规划时，允许共用同一个文件夹。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '官方安装规范强制软件程序目录、业务数据目录物理分离；混放会造成备份、扩容、故障排查流程混乱，数据目录需预留大容量存储空间，软件目录占用空间极小，禁止共用同一目录，题干说法错误。'
+    )
+    // 174
+    .addSingle('数据库', 'RemoveIPC配置为yes会保障数据库进程稳定，是安装推荐配置。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        'RemoveIPC=yes会让操作系统定时销毁数据库进程间通信资源，直接引发实例崩溃、客户端连接中断；安装标准配置为/etc/systemd/logind.conf与对应service文件设置RemoveIPC=no，题干描述相反，错误。'
+    )
+    // 175
+    .addSingle('数据库', 'Vastbase默认监听端口5432，3306、1521、5236分别对应MySQL、Oracle、达梦数据库。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '端口对应关系标准定义：5432（Vastbase/openGauss/PostgreSQL）、3306（MySQL）、1521（Oracle）、5236（达梦DM8），题干端口匹配完全准确，说法正确。'
+    )
+    // 176
+    .addSingle('数据库', '普通CREATE INDEX语句创建索引会锁表阻塞DML，CONCURRENTLY关键字可实现无锁在线建索引。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '不带CONCURRENTLY的常规建索引语句会添加排他锁，阻塞表内新增、修改、删除操作；`CREATE INDEX CONCURRENTLY`在线建索引语法不加排他锁，业务读写不受影响，生产环境推荐使用，描述正确。'
+    )
+    // 177
+    .addSingle('数据库', 'vb_probackup逻辑导出单张数据表速度快，适合教育系统异构数据迁移场景。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        'vb_probackup是物理备份工具，只能做整实例全量/增量物理备份，不支持单表导出；单表逻辑导出、异构库迁移场景应使用vsql导出SQL脚本或exBase一键迁移平台，题干说法错误。'
+    )
+    // 178
+    .addSingle('数据库', 'fs.nr_open是操作系统全局最大文件句柄总数，fs.file-max限制单进程最大打开文件。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '两个参数功能颠倒：fs.file-max控制操作系统全局总文件句柄上限；fs.nr_open限制单个进程能够打开的最大文件数量，题干混淆参数作用，说法错误。'
+    )
+    // 179
+    .addSingle('数据库', 'SM3国密算法用于密码哈希存储，属于不可逆摘要算法，无法反向还原原始密码。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        'SM3为国密哈希摘要算法，仅生成固定长度校验值，不可逆，常用于用户密码加密存储、数据完整性校验；SM2是非对称加密、SM4对称加密，三者分工不同，题干描述准确，说法正确。'
+    )
+    // 180
+    .addSingle('数据库', '数据库shared_buffers内存参数配置越大性能越好，无上限约束。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        'shared_buffers官方推荐配置物理内存25%~40%；参数设置过大会大量占用操作系统内存，触发频繁swap交换、系统卡顿、OOM杀进程，存在合理区间限制，并非越大性能越好，题干说法错误。'
+    )
+
+// ================================================================
+// 第181-200题（单选题 + 判断题）
+// ================================================================
+
+    // 181
+    .addSingle('数据库', 'Vastbase 的技术血统链路正确的是？\nA. MySQL → openGauss → Vastbase\nB. PostgreSQL → openGauss → Vastbase\nC. Oracle → PostgreSQL → Vastbase\nD. openGauss → PostgreSQL → Vastbase',
+        ['A', 'B', 'C', 'D'], 1,
+        'A 错误：MySQL 与 Vastbase 无技术血缘关系，仅语法层面兼容。B 正确：文档明确给出标准链路 PostgreSQL → openGauss → Vastbase。C 错误：Oracle 是兼容对象，不是技术源头，且链路顺序颠倒。D 错误：openGauss 源自 PostgreSQL，演化方向不能倒置。'
+    )
+    // 182
+    .addSingle('数据库', 'Vastbase 默认监听的端口号是？\nA. 3306\nB. 1521\nC. 5432\nD. 6379',
+        ['A', 'B', 'C', 'D'], 2,
+        'A 错误：3306 是 MySQL 默认端口。B 错误：1521 是 Oracle 默认端口。C 正确：Vastbase 继承 PG 体系，默认端口 5432。D 错误：6379 是 Redis 默认端口。'
+    )
+    // 183
+    .addSingle('数据库', 'Vastbase 安装过程中，关于 RemoveIPC 的配置要求是？\nA. 设置为 yes，并仅配置 /etc/systemd/logind.conf\nB. 设置为 no，并仅配置 /etc/systemd/logind.conf\nC. 设置为 no，需同时配置 logind.conf 和 systemd-logind.service\nD. 设置为 yes，无需重启服务',
+        ['A', 'B', 'C', 'D'], 2,
+        'A 错误：RemoveIPC=yes 会清理共享内存，导致数据库崩溃。B 错误：仅改一个文件不完整，必须同时修改两个文件。C 正确：文档明确要求两处均设 RemoveIPC=no，并 daemon-reload 及重启服务。D 错误：值应为 no，且修改 systemd 配置必须重载并重启相关服务。'
+    )
+    // 184
+    .addSingle('数据库', '在 Vastbase 安装交互中，选择兼容模式为 Oracle，对应的选项是？\nA. A\nB. B\nC. PG\nD. MSSQL',
+        ['A', 'B', 'C', 'D'], 0,
+        'A 正确：A 代表 Oracle 兼容模式，为默认选项。B 错误：B 代表 MySQL 兼容模式，易与 A 混淆。C 错误：PG 代表 PostgreSQL 原生模式。D 错误：MSSQL 代表 SQL Server 兼容模式。'
+    )
+    // 185
+    .addSingle('数据库', 'Vastbase 的主进程（总管家）名称是？\nA. vbworker\nB. vbpostmaster\nC. checkpointer\nD. walwriter',
+        ['A', 'B', 'C', 'D'], 1,
+        'A 错误：vbworker 是子进程，负责执行 SQL。B 正确：vbpostmaster 是主进程，负责启动、监听和派生子进程。C 错误：checkpointer 负责脏页刷盘。D 错误：walwriter 负责写 WAL 日志。'
+    )
+    // 186
+    .addSingle('数据库', '国密算法 SM3 的主要用途是？\nA. 数据加密存储（类似 AES）\nB. 数字签名（类似 RSA）\nC. 哈希摘要/密码存储（类似 SHA）\nD. 密钥交换',
+        ['A', 'B', 'C', 'D'], 2,
+        'A 错误：数据加密是 SM4 的职责。B 错误：数字签名是 SM2 的职责。C 正确：SM3 为哈希算法，用于完整性校验和密码存储。D 错误：密钥交换通常使用 SM2 等非对称算法。'
+    )
+    // 187
+    .addSingle('数据库', '执行 vb_ctl stop 命令时，推荐使用的关闭模式参数是？\nA. -m immediate（立即关闭，可能丢数据）\nB. -m fast（快速关闭，回滚事务）\nC. -m smart（智能关闭，等待会话结束）\nD. 直接使用 kill -9',
+        ['A', 'B', 'C', 'D'], 1,
+        'A 错误：immediate 模式可能损坏数据库，不推荐。B 正确：fast 模式回滚未提交事务后关闭，速度快且安全。C 错误：smart 模式需等待所有会话断开，可能因长连接卡死。D 错误：kill -9 强杀主进程会破坏数据库一致性，严禁使用。'
+    )
+    // 188
+    .addSingle('数据库', '在 vsql 客户端中，用于列出当前 Schema 下所有表的元命令是？\nA. \\l\nB. \\dt\nC. \\d table_name\nD. \\dn',
+        ['A', 'B', 'C', 'D'], 1,
+        'A 错误：\\l 用于列出所有数据库。B 正确：\\dt 用于列出当前 Schema 下的表。C 错误：\\d 后接表名用于查看表结构。D 错误：\\dn 用于列出所有模式（Schema）。'
+    )
+    // 189
+    .addSingle('数据库', 'Vastbase 的三权分立中，负责"管谁能进"（用户创建、权限授予）的角色是？\nA. 系统管理员 (sysadmin)\nB. 安全管理员 (sso)\nC. 审计管理员 (auditadmin)\nD. 数据库管理员 (dba)',
+        ['A', 'B', 'C', 'D'], 1,
+        'A 错误：系统管理员负责运维，无权管理权限。B 正确：安全管理员负责用户和权限管理，类比门禁管理员。C 错误：审计管理员仅负责查看日志。D 错误：三权分立正是为了拆分传统 DBA 的过大权限。'
+    )
+    // 190
+    .addSingle('数据库', '创建用户时，如果不指定 TABLESPACE，数据默认存放在哪里？\nA. 共享内存中\nB. 临时目录 /tmp\nC. 数据库的默认表空间（通常是 pg_default）\nD. 软件安装目录',
+        ['A', 'B', 'C', 'D'], 2,
+        'A 错误：共享内存仅用于缓存，数据需落盘。B 错误：/tmp 为临时目录，重启即清空。C 正确：默认使用数据库的 pg_default 表空间。D 错误：软件目录仅存程序文件，不存业务数据。'
+    )
+    // 191
+    .addSingle('数据库', '关于 Vastbase 的索引，下列说法正确的是？\nA. 索引可以先于表存在\nB. 默认索引类型是 Hash\nC. 生产环境中建议使用 CREATE INDEX CONCURRENTLY 以避免阻塞读写\nD. 索引越多，查询性能一定越好',
+        ['A', 'B', 'C', 'D'], 2,
+        'A 错误：索引依附于表，必须先有表才能建索引。B 错误：默认索引类型为 B-Tree。C 正确：CONCURRENTLY 选项可在不阻塞 DML 的情况下创建索引。D 错误：过多索引会降低写入性能并占用空间。'
+    )
+    // 192
+    .addSingle('数据库', '在 VDS (Vastbase Data Studio) 的使用中，下列说法错误的是？\nA. 它是 C/S 架构工具\nB. 基于 JDBC 连接数据库\nC. 需要复杂的安装过程\nD. 解压后即可使用',
+        ['A', 'B', 'C', 'D'], 2,
+        'A 正确：VDS 为典型的 C/S 架构。B 正确：底层基于 JDBC 驱动通信。C 错误：文档明确指出 VDS 免安装，解压即用。D 正确：这是 VDS 的便携性优势。'
+    )
+    // 193
+    .addSingle('数据库', '序列函数中，nextval() 和 currval() 的区别是？\nA. 两者功能完全相同\nB. nextval() 获取当前值不递增，currval() 获取下一个值并递增\nC. nextval() 获取下一个值并递增，currval() 获取最近一次 nextval() 的值且不递增\nD. currval() 只能在事务提交后使用',
+        ['A', 'B', 'C', 'D'], 2,
+        'A 错误：两者功能完全不同。B 错误：描述颠倒。C 正确：nextval 推进序列，currval 仅查看当前会话最近获取的值。D 错误：currval 只需在当前会话调用过 nextval 即可，与事务提交无关。'
+    )
+    // 194
+    .addSingle('数据库', 'Vastbase 的物理备份工具是？\nA. pg_dump\nB. expdp\nC. vb_probackup\nD. mysqldump',
+        ['A', 'B', 'C', 'D'], 2,
+        'A 错误：pg_dump 是逻辑备份工具。B 错误：expdp 是 Oracle 的逻辑导出工具。C 正确：vb_probackup 是 Vastbase 自带的高性能物理备份工具。D 错误：mysqldump 是 MySQL 的逻辑备份工具。'
+    )
+    // 195
+    .addSingle('数据库', '安装 Vastbase 时，如果选择 N（不初始化实例），后续需要手动执行哪个命令？\nA. vb_ctl start\nB. vb_initdb\nC. vastbase_installer --init\nD. source ~/.bashrc',
+        ['A', 'B', 'C', 'D'], 1,
+        'A 错误：start 用于启动已初始化的实例。B 正确：选 N 仅安装软件，需手动执行 vb_initdb 初始化数据目录。C 错误：初始化是安装脚本内部步骤，不能这样单独调用。D 错误：source 仅加载环境变量，不初始化数据库。'
+    )
+    // 196
+    .addSingle('数据库', '关于分区表，下列哪种分区方式适合按"年月"存储日志数据？\nA. 列表分区 (LIST)\nB. 哈希分区 (HASH)\nC. 范围分区 (RANGE)\nD. 复合分区',
+        ['A', 'B', 'C', 'D'], 2,
+        'A 错误：列表分区适合离散值，如省份、部门。B 错误：哈希分区用于数据均匀分布，无法按时间范围查询。C 正确：范围分区按连续区间划分，最适合日志、订单等时间序列数据。D 错误：复合分区虽可用，但针对单纯按年月需求，单一 RANGE 分区最直接。'
+    )
+    // 197
+    .addSingle('数据库', '在 vsql 中，切换数据库连接的元命令是？\nA. \\c database_name\nB. \\connect db\nC. \\l\nD. \\g',
+        ['A', 'B', 'C', 'D'], 0,
+        'A 正确：\\c 是 \\connect 的简写，用于切换数据库。B 错误：缺少数据库名参数，且通常用简写 \\c。C 错误：\\l 仅列出数据库，不切换。D 错误：\\g 用于执行缓冲区的 SQL 命令。'
+    )
+    // 198
+    .addSingle('数据库', '内核参数 kernel.sem 包含几个数值？\nA. 2个\nB. 3个\nC. 4个\nD. 5个',
+        ['A', 'B', 'C', 'D'], 2,
+        'A/B/D 错误：数值不符。C 正确：包含 SEMMSL、SEMMNS、SEMOPM、SEMMNI 共 4 个参数。'
+    )
+    // 199
+    .addSingle('数据库', '以下关于 SELinux 的配置，正确的是？\nA. 设置为 enforcing 模式\nB. 设置为 permissive 模式\nC. 设置为 disabled 模式，并重启生效\nD. 只需临时关闭，无需写入配置文件',
+        ['A', 'B', 'C', 'D'], 2,
+        'A 错误：enforcing 会阻止数据库访问资源，导致启动失败。B 错误：permissive 仅记录不阻止，但仍不符合安全基线。C 正确：必须设为 disabled 并重启系统才能彻底关闭。D 错误：仅临时关闭重启后失效，必须修改配置文件。'
+    )
+    // 200
+    .addSingle('数据库', 'Vastbase 遵循的国家安全标准 EAL4+ 属于哪个体系？\nA. 网络安全等级保护（等保）\nB. 国际通用准则 (CC)\nC. ISO 27001\nD. PCI DSS',
+        ['A', 'B', 'C', 'D'], 1,
+        'A 错误：等保是中国标准 GB/T 22239。B 正确：EAL 是国际通用准则 CC 的评估保证级。C 错误：ISO 27001 是管理体系标准。D 错误：PCI DSS 是支付卡行业标准。'
+    )
+    // 201
+    .addSingle('数据库', '在创建表时，若想复制另一张表的结构（包括索引、约束等）但不复制数据，应使用？\nA. CREATE TABLE ... AS SELECT ...\nB. CREATE TABLE ... (LIKE ... INCLUDING ALL)\nC. CREATE TABLE ... SELECT * FROM ... WHERE 1=0\nD. COPY ... FROM ...',
+        ['A', 'B', 'C', 'D'], 1,
+        'A 错误：CTAS 主要复制结构和数据，对索引、约束支持不完善。B 正确：LIKE ... INCLUDING ALL 完整复制表结构、索引、约束等，默认不含数据。C 错误：该写法在某些库中可行，但在 PG/Vastbase 中不如 LIKE 规范。D 错误：COPY 用于数据导入导出，不创建表结构。'
+    )
+    // 202
+    .addSingle('数据库', '删除用户时，如果想同时删除该用户拥有的所有对象（如表、Schema），应使用？\nA. DROP USER user_name;\nB. DROP USER user_name RESTRICT;\nC. DROP USER user_name CASCADE;\nD. DROP USER user_name FORCE;',
+        ['A', 'B', 'C', 'D'], 2,
+        'A/B 错误：默认或 RESTRICT 模式下，若存在依赖对象则删除失败。C 正确：CASCADE 级联删除用户及其所有依赖对象。D 错误：FORCE 非 PG/Vastbase 标准语法，主要使用 CASCADE。'
+    )
+    // 203
+    .addSingle('数据库', 'Vastbase 的 WAL 日志是由哪个进程负责写入磁盘的？\nA. checkpointer\nB. ogwriter\nC. walwriter\nD. vbworker',
+        ['A', 'B', 'C', 'D'], 2,
+        'A 错误：checkpointer 负责脏数据页刷盘。B 错误：ogwriter 负责辅助脏页回写，不写 WAL。C 正确：walwriter 专门负责 WAL 日志的持久化写入。D 错误：vbworker 产生 WAL 记录，但写入由 walwriter 完成。'
+    )
+    // 204
+    .addSingle('数据库', '关于 License 过期的问题，解决方法是在哪个配置文件中指定 license_path？\nA. vb_ctl.conf\nB. postgresql.conf\nC. pg_hba.conf\nD. sysctl.conf',
+        ['A', 'B', 'C', 'D'], 1,
+        'A 错误：不存在该配置文件。B 正确：license_path 参数需配置在 postgresql.conf 中。C 错误：pg_hba.conf 用于客户端认证配置。D 错误：sysctl.conf 用于操作系统内核参数配置。'
+    )
+    // 205
+    .addSingle('数据库', '在 Vastbase 中，Schema（模式）的主要作用是？\nA. 物理存储数据的文件\nB. 数据库内部的逻辑分组和命名空间\nC. 用户登录的凭证\nD. 网络连接的端口号',
+        ['A', 'B', 'C', 'D'], 1,
+        'A 错误：Schema 是逻辑概念，物理文件存储在数据目录中。B 正确：Schema 是数据库对象的逻辑容器，提供命名空间隔离。C 错误：用户是登录凭证，Schema 常与用户关联但非同一概念。D 错误：端口号是实例级参数，与 Schema 无关。'
+    )
+    // 206
+    .addSingle('数据库', '安装 Vastbase 时，软件安装目录和数据存储目录的关系是？\nA. 必须共用同一个目录\nB. 必须分开设置\nC. 数据目录必须包含在软件目录内\nD. 软件目录必须包含在数据目录内',
+        ['A', 'B', 'C', 'D'], 1,
+        'A 错误：共用目录不利于维护和扩容。B 正确：文档要求软件目录（程序）和数据目录（业务数据）必须分离。C/D 错误：包含关系不利于独立管理和磁盘规划。'
+    )
+    // 207
+    .addSingle('数据库', '下列哪种情况不会导致 Vastbase 安装失败或启动异常？\nA. RemoveIPC 设置为 yes\nB. SELinux 处于 enforcing 状态\nC. 数据目录非空\nD. 使用普通用户 vastbase 启动数据库',
+        ['A', 'B', 'C', 'D'], 3,
+        'A 错误：RemoveIPC=yes 导致共享内存被清理，数据库崩溃。B 错误：SELinux enforcing 拦截系统调用，启动失败。C 错误：初始化要求数据目录为空，非空则 initdb 失败。D 正确：使用非 root 专用用户运行数据库是安全最佳实践。'
+    )
+    // 208
+    .addSingle('数据库', '在 vsql 中，查看所有用户角色的元命令是？\nA. \\du 或 \\dg\nB. \\dr\nC. \\dp\nD. \\ds',
+        ['A', 'B', 'C', 'D'], 0,
+        'A 正确：\\du 和 \\dg 功能相同，均用于列出用户/角色。B 错误：\\dr 非标准用户列表命令。C 错误：\\dp 用于查看对象权限。D 错误：\\ds 用于列出序列。'
+    )
+    // 209
+    .addSingle('数据库', '关于 Vastbase 的兼容性，下列说法错误的是？\nA. 兼容 Oracle 模式\nB. 兼容 MySQL 模式\nC. 兼容 DB2 模式\nD. 兼容 PostgreSQL 模式',
+        ['A', 'B', 'C', 'D'], 2,
+        'A/B/D 正确：文档明确支持 Oracle、MySQL、PostgreSQL 三大体系。C 错误：不支持 DB2 兼容模式，属典型干扰项。'
+    )
+    // 210
+    .addSingle('数据库', 'PITR (Point-In-Time Recovery) 技术依赖于哪两种备份手段？\nA. 全量备份 + 增量备份\nB. 全量备份 + WAL 归档日志\nC. 逻辑备份 + 物理备份\nD. 冷备份 + 热备份',
+        ['A', 'B', 'C', 'D'], 1,
+        'A 错误：增量备份减少体积，但 PITR 核心是 WAL。B 正确：PITR 通过恢复全量备份并重放 WAL 归档日志实现定点恢复。C 错误：逻辑备份通常不支持 PITR。D 错误：冷/热备份描述备份时状态，非 PITR 依赖技术组合。'
+    )
+    // 211
+    .addSingle('数据库', 'Vastbase 的核心特性包括以下哪些？（多选）\nA. 高兼容（Oracle/MySQL/PostgreSQL）\nB. 高性能（NUMA化内核）\nC. 高安全（EAL4+）\nD. 多模态（支持 GIS/时序/向量）',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：文档明确指出其深度兼容 Oracle、MySQL、PostgreSQL 三大体系。B 正确：高性能特性包含 NUMA 化内核和自适应并行策略。C 正确：高安全特性包含 EAL4+ 认证及国密算法支持。D 正确：多模态引擎支持 GIS 空间数据、时序数据和向量检索。正确答案：ABCD'
+    )
+    // 212
+    .addSingle('数据库', '安装 Vastbase 前，必须完成的系统配置包括哪些？（多选）\nA. 关闭防火墙 (firewalld)\nB. 禁用 SELinux\nC. 配置 RemoveIPC=no\nD. 安装 GNOME 桌面环境',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：需执行 stop 和 disable 两条命令彻底关闭防火墙。B 正确：SELinux 必须设为 disabled，否则会拦截数据库进程。C 正确：必须配置 RemoveIPC=no，否则会导致数据库崩溃。D 错误：数据库服务器通常采用最小化安装，GNOME 桌面非必需，VDS 可在客户端运行。正确答案：ABC'
+    )
+    // 213
+    .addSingle('数据库', '关于 Vastbase 的进程架构，下列说法正确的有？（多选）\nA. vbpostmaster 负责监听端口和接收连接\nB. vbworker 负责执行具体的 SQL 语句\nC. checkpointer 负责定期把内存数据刷到磁盘\nD. walwriter 负责将数据缓冲区的内容写入数据文件',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：vbpostmaster 是主进程，负责全局调度。B 正确：每个客户端连接对应一个 vbworker 子进程。C 正确：checkpointer 负责将脏页刷盘以保证数据持久化。D 错误：walwriter 负责写 WAL 日志，写数据文件是 checkpointer 和 ogwriter 的职责。正确答案：ABC'
+    )
+    // 214
+    .addSingle('数据库', '国密算法 SM2、SM3、SM4 分别对应的应用场景包括？（多选）\nA. 数字签名 (SM2)\nB. 数据加密存储 (SM4)\nC. 数据完整性校验 (SM3)\nD. 数据库备份压缩',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：SM2 是非对称加密算法，用于身份认证和数字签名。B 正确：SM4 是对称加密算法，用于对大量数据进行加密存储。C 正确：SM3 是哈希算法，用于生成数据指纹，校验完整性。D 错误：这三种算法主要解决加密、签名和校验问题，不直接用于数据压缩。正确答案：ABC'
+    )
+    // 215
+    .addSingle('数据库', '在安装 Vastbase 时，关于用户和目录规划，下列做法正确的有？（多选）\nA. 创建独立的用户组 vastbase\nB. 创建独立的用户 vastbase\nC. 软件目录设置为 /vastdata/app/vastbase\nD. 数据目录设置为 /vastdata/data/vastbase',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：需创建专用用户组以便权限隔离。B 正确：需创建专用非 root 用户运行数据库，符合安全规范。C 正确：软件目录应独立规划，用于存放程序文件。D 正确：数据目录应独立规划，用于存放业务数据，且空间要足够大。正确答案：ABCD'
+    )
+    // 216
+    .addSingle('数据库', '下列哪些 vsql 元命令的功能描述是正确的？（多选）\nA. \\l：列出所有数据库\nB. \\dt：列出当前 Schema 下的所有表\nC. \\d table_name：查看表结构\nD. \\dn：列出所有表空间',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：\\l (list) 用于列出当前实例中的数据库。B 正确：\\dt (display tables) 用于列出表。C 正确：\\d 后接表名用于查看列、索引等结构信息。D 错误：\\dn (display namespaces) 用于列出模式（Schema），列出表空间应使用 \\db。正确答案：ABC'
+    )
+    // 217
+    .addSingle('数据库', 'Vastbase 的三权分立中，三个角色的职责划分正确的是？（多选）\nA. 系统管理员：管数据库启停、备份恢复\nB. 安全管理员：管用户创建、权限授予\nC. 审计管理员：管查看日志、审计追踪\nD. 安全管理员：可以修改业务数据',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：系统管理员（sysadmin）类比物业经理，负责运维操作。B 正确：安全管理员（sso）类比门禁管理员，负责权限管控。C 正确：审计管理员（auditadmin）类比监控保安，负责监督审查。D 错误：安全管理员仅管理权限，无权访问或修改具体的业务数据表。正确答案：ABC'
+    )
+    // 218
+    .addSingle('数据库', '关于 Vastbase 的索引，下列说法正确的有？（多选）\nA. 默认索引类型是 B-Tree\nB. 创建索引会增加数据维护的开销\nC. CREATE INDEX CONCURRENTLY 可以避免阻塞读写业务\nD. 索引一旦创建，无法删除',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：B-Tree 索引适用于大多数等值查询和范围查询场景。B 正确：INSERT/UPDATE/DELETE 时需要同步更新索引，增加开销。C 正确：CONCURRENTLY 选项允许在线创建索引，不阻塞 DML。D 错误：索引可以通过 DROP INDEX 语句删除。正确答案：ABC'
+    )
+    // 219
+    .addSingle('数据库', 'vb_probackup 支持的备份类型包括？（多选）\nA. 全量备份\nB. 增量备份\nC. 差异备份\nD. WAL 归档',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：全量备份是对整个数据库文件的完整拷贝。B 正确：增量备份仅备份自上次备份以来发生变化的数据块。C 错误：虽然概念上存在差异备份，但根据给定文档，明确列出的是全量、增量和 WAL 归档。D 正确：WAL 归档是持续备份 WAL 日志，用于时间点恢复。正确答案：ABD'
+    )
+    // 220
+    .addSingle('数据库', '下列哪些是 Vastbase 支持的分区表类型？（多选）\nA. 范围分区 (RANGE)\nB. 列表分区 (LIST)\nC. 哈希分区 (HASH)\nD. 复合分区',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：按连续范围（如时间）分区。B 正确：按离散值列表（如地区）分区。C 正确：按哈希值分布数据，实现均衡存储。D 错误：虽然高级版本可能支持，但根据提供的复习资料，仅明确列出上述三种基础类型。正确答案：ABC'
+    )
+    // 221
+    .addSingle('数据库', '在 Vastbase 中，关于序列 (Sequence) 的描述，正确的有？（多选）\nA. 序列用于生成唯一的数值\nB. nextval() 会使序列值递增\nC. currval() 返回当前会话最近一次 nextval() 的值\nD. 事务回滚会导致序列值回退',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：序列常用于生成主键的唯一 ID。B 正确：nextval() 的核心作用就是获取并递增序列值。C 正确：currval() 用于查看当前会话中最近一次获取的序列值。D 错误：序列的生成独立于事务，事务回滚不会回收已分配的序列号。正确答案：ABC'
+    )
+    // 222
+    .addSingle('数据库', '安装 Vastbase 所需的依赖包可能包括以下哪些？（多选）\nA. libaio, readline-devel\nB. openssl-devel, libxml2\nC. krb5-libs, pam\nD. nginx, redis',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：libaio 用于异步 I/O，readline-devel 用于命令行编辑，均为文档列出的依赖。B 正确：openssl-devel 用于加密支持，libxml2 用于 XML 数据处理。C 正确：krb5-libs 用于 Kerberos 认证，pam 用于身份验证。D 错误：nginx（Web 服务）和 redis（缓存）是上层应用组件，非 Vastbase 运行必需的底层依赖库。正确答案：ABC'
+    )
+    // 223
+    .addSingle('数据库', '关于内核参数配置，下列说法正确的有？（多选）\nA. fs.aio-max-nr 推荐设置为 1048576\nB. vm.swappiness 推荐设置为 10~20\nC. kernel.shmmax 建议大于 shared_buffers\nD. kernel.sem 包含 4 个参数',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：文档推荐设置最大异步 IO 请求数为 1048576。B 正确：较低的 swappiness 减少系统使用 Swap 的倾向，提升性能。C 正确：shmmax 定义了单个共享内存段的最大值，必须大于数据库使用的共享缓冲区。D 正确：kernel.sem 包含 SEMMSL、SEMMNS、SEMOPM、SEMMNI 四个值。正确答案：ABCD'
+    )
+    // 224
+    .addSingle('数据库', '下列哪些操作属于 Vastbase 数据库启动/停止的正确操作？（多选）\nA. vb_ctl start\nB. vb_ctl stop -m fast\nC. vb_ctl status\nD. kill -9 vbpostmaster_PID',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：vb_ctl start 是标准的启动命令。B 正确：vb_ctl stop -m fast 是推荐的快速安全关闭方式。C 正确：vb_ctl status 用于查看数据库运行状态。D 错误：严禁使用 kill -9 强杀主进程，会导致数据库损坏，必须使用 vb_ctl stop。正确答案：ABC'
+    )
+    // 225
+    .addSingle('数据库', '在编写迁移方案时，针对 Vastbase 的特性，可以提及以下哪些优势？（多选）\nA. 兼容 PostgreSQL 协议，应用改造成本低\nB. 支持国密 SM2/3/4 算法，符合合规要求\nC. 支持三权分立，满足安全审计要求\nD. 基于 openGauss 内核，性能稳定',
+        ['A', 'B', 'C', 'D'], -1,
+        'A 正确：兼容 PG 协议使得基于 PG 开发的应用迁移成本极低。B 正确：国密支持是信创项目的关键合规项。C 正确：三权分立是企业级安全审计的重要特性。D 正确：基于 openGauss 内核，继承了其在多核处理和高并发方面的优势。正确答案：ABCD'
+    )
+    // 226
+    .addSingle('数据库', 'Vastbase 是基于 PostgreSQL 原生代码直接修改开发而成的。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。Vastbase 是基于 openGauss 内核开发的，而 openGauss 源自 PostgreSQL。直接说"基于 PostgreSQL 原生修改"忽略了 openGauss 这一关键中间层，表述不准确。'
+    )
+    // 227
+    .addSingle('数据库', 'Vastbase 的安装路径可以为非空目录，只要权限正确即可。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。文档明确要求安装路径必须为空，否则可能导致文件冲突或安装失败。'
+    )
+    // 228
+    .addSingle('数据库', '关闭防火墙只需要执行 systemctl stop firewalld.service 即可，无需执行 disable 命令。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。stop 仅是临时关闭，重启系统后防火墙会再次启动。必须执行 disable 命令禁止开机自启，才能满足安装要求。'
+    )
+    // 229
+    .addSingle('数据库', '在 Vastbase 中，用户（User）和模式（Schema）是一一对应的关系。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。虽然创建用户时会自动创建一个同名 Schema，但 Schema 并不强制与用户绑定。一个用户可以访问多个 Schema，一个 Schema 也可以被多个用户访问（视权限而定）。'
+    )
+    // 230
+    .addSingle('数据库', '删除用户时，如果该用户拥有表等对象，使用 DROP USER 命令默认会将这些对象一并删除。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。DROP USER 默认行为是 RESTRICT，即如果用户拥有对象，删除会失败。必须使用 DROP USER ... CASCADE 才会级联删除所属对象。'
+    )
+    // 231
+    .addSingle('数据库', 'Vastbase 的 WAL 日志归档可以替代全量备份。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。WAL 归档记录了数据的变化过程，但无法单独用于恢复整个数据库。必须配合全量备份，才能实现任意时间点的恢复（PITR）。'
+    )
+    // 232
+    .addSingle('数据库', '使用 kill -9 命令杀死 vbpostmaster 进程是快速关闭数据库的有效方法。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。kill -9 会立即终止进程，导致共享内存未被清理、数据未落盘，极易造成数据库损坏，严禁在生产环境中使用。'
+    )
+    // 233
+    .addSingle('数据库', 'Vastbase 支持在同一套实例中同时存在 Oracle 兼容模式和 MySQL 兼容模式的数据库。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。兼容模式是在初始化实例（initdb）时指定的，一个实例只能有一种兼容模式，且安装后不可更改。不同数据库虽在同一实例下，但共享该实例的兼容模式设定。'
+    )
+    // 234
+    .addSingle('数据库', '\\dt 命令可以查看表的结构，\\d 命令可以列出所有表。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。两者功能记反了。\\dt 用于列出所有表，\\d table_name 用于查看指定表的结构。'
+    )
+    // 235
+    .addSingle('数据库', 'VDS (Vastbase Data Studio) 是基于 ODBC 驱动连接数据库的命令行工具。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。VDS 是基于 JDBC 驱动连接的图形化（GUI）工具，而且是免安装的（解压即用），并非命令行工具。'
+    )
+    // 236
+    .addSingle('数据库', '序列（Sequence）的值在数据库重启后会自动重置为初始值。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。序列的值是持久化存储在系统中的，数据库重启不会导致序列值回退或重置。不过，未使用的缓存序列可能会在重启后丢失（取决于缓存设置）。'
+    )
+    // 237
+    .addSingle('数据库', '在创建索引时，如果不加特殊关键字，普通 CREATE INDEX 语句会阻塞对该表的写入操作。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '正确。普通的 CREATE INDEX 会获取排它锁，阻塞对该表的 INSERT、UPDATE、DELETE 操作。因此在生产环境中创建索引通常需要加上 CONCURRENTLY 关键字。'
+    )
+    // 238
+    .addSingle('数据库', '三权分立中的审计管理员（auditadmin）有权限修改业务表中的数据以修正错误。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。审计管理员的职责仅限于查看和分析审计日志，不具备任何业务数据的修改权限，这是权限分离的原则。'
+    )
+    // 239
+    .addSingle('数据库', '安装 Vastbase 时，软件目录和数据目录可以设置在同一个挂载点下，只要文件夹名字不同即可。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '错误。文档核心原则要求软件目录和数据目录必须分开。这不仅指逻辑文件夹分开，更建议物理磁盘分开，以便于性能优化（I/O 隔离）和磁盘扩容管理。'
+    )
+    // 240
+    .addSingle('数据库', 'PITR (Point-In-Time Recovery) 是指恢复整个数据库到某个特定的时间点，这需要全量备份和 WAL 归档日志的配合。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '正确。PITR 的实现机制正是：先恢复全量备份，再利用归档的 WAL 日志向前回放，直到指定的恢复时间点为止。'
+    );
+    // 打乱顺序
+    QuestionBank.shuffle();
+})();
+            // ========== CPU + 操作系统 ==========
+            QuestionBank
+                .addSingle('CPU & OS', '龙芯 3A6000 的 L3 缓存容量为？',
+                    ['8MB', '16MB', '32MB', '64MB'],
+                    1, '3A6000 标配 16MB 共享三级缓存。'
+                )
+                .addSingle('CPU & OS', '龙芯 3A6000 的内存控制器实测带宽超过？',
+                    ['21GB/s', '42GB/s', '51.2GB/s', '100GB/s'],
+                    1, '3A6000 实测内存带宽突破 42GB/s。'
+                )
+                .addSingle('CPU & OS', '关于 SMT 技术，龙芯 3A6000 的特性是？',
+                    ['支持 SMT1，4 逻辑核', '支持 SMT2，8 逻辑核', '支持 SMT4，16 核', '无 SMT'],
+                    1, '3A6000 搭载 SMT2 技术，4 颗物理核心可模拟 8 个逻辑核心。'
+                )
+                .addSingle('CPU & OS', '龙芯 3A6000 的典型功耗为？',
+                    ['20W@2.5GHz', '40W@2.5GHz', '60W', '80W'],
+                    1, '3A6000 在 2.5GHz 满载典型功耗为 40W。'
+                )
+                .addSingle('CPU & OS', '龙芯服务器 3C5000 处理器核心数量为？',
+                    ['4 核', '8 核', '16 核', '32 核'],
+                    2, '3C5000 内置 16 颗 LA664 物理核心。'
+                )
+                .addSingle('CPU & OS', '龙芯独立生态区别于哪两大国外架构？',
+                    ['RISC-V/MIPS', 'X86/ARM', 'PowerPC', 'CISC'],
+                    1, '龙芯 LoongArch 独立于 X86、ARM 两大海外商业生态。'
+                )
+                .addSingle('CPU & OS', '龙芯实现 Windows 软件兼容的核心技术是？',
+                    ['LAT + Wine', '虚拟机直通', '硬件模拟', '双系统'],
+                    0, '龙芯依靠自研 LAT 二进制翻译 + Wine 兼容层运行 Windows 程序。'
+                )
+                .addSingle('CPU & OS', '龙芯 3D5000 多核扩展方式为？',
+                    ['单硅片 32 核', '双硅片各 16 核', '四硅片', '多核直连'],
+                    1, '3D5000 采用双硅片封装，每颗硅片 16 核，组合实现 32 核。'
+                )
+                .addSingle('CPU & OS', 'CPU 三大内部组件不包含以下哪个？',
+                    ['运算器', '控制器', '存储器', '寄存器'],
+                    2, 'CPU 仅集成运算器、控制器两大组件，存储器不属于 CPU 内部硬件。'
+                )
+                .addSingle('CPU & OS', 'LoongArch 作为 RISC 架构的核心特点是？',
+                    ['指令规整单周期', '指令长短不一', '依赖微码', '指令冗余'],
+                    0, 'RISC 指令长度统一，单时钟周期即可完成运算。'
+                )
+                .addSingle('CPU & OS', '存放指令地址的寄存器是？',
+                    ['通用寄存器', '状态寄存器', '堆栈', 'PC 程序计数器'],
+                    3, 'PC 程序计数器永久存储下一条待执行指令的内存地址。'
+                )
+                .addSingle('CPU & OS', '龙芯全系列不存在的缓存是？',
+                    ['L1', 'L2', 'L3', 'L4'],
+                    3, '龙芯全系列处理器无 L4 缓存。'
+                )
+                .addSingle('CPU & OS', 'L1 缓存的主要特点是？',
+                    ['大容量慢速', '容量极小速度最快', '最大', '断电存数据'],
+                    1, 'L1 缓存距离 CPU 核心最近，容量最小、读写速度最快。'
+                )
+                .addSingle('CPU & OS', '超线程技术的核心作用是？',
+                    ['增加物理核心', '提升主频', '复用资源提高并发', '降低功耗'],
+                    2, 'SMT 复用闲置运算资源，模拟多个逻辑核心，不增加物理核心。'
+                )
+                .addSingle('CPU & OS', 'CPU 主频的定义是？',
+                    ['内核时钟振荡频率', '每秒指令数', '内存频率', '总线频率'],
+                    0, 'CPU 主频指内核时钟振荡频率，单位 GHz。'
+                )
+                .addSingle('CPU & OS', 'MMU 内存管理单元的作用是？',
+                    ['管理显存', '虚实地址转换', '控制主频', '缓存管理'],
+                    1, 'MMU 实现虚拟地址与物理地址双向转换。'
+                )
+                .addSingle('CPU & OS', '芯片制程数字越小说明？',
+                    ['晶体管更大', '集成度高性能强', '芯片更大', '发热更高'],
+                    1, '制程数值越小，晶体管集成密度越高、漏电功耗越低。'
+                )
+                .addSingle('CPU & OS', '状态寄存器存储的内容是？',
+                    ['图片', '运算标志位', '桌面配置', '外设参数'],
+                    1, '状态寄存器记录运算结果标识，如正负、溢出、归零等。'
+                )
+                .addSingle('CPU & OS', '缓存一致性协议的目的是？',
+                    ['提速硬盘', '同步多核缓存', '优化显卡', '降低功耗'],
+                    1, '缓存一致性协议用于同步多核 L3 缓存数据，避免数据错乱。'
+                )
+                .addSingle('CPU & OS', '龙芯主机专用系统镜像架构为？',
+                    ['x86_64', 'arm64', 'loongarch64', 'risc-v'],
+                    2, 'LoongArch 架构设备仅能安装 loongarch64 架构操作系统镜像。'
+                )
+                .addSingle('CPU & OS', '安装国产系统的首选介质是？',
+                    ['光盘', 'U 盘启动盘', '硬盘拷贝', '无线安装'],
+                    1, '推荐使用 8GB 及以上 U 盘作为启动盘。'
+                )
+                .addSingle('CPU & OS', '查看 CPU 架构的终端命令是？',
+                    ['dir', 'uname -m', 'ipconfig', 'ping'],
+                    1, 'uname -m 输出 loongarch64 代表架构匹配正常。'
+                )
+                .addSingle('CPU & OS', '重装系统保留用户数据的操作是？',
+                    ['全盘格式化', '仅格式化系统分区', '删除全部文件', '全盘重新分区'],
+                    1, '重装系统仅格式化根分区，/home 分区数据不会丢失。'
+                )
+                .addSingle('CPU & OS', '龙芯主机无法联网的最常见原因是？',
+                    ['CPU 故障', '网卡驱动不匹配', '内存故障', '硬盘故障'],
+                    1, '主机无法联网绝大多数原因为缺少龙芯适配的网卡驱动。'
+                )
+                .addSingle('CPU & OS', '调出龙芯台式机启动菜单的快捷键是？',
+                    ['F12', 'F2', 'Delete', 'Esc'],
+                    0, '龙芯台式机、一体机开机按 F12 调出启动项选择菜单。'
+                )
+                .addSingle('CPU & OS', '龙芯系统默认的文件系统是？',
+                    ['NTFS', 'EXT4', 'FAT32', 'exFAT'],
+                    1, '龙芯架构系统分区默认 EXT 格式，NTFS 不能用作系统分区。'
+                )
+                .addSingle('CPU & OS', '/home 分区的主要作用是？',
+                    ['提速系统', '隔离用户数据，重装不丢失', '优化显卡', '加快开机速度'],
+                    1, '/home 分区隔离系统文件与用户业务文档，重装系统个人数据不丢失。'
+                )
+                .addSingle('CPU & OS', '国产系统标准时区应选择？',
+                    ['东京', '上海/北京', '伦敦', '纽约'],
+                    1, '时区统一选择亚洲/上海，适配国内标准时间。'
+                )
+                .addSingle('CPU & OS', '分辨率异常时的解决办法是？',
+                    ['重启系统', '更新龙芯显卡驱动', '更换显示器', '修改时区'],
+                    1, '显示分辨率异常需更新对应龙芯架构的显卡驱动。'
+                )
+                .addSingle('CPU & OS', '国产系统专属的启动模式是？',
+                    ['Legacy', 'UEFI', 'Fast Boot', 'RAID'],
+                    1, '必须切换至 UEFI 标准启动，Legacy 模式不兼容国产系统。'
+                )
+                .addSingle('CPU & OS', 'UEFI 安装必备的分区是？',
+                    ['虚拟分区', 'EFI 引导分区', '临时分区', '缓存分区'],
+                    1, 'UEFI 模式安装必须单独划分 EFI 引导分区，否则无法开机。'
+                )
+                .addSingle('CPU & OS', '麒麟龙芯版不支持以下哪种系统盘格式？',
+                    ['EXT4', 'NTFS', 'XFS', 'FAT32'],
+                    1, 'NTFS 格式不能用作系统安装分区。'
+                )
+                .addSingle('CPU & OS', 'U 盘写入镜像失败的主要原因是？',
+                    ['FAT32 格式', 'U 盘扩容/坏块', 'USB 3.0', '无分区'],
+                    1, '多为 U 盘存在扩容或物理坏块，需更换正规 U 盘。'
+                )
+                .addSingle('CPU & OS', '全盘安装模式的特点是？',
+                    ['自定义分区', '自动覆盖全盘数据', '仅安装内核', '保留用户数据'],
+                    1, '全盘自动安装会清空整块硬盘所有文件。'
+                )
+                .addSingle('CPU & OS', '安装界面提示检测不到磁盘的原因？',
+                    ['镜像版本旧', 'U 盘故障', '硬盘故障/BIOS 配置错误', '内存故障'],
+                    2, '优先检查 BIOS 硬盘 RAID 模式配置，其次排查硬盘硬件问题。'
+                )
+                .addSingle('CPU & OS', '安装过程中禁止断电的原因是？',
+                    ['烧坏主板', '破坏分区表与引导', '烧坏硬盘', '重置 BIOS'],
+                    1, '系统格式化、拷贝文件阶段断电会损坏分区表和系统引导程序。'
+                )
+                .addSingle('CPU & OS', '离线依赖报错的解决方案是？',
+                    ['下载 loongarch 离线包', '更新 x86 依赖', '忽略报错', '重启系统'],
+                    0, '仅可下载 loongarch64 架构配套离线安装包。'
+                )
+                .addSingle('CPU & OS', 'BIOS 硬盘推荐模式是？',
+                    ['AHCI', 'IDE', 'RAID', '自动'],
+                    2, 'BIOS 硬盘选项推荐设置为 RAID 模式。'
+                )
+                .addSingle('CPU & OS', '统信龙芯版不支持哪种安装方式？',
+                    ['本地全新安装', '在线升级', '跨架构覆盖安装', 'U 盘安装'],
+                    2, '统信 UOS 龙芯版不支持 x86 镜像覆盖安装，指令集完全不兼容。'
+                )
+                .addJudge('CPU & OS', '龙芯 3A6000 为 4 核 8 线程 SMT2 设计。',
+                    true, '3A6000 搭载 SMT2，4 物理核提供 8 逻辑核。'
+                )
+                .addJudge('CPU & OS', '龙芯 3C5000 内置 16 颗 LA664 核心。',
+                    true, '3C5000 为单路服务器芯片，内置 16 核。'
+                )
+                .addJudge('CPU & OS', '龙芯 3D5000 支持 8 通道 DDR4。',
+                    true, '3D5000 支持 8 通道 DDR4 内存。'
+                )
+                .addJudge('CPU & OS', '龙芯 3A6000 支持动态变频，满载功耗 40W。',
+                    true, '3A6000 频率范围 2.0~2.5GHz，满载典型功耗 40W。'
+                )
+                .addJudge('CPU & OS', '龙芯 3C5000 支持 PCIe 4.0。',
+                    false, '3C5000 硬件不支持 PCIe 4.0。'
+                )
+                .addJudge('CPU & OS', '龙芯 3B6000M 集成 GPGPU，支持 AI 和 4K 硬解。',
+                    true, '3B6000M 集成自研 GPGPU，原生支持 AI 推理和 4K 硬解。'
+                )
+                .addJudge('CPU & OS', '龙芯 3A6000 基于 MIPS 架构。',
+                    false, '3A6000 采用自研 LA664 核心，完全抛弃 MIPS 架构。'
+                )
+                .addJudge('CPU & OS', '龙芯 3C6000 仅能办公，不能做服务器。',
+                    false, '3C6000 是新一代 16 核单路服务器 CPU。'
+                )
+                .addJudge('CPU & OS', 'LoongArch 拥有完整自主知识产权。',
+                    true, 'LoongArch 拥有完整自主知识产权，不受海外技术管控。'
+                )
+                .addJudge('CPU & OS', '龙芯电脑不能直接安装 x86 系统镜像。',
+                    true, 'LoongArch 与 x86 指令集不兼容，无法直接安装。'
+                )
+                .addJudge('CPU & OS', 'uname -m 输出 loongarch64 代表架构匹配正常。',
+                    true, 'uname -m 输出 loongarch64 表示系统与 CPU 架构匹配。'
+                )
+                .addJudge('CPU & OS', '龙芯原生支持 Windows 操作系统。',
+                    false, '龙芯硬件无 X86 指令执行单元，无法原生安装 Windows。'
+                )
+                .addJudge('CPU & OS', '龙芯系统推荐使用 EXT4 根分区。',
+                    true, '龙芯架构系统分区默认 EXT 格式。'
+                )
+                .addJudge('CPU & OS', '校验 MD5 可防止镜像损坏导致的安装失败。',
+                    true, '写入 U 盘前必须校验 MD5/SHA256 哈希值。'
+                )
+                .addJudge('CPU & OS', 'U 盘安装必须设置 U 盘为第一启动设备。',
+                    true, 'BIOS 需将 U 盘调整为第一启动项。'
+                )
+                .addJudge('CPU & OS', '制作启动盘无需提前格式化 U 盘。',
+                    true, '资料中未要求提前格式化，直接写入镜像即可。'
+                )
+                .addJudge('CPU & OS', '安装过程中断电不会损坏系统。',
+                    false, '安装过程断电会永久破坏分区表和系统引导。'
+                )
+                .addJudge('CPU & OS', '镜像文件越大系统运行速度越快。',
+                    false, '镜像大小与系统速度无直接关系。'
+                )
+                .addJudge('CPU & OS', '龙芯麒麟系统支持官方补丁升级。',
+                    true, '银河麒麟龙芯版支持官方安全补丁和版本升级。'
+                )
+    // 1
+    .addSingle('CPU & OS', '冯·诺依曼五大硬件部件中，不属于CPU内部组件的是？\nA. 运算器 ALU\nB. 控制器 CU\nC. 存储器\nD. 寄存器组',
+        ['A', 'B', 'C', 'D'], 2,
+        'A错误：运算器是CPU内置核心模块，负责算术、逻辑运算；B错误：控制器集成在CPU内部，负责解析指令、下发硬件控制信号；C正确：存储器包含内存、硬盘等整机存储硬件，不属于CPU芯片内部；D错误：寄存器组是CPU内置高速临时存储单元，读写速度远超内存。'
+    )
+    // 2
+    .addSingle('CPU & OS', '龙芯全系列处理器统一不具备的缓存层级是？\nA. L1\nB. L2\nC. L3\nD. L4',
+        ['A', 'B', 'C', 'D'], 3,
+        'A错误：所有龙芯CPU都有独立指令、数据L1缓存；B错误：单核心专属L2二级缓存是龙芯标配；C错误：多核共享大容量L3三级缓存；D正确：复习资料明确龙芯全系无L4缓存设计。'
+    )
+    // 3
+    .addSingle('CPU & OS', 'PC程序寄存器（PC）核心作用是？\nA. 存储运算中间数值\nB. 保存下一条待执行指令内存地址\nC. 记录运算正负、溢出标记\nD. 转换虚拟与物理内存地址',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：通用寄存器负责存放运算中间数据；B正确：PC寄存器永久保存下一条指令地址，支撑程序循环、跳转；C错误：状态寄存器记录运算结果标识；D错误：MMU内存管理单元负责虚实地址转换。'
+    )
+    // 4
+    .addSingle('CPU & OS', '龙芯3A6000搭载的超线程规格为？\nA. SMT1，4逻辑核\nB. SMT2，8逻辑核\nC. SMT4，16逻辑核\nD. 无超线程技术',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：不存在SMT1规格，不符合3A6000硬件参数；B正确：4颗物理核心搭配SMT2，模拟8个逻辑核心；C错误：SMT4为高端多路服务器规格，3A6000未搭载；D错误：3A6000出厂标配SMT2超线程。'
+    )
+    // 5
+    .addSingle('CPU & OS', '龙芯3A6000双通道DDR4内存实测带宽为？\nA. 21GB/s\nB. 42GB/s\nC. 51.2GB/s\nD. 100GB/s',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：21GB/s是干扰错误数值，无对应龙芯型号；B正确：文档官方参数，3A6000内存带宽突破42GB/s；C错误：51.2GB/s远超该处理器硬件上限；D错误：100GB/s属于高端多路服务器指标，3A6000达不到。'
+    )
+    // 6
+    .addSingle('CPU & OS', '龙芯3A6000在2.5GHz满载典型功耗是？\nA. 20W\nB. 40W\nC. 60W\nD. 80W',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：20W是1K/2K嵌入式低功耗芯片参数；B正确：官方硬件参数2.5GHz满载典型功耗40W；C错误：60W功耗偏高，不属于桌面3A系列；D错误：80W多用于高端多路服务器CPU。'
+    )
+    // 7
+    .addSingle('CPU & OS', '单路16核龙芯服务器处理器型号是？\nA. 3A6000\nB. 3B6000M\nC. 3C5000\nD. 3D5000',
+        ['A', 'B', 'C', 'D'], 2,
+        'A错误：3A6000是4核政企桌面处理器；B错误：3B6000M集成GPGPU，面向AI桌面终端；C正确：3C5000内置16颗LA664物理核心，用于单路业务服务器；D错误：3D5000双硅片32核，适配多路高端算力集群。'
+    )
+    // 8
+    .addSingle('CPU & OS', '3D5000实现32核算力的硬件设计方式是？\nA. 单硅片集成32物理核心\nB. 双硅片各16核组合封装\nC. 四颗16核芯片直连互连\nD. 依靠超线程模拟32逻辑核',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：3D5000并非单片32核架构；B正确：采用双硅片封装方案，两片各16核，合计32物理核心；C错误：无需四块芯片拼接互连；D错误：32核全部为物理核心，不依靠超线程扩容。'
+    )
+    // 9
+    .addSingle('CPU & OS', '集成GPGPU，原生支持AI推理、4K硬件编解码的龙芯型号？\nA. 3A6000\nB. 3B6000M\nC. 3C5000\nD. 3D5000',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：3A6000无内置图形加速单元；B正确：3B6000M集成自研GPGPU，支持AI推理与4K硬解；C错误：3C5000纯服务器CPU，无图形核心；D错误：3D5000多路算力芯片，不带视频编解码单元。'
+    )
+    // 10
+    .addSingle('CPU & OS', 'LoongArch龙架构所属指令集大类为？\nA. CISC复杂指令集\nB. RISC精简指令集\nC. VLIW超长指令集\nD. 专用嵌入式指令集',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：X86属于CISC，指令长短不一、依赖微码；B正确：LoongArch是国产自主RISC，指令长度统一，单周期完成运算；C错误：VLIW多用于DSP数字信号处理器，和龙芯无关；D错误：LoongArch覆盖桌面、服务器，不局限嵌入式设备。'
+    )
+    // 11
+    .addSingle('CPU & OS', 'Linux终端查看本机CPU架构的命令是？\nA. dir\nB. uname -m\nC. ipconfig\nD. ping',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：dir是Windows目录查看命令，Linux使用ls；B正确：执行后输出loongarch64即代表龙芯架构；C错误：ipconfig是Windows网卡命令，Linux用ip addr；D错误：ping仅测试网络连通，无法查看硬件架构。'
+    )
+    // 12
+    .addSingle('CPU & OS', 'LoongArch架构主机仅能使用哪一类系统镜像安装？\nA. x86_64\nB. arm64\nC. loongarch64\nD. riscv64',
+        ['A', 'B', 'C', 'D'], 2,
+        'A错误：x86_64适配Intel/AMD，指令集和龙芯不兼容；B错误：arm64适配飞腾、鲲鹏ARM处理器；C正确：龙芯底层指令仅识别loongarch64架构镜像；D错误：RISC-V指令集与LoongArch完全不互通。'
+    )
+    // 13
+    .addSingle('CPU & OS', '龙芯设备运行Windows exe软件的官方兼容方案是？\nA. X86硬件直通虚拟化\nB. LAT二进制翻译+Wine兼容层\nC. 原生安装双系统Windows\nD. 外置硬件模拟X86处理器',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：龙芯无原生X86执行单元，无法硬件直通；B正确：自研LAT翻译层搭配Wine，纯软件运行Windows程序；C错误：龙芯硬件底层不支持原生Windows系统；D错误：无外置硬件模拟方案，仅依靠软件兼容层。'
+    )
+    // 14
+    .addSingle('CPU & OS', 'YUM源配置中gpgcheck=0代表含义？\nA. 开启软件包GPG签名校验\nB. 关闭软件包GPG签名校验\nC. 仅校验网络源，跳过本地源\nD. 强制离线源开启校验',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：gpgcheck=1才代表开启安全校验；B正确：内网离线环境常用配置，跳过GPG包签名检测；C错误：参数全局生效，不分本地/网络软件源；D错误：该配置是关闭校验，而非强制开启。'
+    )
+    // 15
+    .addSingle('CPU & OS', '龙芯本地离线YUM源路径协议规范使用？\nA. http://\nB. https://\nC. file://\nD. ftp://',
+        ['A', 'B', 'C', 'D'], 2,
+        'A错误：http用于外网在线软件仓库；B错误：https加密外网源协议；C正确：本地磁盘目录离线源统一使用file://协议；D错误：ftp是远程文件传输协议，离线环境不使用。'
+    )
+    // 16
+    .addSingle('CPU & OS', '查看服务器所有已启用YUM软件仓库命令是？\nA. yum list\nB. yum repolist\nC. yum install\nD. yum clean all',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：yum list列出所有可安装软件包；B正确：yum repolist展示当前全部激活的软件源；C错误：yum install用于安装指定软件；D错误：yum clean all清理本地缓存安装包。'
+    )
+    // 17
+    .addSingle('CPU & OS', '龙芯国产操作系统官方推荐安装介质是？\nA. 光盘\nB. 8GB及以上U盘启动盘\nC. 硬盘直接拷贝镜像\nD. 无线远程网络安装',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：光盘读写慢、兼容性差，现已淘汰；B正确：8GB以上U盘制作启动盘为标准安装方式；C错误：硬盘拷贝镜像无法直接引导开机；D错误：无线安装稳定性差，无官方标准流程。'
+    )
+    // 18
+    .addSingle('CPU & OS', '龙芯台式机开机快速调出启动项选择菜单快捷键？\nA. F12\nB. F2\nC. Delete\nD. Esc',
+        ['A', 'B', 'C', 'D'], 0,
+        'A正确：开机按下F12，直接弹出启动设备选择列表；B错误：F2多用于笔记本进入BIOS设置；C错误：Delete是X86台式机进BIOS快捷键；D错误：Esc一般仅跳过开机LOGO画面。'
+    )
+    // 19
+    .addSingle('CPU & OS', 'UEFI模式安装国产系统，强制必须单独划分分区为？\nA. swap交换分区\nB. EFI引导分区\nC. /home用户分区\nD. /tmp临时分区',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：swap交换分区可选，非强制要求；B正确：EFI分区存放系统引导程序，缺失主机无法开机；C错误：/home用户分区可合并至根目录，非必需；D错误：临时目录可挂载根分区内，无需独立分区。'
+    )
+    // 20
+    .addSingle('CPU & OS', '龙芯架构麒麟、统信系统默认根分区文件系统格式？\nA. NTFS\nB. EXT4\nC. FAT32\nD. XFS',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：NTFS是Windows系统盘格式，不能用作Linux系统分区；B正确：LoongArch架构国产系统默认EXT4文件系统；C错误：FAT32仅用于U盘临时交换文件；D错误：XFS为X86架构麒麟默认文件系统。'
+    )
+    // 21
+    .addSingle('CPU & OS', '独立划分/home分区最核心作用是？\nA. 提升CPU运算速度\nB. 重装系统格式化根分区，用户数据不丢失\nC. 提升显卡渲染性能\nD. 缩短开机启动时间',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：磁盘分区划分不改变CPU运算性能；B正确：系统文件与用户文档隔离，重装仅清理/，保留/home数据；C错误：分区结构和显卡渲染无关联；D错误：单独/home分区不会缩短开机时长。'
+    )
+    // 22
+    .addSingle('CPU & OS', '龙芯BIOS中安装系统推荐硬盘工作模式为？\nA. AHCI\nB. IDE\nC. RAID\nD. 自动兼容模式',
+        ['A', 'B', 'C', 'D'], 2,
+        'A错误：AHCI是X86传统硬盘模式；B错误：IDE老旧模式，读写性能低下；C正确：复习资料明确龙芯BIOS硬盘设置为RAID；D错误：无官方"自动兼容"推荐配置。'
+    )
+    // 23
+    .addSingle('CPU & OS', '全盘自动安装硬盘模式执行后的结果是？\nA. 保留硬盘原有全部分区数据\nB. 清空整块硬盘所有文件并自动分区\nC. 仅格式化系统根分区\nD. 仅覆盖EFI引导分区',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：全盘模式会清除硬盘所有原有数据；B正确：空白全新硬盘专用，自动清空整盘重新分区；C错误：仅格式化根分区属于手动自定义分区模式；D错误：不会只单独覆盖EFI引导分区。'
+    )
+    // 24
+    .addSingle('CPU & OS', '安装界面提示无法检测磁盘，最无关故障原因是？\nA. BIOS硬盘RAID配置错误\nB. 硬盘数据线接触不良\nC. 硬盘硬件损坏\nD. 系统时区设置错误',
+        ['A', 'B', 'C', 'D'], 3,
+        'A错误：硬盘模式配置错误会导致磁盘识别失败；B错误：数据线松动会无法识别硬盘；C错误：硬盘硬件损坏直接识别不到；D正确：时区仅控制系统时间，和磁盘硬件识别无关。'
+    )
+    // 25
+    .addSingle('CPU & OS', '系统拷贝文件阶段强制断电，主要损坏内容是？\nA. CPU内部固件\nB. 磁盘分区表与EFI引导程序\nC. 内存硬件颗粒\nD. 网卡驱动文件',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：CPU固件固化在芯片，断电无法修改；B正确：写入中断会破坏分区表、引导文件，主机无法启动；C错误：断电不会物理损坏内存条；D错误：不会单独破坏网卡驱动配置。'
+    )
+    // 26
+    .addSingle('CPU & OS', '龙芯离线服务器安装软件提示依赖缺失，正确解决方式？\nA. 下载x86架构rpm包安装\nB. 仅下载loongarch64架构配套离线包\nC. 使用--nodeps强制忽略依赖\nD. 重启自动补齐依赖',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：x86架构指令不兼容，运行直接报错；B正确：离线软件包必须匹配loongarch64架构；C错误：忽略依赖会破坏系统底层文件；D错误：离线无网络，重启无法自动下载依赖。'
+    )
+    // 27
+    .addSingle('CPU & OS', '龙芯系统显示器分辨率异常，标准解决办法？\nA. 更换显示器\nB. 更新loongarch架构专用显卡驱动\nC. 修改系统时区\nD. 切换硬盘IDE模式',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：显示器硬件无故障，无需更换；B正确：分辨率异常根源是缺少龙芯适配显卡驱动；C错误：时区和画面显示无任何关联；D错误：硬盘工作模式不影响图形输出。'
+    )
+    // 28
+    .addSingle('CPU & OS', '龙芯装好系统后无法联网，最高发故障原因？\nA. CPU硬件损坏\nB. 缺少loongarch适配网卡驱动\nC. swap分区容量不足\nD. L3缓存参数错误',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：CPU损坏会整机无法开机；B正确：网卡驱动架构不匹配是离线断网首要原因；C错误：swap交换分区不影响网络通信；D错误：缓存参数和网卡网络无关。'
+    )
+    // 29
+    .addSingle('CPU & OS', '下列操作不会损坏系统引导的是？\nA. 安装中途异常断电\nB. 手动删除EFI分区\nC. 安装跨架构软件包\nD. 正常流程系统重启',
+        ['A', 'B', 'C', 'D'], 3,
+        'A错误：断电中断写入，破坏引导文件；B错误：删除EFI分区直接丢失启动程序；C错误：跨架构软件破坏系统底层依赖；D正确：正常重启不会修改分区、引导数据。'
+    )
+    // 30
+    .addSingle('CPU & OS', '制作龙芯启动盘安装失败，最常见U盘故障？\nA. U盘格式FAT32\nB. 扩容盘/存在物理坏块\nC. 容量16GB\nD. 支持USB3.0',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：FAT32是启动盘标准格式，无问题；B正确：扩容、坏块会造成镜像写入残缺，安装中断；C错误：16GB是合规U盘容量；D错误：USB3.0传输速度更快，不会导致失败。'
+    )
+    // 31
+    .addSingle('CPU & OS', 'CPU芯片制程工艺数字越小代表？\nA. 晶体管尺寸更大、功耗更高\nB. 晶体管集成密度越高，同等面积性能更强\nC. 芯片物理尺寸变大\nD. 发热、漏电同步提升',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：制程数值越小，晶体管更小、功耗更低；B正确：先进制程集成度提升，性能增强、功耗下降；C错误：制程不改变芯片封装物理尺寸；D错误：更小制程漏电、发热会降低。'
+    )
+    // 32
+    .addSingle('CPU & OS', '缓存一致性协议主要解决的硬件问题？\nA. 加速硬盘读写\nB. 多核L3缓存数据读写错乱\nC. 优化显卡渲染\nD. 降低CPU空载功耗',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：协议仅作用CPU缓存，和硬盘无关；B正确：同步多核缓存数据，避免并发读写数值错乱；C错误：不负责显卡图形管线；D错误：无功耗调节功能。'
+    )
+    // 33
+    .addSingle('CPU & OS', 'MMU内存管理单元核心功能？\nA. 管理显卡显存\nB. 虚拟地址与物理地址双向转换\nC. 调节CPU主频\nD. 统一调度各级缓存',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：显存由GPU单独管理；B正确：虚实地址转换，支撑操作系统多进程内存隔离；C错误：主频调节由电源管理模块负责；D错误：缓存调度由CPU缓存控制器完成。'
+    )
+    // 34
+    .addSingle('CPU & OS', 'CPU主频标准定义为？\nA. 处理器内核时钟振荡频率，单位GHz\nB. 每秒可执行指令总数\nC. 内存总线频率\nD. PCIe总线时钟',
+        ['A', 'B', 'C', 'D'], 0,
+        'A正确：主频即CPU内核时钟振荡快慢；B错误：每秒指令数是IPC性能指标，不等于主频；C错误：不属于CPU主频定义；D错误：PCIe总线和CPU主频无关。'
+    )
+    // 35
+    .addSingle('CPU & OS', 'L1缓存硬件特征描述正确的是？\nA. 全核心共享大容量缓存\nB. 离CPU核心最近、容量最小、速度最快\nC. 断电永久保存数据\nD. 用于多核大容量数据交互',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：全核心共享是L3缓存；B正确：L1分独立指令/数据缓存，速度最快容量最小；C错误：所有CPU缓存断电全部丢失数据；D错误：多核数据交互依靠L3缓存。'
+    )
+    // 36
+    .addSingle('CPU & OS', 'SMT超线程技术核心价值？\nA. 增加物理核心数量\nB. 复用核心闲置资源，提升多任务并发\nC. 拉高CPU出厂主频\nD. 大幅降低满载功耗',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：不会新增物理核心；B正确：单个核心模拟多个逻辑核心，提升并发处理能力；C错误：无法修改硬件主频上限；D错误：开启超线程满载功耗小幅上升。'
+    )
+    // 37
+    .addSingle('CPU & OS', '龙芯1K系列处理器应用场景？\nA. 政企台式办公\nB. 超低功耗物联网MCU\nC. 工控安防设备\nD. 服务器算力节点',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：桌面使用3A系列；B正确：1K主打小型物联网嵌入式终端；C错误：工控、安防适配2K系列；D错误：服务器采用3C/3D系列。'
+    )
+    // 38
+    .addSingle('CPU & OS', '龙芯2K系列处理器产品定位？\nA. 多路高端服务器\nB. 一体化SOC，工控、安防终端\nC. 政企桌面一体机\nD. 16核单路服务器',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：多路服务器为3D系列；B正确：2K单片SOC适配工业控制、监控摄像头；C错误：桌面终端是3A系列；D错误：16核服务器为3C5000。'
+    )
+    // 39
+    .addSingle('CPU & OS', '龙芯3C5000硬件不支持高速接口是？\nA. PCIe3.0\nB. PCIe4.0\nC. DDR4内存\nD. ECC内存校验',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：3C5000标配PCIe3.0；B正确：文档明确3C5000硬件无PCIe4.0支持；C错误：4通道DDR4为标准配置；D错误：服务器标配ECC内存纠错。'
+    )
+    // 40
+    .addSingle('CPU & OS', '镜像写入U盘前校验MD5哈希值目的？\nA. 提升系统运行速度\nB. 校验镜像完整无损坏\nC. 加密镜像文件\nD. 自动转换CPU架构',
+        ['A', 'B', 'C', 'D'], 1,
+        'A错误：哈希校验和运行速度无关；B正确：MD5校验可检测下载残缺、文件损坏；C错误：MD5仅完整性校验，无加密能力；D错误：哈希无法转换镜像架构。'
+    )
+
+// ================================================================
+// 第41-60题（多选题）
+// ================================================================
+
+    // 41
+    .addSingle('CPU & OS', '龙芯3A6000正确硬件参数包含？（多选）\nA. 4物理核心，SMT2，共8逻辑核\nB. 频率2.0GHz~2.5GHz动态变频\nC. 片内集成16MB共享L3缓存\nD. 硬件原生支持DDR5内存',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：3A6000标配4物理核心，SMT2超线程，可运行8个逻辑线程；B选项正确：处理器支持负载自适应动态升降频，工作区间2.0~2.5GHz；C选项正确：片内集成全核心共享16MB三级缓存；D选项错误：该CPU仅支持双通道DDR4-3200，硬件层面不兼容DDR5内存。正确答案：ABC'
+    )
+    // 42
+    .addSingle('CPU & OS', 'LoongArch龙架构自主核心优势有？（多选）\nA. 全套完整自主知识产权，无海外专利限制\nB. 原生内置硬件虚拟化扩展\nC. 搭载LSX128、LASX256两组向量扩展指令\nD. 内置硬件国密SM2/SM3/SM4运算单元',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：LoongArch完全自研，不受X86、ARM海外厂商专利管控；B选项正确：原生硬件虚拟化，可稳定运行虚拟机、容器云业务；C选项正确：LSX、LASX向量指令大幅提升多媒体、并行计算性能；D选项正确：硬件级国密加密模块，满足信创安全规范。正确答案：ABCD'
+    )
+    // 43
+    .addSingle('CPU & OS', '龙芯全产品线场景匹配正确的是？（多选）\nA. 1K系列：物联网、超低功耗嵌入式MCU\nB. 2K系列：工控设备、安防监控SOC\nC. 3A系列：台式机、政企办公一体机\nD. 3C/3D系列：单/多路服务器、云计算算力节点',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：1K主打极低功耗，用于小型物联网终端；B选项正确：2K一体化单片芯片，适配工业控制、摄像头；C选项正确：3A面向政企日常办公桌面终端；D选项正确：3C单路、3D双路芯片，用于数据中心服务器。正确答案：ABCD'
+    )
+    // 44
+    .addSingle('CPU & OS', '龙芯3C5000服务器内存支持规格有？（多选）\nA. 4通道DDR4内存控制器\nB. 单条最大支持64GB RDIMM\nC. 硬件自带ECC内存纠错校验\nD. 原生支持LPD5低功耗移动端内存',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：3C5000搭载4通道DDR4内存控制器；B选项正确：内存插槽最大可单插64GB RDIMM服务器内存；C选项正确：服务器芯片标配ECC，自动修复内存比特错误；D选项错误：LPDDR5为移动端内存，3C5000不支持。正确答案：ABC'
+    )
+    // 45
+    .addSingle('CPU & OS', '龙芯新一代"三剑客"处理器型号包含？（多选）\nA. 3A6000\nB. 3B6000M\nC. 3C6000\nD. 2K3000',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：3A6000是政企桌面主力芯片；B选项正确：3B6000M集成GPGPU，支持AI与4K硬解；C选项正确：新一代16核单路服务器CPU；D选项错误：2K3000属于工控系列，不属于三剑客产品线。正确答案：ABC'
+    )
+    // 46
+    .addSingle('CPU & OS', '龙芯主机安装国产系统，BIOS必须完成的配置项？（多选）\nA. 关闭Secure Boot安全启动校验\nB. 开启UEFI标准启动模式\nC. 将U盘设置为第一启动设备\nD. 强制关闭CPU节能调节开关',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：Secure Boot会拦截国产系统引导程序，必须关闭；B选项正确：Legacy传统模式不兼容国产麒麟、统信，仅使用UEFI；C选项正确：U盘启动盘需要优先启动才能进入安装界面；D选项错误：CPU节能开关不影响系统安装，无需修改。正确答案：ABC'
+    )
+    // 47
+    .addSingle('CPU & OS', '会导致系统安装中途中断的因素有？（多选）\nA. U盘存在坏块、镜像写入残缺\nB. 镜像SHA256哈希校验失败\nC. 安装过程主机意外断电\nD. 主机外接过多USB外设',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：U盘硬件损坏会造成文件拷贝中断；B选项正确：镜像文件损坏校验不通过，安装程序直接终止；C选项正确：断电破坏分区表与引导，强制退出安装流程；D选项错误：外接普通USB外设不会中断系统安装。正确答案：ABC'
+    )
+    // 48
+    .addSingle('CPU & OS', '银河麒麟、统信LoongArch版共同安装特性？（多选）\nA. 仅可使用loongarch64架构镜像安装\nB. 强制采用UEFI启动模式\nC. 支持全盘自动/手动自定义两种分区模式\nD. 镜像写入U盘前无需校验哈希值',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：不同架构指令不互通，x86/arm镜像无法在龙芯上安装；B选项正确：两款国产系统均不兼容Legacy传统启动；C选项正确：空白硬盘用全盘模式，存量业务用手动分区；D选项错误：必须校验MD5/SHA256，防止镜像损坏安装失败。正确答案：ABC'
+    )
+    // 49
+    .addSingle('CPU & OS', '造成龙芯主机系统引导损坏的核心诱因？（多选）\nA. 系统安装、运行时异常断电关机\nB. 手动删除、修改EFI引导分区表\nC. 强行安装x86跨架构软件包\nD. 正常流程执行系统重启',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：断电中断磁盘写入，破坏引导文件；B选项正确：EFI分区存放启动程序，删除后无法开机；C选项正确：跨架构软件破坏系统底层依赖与引导组件；D选项错误：正常重启仅重启服务，不会修改引导分区数据。正确答案：ABC'
+    )
+    // 50
+    .addSingle('CPU & OS', 'CPU内部包含的核心硬件组件有？（多选）\nA. 运算器ALU\nB. 控制器CU\nC. 寄存器组\nD. MMU内存管理单元',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：ALU负责算术、逻辑运算；B选项正确：CU解析指令，统筹硬件调度；C选项正确：高速寄存器临时存储运算中间数据；D选项正确：MMU完成虚实地址转换，集成在CPU内部。正确答案：ABCD'
+    )
+    // 51
+    .addSingle('CPU & OS', '属于龙芯L3缓存核心特性的是？（多选）\nA. 全物理核心共享大容量缓存\nB. 用于多核之间数据交互同步\nC. 依靠缓存一致性协议保证数据准确\nD. 容量小于单核心独立L2缓存',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：L3是所有核心共用共享缓存；B选项正确：多核数据交互中转依靠L3；C选项正确：缓存一致性协议避免多核心数据错乱；D选项错误：L3容量远大于单核心L2缓存。正确答案：ABC'
+    )
+    // 52
+    .addSingle('CPU & OS', '关于SMT超线程描述正确的有？（多选）\nA. 复用单个物理核心闲置运算流水线\nB. 3A6000搭载SMT2，4核模拟8逻辑核\nC. 不会增加CPU物理核心数量\nD. 开启后CPU满载功耗会小幅上升',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：利用核心空闲资源并发执行多条线程；B选项正确：3A6000标准SMT2配置，4物理核输出8逻辑核；C选项正确：仅逻辑分层，物理核心总数不变；D选项正确：线程并发量提升，满载功耗小幅增加。正确答案：ABCD'
+    )
+    // 53
+    .addSingle('CPU & OS', 'YUM离线本地源配置相关正确描述？（多选）\nA. 本地源路径使用file://协议\nB. gpgcheck=0关闭软件包签名校验\nC. yum repolist可查看已启用软件仓库\nD. 本地源必须依赖外网http服务',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：本地磁盘目录离线源统一使用file://；B选项正确：内网无证书环境设置gpgcheck=0跳过校验；C选项正确：yum repolist输出全部激活的软件源；D选项错误：本地源无需网络，不依赖http协议。正确答案：ABC'
+    )
+    // 54
+    .addSingle('CPU & OS', 'UEFI安装国产系统必须规划的分区包含？（多选）\nA. EFI引导分区\nB. 根分区/\nC. 用户/home分区（推荐）\nD. swap交换分区（推荐）',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：UEFI启动强制需要EFI分区存放引导；B选项正确：系统所有核心程序存放于根分区；C选项正确：独立/home隔离用户数据，重装不丢失；D选项正确：内存不足场景配置swap交换分区提升稳定性。正确答案：ABCD'
+    )
+    // 55
+    .addSingle('CPU & OS', '龙芯主机安装后网络异常的处理方案？（多选）\nA. 下载loongarch64架构网卡驱动包更新\nB. 检查YUM源是否配置完整离线依赖\nC. 确认BIOS内网卡设备未被禁用\nD. 更换x86架构网卡驱动安装',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：架构不匹配是断网核心原因，更新对应驱动；B选项正确：离线环境缺少网络依赖会导致网卡服务异常；C选项正确：BIOS关闭网卡硬件会识别不到网卡；D选项错误：x86驱动指令不兼容，完全无法使用。正确答案：ABC'
+    )
+    // 56
+    .addSingle('CPU & OS', '下列属于RISC精简指令集特征的是？（多选）\nA. 指令长度统一规整\nB. 单时钟周期完成单条运算\nC. 译码逻辑简单高效\nD. 指令长短不一，依赖微码解析',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：RISC全部指令固定长度；B选项正确：单周期执行，流水线效率高；C选项正确：指令集简洁，硬件译码成本低；D选项错误：长短指令、依赖微码是CISC(X86)特征。正确答案：ABC'
+    )
+    // 57
+    .addSingle('CPU & OS', '镜像制作与校验规范要求？（多选）\nA. 使用8GB以上正规U盘制作启动盘\nB. 写入前校验MD5/SHA256哈希值\nC. 扩容、坏块U盘禁止用来做启动盘\nD. 镜像无需校验，直接写入即可',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：镜像体积较大，8G及以上容量满足需求；B选项正确：哈希校验防止镜像下载残缺、损坏；C选项正确：扩容、坏块U盘会造成写入失败、安装中断；D选项错误：不校验极易出现安装报错、系统损坏。正确答案：ABC'
+    )
+    // 58
+    .addSingle('CPU & OS', '龙芯服务器3D5000硬件规格正确的是？（多选）\nA. 双硅片封装设计\nB. 每颗硅片16物理核心，合计32核\nC. 支持8通道DDR4内存\nD. 依靠龙链高速互连多芯片',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：3D5000采用双硅片封装方案；B选项正确：两片各16核，总计32物理核心；C选项正确：搭载8通道DDR4内存控制器；D选项正确：龙链高速互联技术支持多路集群扩展。正确答案：ABCD'
+    )
+    // 59
+    .addSingle('CPU & OS', '冯·诺依曼体系包含的五大硬件单元是？（多选）\nA. 运算器\nB. 控制器\nC. 存储器\nD. 输入设备、输出设备',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：负责数据运算；B选项正确：负责指令解析调度；C选项正确：存放程序与数据；D选项正确：外设完成数据输入输出；五大部件共同构成经典冯诺依曼计算机架构。正确答案：ABCD'
+    )
+    // 60
+    .addSingle('CPU & OS', '安装系统全盘自动分区模式缺点有？（多选）\nA. 整块硬盘所有数据全部清空\nB. 无法保留原有业务分区\nC. 自动划分EFI、swap、根、home分区\nD. 仅适合全新空白硬盘',
+        ['A', 'B', 'C', 'D'], -1,
+        'A选项正确：全盘模式会格式化整块硬盘所有分区；B选项正确：存量数据无法保留，会全部删除；C选项错误：该描述是优点，并非缺点；D选项正确：有数据硬盘不能使用全盘模式，只能手动分区。正确答案：ABD'
+    )
+
+// ================================================================
+// 第61-80题（判断题）
+// ================================================================
+
+    // 61
+    .addSingle('CPU & OS', '龙芯3A6000为4物理核心搭配SMT2，可提供8个逻辑核心。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档明确3A6000采用4核SMT2设计，单个物理核心可模拟两个逻辑线程，整机共8逻辑核心，描述完全正确。'
+    )
+    // 62
+    .addSingle('CPU & OS', '龙芯3C5000内置16颗LA664物理核心，用于单路服务器。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '3C5000定位单路中小企业服务器，内部集成16颗自研LA664架构核心，题干说法正确。'
+    )
+    // 63
+    .addSingle('CPU & OS', '龙芯3D5000采用双硅片封装，两片各16核，合计32物理核心。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '3D5000不采用单片32核设计，通过两块16核硅片组合封装实现32核算力，描述正确。'
+    )
+    // 64
+    .addSingle('CPU & OS', '龙芯3A6000满载2.5GHz下典型功耗为40W。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '官方硬件参数标注3A6000主频2.5GHz满载典型功耗40W，说法符合资料内容。'
+    )
+    // 65
+    .addSingle('CPU & OS', '龙芯3C5000硬件原生支持PCIe4.0高速总线接口。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '复习资料明确3C5000不支持PCIe4.0，最高仅支持PCIe3.0，题干描述错误。'
+    )
+    // 66
+    .addSingle('CPU & OS', '3B6000M集成自研GPGPU，原生支持AI推理与4K硬件编解码。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '3B6000M属于新一代桌面AI芯片，内置图形加速核心，可硬件加速4K视频与AI推理，描述正确。'
+    )
+    // 67
+    .addSingle('CPU & OS', '龙芯3A6000基于老旧MIPS架构二次修改而来。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '3A6000采用全新自研LoongArch架构，完全抛弃MIPS，无MIPS底层IP，题干错误。'
+    )
+    // 68
+    .addSingle('CPU & OS', '3C6000仅能用于办公终端，无法部署服务器业务。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '3C6000是新一代16核单路服务器处理器，专门面向服务器场景，说法错误。'
+    )
+    // 69
+    .addSingle('CPU & OS', 'LoongArch龙架构拥有完整自主知识产权，不受海外专利约束。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        'LoongArch全栈自研，独立于X86、ARM，无国外架构专利授权限制，符合资料描述。'
+    )
+    // 70
+    .addSingle('CPU & OS', '龙芯硬件底层原生支持直接安装Windows操作系统镜像。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '龙芯无X86指令执行单元，无法原生运行Windows，只能依靠LAT+Wine兼容层运行exe程序，题干错误。'
+    )
+    // 71
+    .addSingle('CPU & OS', 'uname -m执行输出loongarch64，代表系统与CPU架构匹配正常。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        'loongarch64是龙芯专属架构标识，该输出说明系统镜像适配本机CPU，说法正确。'
+    )
+    // 72
+    .addSingle('CPU & OS', '龙芯架构国产系统根分区默认使用NTFS文件系统。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '龙芯版麒麟/统信默认EXT4；NTFS是Windows专用格式，不能作为Linux系统分区，错误。'
+    )
+    // 73
+    .addSingle('CPU & OS', '安装系统前校验MD5哈希值，能够规避镜像损坏导致安装失败。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        'MD5校验文件完整性，下载、传输过程损坏的镜像哈希值不一致，可提前排查，描述正确。'
+    )
+    // 74
+    .addSingle('CPU & OS', '龙芯主机安装系统，U盘无需设置第一启动项也能引导安装。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        'BIOS启动优先级默认硬盘优先，不将U盘设为第一启动，无法进入U盘安装程序，错误。'
+    )
+    // 75
+    .addSingle('CPU & OS', '制作龙芯系统启动盘时，U盘无需提前格式化即可写入镜像。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        'U盘原有分区、文件会干扰镜像写入，制作启动盘前建议清空格式化，题干说法错误。'
+    )
+    // 76
+    .addSingle('CPU & OS', '系统安装拷贝文件阶段强制断电，不会损坏分区与引导程序。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '写入中途断电会中断分区表、EFI引导文件写入，造成系统无法开机，风险极大，说法错误。'
+    )
+    // 77
+    .addSingle('CPU & OS', '系统镜像文件体积越大，安装完成后运行速度越快。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '镜像大小仅取决于内置软件包数量，和CPU、内存运行性能无任何关联，说法错误。'
+    )
+    // 78
+    .addSingle('CPU & OS', '银河麒麟、统信LoongArch版官方持续提供安全补丁与版本升级。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '国产龙芯系统长期维护，可在线安装安全更新、迭代系统版本，描述正确。'
+    )
+    // 79
+    .addSingle('CPU & OS', '正常开关机、系统重启操作不会破坏磁盘EFI引导分区。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '正常重启只会重启系统服务，不会修改底层分区、引导文件，无损坏风险，说法正确。'
+    )
+    // 80
+    .addSingle('CPU & OS', '本地离线YUM源配置时，地址必须填写http网络路径。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '本地磁盘离线源使用file://本地目录路径，不需要http/https网络协议，题干错误。'
+    )
+    // 81
+    .addSingle('CPU & OS', '龙芯3A6000相比前代MIPS架构龙芯处理器的改进包括完全抛弃老旧MIPS架构、无任何国外IP授权、采用自研LA664六发射乱序处理器核心。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档明确3A6000"完全抛弃老旧MIPS架构，无任何国外IP授权，采用自研LA664六发射乱序处理器核心"。描述完全正确。'
+    )
+    // 82
+    .addSingle('CPU & OS', '/home分区和swap分区功能相同，都是用于存储用户数据。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '/home分区用于存放用户业务文档，swap分区用作虚拟内存，两者功能完全不同。题干说法错误。'
+    )
+    // 83
+    .addSingle('CPU & OS', '在龙芯平台上配置本地YUM源时，在repo文件中使用file://协议指定本地目录路径，无需http网络协议即可正常读取软件包。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"直接使用file://本地磁盘目录路径即可正常读取软件包"且"无需http网络协议"。描述正确。'
+    )
+    // 84
+    .addSingle('CPU & OS', '龙芯3A6000和3B6000M均不支持DDR5内存。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '龙芯全系列硬件不支持DDR5内存，3A6000和3B6000M均仅支持DDR4。描述正确。'
+    )
+    // 85
+    .addSingle('CPU & OS', '安装龙芯操作系统时，外接过多的USB外设会导致安装中途中断。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"外接过多外设不会造成安装中断"。安装中断的诱因是U盘坏块、镜像校验失败、意外断电等。错误。'
+    )
+    // 86
+    .addSingle('CPU & OS', '龙芯3C5000支持PCIe4.0高速接口和DDR5内存。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档3C5000"硬件不支持PCIe4.0高速接口"，且龙芯全系列"硬件不支持DDR5内存"。题干两个说法均错误。'
+    )
+    // 87
+    .addSingle('CPU & OS', '系统引导损坏的三大核心诱因包括：异常断电关机、手动删除EFI引导分区、强行安装跨架构第三方软件。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"系统引导损坏三大核心诱因"明确列出这三项。描述正确。'
+    )
+    // 88
+    .addSingle('CPU & OS', '龙芯平台国产操作系统安装时，时区应统一选择亚洲/上海，系统格式化、拷贝文件阶段严禁强制断电。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"时区统一选择亚洲/上海"且"系统格式化、拷贝文件阶段，严禁强制断电、重启主机"。描述正确。'
+    )
+    // 89
+    .addSingle('CPU & OS', 'PC程序计数器（PC）用于记录运算结果的正负标识，状态寄存器用于存储下一条待执行指令的内存地址。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        'PC程序计数器存储下一条待执行指令的内存地址，状态寄存器记录运算结果标识。题干把两者功能完全颠倒了。错误。'
+    )
+    // 90
+    .addSingle('CPU & OS', '龙芯平台离线安装依赖报错时应下载loongarch64架构的离线包，x86架构的依赖包无法在龙芯上使用。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"仅可下载loongarch64架构配套离线安装包，x86架构依赖包无法运行"。描述正确。'
+    )
+    // 91
+    .addSingle('CPU & OS', '龙芯3A6000为4核8线程SMT2设计。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"核心线程规格：4颗物理核心，标配SMT2超线程，整机提供8个逻辑核心"。表述完全正确。'
+    )
+    // 92
+    .addSingle('CPU & OS', '3C5000内置16颗LA664核心。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"龙芯3C5000单路服务器专用芯片，内置16颗LA664物理核心"。正确。'
+    )
+    // 93
+    .addSingle('CPU & OS', '3D5000支持8通道DDR4内存。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"支持8通道DDR4内存"。正确。'
+    )
+    // 94
+    .addSingle('CPU & OS', '3A6000支持动态变频，满载功耗为40W。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"频率范围：2.0GHz~2.5GHz，支持动态变频"；"2.5GHz满载典型功耗40W"。两者都正确。'
+    )
+    // 95
+    .addSingle('CPU & OS', '3C5000支持PCIe4.0高速接口。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档明确"硬件不支持PCIe4.0高速接口"。这是3C5000的重要限制条件。错误。'
+    )
+    // 96
+    .addSingle('CPU & OS', '3B6000M集成GPGPU，支持AI推理和4K硬件视频编解码。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"3B6000M：集成自研GPGPU图形核心，原生支持AI推理加速、4K硬件视频编解码"。正确。'
+    )
+    // 97
+    .addSingle('CPU & OS', '龙芯3A6000基于MIPS架构。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"完全抛弃老旧MIPS架构，无任何国外IP授权"，采用自研LA664核心。错误。'
+    )
+    // 98
+    .addSingle('CPU & OS', '3C6000仅能办公使用，不能作为服务器处理器。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"3C6000：新一代16核单路服务器CPU，算力对比3C5000大幅升级"。3C6000是服务器CPU。错误。'
+    )
+    // 99
+    .addSingle('CPU & OS', 'LoongArch拥有完整自主知识产权。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"全套完整自主知识产权，无国外厂商专利、授权限制，不受海外技术管控"。正确。'
+    )
+    // 100
+    .addSingle('CPU & OS', '龙芯电脑可以直接安装x86架构的系统镜像。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"LoongArch架构设备仅能安装loongarch64架构操作系统镜像，x86_64、arm64、RISC-V镜像底层指令不兼容，无法直接部署"。跨架构安装完全不可行。错误。'
+    )
+    // 101
+    .addSingle('CPU & OS', 'LoongArch架构设备可以安装arm64镜像，只是运行速度较慢。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"arm64、RISC-V镜像底层指令不兼容，无法直接部署"，不是慢的问题而是根本不能安装。错误。'
+    )
+    // 102
+    .addSingle('CPU & OS', '执行uname -m命令，输出loongarch64代表系统与CPU架构匹配正常。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"架构查询终端命令：uname -m，输出loongarch64代表系统与CPU架构匹配正常"。正确。'
+    )
+    // 103
+    .addSingle('CPU & OS', '龙芯平台可以原生安装微软Windows操作系统。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"龙芯硬件底层无X86指令执行单元，无法原生安装微软Windows操作系统"。龙芯只能通过LAT+Wine兼容运行Windows软件，不能原生安装Windows系统。错误。'
+    )
+    // 104
+    .addSingle('CPU & OS', '龙芯操作系统根分区推荐使用EXT4文件系统。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"龙芯架构系统分区默认EXT格式"；"X86版本麒麟默认XFS"。龙芯平台使用EXT4作为默认文件系统。正确。'
+    )
+    // 105
+    .addSingle('CPU & OS', '写入U盘前校验MD5可以防止因镜像损坏导致的安装失败。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"镜像校验要求：写入U盘前必须校验MD5/SHA256哈希值，镜像文件损坏会直接导致安装中断"。正确。'
+    )
+    // 106
+    .addSingle('CPU & OS', 'U盘安装操作系统时，必须将U盘设置为第一启动设备。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"启动优先级：将U盘调整为第一启动设备"。正确。'
+    )
+    // 107
+    .addSingle('CPU & OS', '制作启动盘前必须先格式化U盘为NTFS格式。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档未要求格式化U盘为NTFS，且制作启动盘通常使用FAT32或exFAT格式，使用专门的启动盘制作工具写入。NTFS不能用作系统安装分区。错误。'
+    )
+    // 108
+    .addSingle('CPU & OS', '安装系统过程中断电不会损坏系统引导。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"系统格式化、拷贝文件阶段，严禁强制断电、重启主机，极易损坏分区表、系统引导程序"。安装断电会损坏系统引导。错误。'
+    )
+    // 109
+    .addSingle('CPU & OS', '系统镜像文件越大，运行速度越快。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '镜像大小与运行速度无直接关系，镜像包含的是安装内容，运行速度取决于硬件配置和软件优化。错误。'
+    )
+    // 110
+    .addSingle('CPU & OS', '龙芯银河麒麟操作系统支持官方安全补丁和版本升级。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"系统迭代：银河麒麟、统信龙芯版均支持官方安全补丁、版本升级，不存在无法更新限制"。正确。'
+    )
+    // 111
+    .addSingle('CPU & OS', 'CPU主频越高，程序运行速度一定越快。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"CPU主频定义为CPU内核时钟振荡频率，单位GHz，仅代表硬件时钟周期快慢，不能等同于程序运行速度，处理器架构、缓存大小、指令集设计都会大幅影响整机性能"。主频不是性能的唯一决定因素。错误。'
+    )
+    // 112
+    .addSingle('CPU & OS', '龙芯3C5000服务器处理器硬件不支持PCIe4.0接口，但支持DDR5内存。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档3C5000"硬件不支持PCIe4.0高速接口"，且龙芯全系列"硬件不支持DDR5内存"。前半句正确但后半句错误，整个判断题错误。'
+    )
+    // 113
+    .addSingle('CPU & OS', '缓存一致性协议的作用是同步多核L3缓存数据，避免多核心数据错乱。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"缓存一致性协议，作用是同步多核L3缓存数据，避免多核心同时读写产生数据错乱、运算结果异常"。正确。'
+    )
+    // 114
+    .addSingle('CPU & OS', '安装龙芯系统时，Legacy传统启动模式与UEFI模式均可正常使用。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"必须切换至UEFI标准启动，Legacy传统模式不兼容国产系统"。Legacy模式不可用。错误。'
+    )
+    // 115
+    .addSingle('CPU & OS', 'SMT超线程技术可以增加物理核心数量。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"SMT超线程技术工作原理：单个物理核心内部闲置运算资源可复用，模拟多个逻辑核心，不会增加物理核心数量"。超线程不增加物理核心。错误。'
+    )
+    // 116
+    .addSingle('CPU & OS', 'LoongArch内置硬件虚拟化扩展，可稳定部署虚拟机和容器云业务。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"原生搭载硬件虚拟化扩展，可稳定部署虚拟机、容器云各类虚拟化业务"。正确。'
+    )
+    // 117
+    .addSingle('CPU & OS', '龙芯平台YUM本地离线源需要使用http网络协议才能访问。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"本地离线源路径规范：无需http网络协议，直接使用file://本地磁盘目录路径即可正常读取软件包"。错误。'
+    )
+    // 118
+    .addSingle('CPU & OS', '龙芯1K系列和2K系列都面向工控设备应用场景。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"1K系列：超低功耗MCU芯片，面向物联网、小型嵌入式智能终端"；"2K系列：一体化SOC单片处理器，适配工控设备、安防监控终端"。1K面向物联网嵌入式，2K面向工控安防，两者不同。错误。'
+    )
+    // 119
+    .addSingle('CPU & OS', '国产操作系统安装时，全盘自动安装模式适合有存量数据的业务服务器。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"全盘自动安装：空白全新硬盘使用，程序自动分区，覆盖硬盘全部数据"；"存量业务服务器安装前必须全量备份数据"。有存量数据应使用手动分区模式。错误。'
+    )
+    // 120
+    .addSingle('CPU & OS', '龙芯平台系统安装时，外接过多USB外设会导致安装中途中断。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"外接过多外设不会造成安装中断"。安装中断的诱因是U盘坏块、镜像校验失败、意外断电等。错误。'
+    )
+    // 121
+    .addSingle('CPU & OS', '龙芯3A6000的安全硬件模块可防护熔断和幽灵类安全漏洞。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"安全硬件：内置国密SM2/SM3/SM4加密模块，硬件层面防护熔断、幽灵类安全漏洞"。正确。'
+    )
+    // 122
+    .addSingle('CPU & OS', 'LoongArch架构的向量扩展指令LSX为128位，LASX为256位。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"内置LSX128位、LASX256位两组向量扩展指令"。正确。'
+    )
+    // 123
+    .addSingle('CPU & OS', '龙芯操作系统离线安装依赖报错时，可下载x86架构的依赖包替换使用。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"仅可下载loongarch64架构配套离线安装包，x86架构依赖包无法运行"。跨架构依赖包完全不兼容。错误。'
+    )
+    // 124
+    .addSingle('CPU & OS', '冯·诺依曼架构是全球通用计算机底层设计标准，龙芯、X86、ARM均遵循该设计思想。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"冯·诺依曼架构是全球通用计算机底层设计标准，龙芯、X86、ARM所有处理器均遵循该设计思想"。正确。'
+    )
+    // 125
+    .addSingle('CPU & OS', 'BIOS硬盘模式推荐设置为AHCI模式，而非RAID模式。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"BIOS硬盘选项推荐设置为RAID模式"；"安装界面提示无法检测有效磁盘：优先检查BIOS硬盘RAID模式配置"。正确设置为RAID而非AHCI。错误。'
+    )
+    // 126
+    .addSingle('CPU & OS', '龙芯平台安装系统时，时区统一选择亚洲/上海。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"时区统一选择亚洲/上海，适配国内标准时间"。正确。'
+    )
+    // 127
+    .addSingle('CPU & OS', '龙芯电脑显示分辨率异常时，应更新对应龙芯架构的显卡驱动。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"显示分辨率异常：更新对应龙芯架构显卡驱动即可解决"。正确。'
+    )
+    // 128
+    .addSingle('CPU & OS', 'gpgcheck=1表示关闭GPG签名校验，gpgcheck=0表示开启校验。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"gpgcheck=0，代表关闭软件包GPG安全签名校验"。说反了，gpgcheck=0关闭，gpgcheck=1开启。错误。'
+    )
+    // 129
+    .addSingle('CPU & OS', '龙芯3A6000采用双通道DDR4-3200内存规格。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"内存控制器：双通道DDR4-3200"。正确。'
+    )
+    // 130
+    .addSingle('CPU & OS', '龙芯3D5000采用单硅片封装直接集成32核。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"龙芯3D5000采用双硅片封装设计，每颗硅片集成16核，组合实现32核算力"。是双硅片封装而非单硅片。错误。'
+    )
+    // 131（原1）
+    .addSingle('CPU & OS', '冯·诺依曼经典计算机五大架构中，CPU内部集成了哪两大组件？\nA. 运算器和存储器\nB. 控制器和存储器\nC. 运算器和控制器\nD. 输入设备和输出设备',
+        ['A', 'B', 'C', 'D'], 2,
+        '文档"核心区分重点"明确"CPU仅集成运算器、控制器两大组件，存储器不属于CPU内部硬件"。存储器（内存、硬盘）属于整机独立存储部件，输入输出设备也是独立硬件单元。这是极易混淆的基础题型。'
+    )
+    // 132（原2）
+    .addSingle('CPU & OS', '龙芯3A6000处理器的L3缓存容量是多少？\nA. 8MB\nB. 16MB\nC. 32MB\nD. 64MB',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"桌面旗舰型号：龙芯3A6000"中明确"片内集成16MB共享L3缓存"。这是固定参数，不可与其他型号混淆。文档高频易混点也强调"3A6000固定16MB三级缓存"。'
+    )
+    // 133（原3）
+    .addSingle('CPU & OS', '在龙芯平台上，查看当前系统CPU架构的正确命令是？\nA. arch\nB. uname -m\nC. cpuinfo\nD. lscpu -a',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"架构查询终端命令：uname -m，输出loongarch64代表系统与CPU架构匹配正常"。其他命令虽然可能显示部分信息，但文档指定的标准命令是uname -m。'
+    )
+    // 134（原4）
+    .addSingle('CPU & OS', '龙芯3A6000的内存控制器实测带宽约为多少？\nA. 21GB/s\nB. 42GB/s\nC. 51.2GB/s\nD. 100GB/s',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档明确"双通道DDR4-3200，实测内存带宽突破42GB/s"。21GB/s是干扰数值，51.2GB/s是其他平台参数，100GB/s远超实际。文档高频易混点专门强调"切勿混淆21GB/s、20W等干扰数值"。'
+    )
+    // 135（原5）
+    .addSingle('CPU & OS', '以下哪个是龙芯3A6000不支持的硬件特性？\nA. 双通道DDR4-3200\nB. SMT2超线程技术\nC. DDR5内存\nD. 国密SM2/SM3/SM4加密模块',
+        ['A', 'B', 'C', 'D'], 2,
+        '文档明确"硬件不支持DDR5内存"。3A6000支持双通道DDR4-3200（A正确），标配SMT2超线程（B正确），内置国密加密模块（D正确）。DDR5是新一代内存标准，龙芯3A6000的硬件设计未包含DDR5内存控制器。'
+    )
+    // 136（原6）
+    .addSingle('CPU & OS', 'CPU中的PC程序计数器（Program Counter）的功能是什么？\nA. 存储运算的中间结果\nB. 记录运算结果的正负标识\nC. 永久存储下一条待执行指令的内存地址\nD. 实现虚拟地址与物理地址的转换',
+        ['A', 'B', 'C', 'D'], 2,
+        '文档"PC程序计数器：永久存储下一条待执行指令的内存地址，程序循环、跳转功能全部依靠该寄存器实现"。A是通用寄存器的功能，B是状态寄存器的功能，D是MMU的功能。'
+    )
+    // 137（原7）
+    .addSingle('CPU & OS', 'LoongArch架构属于哪一类指令集？\nA. CISC复杂指令集\nB. RISC精简指令集\nC. VLIW超长指令字\nD. SIMD单指令多数据流',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"两大指令集区分"中明确RISC代表包括LoongArch、ARM、RISC-V，特点是"指令长度统一，单时钟周期即可完成运算，译码逻辑简单高效"。LoongArch是国产自主RISC架构，不属于CISC。'
+    )
+    // 138（原8）
+    .addSingle('CPU & OS', '龙芯3C5000服务器处理器的核心数量是？\nA. 4核\nB. 8核\nC. 16核\nD. 32核',
+        ['A', 'B', 'C', 'D'], 2,
+        '文档"龙芯3C5000单路服务器专用芯片，内置16颗LA664物理核心"。32核是3D5000的规格（双硅片各16核），4核和8核是3A系列或其他处理器的规格。'
+    )
+    // 139（原9）
+    .addSingle('CPU & OS', '龙芯平台上，YUM本地离线源的路径格式正确的是？\nA. http://localhost/repodata\nB. file:///mnt/localrepo\nC. ftp://192.168.1.1/repo\nD. nfs:///repo',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"本地离线源路径规范：无需http网络协议，直接使用file://本地磁盘目录路径即可正常读取软件包"。A是网络源格式（http），C是FTP格式，D是NFS格式，只有B是本地file格式。'
+    )
+    // 140（原10）
+    .addSingle('CPU & OS', '龙芯3D5000处理器采用什么封装技术实现32核？\nA. 单硅片直接集成32核\nB. 双硅片封装，每颗16核\nC. 四硅片封装，每颗8核\nD. 多芯片模块直连',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"龙芯3D5000采用双硅片封装设计，每颗硅片集成16核，组合实现32核算力"。A错在单硅片32核，C错在四硅片，D描述不准确。这是龙芯服务器处理器的核心技术特点。'
+    )
+    // 141（原11）
+    .addSingle('CPU & OS', '关于SMT超线程技术，以下说法正确的是？\nA. 超线程可以增加物理核心数量\nB. 超线程通过复用闲置资源模拟逻辑核心\nC. 超线程会降低CPU主频\nD. 超线程是增加缓存容量的技术',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"SMT超线程技术工作原理：单个物理核心内部闲置运算资源可复用，模拟多个逻辑核心，不会增加物理核心数量"。A说增加物理核心是错误的，C说降低主频没有依据，D是缓存相关但超线程与缓存无关。'
+    )
+    // 142（原12）
+    .addSingle('CPU & OS', '龙芯3A6000的典型满载功耗为多少？\nA. 20W@2.5GHz\nB. 40W@2.5GHz\nC. 60W@2.5GHz\nD. 80W@2.5GHz',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"2.5GHz满载典型功耗40W"。20W是干扰数值（可能是部分ARM处理器的功耗），60W和80W均超出实际。文档高频易混点强调"3A6000固定40W@2.5GHz功耗，切勿混淆20W等干扰数值"。'
+    )
+    // 143（原13）
+    .addSingle('CPU & OS', 'CPU中的MMU（内存管理单元）的主要功能是？\nA. 管理CPU缓存数据\nB. 实现虚拟地址与物理地址的双向转换\nC. 控制CPU主频升降\nD. 管理外部设备中断',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"MMU内存管理单元：实现虚拟地址与物理地址双向转换，是操作系统多进程、内存隔离功能必备硬件"。A是缓存控制器功能，C是时钟管理单元功能，D是中断控制器功能。'
+    )
+    // 144（原14）
+    .addSingle('CPU & OS', '龙芯系统安装时，必须将BIOS启动模式设置为以下哪一种？\nA. Legacy传统模式\nB. UEFI标准启动\nC. CSM兼容模式\nD. Fast Boot快速启动',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"启动模式：必须切换至UEFI标准启动，Legacy传统模式不兼容国产系统"。Legacy模式不支持国产操作系统引导，CSM和Fast Boot都不是标准启动模式选项。'
+    )
+    // 145（原15）
+    .addSingle('CPU & OS', '以下哪个命令可以查看当前系统已启用的YUM软件仓库？\nA. yum list\nB. yum repolist\nC. yum info\nD. yum search',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"源查询命令：终端执行yum repolist，可查看当前系统所有已启用软件仓库"。yum list是列出软件包，yum info是查看软件包信息，yum search是搜索软件包。'
+    )
+    // 146（原16）
+    .addSingle('CPU & OS', '龙芯3C5000不支持以下哪种高速接口？\nA. DDR4内存\nB. ECC内存校验\nC. PCIe4.0\nD. 4通道内存',
+        ['A', 'B', 'C', 'D'], 2,
+        '文档"硬件不支持PCIe4.0高速接口，适用于中小型企业单路业务服务器"。A、B、D都是3C5000支持的（DDR4内存、ECC校验、4通道），只有PCIe4.0不支持。文档高频易混点专门强调"3C5000硬件不支持PCIe4.0"。'
+    )
+    // 147（原17）
+    .addSingle('CPU & OS', '龙芯平台的Windows软件兼容方案是？\nA. 直接安装Windows双系统\nB. 硬件模拟x86环境\nC. LAT二进制翻译技术+Wine兼容层\nD. 虚拟机直通技术',
+        ['A', 'B', 'C', 'D'], 2,
+        '文档"Windows兼容方案：LAT二进制翻译技术搭配Wine兼容层，无需虚拟机即可运行绝大多数Windows桌面软件"。A说直接安装Windows错误（龙芯无法原生安装Windows），B和D的硬件模拟、虚拟机直通均不适配龙芯原生环境。文档高频易混点强调"Windows兼容唯一合规方案：LAT+Wine"。'
+    )
+    // 148（原18）
+    .addSingle('CPU & OS', '龙芯全系列处理器不存在的缓存层级是？\nA. L1缓存\nB. L2缓存\nC. L3缓存\nD. L4缓存',
+        ['A', 'B', 'C', 'D'], 3,
+        '文档"龙芯全系列处理器无L4缓存，属于固定考点"。L1、L2、L3都是龙芯CPU存在的缓存层级，L4缓存不存在于龙芯任何型号处理器中。'
+    )
+    // 149（原19）
+    .addSingle('CPU & OS', '龙芯3A6000搭载的SMT2技术，可以将4颗物理核心模拟为多少个逻辑核心？\nA. 4个\nB. 6个\nC. 8个\nD. 16个',
+        ['A', 'B', 'C', 'D'], 2,
+        '文档"核心线程规格：4颗物理核心，标配SMT2超线程，整机提供8个逻辑核心"。SMT2表示每个物理核心可模拟2个逻辑核心，4×2=8个逻辑核心。A是未开启SMT的数量，D是3D5000的物理核心数量。'
+    )
+    // 150（原20）
+    .addSingle('CPU & OS', '安装龙芯国产操作系统前，对U盘启动盘的要求是？\nA. 容量不低于8GB\nB. 必须使用光盘\nC. 无需校验镜像\nD. 必须格式化为NTFS',
+        ['A', 'B', 'C', 'D'], 0,
+        '文档"推荐安装介质：8GB及以上容量U盘启动盘"。B说必须用光盘错误（文档说光盘读写慢、兼容性差，现已极少使用）；C说无需校验错误（必须校验MD5/SHA256）；D说NTFS格式错误（系统分区不支持NTFS）。文档还强调"写入U盘前必须校验MD5/SHA256哈希值"。'
+    )
+    // 151（原21）
+    .addSingle('CPU & OS', 'CPU主频的定义是什么？\nA. CPU每秒执行的指令数量\nB. CPU内核的时钟振荡频率\nC. CPU与内存之间的数据传输速率\nD. CPU的功耗等级',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"CPU主频定义为CPU内核时钟振荡频率，单位GHz，仅代表硬件时钟周期快慢，不能等同于程序运行速度"。A是IPS（Instructions Per Second），C是内存带宽，D是功耗。主频高低不完全决定性能，还受架构、缓存、指令集等因素影响。'
+    )
+    // 152（原22）
+    .addSingle('CPU & OS', '龙芯3A6000的内存规格是？\nA. 双通道DDR4-3200\nB. 四通道DDR4-3200\nC. 双通道DDR5-4800\nD. 四通道DDR5-4800',
+        ['A', 'B', 'C', 'D'], 0,
+        '文档"内存控制器：双通道DDR4-3200"。B是3C5000的规格（4通道），C和D都涉及DDR5但3A6000不支持DDR5。这是不同型号之间的关键区分点。'
+    )
+    // 153（原23）
+    .addSingle('CPU & OS', '龙芯主机的系统引导损坏，最不可能的原因是以下哪项？\nA. 安装过程中异常断电\nB. 手动删除EFI引导分区\nC. 正常开关机、系统重启\nD. 强行安装跨架构第三方软件',
+        ['A', 'B', 'C', 'D'], 2,
+        '文档"系统引导损坏三大核心诱因"包括：异常断电关机、手动修改分区表/删除EFI分区、强行安装跨架构软件。并明确补充"正常开关机、系统重启不会损坏系统引导"。A、B、D都是三大诱因之一，C是正常操作不会导致引导损坏。'
+    )
+    // 154（原24）
+    .addSingle('CPU & OS', '龙芯3C5000支持的内存规格包括以下哪项？\nA. 2通道DDR4\nB. 4通道DDR4，单条最大64GB RDIMM，自带ECC校验\nC. 8通道DDR5\nD. 4通道DDR5',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"支持4通道DDR4-3200内存，单条最大64GB RDIMM，自带ECC内存纠错校验"。A说2通道错误（3C5000是4通道），C和D涉及DDR5但3C5000不支持DDR5。'
+    )
+    // 155（原25）
+    .addSingle('CPU & OS', '以下关于龙芯平台系统镜像的说法，正确的是？\nA. LoongArch设备可以安装x86_64镜像\nB. LoongArch设备仅能安装loongarch64镜像\nC. LoongArch设备可以安装arm64镜像\nD. LoongArch设备可以安装RISC-V镜像',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"LoongArch架构设备仅能安装loongarch64架构操作系统镜像，x86_64、arm64、RISC-V镜像底层指令不兼容，无法直接部署"。A、C、D都是错误的跨架构安装选项，B是唯一正确答案。'
+    )
+    // 156（原26）
+    .addSingle('CPU & OS', 'CPU中的状态寄存器（Status Register）用于？\nA. 存储下一条指令的地址\nB. 临时存放运算中间数据\nC. 记录运算结果标识，如数值正负、运算溢出、归零等\nD. 实现虚拟地址转换',
+        ['A', 'B', 'C', 'D'], 2,
+        '文档"状态寄存器：记录运算结果标识，如数值正负、运算溢出、计算归零等判断标记"。A是PC程序计数器的功能，B是通用寄存器的功能，D是MMU的功能。三者容易混淆。'
+    )
+    // 157（原27）
+    .addSingle('CPU & OS', '以下哪项是龙芯3B6000M区别于3A6000的主要特点？\nA. 支持DDR5内存\nB. 集成自研GPGPU图形核心，支持AI推理加速、4K硬件视频编解码\nC. 不支持超线程技术\nD. 基于MIPS架构',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"3B6000M：集成自研GPGPU图形核心，原生支持AI推理加速、4K硬件视频编解码"。A错误（龙芯不支持DDR5），C错误（3B6000M也支持超线程），D错误（龙芯已抛弃MIPS架构）。3B6000M是新一代旗舰三剑客之一，特点是集成GPGPU。'
+    )
+    // 158（原28）
+    .addSingle('CPU & OS', '龙芯3A6000基于什么处理器核心架构？\nA. LA464\nB. LA664\nC. LA864\nD. MIPS64',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"内核架构：自研LA664六发射乱序处理器核心，完全抛弃老旧MIPS架构，无任何国外IP授权"。LA664是龙芯完全自主研发的核心架构，MIPS已被抛弃。'
+    )
+    // 159（原29）
+    .addSingle('CPU & OS', '在龙芯平台上制作启动盘时，以下做法错误的是？\nA. 使用8GB及以上容量U盘\nB. 写入U盘前校验镜像文件的MD5/SHA256\nC. 直接拷贝镜像文件到U盘即可\nD. 使用专门的启动盘制作工具写入',
+        ['A', 'B', 'C', 'D'], 2,
+        '文档要求"写入U盘前必须校验MD5/SHA256哈希值"，启动盘需要使用专用工具写入镜像而非简单拷贝文件。A正确（8GB及以上），B正确（必须校验），D正确（需用专门工具）。C直接拷贝无法制作可启动U盘。'
+    )
+    // 160（原30）
+    .addSingle('CPU & OS', '芯片制程工艺中，制程数字越小代表什么？\nA. 晶体管体积更大\nB. 集成密度越高、漏电功耗越低、性能越强\nC. 芯片面积越大\nD. 发热量越高',
+        ['A', 'B', 'C', 'D'], 1,
+        '文档"制程数字数值越小，晶圆内部晶体管集成密度越高、漏电功耗越低、同等芯片面积下运算性能越强"。A说晶体管更大错误（实际更小），C说芯片面积更大错误（实际更小或不变），D说发热更高错误（实际发热更低）。'
+    )
+    // 161（原31）
+    .addSingle('CPU & OS', '龙芯3A6000的安全硬件特性包括内置国密SM2/SM3/SM4加密模块。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"安全硬件：内置国密SM2/SM3/SM4加密模块，硬件层面防护熔断、幽灵类安全漏洞"。描述正确。'
+    )
+    // 162（原32）
+    .addSingle('CPU & OS', '安装龙芯国产操作系统时，Root管理员密码要求8位以上，四类字符至少包含三类。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"Root管理员密码安全规范：长度8位以上，数字、大写字母、小写字母、特殊符号四类字符至少包含三类"。描述正确。'
+    )
+    // 163（原33）
+    .addSingle('CPU & OS', '龙芯电脑无法联网的最常见原因是CPU硬件故障。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"网络异常排查：主机无法联网，绝大多数原因为缺少龙芯适配网卡驱动"。CPU故障会整机无法开机，不是最常见原因。错误。'
+    )
+    // 164（原34）
+    .addSingle('CPU & OS', '龙芯3A系列处理器的典型应用场景是台式机、办公一体机、政企信创桌面终端。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"3A系列：台式机、办公一体机、政企信创桌面终端"。描述正确。'
+    )
+    // 165（原35）
+    .addSingle('CPU & OS', 'LoongArch架构属于MIPS架构的延续。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"LoongArch属于国产自主RISC架构，对标X86、ARM，不属于MIPS、RISC-V"。LoongArch已完全抛弃老旧MIPS架构。错误。'
+    )
+    // 166（原36）
+    .addSingle('CPU & OS', '龙芯平台离线安装软件时缺少依赖包，应下载loongarch64架构配套离线安装包。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"离线软件依赖报错：仅可下载loongarch64架构配套离线安装包，x86架构依赖包无法运行"。描述正确。'
+    )
+    // 167（原37）
+    .addSingle('CPU & OS', 'CPU三级缓存体系中，L3缓存是全核心共享、大容量，用于多核数据交互。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"L3缓存：全核心共享三级大容量缓存，用于多核数据交互"。描述正确。'
+    )
+    // 168（原38）
+    .addSingle('CPU & OS', '龙芯台式机开机调出启动项选择菜单的快捷键是F2。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"启动快捷键：龙芯台式机、一体机开机按F12，可快速调出启动项选择菜单"。F2通常用于进入BIOS设置。错误。'
+    )
+    // 169（原39）
+    .addSingle('CPU & OS', '龙芯3A6000的频率范围为2.0GHz~2.5GHz，支持动态变频。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"频率范围：2.0GHz~2.5GHz，支持动态变频，根据负载自动升降功耗"。描述正确。'
+    )
+    // 170（原40）
+    .addSingle('CPU & OS', '安装龙芯操作系统时，显示分辨率异常的正确解决方法是更新对应龙芯架构的显卡驱动。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"显示分辨率异常：更新对应龙芯架构显卡驱动即可解决"。描述正确。'
+    )
+    // 171（原41）
+    .addSingle('CPU & OS', '龙芯平台磁盘分区中，系统分区可以使用NTFS格式，UEFI模式安装不需要EFI引导分区。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"NTFS格式不能用作系统安装分区"且"UEFI模式安装必须单独划分EFI引导分区"。题干两个说法均错误。'
+    )
+    // 172（原42）
+    .addSingle('CPU & OS', '龙芯2K系列处理器的典型应用场景是工控设备、安防监控终端。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"2K系列：一体化SOC单片处理器，适配工控设备、安防监控终端"。描述正确。'
+    )
+    // 173（原43）
+    .addSingle('CPU & OS', '安装龙芯操作系统时，必须关闭的BIOS安全功能是Secure Boot安全校验。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"安全启动设置：关闭Secure Boot安全校验，否则会拦截国产系统引导程序"。描述正确。'
+    )
+    // 174（原44）
+    .addSingle('CPU & OS', 'LoongArch架构内置的向量扩展指令包括LSX128位和LASX256位。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"内置LSX128位、LASX256位两组向量扩展指令，并行计算、多媒体处理性能大幅提升"。描述正确。'
+    )
+    // 175（原45）
+    .addSingle('CPU & OS', '龙芯3C6000的定位是超低功耗物联网芯片。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"3C6000：新一代16核单路服务器CPU，算力对比3C5000大幅升级"。3C6000是服务器CPU而非物联网芯片。错误。'
+    )
+    // 176（原46）
+    .addSingle('CPU & OS', '龙芯平台的YUM配置中，gpgcheck=0参数表示开启软件包GPG安全签名校验。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"gpgcheck参数作用：配置文件中填写gpgcheck=0，代表关闭软件包GPG安全签名校验，内网离线场景常用"。gpgcheck=0是关闭而非开启。错误。'
+    )
+    // 177（原47）
+    .addSingle('CPU & OS', '安装龙芯操作系统时，选择全盘自动安装模式的特点是程序自动分区，覆盖硬盘全部数据。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"全盘自动安装：空白全新硬盘使用，程序自动分区，覆盖硬盘全部数据"。描述正确。'
+    )
+    // 178（原48）
+    .addSingle('CPU & OS', 'CPU中的通用寄存器（General Purpose Register）的主要功能是存储下一条指令的内存地址。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"通用寄存器：临时存放运算中间数据，减少内存频繁读写，提升运行效率"。存储下一条指令地址是PC程序计数器的功能。错误。'
+    )
+    // 179（原49）
+    .addSingle('CPU & OS', '龙芯3C5000为16核单路服务器，3D5000为双硅片组合32核。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 0,
+        '文档"3C5000=16核单路服务器，3D5000双硅片组合32核"。描述完全正确。'
+    )
+    // 180（原50）
+    .addSingle('CPU & OS', '龙芯操作系统安装完成后，统信UOS龙芯版不支持官方安全补丁和版本升级。（判断）\nA. 正确\nB. 错误',
+        ['A', 'B'], 1,
+        '文档"系统迭代：银河麒麟、统信龙芯版均支持官方安全补丁、版本升级，不存在无法更新限制"。统信UOS龙芯版支持官方补丁。错误。'
+    );
+            QuestionBank.shuffle();
+        })();
+
+        // ================================================================
+        //  3. 应用状态
+        // ================================================================
+        const state = {
+            currentCategory: '全部',
+            currentIndex: 0,
+            records: {},
+            totalAnswered: 0,
+            totalRight: 0,
+        };
+
+        function getFiltered() {
+            return QuestionBank.getByCategory(state.currentCategory);
+        }
+
+        function getAllCategories() {
+            return QuestionBank.getAllCategories();
+        }
+
+        // ================================================================
+        //  4. 渲染核心
+        // ================================================================
+        function render() {
+            renderCategories();
+            renderNav();
+            renderQuestion();
+            updateStats();
+            updateButtons();
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categoryTabs');
+            const cats = getAllCategories();
+            container.innerHTML = cats.map(cat =>
+                `<button class="category-tab ${cat === state.currentCategory ? 'active' : ''}" data-category="${cat}">${cat}</button>`
+            ).join('');
+
+            container.querySelectorAll('.category-tab').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    state.currentCategory = this.dataset.category;
+                    state.currentIndex = 0;
+                    render();
+                });
+            });
+        }
+
+        function renderNav() {
+            const container = document.getElementById('questionNav');
+            const filtered = getFiltered();
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = filtered.map((q, idx) => {
+                const record = state.records[q.id] || { selected: null, revealed: false, counted: false };
+                let cls = 'q-dot';
+                if (idx === state.currentIndex) cls += ' active';
+                if (record.revealed) {
+                    const isCorrect = (q.type === 'single') ?
+                        (record.selected === q.answer) :
+                        (record.selected === q.answer);
+                    cls += isCorrect ? ' revealed-correct' : ' revealed-wrong';
+                } else if (record.selected !== null && record.selected !== undefined) {
+                    const isCorrect = (q.type === 'single') ?
+                        (record.selected === q.answer) :
+                        (record.selected === q.answer);
+                    cls += isCorrect ? ' answered-correct' : ' answered-wrong';
+                }
+                return `<div class="${cls}" data-index="${idx}">${idx + 1}</div>`;
+            }).join('');
+
+            container.querySelectorAll('.q-dot').forEach(el => {
+                el.addEventListener('click', function() {
+                    const idx = parseInt(this.dataset.index);
+                    if (!isNaN(idx) && idx >= 0 && idx < filtered.length) {
+                        state.currentIndex = idx;
+                        render();
+                    }
+                });
+            });
+        }
+
+        function renderQuestion() {
+            const container = document.getElementById('questionContainer');
+            const filtered = getFiltered();
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state"><p>📭 该分类下暂无题目</p></div>`;
+                return;
+            }
+            if (state.currentIndex >= filtered.length) state.currentIndex = 0;
+            const q = filtered[state.currentIndex];
+            if (!state.records[q.id]) {
+                state.records[q.id] = { selected: null, revealed: false, counted: false };
+            }
+            const record = state.records[q.id];
+            const total = filtered.length;
+            const idx = state.currentIndex + 1;
+
+            let html = `<div class="question-card">`;
+            html += `<div class="question-meta">
+                        <span class="q-number-text">#${idx}/${total}</span>
+                        <span class="q-type">${q.type === 'single' ? '单选题' : '判断题'}</span>
+                        <span style="color:#8aa0bb;">${q.category}</span>
+                     </div>`;
+            html += `<div class="question-text">${q.question}</div>`;
+
+            if (q.type === 'single') {
+                html += `<div class="options">`;
+                const labels = ['A', 'B', 'C', 'D'];
+                q.options.forEach((opt, i) => {
+                    let cls = 'option-item';
+                    if (record.revealed) {
+                        cls += ' disabled';
+                        if (i === q.answer) cls += ' correct-reveal';
+                        else if (record.selected === i && i !== q.answer) cls += ' wrong-reveal';
+                    } else {
+                        if (record.selected === i) cls += ' selected';
+                    }
+                    html += `<div class="${cls}" data-optindex="${i}">
+                                <span class="option-label">${labels[i]}.</span>
+                                <span class="option-text">${opt}</span>
+                             </div>`;
+                });
+                html += `</div>`;
+            }
+
+            if (q.type === 'judge') {
+                const sel = record.selected;
+                let trueCls = 'judge-btn';
+                let falseCls = 'judge-btn';
+                if (record.revealed) {
+                    trueCls += ' disabled';
+                    falseCls += ' disabled';
+                    if (q.answer === true) trueCls += ' selected-true';
+                    else falseCls += ' selected-false';
+                    if (sel === true && q.answer === false) trueCls += ' selected-false';
+                    if (sel === false && q.answer === true) falseCls += ' selected-false';
+                } else {
+                    if (sel === true) trueCls += ' selected-true';
+                    if (sel === false) falseCls += ' selected-false';
+                }
+                html += `<div class="judge-group">
+                            <button class="${trueCls}" data-judge="true">✅ 正确</button>
+                            <button class="${falseCls}" data-judge="false">❌ 错误</button>
+                         </div>`;
+            }
+
+            let fbClass = 'feedback';
+            let fbText = '';
+            if (record.revealed) {
+                const isCorrect = (q.type === 'single') ?
+                    (record.selected === q.answer) :
+                    (record.selected === q.answer);
+                fbClass += ' show ' + (isCorrect ? 'correct' : 'wrong');
+                fbText = isCorrect ? '✅ 回答正确！' : '❌ 回答错误';
+                fbText += `<div class="explain">💡 ${q.explanation}</div>`;
+            }
+            html += `<div class="${fbClass}">${fbText}</div>`;
+            html += `</div>`;
+            container.innerHTML = html;
+
+            if (q.type === 'single') {
+                container.querySelectorAll('.option-item').forEach(el => {
+                    el.addEventListener('click', function() {
+                        if (state.records[q.id].revealed) return;
+                        handleSelect(q.id, parseInt(this.dataset.optindex));
+                    });
+                });
+            }
+
+            if (q.type === 'judge') {
+                container.querySelectorAll('.judge-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (state.records[q.id].revealed) return;
+                        handleSelect(q.id, this.dataset.judge === 'true');
+                    });
+                });
+            }
+        }
+
+        // ================================================================
+        //  5. 交互
+        // ================================================================
+        function handleSelect(questionId, selectedValue) {
+            const record = state.records[questionId];
+            if (!record || record.revealed) return;
+            record.selected = selectedValue;
+            record.revealed = true;
+
+            const q = QuestionBank.getQuestions().find(item => item.id === questionId);
+            if (q && !record.counted) {
+                const isCorrect = (q.type === 'single') ?
+                    (selectedValue === q.answer) :
+                    (selectedValue === q.answer);
+                state.totalAnswered += 1;
+                if (isCorrect) state.totalRight += 1;
+                record.counted = true;
+            }
+            render();
+        }
+
+        function revealCurrent() {
+            const filtered = getFiltered();
+            if (filtered.length === 0) return;
+            const q = filtered[state.currentIndex];
+            const record = state.records[q.id];
+            if (!record) return;
+            if (record.revealed) return;
+            if (record.selected === null || record.selected === undefined) {
+                if (q.type === 'single') record.selected = 0;
+                else record.selected = true;
+            }
+            if (!record.counted) {
+                const isCorrect = (q.type === 'single') ?
+                    (record.selected === q.answer) :
+                    (record.selected === q.answer);
+                state.totalAnswered += 1;
+                if (isCorrect) state.totalRight += 1;
+                record.counted = true;
+            }
+            record.revealed = true;
+            render();
+        }
+
+        function prevQuestion() {
+            const filtered = getFiltered();
+            if (filtered.length === 0) return;
+            state.currentIndex = (state.currentIndex - 1 + filtered.length) % filtered.length;
+            render();
+        }
+
+        function nextQuestion() {
+            const filtered = getFiltered();
+            if (filtered.length === 0) return;
+            state.currentIndex = (state.currentIndex + 1) % filtered.length;
+            render();
+        }
+
+        function resetAll() {
+            state.records = {};
+            state.totalAnswered = 0;
+            state.totalRight = 0;
+            state.currentIndex = 0;
+            render();
+        }
+
+        // ================================================================
+        //  6. 更新辅助
+        // ================================================================
+        function updateStats() {
+            document.getElementById('totalCount').textContent = QuestionBank.getQuestions().length;
+            document.getElementById('doneCount').textContent = state.totalAnswered;
+            document.getElementById('rightCount').textContent = state.totalRight;
+        }
+
+        function updateButtons() {
+            const filtered = getFiltered();
+            const has = filtered.length > 0;
+            document.getElementById('prevBtn').disabled = !has;
+            document.getElementById('nextBtn').disabled = !has;
+            document.getElementById('showAnswerBtn').disabled = !has;
+        }
+
+        // ================================================================
+        //  7. 启动
+        // ================================================================
+        document.getElementById('prevBtn').addEventListener('click', prevQuestion);
+        document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        document.getElementById('resetBtn').addEventListener('click', resetAll);
+        document.getElementById('showAnswerBtn').addEventListener('click', revealCurrent);
+
+        render();
+    </script>
+</body>
+</html>
