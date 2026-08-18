@@ -220,6 +220,11 @@
             flex: 1;
             min-width: 0;
         }
+.q-dot.answered-gray {
+    border-color: #b0b8c4;
+    background: #e8ecf0;
+    color: #8a94a6;
+}
 
         .question-card {
             background: #fafcff;
@@ -2895,6 +2900,154 @@
                     '文档"龙芯3D5000采用双硅片封装设计，每颗硅片集成16核，组合实现32核算力"。是双硅片封装而非单硅片。错误。'
                 );
             // 打乱顺序
+                        // ============================================================
+            // 新增分类：模拟一卷（50题）
+            // ============================================================
+            const MOCK = '模拟一卷';
+            QuestionBank
+                // 1
+                .addSingle(MOCK, '迁移后应用出现 SQL 执行缓慢，排查步骤中最优先的操作是？\nA. 立即增加服务器内存\nB. 使用 EXPLAIN ANALYZE 查看执行计划，分析是否缺少索引\nC. 重启数据库\nD. 回退到旧数据库',
+                    ['A', 'B', 'C', 'D'], 1, '优先使用 EXPLAIN ANALYZE 分析执行计划，定位性能瓶颈。')
+                // 2
+                .addSingle(MOCK, '龙芯主机BIOS中"硬盘模式"推荐设置为？\nA. AHCI模式\nB. IDE模式\nC. RAID模式\nD. 正常重启设备',
+                    ['A', 'B', 'C', 'D'], 2, '龙芯平台BIOS硬盘模式应设置为 RAID 模式。')
+                // 3
+                .addSingle(MOCK, '关于 Vastbase 兼容性验证，以下哪个指标是验收通过的标准之一？\nA. 所有 SQL 必须在 1ms 内完成\nB. 关键业务 SQL 响应时间不超过源库的 2 倍\nC. 100% 的 SQL 完全兼容无需修改\nD. 数据量不能超过源库',
+                    ['A', 'B', 'C', 'D'], 1, '验收标准：关键业务 SQL 响应时间不超过源库的 2 倍。')
+                // 4
+                .addSingle(MOCK, '某应用在统信UOS上通过中创应用服务器访问海量数据库时出现连接超时，排查步骤应首先？\nA. 更换操作系统\nB. 检查网络连通性、数据库服务状态和JDBC连接池配置\nC. 重启龙芯服务器\nD. 重新安装应用服务器',
+                    ['A', 'B', 'C', 'D'], 1, '首先检查网络连通性、数据库服务状态和 JDBC 连接池配置。')
+                // 5
+                .addSingle(MOCK, '中创应用服务器在银河麒麟操作系统上运行时，通过jstack命令可以分析的问题是？\nA. 磁盘空间不足\nB. 线程死锁和线程阻塞\nC. 网络带宽不足\nD. 数据库连接失败',
+                    ['A', 'B', 'C', 'D'], 1, 'jstack 用于分析线程死锁和阻塞问题。')
+                // 6
+                .addSingle(MOCK, 'CPU中用于存放当前正在执行指令地址的寄存器是？\nA. 通用寄存器\nB. 状态寄存器\nC. 堆栈寄存器\nD. PC程序计数器',
+                    ['A', 'B', 'C', 'D'], 3, 'PC 程序计数器存放当前正在执行指令的地址。')
+                // 7
+                .addSingle(MOCK, 'Vastbase安装解压包时，install.sh脚本完成的主要工作包括？\nA. 仅解压文件\nB. 配置安装路径、端口、自动初始化数据库\nC. 只创建用户\nD. 仅配置环境变量',
+                    ['A', 'B', 'C', 'D'], 1, 'install.sh 完成安装路径配置、端口设置及自动初始化。')
+                // 8
+                .addSingle(MOCK, '银河麒麟龙芯版离线安装软件依赖报错，解决方式是\nA. 下载配套LoongArch依赖包离线安装\nB. 联网更新x86依赖\nC. 忽略依赖直接安装\nD. 重启系统',
+                    ['A', 'B', 'C', 'D'], 0, '需下载 loongarch64 架构的依赖包离线安装。')
+                // 9
+                .addSingle(MOCK, '统信UOS龙芯版不支持的安装方式是？\nA. 硬盘本地全新安装\nB. 在线升级安装\nC. 跨架构镜像覆盖安装\nD. U盘启动安装',
+                    ['A', 'B', 'C', 'D'], 2, '龙芯平台不支持跨架构镜像覆盖安装。')
+                // 10
+                .addSingle(MOCK, 'CPU芯片的制程工艺数值越小，代表？\nA. 晶体管尺寸越大\nB. 集成度越高，功耗越低，性能越强\nC. 芯片体积越大\nD. 发热越高',
+                    ['A', 'B', 'C', 'D'], 1, '制程数值越小，集成度越高、功耗越低、性能越强。')
+                // 11
+                .addSingle(MOCK, '在中创应用服务器中创建JDBC连接池连接海量数据库，但是试通失败，不可能是以下哪个原因？\nA. 使用了不兼容的数据库驱动包\nB. 数据库连接URL填写错误\nC. 海量数据库服务未启动\nD. 应用服务器与海量数据库不兼容',
+                    ['A', 'B', 'C', 'D'], 3, '应用服务器与海量数据库本身是兼容的，其他三项均可能导致连接失败。')
+                // 12
+                .addSingle(MOCK, '以下哪个Linux命令可以用于查看中创应用服务器的进程是否正常运行？\nA. jps\nB. ls\nC. cd\nD. rm',
+                    ['A', 'B', 'C', 'D'], 0, 'jps 可查看 Java 进程状态。')
+                // 13
+                .addSingle(MOCK, '在 Vastbase 中，以下哪个视图用于查看当前所有活跃连接和查询？\nA. information_schema.processlist\nB. pg_stat_activity\nC. sys.processlist\nD. v$session',
+                    ['A', 'B', 'C', 'D'], 1, 'pg_stat_activity 用于查看当前活跃连接和查询。')
+                // 14
+                .addSingle(MOCK, '数据缓存中间件InforSuite RDS的核心数据结构与关系型数据库相比，核心区别是不包括以下哪一项？\nA. 字符串（String）\nB. 哈希（Hash）\nC. 关系表（Table）\nD. 列表（List）',
+                    ['A', 'B', 'C', 'D'], 2, 'RDS 核心数据结构不包括关系表（Table）。')
+                // 15
+                .addSingle(MOCK, 'CPU超线程技术的核心作用是？\nA. 增加物理核心数\nB. 直接提升主频\nC. 利用空闲资源模拟多线程，提升并发效率\nD. 降低发热功耗',
+                    ['A', 'B', 'C', 'D'], 2, '超线程利用空闲资源模拟多线程，提升并发效率。')
+                // 16
+                .addSingle(MOCK, 'Vastbase 支持哪种 TPC 基准测试，实测可达 32 节点 1500万 TPMC？\nA. TPC-E\nB. TPC-B\nC. TPC-C\nD. TPC-W',
+                    ['A', 'B', 'C', 'D'], 2, 'Vastbase 支持 TPC-C 基准测试。')
+                // 17
+                .addSingle(MOCK, '中创负载均衡中间件的反向代理功能，核心作用是？\nA. 对客户端隐藏后端服务器的真实信息\nB. 对目标服务器隐藏客户端的真实身份\nC. 加密客户端与服务器之间的传输数据\nD. 提升静态资源的访问速度',
+                    ['A', 'B', 'C', 'D'], 0, '反向代理对客户端隐藏后端服务器的真实信息。')
+                // 18
+                .addSingle(MOCK, 'CPU主频的基本定义是？\nA. CPU内核时钟振荡频率\nB. CPU每秒执行的指令总数\nC. 内存工作频率\nD. 总线传输频率',
+                    ['A', 'B', 'C', 'D'], 0, '主频是 CPU 内核时钟振荡频率。')
+                // 19
+                .addSingle(MOCK, 'CPU的MMU内存管理单元的核心功能是？\nA. 管理显卡显存\nB. 实现虚拟地址与物理地址转换\nC. 控制CPU主频\nD. 管理缓存数据',
+                    ['A', 'B', 'C', 'D'], 1, 'MMU 实现虚拟地址与物理地址的转换。')
+                // 20
+                .addSingle(MOCK, 'Vastbase 故障排查时，数据库无法启动，首先应该查看哪个位置的日志？\nA. /var/log/messages\nB. 数据目录下的 pg_log 日志文件\nC. /tmp/vastbase.log\nD. 系统 journal 日志',
+                    ['A', 'B', 'C', 'D'], 1, '首先查看数据目录下的 pg_log 日志文件。')
+                // 21
+                .addSingle(MOCK, '在 Vastbase 中，以下哪个视图用于查看当前活跃的数据库连接和查询？\nA. information_schema.processlist\nB. pg_stat_activity\nC. sys.processlist\nD. v$session',
+                    ['A', 'B', 'C', 'D'], 1, 'pg_stat_activity 查看活跃连接和查询。')
+                // 22
+                .addSingle(MOCK, '在龙芯平台上对中创应用服务器进行压力测试时，发现吞吐量低于预期，以下排查方向错误的是？\nA. 检查JVM线程池配置是否合理\nB. 检查海量数据库连接池是否达到上限\nC. 检查银河麒麟操作系统的文件描述符限制\nD. 检查显示器刷新率',
+                    ['A', 'B', 'C', 'D'], 3, '显示器刷新率与吞吐量无关。')
+                // 23
+                .addSingle(MOCK, 'CPU的状态寄存器主要存储？\nA. 程序图片数据\nB. 运算结果状态、标志位\nC. 系统桌面配置\nD. 外设参数',
+                    ['A', 'B', 'C', 'D'], 1, '状态寄存器存储运算结果状态和标志位。')
+                // 24
+                .addSingle(MOCK, '龙芯平台安装麒麟系统安装过程中，禁止强制断电的核心原因是？\nA. 损坏硬件主板\nB. 破坏系统引导与分区表\nC. 烧毁硬盘\nD. 重置BIOS',
+                    ['A', 'B', 'C', 'D'], 1, '强制断电会破坏系统引导与分区表。')
+                // 25
+                .addSingle(MOCK, 'CPU缓存机制中，L1缓存的主要特点是？\nA. 容量大、速度慢\nB. 容量极小、速度最快\nC. 容量最大、速度中等\nD. 断电不丢失数据',
+                    ['A', 'B', 'C', 'D'], 1, 'L1 缓存容量极小、速度最快。')
+                // 26
+                .addSingle(MOCK, 'CPU缓存一致性协议的主要目的是？\nA. 保证多核缓存数据同步一致\nB. 提升硬盘速度\nC. 优化显卡性能\nD. 降低功耗',
+                    ['A', 'B', 'C', 'D'], 0, '缓存一致性协议保证多核缓存数据同步一致。')
+                // 27
+                .addSingle(MOCK, '在 Vastbase 中，EXPLAIN ANALYZE 语句的作用是？\nA. 解释 SQL 错误信息\nB. 显示查询执行计划及实际执行统计\nC. 分析磁盘空间使用\nD. 验证 SQL 语法',
+                    ['A', 'B', 'C', 'D'], 1, 'EXPLAIN ANALYZE 显示执行计划及实际执行统计。')
+                // 28
+                .addSingle(MOCK, '龙芯平台安装麒麟系统安装时出现"无法检测到有效磁盘"，最可能原因是？\nA. 硬盘故障、BIOS未识别硬盘\nB. 镜像版本过低\nC. U盘损坏\nD. 内存故障',
+                    ['A', 'B', 'C', 'D'], 0, '最可能原因为硬盘故障或 BIOS 未识别硬盘。')
+                // 29
+                .addSingle(MOCK, '关于 Vastbase 集群的 vB_ctl failover 命令，说法正确的是？\nA. 用于计划内主动切换\nB. 用于主节点故障后的强制切换\nC. 用于重启集群\nD. 用于查看集群状态',
+                    ['A', 'B', 'C', 'D'], 1, 'vB_ctl failover 用于主节点故障后的强制切换。')
+                // 30
+                .addSingle(MOCK, '龙芯全系CPU芯片的缓存层级不包含以下哪种？\nA. L1 Cache\nB. L2 Cache\nC. L3 Cache\nD. L4 Cache',
+                    ['A', 'B', 'C', 'D'], 3, '龙芯全系不包含 L4 Cache。')
+                // 31
+                .addSingle(MOCK, '当 Vastbase 出现连接数超限故障时，临时解决方案是？\nA. 重启数据库实例\nB. 使用 pg_terminate_backend() 终止空闲连接，并考虑增大 max_connections\nC. 修改 pg_hba.conf 禁止部分用户连接\nD. 重启服务器',
+                    ['A', 'B', 'C', 'D'], 1, '终止空闲连接并考虑增大 max_connections。')
+                // 32
+                .addSingle(MOCK, '以下哪一项符合中创应用服务器软件的密码策略？\nA. 123@abc\nB. Abc@test123\nC. abcdef&\nD. MyPassWord',
+                    ['A', 'B', 'C', 'D'], 1, 'Abc@test123 符合复杂密码策略（大小写+数字+特殊字符）。')
+                // 33
+                .addSingle(MOCK, '以下哪个不属于消息中间件的核心技术能力？\nA. 事务消息\nB. 延迟消息\nC. 死信队列\nD. 数据分片存储',
+                    ['A', 'B', 'C', 'D'], 3, '数据分片存储不属于消息中间件核心能力。')
+                // 34
+                .addSingle(MOCK, '以下哪个不属于应用服务器中间件的核心功能？\nA. 提供Servlet容器运行Web应用\nB. 管理JDBC数据库连接池\nC. 提供负载均衡的流量调度\nD. 支持EJB组件的部署运行',
+                    ['A', 'B', 'C', 'D'], 2, '负载均衡流量调度通常不属于应用服务器核心功能。')
+                // 35 (多选)
+                .addMultiple(MOCK, '在 Vastbase 故障排查过程中，以下哪些工具和方法是常用的排查手段？\nA. 查看 pg_log 数据库错误日志\nB. 使用 EXPLAIN ANALYZE 分析 SQL 执行计划\nC. 查询 pg_stat_activity 查看活跃会话\nD. 使用 netstat -an | grep 5432 检查端口监听状态\nE. 通过 v$ctl_query 查看集群主备状态',
+                    ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3], '常用手段：pg_log、EXPLAIN ANALYZE、pg_stat_activity、netstat 检查端口。')
+                // 36 (多选)
+                .addMultiple(MOCK, '关于增量同步（CDC）阶段，以下说法正确的有？\nA. CDC 通过解析 MySQL binlog 实现实时数据同步\nB. 正常同步延迟应保持在 1 秒以内\nC. 延迟超过 10 秒需要排查原因\nD. CDC 对源库性能影响极小\nE. CDC 同步期间必须停止源库写入',
+                    ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3], 'CDC 解析 binlog，延迟1秒以内，超过10秒需排查，对源库影响极小，无需停止写入。')
+                // 37 (多选)
+                .addMultiple(MOCK, 'Vastbase 数据库性能调优时，以下哪些参数需要重点关注和调整？\nA. shared_buffers（共享缓冲区，建议内存的1/4）\nB. work_mem（查询操作内存，影响排序、哈希连接）\nC. effective_cache_size（操作系统缓存估算，影响执行计划选择）\nD. max_connections（最大连接数，过高会浪费内存）\nE. wal_buffers（WAL缓冲区，影响写入性能）',
+                    ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4], '以上参数均为 Vastbase 性能调优关键参数。')
+                // 38 (多选)
+                .addMultiple(MOCK, '迁移到过程中，以下哪些是割接时序控制的关键节点？\nA. T-60min：应用停止写入\nB. T-30min：停止应用服务\nC. T-10min：执行最终数据校验\nD. T-0min：切换应用连接到 Vastbase\nE. T+30min：应用恢复写入并观察稳定性',
+                    ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4], '以上均为割接时序控制的关键节点。')
+                // 39 (多选)
+                .addMultiple(MOCK, '在迁移项目的割接方案选择中，以下哪些方案适合高风险业务场景？\nA. 应用双写方案（RPO=0）\nB. 数据复制工具实时同步方案\nC. 直接全量切换方案（停机时间长）\nD. 灰度分流切换方案\nE. 滚动分批迁移方案',
+                    ['A', 'B', 'C', 'D', 'E'], [0, 1, 3, 4], '双写、实时同步、灰度分流、滚动分批均适合高风险场景，全量切换停机时间长风险高。')
+                // 40 (多选)
+                .addMultiple(MOCK, '某政务系统运行在纯信UOS和中创应用服务器上，近期出现部分请求返回503错误。经排查，应用服务器日志显示线程池耗尽。以下正确的处理措施包括？\nA. 增大应用服务器的线程池最大线程数\nB. 分析慢请求日志，定位耗时操作并优化\nC. 检查海量数据库是否存在慢查询导致线程阻塞\nD. 直接重装纯信UOS操作系统',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], '增大线程池、分析慢请求、检查数据库慢查询；重装系统不能解决问题。')
+                // 41 (多选)
+                .addMultiple(MOCK, '某系统部署在龙芯服务器上，使用银河麒麟操作系统和国产中创应用服务器中间件，连接海量数据库。系统上线后出现间歇性响应缓慢，可能的原因包括？\nA. JVM堆内存设置过小导致频繁GC\nB. 海量数据库连接池配置不当导致连接等待\nC. 银河麒麟操作系统的内核参数未优化\nD. 龙芯CPU的自动降级主频导致整机性能下降',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '以上均为可能原因。')
+                // 42 (多选)
+                .addMultiple(MOCK, '迁移前准备工作中，需要为 exBase 工具创建的 MySQL 账号权限包括？\nA. SELECT\nB. REPLICATION SLAVE\nC. REPLICATION CLIENT\nD. PROCESS\nE. DROP DATABASE（不需要）',
+                    ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4], 'exBase 需要 SELECT、REPLICATION SLAVE、REPLICATION CLIENT、PROCESS，不需要 DROP DATABASE。')
+                // 43 (判断)
+                .addJudge(MOCK, '在龙芯平台上，中创应用服务器的JVM参数调优方式与x86平台完全相同，无需修改配置。', false, '龙芯平台与 x86 平台在 JVM 调优上存在差异，需要针对龙芯架构进行适配。')
+                // 44 (判断)
+                .addJudge(MOCK, '中创应用服务器出现OutOfMemoryError错误时，应首先调整JVM的-Xmx参数增大堆内存，并分析内存泄漏问题。', true, '出现 OOM 时应首先增大堆内存并分析内存泄漏。')
+                // 45 (判断)
+                .addJudge(MOCK, '使用jmap命令可以导出应用服务器的堆内存快照，用于分析内存泄漏问题。', true, 'jmap 可导出堆内存快照（heap dump）。')
+                // 46 (判断)
+                .addJudge(MOCK, 'Vastbase 中，effective_cache_size 参数的设置会直接影响操作系统缓存的实际分配大小。', false, 'effective_cache_size 仅影响执行计划选择，不实际分配操作系统缓存。')
+                // 47 (判断)
+                .addJudge(MOCK, '迁移后兼容性验证中，数据行数一致即视为数据校验通过，无需校验具体字段值。', false, '数据校验需同时校验行数和字段值，仅行数一致不能保证数据完整。')
+                // 48 (判断)
+                .addJudge(MOCK, '中创应用服务器在银河麒麟操作系统上出现性能瓶颈时，应同时检查操作系统层面的资源限制（如文件描述符、最大进程数）和中间件自身的配置参数。', true, '性能排查应同时检查操作系统和中间件配置。')
+                // 49 (判断)
+                .addJudge(MOCK, '当 Vastbase 集群主备切换后，应用可以通过 VIP 自动连接到新的主节点，无需修改连接配置。', true, '通过 VIP 可实现应用无感知主备切换。')
+                // 50 (判断)
+                .addJudge(MOCK, '中创应用服务器管理控制台访问404错误一般是由于防火墙原因。', false, '404 错误通常是资源不存在或路径错误，而非防火墙原因。')
+                ;
             QuestionBank.shuffle();
         })();
 
@@ -2902,12 +3055,16 @@
         //  4. 应用状态
         // ================================================================
         const state = {
-            currentCategory: '全部',
-            currentIndex: 0,
-            records: {},
-            totalAnswered: 0,
-            totalRight: 0,
-        };
+    currentCategory: '全部',
+    currentIndex: 0,
+    records: {},
+    totalAnswered: 0,
+    totalRight: 0,
+    // 新增：模拟一卷独立统计
+    mockTotal: 0,      // 模拟一卷总题数（固定50）
+    mockDone: 0,       // 模拟一卷已答数量
+    mockRight: 0,      // 模拟一卷正确数量
+};
 
         function getFiltered() { return QuestionBank.getByCategory(state.currentCategory); }
 
@@ -2940,22 +3097,28 @@
         }
 
         function renderNav() {
-            const container = document.getElementById('questionNav');
-            const filtered = getFiltered();
-            if (filtered.length === 0) { container.innerHTML = ''; return; }
-            container.innerHTML = filtered.map((q, idx) => {
-                const record = state.records[q.id] || { selected: (q.type === 'multiple' ? [] : null),
-                    revealed: false, counted: false };
-                let cls = 'q-dot';
-                if (idx === state.currentIndex) cls += ' active';
-                if (record.revealed) {
-                    cls += isAnswerCorrect(q, record) ? ' revealed-correct' : ' revealed-wrong';
-                } else if (record.selected !== null && record.selected !== undefined && (Array.isArray(record
-                        .selected) ? record.selected.length > 0 : true)) {
-                    cls += isAnswerCorrect(q, record) ? ' answered-correct' : ' answered-wrong';
-                }
-                return `<div class="${cls}" data-index="${idx}">${idx + 1}</div>`;
-            }).join('');
+    const container = document.getElementById('questionNav');
+    const filtered = getFiltered();
+    if (filtered.length === 0) { container.innerHTML = ''; return; }
+    container.innerHTML = filtered.map((q, idx) => {
+        const record = state.records[q.id] || { selected: (q.type === 'multiple' ? [] : null),
+            revealed: false, counted: false };
+        let cls = 'q-dot';
+        if (idx === state.currentIndex) cls += ' active';
+        
+        // 判断是否已答（有选择即为已答）
+        const isAnswered = record.selected !== null && record.selected !== undefined && 
+                          (Array.isArray(record.selected) ? record.selected.length > 0 : true);
+        
+        if (record.revealed) {
+            // 已显示答案：保持原有颜色（正确绿/错误红）
+            cls += isAnswerCorrect(q, record) ? ' revealed-correct' : ' revealed-wrong';
+        } else if (isAnswered) {
+            // 已答但未显示答案：统一灰色
+            cls += ' answered-gray';
+        }
+        return `<div class="${cls}" data-index="${idx}">${idx + 1}</div>`;
+    }).join('');
             container.querySelectorAll('.q-dot').forEach(el => {
                 el.addEventListener('click', function() {
                     const idx = parseInt(this.dataset.index);
@@ -3117,20 +3280,32 @@
                 const confirmBtn = document.getElementById('confirmMultiBtn');
                 if (confirmBtn) {
                     confirmBtn.addEventListener('click', function() {
-                        const record = state.records[q.id];
-                        if (record.revealed) return;
-                        if (!record.selected || record.selected.length === 0) {
-                            alert('请至少选择一个选项！');
-                            return;
-                        }
-                        record.revealed = true;
-                        if (!record.counted) {
-                            state.totalAnswered += 1;
-                            if (isAnswerCorrect(q, record)) state.totalRight += 1;
-                            record.counted = true;
-                        }
-                        render();
-                    });
+    const record = state.records[q.id];
+    if (record.revealed) return;
+    if (!record.selected || record.selected.length === 0) {
+        alert('请至少选择一个选项！');
+        return;
+    }
+    const isMock = q.category === '模拟一卷';
+    
+    if (isMock) {
+        if (!record.counted) {
+            record.counted = true;
+            state.mockDone += 1;
+            if (isAnswerCorrect(q, record)) state.mockRight += 1;
+            checkMockComplete();
+        }
+        render();
+    } else {
+        record.revealed = true;
+        if (!record.counted) {
+            state.totalAnswered += 1;
+            if (isAnswerCorrect(q, record)) state.totalRight += 1;
+            record.counted = true;
+        }
+        render();
+    }
+});
                 }
             }
         }
@@ -3138,58 +3313,92 @@
         // ================================================================
         //  6. 交互处理
         // ================================================================
-        function handleSingleSelect(questionId, selectedValue) {
-            const record = state.records[questionId];
-            if (!record || record.revealed) return;
-            record.selected = selectedValue;
-            record.revealed = true;
-            const q = QuestionBank.getQuestions().find(item => item.id === questionId);
-            if (q && !record.counted) {
-                state.totalAnswered += 1;
-                if (isAnswerCorrect(q, record)) state.totalRight += 1;
-                record.counted = true;
-            }
-            render();
+     function handleSingleSelect(questionId, selectedValue) {
+    const record = state.records[questionId];
+    if (!record || record.revealed) return;
+    record.selected = selectedValue;
+    const q = QuestionBank.getQuestions().find(item => item.id === questionId);
+    
+    // 判断是否为模拟一卷
+    const isMock = q && q.category === '模拟一卷';
+    
+    if (isMock) {
+        // 模拟一卷：只记录答案，不显示，不计数（等全部答完统一处理）
+        if (!record.counted) {
+            record.counted = true; // 标记已答，避免重复计数
+            state.mockDone += 1;
+            if (isAnswerCorrect(q, record)) state.mockRight += 1;
+            checkMockComplete();
         }
-
-        function handleJudgeSelect(questionId, selectedValue) {
-            const record = state.records[questionId];
-            if (!record || record.revealed) return;
-            record.selected = selectedValue;
-            record.revealed = true;
-            const q = QuestionBank.getQuestions().find(item => item.id === questionId);
-            if (q && !record.counted) {
-                state.totalAnswered += 1;
-                if (isAnswerCorrect(q, record)) state.totalRight += 1;
-                record.counted = true;
-            }
-            render();
+        render();
+    } else {
+        // 其他分类：立即显示答案并计数
+        record.revealed = true;
+        if (q && !record.counted) {
+            state.totalAnswered += 1;
+            if (isAnswerCorrect(q, record)) state.totalRight += 1;
+            record.counted = true;
         }
+        render();
+    }
+}
+function handleJudgeSelect(questionId, selectedValue) {
+    const record = state.records[questionId];
+    if (!record || record.revealed) return;
+    record.selected = selectedValue;
+    const q = QuestionBank.getQuestions().find(item => item.id === questionId);
+    
+    const isMock = q && q.category === '模拟一卷';
+    
+    if (isMock) {
+        if (!record.counted) {
+            record.counted = true;
+            state.mockDone += 1;
+            if (isAnswerCorrect(q, record)) state.mockRight += 1;
+            checkMockComplete();
+        }
+        render();
+    } else {
+        record.revealed = true;
+        if (q && !record.counted) {
+            state.totalAnswered += 1;
+            if (isAnswerCorrect(q, record)) state.totalRight += 1;
+            record.counted = true;
+        }
+        render();
+    }
+}
 
         // ================================================================
         //  7. 其他功能
         // ================================================================
         function revealCurrent() {
-            const filtered = getFiltered();
-            if (filtered.length === 0) return;
-            const q = filtered[state.currentIndex];
-            const record = state.records[q.id];
-            if (!record) return;
-            if (record.revealed) return;
-            if (record.selected === null || record.selected === undefined || (Array.isArray(record.selected) && record
-                    .selected.length === 0)) {
-                if (q.type === 'single') record.selected = 0;
-                else if (q.type === 'multiple') record.selected = [0];
-                else record.selected = true;
-            }
-            if (!record.counted) {
-                state.totalAnswered += 1;
-                if (isAnswerCorrect(q, record)) state.totalRight += 1;
-                record.counted = true;
-            }
-            record.revealed = true;
-            render();
-        }
+    const filtered = getFiltered();
+    if (filtered.length === 0) return;
+    const q = filtered[state.currentIndex];
+    const record = state.records[q.id];
+    if (!record) return;
+    if (record.revealed) return;
+    
+    // 如果是模拟一卷，不允许单独显示答案（必须全部答完）
+    if (q.category === '模拟一卷') {
+        alert('⚠️ 模拟一卷需要全部答完才能查看答案！');
+        return;
+    }
+    
+    if (record.selected === null || record.selected === undefined || (Array.isArray(record.selected) && record.selected.length === 0)) {
+        if (q.type === 'single') record.selected = 0;
+        else if (q.type === 'multiple') record.selected = [0];
+        else record.selected = true;
+    }
+    if (!record.counted) {
+        state.totalAnswered += 1;
+        if (isAnswerCorrect(q, record)) state.totalRight += 1;
+        record.counted = true;
+    }
+    record.revealed = true;
+    render();
+}
 
         function prevQuestion() {
             const filtered = getFiltered();
@@ -3206,12 +3415,48 @@
         }
 
         function resetAll() {
-            state.records = {};
-            state.totalAnswered = 0;
-            state.totalRight = 0;
-            state.currentIndex = 0;
-            render();
+    state.records = {};
+    state.totalAnswered = 0;
+    state.totalRight = 0;
+    state.currentIndex = 0;
+    // 新增：重置模拟一卷统计
+    state.mockDone = 0;
+    state.mockRight = 0;
+    render();
+}
+// ================================================================
+//  检查模拟一卷是否全部完成
+// ================================================================
+function checkMockComplete() {
+    // 获取模拟一卷的总题数（首次调用时计算并缓存）
+    if (state.mockTotal === 0) {
+        const mockQuestions = QuestionBank.getByCategory('模拟一卷');
+        state.mockTotal = mockQuestions.length;
+    }
+    // 如果全部答完，弹出结果
+    if (state.mockDone >= state.mockTotal && state.mockTotal > 0) {
+        const correctRate = Math.round((state.mockRight / state.mockTotal) * 100);
+        alert(`🎉 模拟一卷全部答完！\n\n✅ 正确：${state.mockRight} / ${state.mockTotal}\n📊 正确率：${correctRate}%\n\n点击「确定」查看所有题目的正确答案（已自动显示）`);
+        // 自动显示所有模拟一卷题目的答案
+        revealAllMockAnswers();
+    }
+}
+
+// ================================================================
+//  自动显示模拟一卷所有题目的答案
+// ================================================================
+function revealAllMockAnswers() {
+    const mockQuestions = QuestionBank.getByCategory('模拟一卷');
+    mockQuestions.forEach(q => {
+        const record = state.records[q.id];
+        if (!record) return;
+        if (!record.revealed) {
+            // 如果有正确答案标记，显示答案
+            record.revealed = true;
         }
+    });
+    render();
+}
 
         function updateStats() {
             document.getElementById('totalCount').textContent = QuestionBank.getQuestions().length;
