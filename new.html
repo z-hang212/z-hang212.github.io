@@ -3235,15 +3235,26 @@
             }
 
             // 反馈
-            let fbClass = 'feedback';
-            let fbText = '';
-            if (record.revealed) {
-                const correct = isAnswerCorrect(q, record);
-                fbClass += ' show ' + (correct ? 'correct' : 'wrong');
-                fbText = correct ? '✅ 回答正确！' : '❌ 回答错误';
-                fbText += `<div class="explain">💡 ${q.explanation}</div>`;
-            }
-            html += `<div class="${fbClass}">${fbText}</div>`;
+let fbClass = 'feedback';
+let fbText = '';
+const isMockAllDone = q.category === '模拟一卷' && state.mockDone >= state.mockTotal && state.mockTotal > 0;
+
+// 如果模拟一卷全部答完，强制显示所有答案
+if (isMockAllDone && !record.revealed) {
+    record.revealed = true;
+}
+
+if (record.revealed) {
+    const correct = isAnswerCorrect(q, record);
+    fbClass += ' show ' + (correct ? 'correct' : 'wrong');
+    fbText = correct ? '✅ 回答正确！' : '❌ 回答错误';
+    fbText += `<div class="explain">💡 ${q.explanation}</div>`;
+} else if (q.category === '模拟一卷' && record.counted) {
+    // 模拟一卷已答但未全部完成，显示"已作答"
+    fbClass += ' show';
+    fbText = '📝 已作答，全部答完后统一显示答案';
+}
+html += `<div class="${fbClass}">${fbText}</div>`;
             html += `</div>`;
             container.innerHTML = html;
 
@@ -3286,25 +3297,13 @@
         alert('请至少选择一个选项！');
         return;
     }
-    const isMock = q.category === '模拟一卷';
-    
-    if (isMock) {
-        if (!record.counted) {
-            record.counted = true;
-            state.mockDone += 1;
-            if (isAnswerCorrect(q, record)) state.mockRight += 1;
-            checkMockComplete();
-        }
-        render();
-    } else {
-        record.revealed = true;
-        if (!record.counted) {
-            state.totalAnswered += 1;
-            if (isAnswerCorrect(q, record)) state.totalRight += 1;
-            record.counted = true;
-        }
-        render();
+    record.revealed = true;
+    if (!record.counted) {
+        state.totalAnswered += 1;
+        if (isAnswerCorrect(q, record)) state.totalRight += 1;
+        record.counted = true;
     }
+    render();
 });
                 }
             }
@@ -3317,75 +3316,39 @@
     const record = state.records[questionId];
     if (!record || record.revealed) return;
     record.selected = selectedValue;
+    record.revealed = true;
     const q = QuestionBank.getQuestions().find(item => item.id === questionId);
-    
-    // 判断是否为模拟一卷
-    const isMock = q && q.category === '模拟一卷';
-    
-    if (isMock) {
-        // 模拟一卷：只记录答案，不显示，不计数（等全部答完统一处理）
-        if (!record.counted) {
-            record.counted = true; // 标记已答，避免重复计数
-            state.mockDone += 1;
-            if (isAnswerCorrect(q, record)) state.mockRight += 1;
-            checkMockComplete();
-        }
-        render();
-    } else {
-        // 其他分类：立即显示答案并计数
-        record.revealed = true;
-        if (q && !record.counted) {
-            state.totalAnswered += 1;
-            if (isAnswerCorrect(q, record)) state.totalRight += 1;
-            record.counted = true;
-        }
-        render();
+    if (q && !record.counted) {
+        state.totalAnswered += 1;
+        if (isAnswerCorrect(q, record)) state.totalRight += 1;
+        record.counted = true;
     }
+    render();
 }
 function handleJudgeSelect(questionId, selectedValue) {
     const record = state.records[questionId];
     if (!record || record.revealed) return;
     record.selected = selectedValue;
+    record.revealed = true;
     const q = QuestionBank.getQuestions().find(item => item.id === questionId);
-    
-    const isMock = q && q.category === '模拟一卷';
-    
-    if (isMock) {
-        if (!record.counted) {
-            record.counted = true;
-            state.mockDone += 1;
-            if (isAnswerCorrect(q, record)) state.mockRight += 1;
-            checkMockComplete();
-        }
-        render();
-    } else {
-        record.revealed = true;
-        if (q && !record.counted) {
-            state.totalAnswered += 1;
-            if (isAnswerCorrect(q, record)) state.totalRight += 1;
-            record.counted = true;
-        }
-        render();
+    if (q && !record.counted) {
+        state.totalAnswered += 1;
+        if (isAnswerCorrect(q, record)) state.totalRight += 1;
+        record.counted = true;
     }
+    render();
 }
 
         // ================================================================
         //  7. 其他功能
         // ================================================================
-        function revealCurrent() {
+       function revealCurrent() {
     const filtered = getFiltered();
     if (filtered.length === 0) return;
     const q = filtered[state.currentIndex];
     const record = state.records[q.id];
     if (!record) return;
     if (record.revealed) return;
-    
-    // 如果是模拟一卷，不允许单独显示答案（必须全部答完）
-    if (q.category === '模拟一卷') {
-        alert('⚠️ 模拟一卷需要全部答完才能查看答案！');
-        return;
-    }
-    
     if (record.selected === null || record.selected === undefined || (Array.isArray(record.selected) && record.selected.length === 0)) {
         if (q.type === 'single') record.selected = 0;
         else if (q.type === 'multiple') record.selected = [0];
@@ -3399,7 +3362,6 @@ function handleJudgeSelect(questionId, selectedValue) {
     record.revealed = true;
     render();
 }
-
         function prevQuestion() {
             const filtered = getFiltered();
             if (filtered.length === 0) return;
@@ -3414,14 +3376,11 @@ function handleJudgeSelect(questionId, selectedValue) {
             render();
         }
 
-        function resetAll() {
+      function resetAll() {
     state.records = {};
     state.totalAnswered = 0;
     state.totalRight = 0;
     state.currentIndex = 0;
-    // 新增：重置模拟一卷统计
-    state.mockDone = 0;
-    state.mockRight = 0;
     render();
 }
 // ================================================================
@@ -3450,10 +3409,8 @@ function revealAllMockAnswers() {
     mockQuestions.forEach(q => {
         const record = state.records[q.id];
         if (!record) return;
-        if (!record.revealed) {
-            // 如果有正确答案标记，显示答案
-            record.revealed = true;
-        }
+        // 强制显示答案
+        record.revealed = true;
     });
     render();
 }
