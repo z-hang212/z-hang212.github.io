@@ -3048,6 +3048,173 @@
                 // 50 (判断)
                 .addJudge(MOCK, '中创应用服务器管理控制台访问404错误一般是由于防火墙原因。', false, '404 错误通常是资源不存在或路径错误，而非防火墙原因。')
                 ;
+                // ============================================================
+// 新增分类：模拟二卷（56题）
+// ============================================================
+const MOCK2 = '模拟二卷';
+QuestionBank
+    // ========== 判断题（17题） ==========
+    // 第1题
+    .addJudge(MOCK2, '龙芯LoongArch架构电脑可以直接安装x86架构的系统镜像。', false, '龙芯LoongArch架构与x86架构指令集完全不兼容，无法直接安装x86架构的系统镜像。')
+    // 第2题
+    .addJudge(MOCK2, '在龙芯电脑终端输入uname -m，正常显示loongarch64即为架构适配正常。', true, 'uname -m 输出 loongarch64 表示系统与龙芯CPU架构匹配正常。')
+    // 第3题
+    .addJudge(MOCK2, 'Vastbase 数据库的默认端口是 3306。', false, 'Vastbase 数据库默认端口是 5432，3306 是 MySQL 的默认端口。')
+    // 第4题
+    .addJudge(MOCK2, 'Vastbase 安装必须使用 root 用户执行所有操作，包括数据库初始化。', false, 'Vastbase 安装应使用 vastbase 普通用户执行，root 用户仅用于安装前置准备，数据库初始化必须使用 vastbase 用户。')
+    // 第5题
+    .addJudge(MOCK2, '中创应用服务器管理控制台访问404错误一般是由于防火墙原因。', false, '404 错误通常是资源不存在或路径错误，与防火墙无关。')
+    // 第6题
+    .addJudge(MOCK2, '在龙芯平台上，中创应用服务器的JVM参数调优方式与x86平台完全相同，无需修改配置。', false, '龙芯平台与x86平台架构不同，JVM参数调优需要针对龙芯架构进行适配调整。')
+    // 第7题
+    .addJudge(MOCK2, '龙芯LoongArch平台迁移数据库与中间件，必须使用对应架构专属适配版本。', true, '龙芯LoongArch平台必须使用适配loongarch64架构的数据库与中间件版本。')
+    // 第8题
+    .addJudge(MOCK2, 'x86架构中间件安装包可直接在龙芯平台部署运行。', false, 'x86架构与龙芯LoongArch架构指令集不兼容，x86安装包无法在龙芯平台直接运行。')
+    // 第9题
+    .addJudge(MOCK2, '海量数据库跨架构迁移无报错日志，即可直接上线无需数据校验。', false, '跨架构迁移后必须进行数据校验，仅无报错日志不能保证数据完整性。')
+    // 第10题
+    .addJudge(MOCK2, '合规迁移严禁在生产环境混用多架构、非适配、破解软件。', true, '信创合规迁移要求必须使用官方适配版本，严禁混用多架构或破解软件。')
+    // 第11题
+    .addJudge(MOCK2, '负载均衡中间件支持分发客户端请求，但不能隐藏客户端的真实身份。', false, '负载均衡的反向代理功能可以隐藏后端服务器的真实信息，但对目标服务器来说客户端身份同样可能被隐藏。')
+    // 第12题
+    .addJudge(MOCK2, '数据缓存中间件直接数据库，将数据库中的数据缓存到内存中，提升访问效率。', true, '数据缓存中间件将数据库数据缓存到内存中，可大幅提升数据访问效率。')
+    // 第13题
+    .addJudge(MOCK2, '消息中间件支持削峰填谷、数据采集、异步通讯等诸多场景。', true, '消息中间件的核心能力包括削峰填谷、数据采集和异步通讯等场景。')
+    // 第14题
+    .addJudge(MOCK2, '龙芯3A6000采用4核8线程设计（SMT2技术）。', true, '龙芯3A6000为4物理核心，标配SMT2超线程，提供8个逻辑核心。')
+    // 第15题
+    .addJudge(MOCK2, '龙芯 3C5000 服务器 CPU 集成 16 个 LA664 处理器核。', true, '龙芯3C5000单路服务器芯片内置16颗LA664物理核心。')
+    // 第16题
+    .addJudge(MOCK2, '龙芯LoongArch平台迁移数据库时，数据校验只需核对总行数即可。', false, '数据校验需要核对行数、字段值、数据类型等多个维度，仅核对总行数不能保证数据完整性和准确性。')
+    // 第17题
+    .addJudge(MOCK2, '龙芯3A6000支持DDR5内存。', false, '龙芯3A6000仅支持双通道DDR4-3200，不支持DDR5内存。')
+
+    // ========== 单选题（24题，第18-41题） ==========
+    // 第18题
+    .addSingle(MOCK2, '龙芯LoongArch架构电脑安装国产操作系统时，必须选择对应哪个架构的系统镜像？\nA. x86_64\nB. arm64\nC. loongarch64\nD. risc-v',
+        ['A', 'B', 'C', 'D'], 2, '龙芯LoongArch设备仅能安装loongarch64架构的系统镜像。')
+    // 第19题
+    .addSingle(MOCK2, '龙芯电脑安装统信UOS、麒麟系统的首选启动安装介质是？\nA. 光盘\nB. U盘启动盘\nC. 硬盘直接拷贝\nD. 网络无线安装',
+        ['A', 'B', 'C', 'D'], 1, 'U盘启动盘是龙芯电脑安装国产系统的首选安装介质。')
+    // 第20题
+    .addSingle(MOCK2, '龙芯平台安装系统后，查看CPU架构信息的终端命令是？\nA. uname -m\nB. dir\nC. ipconfig\nD. ping',
+        ['A', 'B', 'C', 'D'], 0, 'uname -m 是查看CPU架构的标准命令，输出loongarch64表示架构匹配。')
+    // 第21题
+    .addSingle(MOCK2, 'Vastbase G100 是基于哪个开源数据库内核深度增强开发的？\nA. MySQL\nB. MariaDB\nC. openGauss/PostgreSQL\nD. SQLite',
+        ['A', 'B', 'C', 'D'], 2, 'Vastbase G100 基于华为开源的 openGauss 内核开发，技术血统链路为 PostgreSQL → openGauss → Vastbase。')
+    // 第22题
+    .addSingle(MOCK2, 'Vastbase G100 默认监听端口号是？\nA. 3306\nB. 1521\nC. 5432\nD. 1433',
+        ['A', 'B', 'C', 'D'], 2, 'Vastbase G100 默认端口为 5432。')
+    // 第23题
+    .addSingle(MOCK2, '在 Vastbase 中，初始化数据库使用的命令是？\nA. vb_init\nB. vb_initdb\nC. initdb\nD. db_init',
+        ['A', 'B', 'C', 'D'], 1, 'Vastbase 初始化数据库使用 vb_initdb 命令。')
+    // 第24题
+    .addSingle(MOCK2, 'Vastbase 安装推荐使用的操作系统用户名是？\nA. root\nB. vastbase\nC. vbpq\nD. postgres',
+        ['A', 'B', 'C', 'D'], 1, 'Vastbase 安装推荐使用 vastbase 普通用户，不推荐 root 用户。')
+    // 第25题
+    .addSingle(MOCK2, '在 Vastbase 中，用于登录数据库的客户端工具命令是？\nA. mysql\nB. psql\nC. vsql\nD. sqlplus',
+        ['A', 'B', 'C', 'D'], 2, 'Vastbase 的客户端登录工具是 vsql。')
+    // 第26题
+    .addSingle(MOCK2, '以下哪个命令用于启动 Vastbase 数据库实例？\nA. vb_start -D /opt/vastbase/data\nB. vb_ctl start -D /opt/vastbase/data\nC. vastbase start\nD. service vastbase start',
+        ['A', 'B', 'C', 'D'], 1, 'Vastbase 启动命令为 vb_ctl start -D 数据目录路径。')
+    // 第27题
+    .addSingle(MOCK2, 'Vastbase 安装部署时，生产环境推荐的最低内存配置是多少？\nA. 4GB\nB. 8GB\nC. 16GB\nD. 64GB',
+        ['A', 'B', 'C', 'D'], 2, 'Vastbase 生产环境推荐最低内存为 16GB。')
+    // 第28题
+    .addSingle(MOCK2, '启用文件高速缓存，可以在哪种场景下提升系统性能？\nA. 访问JSP页面\nB. 访问Servlet\nC. 访问静态文件\nD. 都不是',
+        ['A', 'B', 'C', 'D'], 2, '文件高速缓存主要用于提升静态文件的访问性能。')
+    // 第29题
+    .addSingle(MOCK2, '应用无法正常访问，在Linux上可以执行()来判断应用服务器进程是否存在。\nA. jps\nB. jmap\nC. jstack\nD. jst',
+        ['A', 'B', 'C', 'D'], 0, 'jps 命令用于查看 Java 进程状态。')
+    // 第30题
+    .addSingle(MOCK2, '以下哪种措施可以提升应用服务器性能？\nA. 开启自动部署\nB. 关闭日志输出\nC. 开启监视服务\nD. 降低JVM启动内存',
+        ['A', 'B', 'C', 'D'], 1, '关闭不必要的日志输出可以减少IO开销，提升应用服务器性能。')
+    // 第31题
+    .addSingle(MOCK2, '信创迁移项目中，龙芯LoongArch平台数据库与中间件迁移的首要步骤是？\nA. 直接部署中间件\nB. 软硬件环境调研与迁移评估\nC. 业务割接上线\nD. 数据全量迁移',
+        ['A', 'B', 'C', 'D'], 1, '信创迁移的首要步骤是进行软硬件环境调研与迁移评估。')
+    // 第32题
+    .addSingle(MOCK2, '中创中间件全系列产品适配龙芯平台的基础运行系统是？\nA. 银河麒麟/统信UOS LoongArch版\nB. Windows x86版\nC. CentOS x86版\nD. Ubuntu ARM版',
+        ['A', 'B', 'C', 'D'], 0, '中创中间件龙芯版运行在银河麒麟/统信UOS LoongArch版系统上。')
+    // 第33题
+    .addSingle(MOCK2, '龙芯平台部署中创应用服务器中间件，默认依赖的运行环境是？\nA. LoongArch架构JDK\nB. x86架构JDK\nC. ARM架构JDK\nD. 无需JDK环境',
+        ['A', 'B', 'C', 'D'], 0, '龙芯平台必须使用 LoongArch 架构的 JDK。')
+    // 第34题
+    .addSingle(MOCK2, '龙芯平台不支持x86架构中间件直接运行的根本原因是？\nA. 系统版本过低\nB. CPU指令集架构完全不兼容\nC. 内存容量不足\nD. 网络协议差异',
+        ['A', 'B', 'C', 'D'], 1, '龙芯LoongArch与x86指令集完全不兼容，这是无法直接运行的根本原因。')
+    // 第35题
+    .addSingle(MOCK2, '龙芯平台迁移实施规范中，严禁在生产环境使用的安装包是？\nA. 官方适配包\nB. x86强行兼容、破解修改包\nC. 信创认证包\nD. 厂商定制包',
+        ['A', 'B', 'C', 'D'], 1, '严禁使用 x86 强行兼容或破解修改的安装包，必须使用官方适配版本。')
+    // 第36题
+    .addSingle(MOCK2, '中创应用服务器龙芯版启动失败最常见的配置原因是？\nA. LoongArch JDK环境变量配置错误或未安装\nB. 显示器未连接\nC. 磁盘空间充足\nD. 网络正常',
+        ['A', 'B', 'C', 'D'], 0, 'LoongArch JDK 环境变量配置错误或未安装是启动失败最常见的原因。')
+    // 第37题
+    .addSingle(MOCK2, '中间件跨架构迁移配置适配的核心工作是？\nA. 适配架构路径、JDK关联、端口、权限参数\nB. 修改系统主题\nC. 调整屏幕分辨率\nD. 清理桌面文件',
+        ['A', 'B', 'C', 'D'], 0, '跨架构迁移的核心工作是适配架构路径、JDK关联、端口、权限等参数。')
+    // 第38题
+    .addSingle(MOCK2, '龙芯3C6000服务器适配海量数据库的核心硬件优势是？\nA. 多核并发算力强，支撑海量数据高并发读写\nB. 图形处理性能优异\nC. 外设接口丰富\nD. 开机响应更快',
+        ['A', 'B', 'C', 'D'], 0, '3C6000 的多核并发算力强，适合支撑海量数据高并发读写。')
+    // 第39题
+    .addSingle(MOCK2, '中创消息中间件龙芯版频繁断连，首要排查项是？\nA. 服务进程运行状态、集群心跳、端口监听\nB. 系统网络服务状态\nC. 内存占用率\nD. 字体显示样式',
+        ['A', 'B', 'C', 'D'], 0, '消息中间件频繁断连的首要排查项是服务进程、集群心跳和端口监听。')
+    // 第40题
+    .addSingle(MOCK2, '下面不属于应用服务器中间件的是？\nA. Tomcat\nB. WebSphere\nC. Nginx\nD. Weblogic',
+        ['A', 'B', 'C', 'D'], 2, 'Nginx 是负载均衡/Web服务器，不属于应用服务器中间件。')
+    // 第41题
+    .addSingle(MOCK2, '不属于基础软件三驾马车的是？\nA. 中间件软件\nB. 操作系统软件\nC. 数据库软件\nD. 网络管理软件',
+        ['A', 'B', 'C', 'D'], 3, '基础软件三驾马车是：操作系统、数据库、中间件。')
+
+    // ========== 单选题（第42-49题） ==========
+    // 第42题
+    .addSingle(MOCK2, '中创应用服务器中，JDBC是连接什么的功能？\nA. 数据库\nB. 内存\nC. 带宽\nD. 应用',
+        ['A', 'B', 'C', 'D'], 0, 'JDBC（Java Database Connectivity）是Java连接数据库的标准API。')
+    // 第43题
+    .addSingle(MOCK2, '中创应用服务器软件支持哪些操作系统？\nA. Windows\nB. Linux\nC. Unix\nD. 以上都是',
+        ['A', 'B', 'C', 'D'], 3, '中创应用服务器支持Windows、Linux、Unix等多种操作系统。')
+    // 第44题
+    .addSingle(MOCK2, '在业务系统总体架构中，负载均衡中间件所处的位置在哪里？\nA. 应用程序与数据库之间\nB. 客户端与应用程序之间\nC. 应用程序与应用程序之间\nD. 消息中间件与数据库之间',
+        ['A', 'B', 'C', 'D'], 1, '负载均衡中间件位于客户端与应用程序之间，负责分发客户端请求。')
+    // 第45题
+    .addSingle(MOCK2, '在JavaEE技术规范中，JSP规范属于哪种类型规范？\nA. Webservice规范\nB. Web规范\nC. 安全规范\nD. 资源管理规范',
+        ['A', 'B', 'C', 'D'], 1, 'JSP（JavaServer Pages）属于JavaEE中的Web规范。')
+    // 第46题
+    .addSingle(MOCK2, '以下哪个特性不属于应用服务器的高可用性？\nA. 宕机重启\nB. 弹性伸缩\nC. 监控回放\nD. 会话集中存储',
+        ['A', 'B', 'C', 'D'], 2, '监控回放属于运维监控功能，不属于高可用性特性。高可用性包括宕机重启、弹性伸缩、会话集中存储等。')
+    // 第47题
+    .addSingle(MOCK2, '龙芯 3A6000 的 L3 缓存容量为？\nA. 8MB\nB. 16MB\nC. 32MB\nD. 64MB',
+        ['A', 'B', 'C', 'D'], 1, '龙芯3A6000片内集成16MB共享L3缓存。')
+    // 第48题
+    .addSingle(MOCK2, '龙芯 3A6000 的内存控制器实测带宽超过？\nA. 21GB/s\nB. 42GB/s\nC. 51.2GB/s\nD. 100GB/s',
+        ['A', 'B', 'C', 'D'], 1, '龙芯3A6000双通道DDR4-3200实测内存带宽突破42GB/s。')
+    // 第49题
+    .addSingle(MOCK2, '关于 SMT 技术，龙芯 3A6000 的特性是？\nA. 支持 SMT1，全芯片 4 个逻辑核心\nB. 支持 SMT2，全芯片 8 个逻辑核心\nC. 支持 SMT4，全芯片 16 个逻辑核心\nD. 不支持 SMT 技术',
+        ['A', 'B', 'C', 'D'], 1, '龙芯3A6000标配SMT2超线程，4颗物理核心可提供8个逻辑核心。')
+    // 第50题（单选，注意原图是多选但实际是单选）
+    .addSingle(MOCK2, '龙芯平台安装统信UOS系统引导故障的常见触发场景有？\nA. 异常断电关机\nB. 错误修改分区表\nC. 跨架构软件安装\nD. 正常重启设备',
+        ['A', 'B', 'C', 'D'], 3, '正常重启设备不会导致系统引导故障，其他三项均为常见诱因。')
+
+    // ========== 多选题（第51-56题） ==========
+    // 第51题
+    .addMultiple(MOCK2, 'Vastbase G100 支持以下哪些 CPU 架构？（多选）\nA. Intel X86_64\nB. 鲲鹏920（ARM）\nC. 飞腾\nD. RISC-V\nE. 龙芯',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 4], 'Vastbase G100 支持 X86_64、鲲鹏920（ARM）、飞腾、龙芯等主流架构，RISC-V暂不支持。')
+    // 第52题
+    .addMultiple(MOCK2, 'Vastbase 数据库性能调优时，以下哪些参数需要重点关注和调整？（多选）\nA. shared_buffers（共享缓冲区，建议内存的1/4）\nB. work_mem（查询操作内存，影响排序、哈希连接）\nC. effective_cache_size（操作系统缓存估算，影响执行计划选择）\nD. max_connections（最大连接数，过高会浪费内存）\nE. wal_buffers（WAL缓冲区，影响写入性能）',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4], '以上参数均为 Vastbase 性能调优的关键参数，需重点关注。')
+    // 第53题
+    .addMultiple(MOCK2, 'exBase 迁移工具的核心功能包括哪些？（多选）\nA. DDL 自动转换（表/视图/索引/存储过程）\nB. 全量数据迁移\nC. 基于 CDC 的增量实时同步\nD. 一键数据校验（CRC32）\nE. 自动优化目标库 SQL 性能',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3], 'exBase 支持 DDL 自动转换、全量数据迁移、CDC 增量同步和数据校验。自动优化目标库 SQL 性能不属于 exBase 核心功能。')
+    // 第54题
+    .addMultiple(MOCK2, '以下哪些是 MySQL 到 Vastbase 迁移中常见的应用代码改造点？（多选）\nA. JDBC 驱动替换\nB. AUTO_INCREMENT → SERIAL 的类型适配\nC. MySQL 方言 SQL 改写（如 LIMIT 语法调整）\nD. 存储过程语法重写（MySQL → PL/pgSQL）\nE. 字符串单引号统一改为双引号',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3], 'MySQL 到 Vastbase 迁移需要替换 JDBC 驱动、适配自增主键、改写 MySQL 方言 SQL 和存储过程。字符串引号不需要统一改为双引号。')
+    // 第55题
+    .addMultiple(MOCK2, '以下属于中创中间件产品的有哪些？（多选）\nA. InforSuite AS 应用服务器\nB. InforSuite LB 负载均衡\nC. InforSuite MQ 消息中间件\nD. InforSuite RDS 数据缓存',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '以上均为中创中间件产品线。')
+    // 第56题
+    .addMultiple(MOCK2, '负载均衡中间件的核心功能包括以下哪些？（多选）\nA. 正向代理\nB. 反向代理\nC. 动静分离\nD. 负载均衡',
+        ['A', 'B', 'C', 'D'], [1, 2, 3], '负载均衡中间件的核心功能包括反向代理、动静分离和负载均衡。正向代理不属于负载均衡中间件的核心功能。')
+    // 第57题
+    .addMultiple(MOCK2, '龙芯 3A6000 的关键参数包括？（多选）\nA. 4 核 8 线程\nB. 主频 2.0-2.5GHz\nC. 16MB L3 缓存\nD. 支持 DDR5 内存',
+        ['A', 'B', 'C', 'D'], [0, 1, 2], '龙芯3A6000为4核8线程、主频2.0-2.5GHz、16MB L3缓存，不支持DDR5内存。')
+    ;
             QuestionBank.shuffle();
         })();
 
