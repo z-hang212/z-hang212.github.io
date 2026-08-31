@@ -3757,7 +3757,360 @@ QuestionBank
                 .addJudge(MIGRATION, '灰度分流切换割接方案的特点是逐步切流，先验证再全切，风险可控。', true, '灰度分流切换逐步切流，先验证再全切。')
                 
                 ;
-                
+                            // ============================================================
+            // 新增分类：数据库（2）（前70道：40单选 + 30多选）
+            // ============================================================
+            const DB2 = '数据库（2）';
+            QuestionBank
+                // ---- 第一部分：单选题（第1-40题） ----
+                .addSingle(DB2, 'openGauss是哪个公司开源的关系型数据库内核？\nA. 海量数据\nB. 华为\nC. 阿里\nD. 腾讯',
+                    ['A', 'B', 'C', 'D'], 1, 'openGauss是华为开源的关系型数据库内核，海量数据在其基础上进行了企业级增强。')
+                .addSingle(DB2, 'Vastbase产品定位是什么类型的数据库？\nA. NoSQL数据库\nB. 企业级关系型数据库\nC. 图数据库\nD. 文档数据库',
+                    ['A', 'B', 'C', 'D'], 1, 'Vastbase是面向企业级的关系型数据库，支持高兼容、高性能、高安全等特性。')
+                .addSingle(DB2, 'Vastbase的高可用特性主要通过什么方式实现？\nA. 读写分离\nB. 主备部署+RPO/RTO保障\nC. 分布式分片\nD. 内存计算',
+                    ['A', 'B', 'C', 'D'], 1, 'Vastbase高可用通过主备部署结合RPO/RTO保障实现，支持自动故障切换。')
+                .addSingle(DB2, 'Vastbase的多模态特性支持以下哪三种引擎？\nA. MySQL、Oracle、PostgreSQL\nB. GIS空间数据、时序数据、向量检索\nC. 全文检索、图计算、流处理\nD. 键值、文档、列存',
+                    ['A', 'B', 'C', 'D'], 1, 'Vastbase多模态引擎支持GIS空间数据、时序数据、向量检索三种引擎。')
+                .addSingle(DB2, '以下哪个进程是Vastbase的"一线服务员"，负责执行SQL语句？\nA. vbpostmaster\nB. vbworker\nC. checkpointer\nD. bgwriter',
+                    ['A', 'B', 'C', 'D'], 1, 'vbworker是"一线服务员"，负责执行SQL语句并返回结果。')
+                .addSingle(DB2, '以下哪个进程是Vastbase的"存盘专员"，定期把内存数据刷到磁盘？\nA. walwriter\nB. bgwriter\nC. checkpointer\nD. vbpostmaster',
+                    ['A', 'B', 'C', 'D'], 2, 'checkpointer是"存盘专员"，定期把内存中的数据刷到磁盘上，防止断电丢数据。')
+                .addSingle(DB2, '以下哪个进程是Vastbase的"日志写手"，负责写WAL日志？\nA. checkpointer\nB. bgwriter\nC. walwriter\nD. vbworker',
+                    ['A', 'B', 'C', 'D'], 2, 'walwriter是"日志写手"，负责把操作日志（WAL）写入磁盘，用于故障恢复。')
+                .addSingle(DB2, 'SM2国密算法在Vastbase中主要用于？\nA. 数据加密存储\nB. 数字签名和密钥交换\nC. 密码哈希存储\nD. 传输加密',
+                    ['A', 'B', 'C', 'D'], 1, 'SM2是非对称加密算法，主要用于数字签名和密钥交换。')
+                .addSingle(DB2, 'SM4国密算法在Vastbase中主要用于？\nA. 数字签名\nB. 密钥交换\nC. 数据加密存储和传输加密\nD. 数据完整性校验',
+                    ['A', 'B', 'C', 'D'], 2, 'SM4是对称加密算法，主要用于数据加密存储和传输加密。')
+                .addSingle(DB2, 'Vastbase安装时，生产环境（一主两备）推荐内存为？\nA. 4GB\nB. 8GB\nC. 16GB\nD. 32GB',
+                    ['A', 'B', 'C', 'D'], 1, '生产环境（一主两备）推荐内存为8GB。')
+                .addSingle(DB2, 'Vastbase安装时，推荐的CPU核心数要求是？\nA. 1核以上\nB. 2核以上\nC. 4核以上\nD. 8核以上',
+                    ['A', 'B', 'C', 'D'], 1, 'Vastbase安装推荐的CPU核心数为2核以上。')
+                .addSingle(DB2, 'Vastbase安装时，推荐的磁盘空间为？\nA. 4GB以上\nB. 8GB以上\nC. 16GB以上\nD. 32GB以上',
+                    ['A', 'B', 'C', 'D'], 2, 'Vastbase安装推荐磁盘空间为16GB以上。')
+                .addSingle(DB2, '安装Vastbase时，以下哪个依赖包不是必需的？\nA. zlib-devel\nB. libaio\nC. readline-devel\nD. httpd',
+                    ['A', 'B', 'C', 'D'], 3, 'httpd（Apache HTTP Server）不是Vastbase安装的必需依赖包。')
+                .addSingle(DB2, 'Vastbase安装时，实例化选项Y和N的区别是？\nA. Y=仅装软件，N=自动初始化\nB. Y=自动初始化，N=仅装软件需手工vb_initdb\nC. Y和N无区别\nD. Y=安装企业版，N=安装标准版',
+                    ['A', 'B', 'C', 'D'], 1, 'Y=自动初始化实例，N=仅装软件，需手工vb_initdb初始化。')
+                .addSingle(DB2, 'Vastbase安装时，兼容模式选项PG代表什么？\nA. Oracle兼容\nB. MySQL兼容\nC. PostgreSQL兼容\nD. SQL Server兼容',
+                    ['A', 'B', 'C', 'D'], 2, 'PG代表PostgreSQL兼容模式。')
+                .addSingle(DB2, '关闭RemoveIPC后，需要执行什么命令使配置生效？\nA. systemctl restart firewalld\nB. systemctl daemon-reload && systemctl restart systemd-logind\nC. reboot\nD. source ~/.bashrc',
+                    ['A', 'B', 'C', 'D'], 1, '关闭RemoveIPC需执行systemctl daemon-reload && systemctl restart systemd-logind使配置生效。')
+                .addSingle(DB2, '内核参数kernel.sem推荐值中的4个参数是？\nA. SEMMSL、SEMMNS、SEMOPM、SEMMNI\nB. SHMMAX、SHMMIN、SHMALL、SHMMNI\nC. FILEMAX、FILEMIN、FILEOPEN、FILENR\nD. 无固定参数',
+                    ['A', 'B', 'C', 'D'], 0, 'kernel.sem包含4个参数：SEMMSL、SEMMNS、SEMOPM、SEMMNI。')
+                .addSingle(DB2, 'kernel.shmall推荐值为？\nA. 系统内存×0.5\nB. 系统内存×80%/PAGE_SIZE\nC. 系统内存×25%\nD. 系统内存×100%',
+                    ['A', 'B', 'C', 'D'], 1, 'kernel.shmall推荐值为系统内存×80%/PAGE_SIZE。')
+                .addSingle(DB2, 'kernel.shmmax推荐值为？\nA. 系统内存×0.5\nB. 系统内存×80%/PAGE_SIZE\nC. 系统内存×25%\nD. 系统内存×100%',
+                    ['A', 'B', 'C', 'D'], 0, 'kernel.shmmax推荐值为系统内存×0.5。')
+                .addSingle(DB2, 'Vastbase数据库参数中，max_connections的最小值为？\nA. 1\nB. 10\nC. 100\nD. 1000',
+                    ['A', 'B', 'C', 'D'], 1, 'max_connections的最小值为10。')
+                .addSingle(DB2, 'Vastbase中wal_buffers默认值为？\nA. 16MB\nB. 64MB\nC. -1（自适应）\nD. 128MB',
+                    ['A', 'B', 'C', 'D'], 2, 'wal_buffers默认值为-1（自适应），由系统自动调整。')
+                .addSingle(DB2, 'Vastbase安装完成后，需要执行哪个命令加载环境变量？\nA. source ~/.bashrc\nB. export PATH=/usr/bin\nC. ldconfig\nD. systemctl daemon-reload',
+                    ['A', 'B', 'C', 'D'], 0, '安装完成后需执行source ~/.bashrc加载环境变量。')
+                .addSingle(DB2, 'Vastbase启动后，以下哪个命令可以查看运行状态？\nA. vb_ctl start\nB. vb_ctl stop\nC. vb_ctl status\nD. vb_ctl reload',
+                    ['A', 'B', 'C', 'D'], 2, 'vb_ctl status用于查看数据库实例运行状态。')
+                .addSingle(DB2, '以下哪个是Vastbase登录工具的正确命令？\nA. vsql -r -d vastbase -p 5432\nB. mysql -u root -p\nC. psql -d vastbase\nD. sqlplus / as sysdba',
+                    ['A', 'B', 'C', 'D'], 0, 'Vastbase登录命令为vsql -r -d vastbase -p 5432。')
+                .addSingle(DB2, '以下哪个是vsql的最简登录命令？\nA. vsql -r -d vastbase\nB. vsql\nC. vsql -p 5432\nD. vsql -U vastbase',
+                    ['A', 'B', 'C', 'D'], 1, 'vsql是最简登录命令，使用默认参数连接本地数据库。')
+                .addSingle(DB2, '以下哪个元命令用于切换数据库？\nA. \\l\nB. \\c 库名\nC. \\dt\nD. \\dn',
+                    ['A', 'B', 'C', 'D'], 1, '\\c 库名用于切换当前会话连接的数据库。')
+                .addSingle(DB2, '以下哪个元命令用于列出当前schema下所有表？\nA. \\l\nB. \\dt\nC. \\dT\nD. \\du',
+                    ['A', 'B', 'C', 'D'], 1, '\\dt用于列出当前schema下所有表。')
+                .addSingle(DB2, '以下哪个元命令用于列出所有数据类型？\nA. \\dt\nB. \\l\nC. \\dT\nD. \\dn',
+                    ['A', 'B', 'C', 'D'], 2, '\\dT用于列出所有数据类型。')
+                .addSingle(DB2, '以下哪个元命令用于列出所有模式（Schema）？\nA. \\dt\nB. \\db\nC. \\dn\nD. \\dp',
+                    ['A', 'B', 'C', 'D'], 2, '\\dn用于列出所有模式（Schema）。')
+                .addSingle(DB2, '以下哪个元命令用于列出表、视图及权限信息？\nA. \\db\nB. \\dn\nC. \\dp\nD. \\da',
+                    ['A', 'B', 'C', 'D'], 2, '\\dp用于列出表、视图及权限信息。')
+                .addSingle(DB2, '以下哪个元命令用于列出所有聚集函数？\nA. \\dp\nB. \\da\nC. \\db\nD. \\dn',
+                    ['A', 'B', 'C', 'D'], 1, '\\da用于列出所有聚集函数。')
+                .addSingle(DB2, 'VDS的启动文件是？\nA. Vastbase Data Studio.sh\nB. Vastbase Data Studio.exe\nC. vds_start\nD. startup.sh',
+                    ['A', 'B', 'C', 'D'], 1, 'VDS的启动文件是Vastbase Data Studio.exe（Windows）或.sh（Linux）。')
+                .addSingle(DB2, 'Schema层级关系从高到低正确的是？\nA. 实例→数据库→Schema→表\nB. 数据库→实例→Schema→表\nC. Schema→数据库→实例→表\nD. 实例→Schema→数据库→表',
+                    ['A', 'B', 'C', 'D'], 0, '层级关系为：实例→数据库→Schema→表。')
+                .addSingle(DB2, '以下哪个是创建物化视图的命令？\nA. CREATE VIEW\nB. CREATE MATERIALIZED VIEW\nC. CREATE TABLE\nD. CREATE INDEX',
+                    ['A', 'B', 'C', 'D'], 1, 'CREATE MATERIALIZED VIEW用于创建物化视图。')
+                .addSingle(DB2, '以下哪个是刷新物化视图的命令？\nA. UPDATE MATERIALIZED VIEW\nB. REFRESH MATERIALIZED VIEW\nC. ALTER MATERIALIZED VIEW\nD. RECOMPILE VIEW',
+                    ['A', 'B', 'C', 'D'], 1, 'REFRESH MATERIALIZED VIEW用于刷新物化视图数据。')
+                .addSingle(DB2, '以下哪个系统视图用于查看当前所有数据库参数配置？\nA. pg_stat_activity\nB. pg_settings\nC. pg_stat_replication\nD. pg_is_in_recovery',
+                    ['A', 'B', 'C', 'D'], 1, 'pg_settings用于查看当前所有数据库参数配置。')
+                .addSingle(DB2, '以下哪个系统视图用于查看主备同步状态？\nA. pg_stat_activity\nB. pg_settings\nC. pg_stat_replication\nD. pg_is_in_recovery',
+                    ['A', 'B', 'C', 'D'], 2, 'pg_stat_replication用于查看主备同步状态。')
+                .addSingle(DB2, '以下哪个是删除Schema时CASCADE参数的作用？\nA. 拒绝删除\nB. 级联删除依赖对象\nC. 仅删除空Schema\nD. 跳过依赖检查',
+                    ['A', 'B', 'C', 'D'], 1, 'CASCADE参数用于级联删除依赖该Schema的所有对象。')
+                .addSingle(DB2, '以下哪个是复制表结构但不复制数据的正确语法？\nA. CREATE TABLE t2 AS SELECT * FROM t1\nB. CREATE TABLE t2 (LIKE t1 INCLUDING ALL)\nC. COPY t1 TO t2\nD. SELECT INTO t2 FROM t1',
+                    ['A', 'B', 'C', 'D'], 1, 'CREATE TABLE t2 (LIKE t1 INCLUDING ALL)复制表结构（含索引、约束）但不复制数据。')
+                .addSingle(DB2, '以下哪个是复制表结构和数据的正确语法？\nA. CREATE TABLE t2 (LIKE t1 INCLUDING ALL)\nB. CREATE TABLE t2 AS SELECT * FROM t1\nC. ALTER TABLE t1 RENAME TO t2\nD. INSERT INTO t2 SELECT * FROM t1',
+                    ['A', 'B', 'C', 'D'], 1, 'CREATE TABLE t2 AS SELECT * FROM t1复制表结构和数据。')
+                // ---- 第二部分：多选题（第41-70题，共30题） ----
+                .addMultiple(DB2, 'Vastbase的高安全特性包括以下哪些？（多选）\nA. 遵循国家EAL4+标准安全增强\nB. 支持国密算法\nC. 支持三权分立\nD. 支持自动SQL优化',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], '高安全特性包括EAL4+标准、国密算法、三权分立。自动SQL优化属于高性能特性。')
+                .addMultiple(DB2, '以下哪些属于Vastbase的进程？（多选）\nA. vbpostmaster\nB. checkpointer\nC. bgwriter\nD. mysqld',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'vbpostmaster、checkpointer、bgwriter均为Vastbase进程；mysqld是MySQL的进程。')
+                .addMultiple(DB2, '以下关于国密算法的说法正确的有？（多选）\nA. SM2是非对称加密\nB. SM3是哈希摘要\nC. SM4是对称加密\nD. AES是国密算法',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'SM2非对称加密、SM3哈希摘要、SM4对称加密均为国密算法；AES不是国密算法。')
+                .addMultiple(DB2, 'Vastbase安装前需要关闭的服务和配置包括？（多选）\nA. firewalld\nB. SELinux\nC. RemoveIPC\nD. NetworkManager',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], '安装前需关闭firewalld、SELinux、RemoveIPC；NetworkManager非必须关闭。')
+                .addMultiple(DB2, '以下哪些是Vastbase安装规划中需要创建的内容？（多选）\nA. 用户组vastbase\nB. 用户vastbase\nC. 软件安装目录\nD. 数据存储目录',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为Vastbase安装规划需要创建的内容。')
+                .addMultiple(DB2, '以下哪些是Vastbase支持的兼容模式？（多选）\nA. 模式A（Oracle）\nB. 模式B（MySQL）\nC. 模式PG（PostgreSQL）\nD. 模式MSSQL',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], 'Vastbase支持四种兼容模式：Oracle、MySQL、PostgreSQL、SQL Server。')
+                .addMultiple(DB2, '以下关于三权分立角色职责的说法正确的有？（多选）\nA. sysadmin管数据库启停和备份恢复\nB. sso管用户创建和权限授予\nC. auditadmin管查看审计日志\nD. sysadmin可以修改用户密码',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'sysadmin管启停备份，sso管用户权限，auditadmin管审计日志；sysadmin不能修改用户密码。')
+                .addMultiple(DB2, '以下关于vb_ctl stop关闭模式的说法正确的有？（多选）\nA. smart等待所有客户端主动断开\nB. fast回滚未提交事务后关闭（官方推荐）\nC. immediate有数据丢失风险\nD. normal是默认关闭模式',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'smart等待客户端断开，fast官方推荐，immediate有数据丢失风险；normal不是有效关闭模式。')
+                .addMultiple(DB2, '以下关于vb_ctl高可用命令的说法正确的有？（多选）\nA. failover用于主节点故障后强制切换\nB. switchover用于计划内主动切换\nC. promote用于将备库提升为主库\nD. restart用于重启数据库',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'failover强制切换、switchover计划内切换、promote备升主；restart不属于高可用命令。')
+                .addMultiple(DB2, '以下关于VDS的说法正确的有？（多选）\nA. 是C/S架构\nB. 基于JDBC连接\nC. 免安装解压即用\nD. 基于ODBC连接',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'VDS是C/S架构、基于JDBC连接、免安装解压即用；不基于ODBC。')
+                .addMultiple(DB2, '以下关于Schema的说法正确的有？（多选）\nA. Schema是数据库内部逻辑分组\nB. 创建用户时自动创建同名Schema\nC. 删除用户时同名Schema同步删除\nD. Schema可跨数据库共享',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'Schema是逻辑分组，创建用户时自动生成同名Schema，删除用户时同步删除；Schema不可跨数据库共享。')
+                .addMultiple(DB2, '以下关于视图的说法正确的有？（多选）\nA. 普通视图不存储数据只存查询定义\nB. 物化视图物理存储数据\nC. 物化视图需手动刷新\nD. 视图可以像表一样进行所有DML操作',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], '普通视图不存数据，物化视图物理存储数据且需手动刷新；视图不能像表一样进行所有DML操作。')
+                .addMultiple(DB2, '以下关于索引的说法正确的有？（多选）\nA. 默认索引类型是B-Tree\nB. 索引在表创建之后才能创建\nC. 普通CREATE INDEX会阻塞读写\nD. CONCURRENTLY创建索引不阻塞读写',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为关于索引的正确说法。')
+                .addMultiple(DB2, '以下关于序列的说法正确的有？（多选）\nA. nextval()获取下一个值并递增\nB. currval()查看当前值不递增\nC. 序列是数据库对象\nD. 事务回滚后序列值被回收复用',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'nextval()递增、currval()不递增、序列是数据库对象；事务回滚后序列值不会回收复用。')
+                .addMultiple(DB2, '以下关于约束的说法正确的有？（多选）\nA. NOT NULL约束不能为空\nB. PRIMARY KEY唯一标识一行\nC. FOREIGN KEY参照另一张表\nD. CHECK约束条件检查',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为关于约束的正确说法。')
+                .addMultiple(DB2, '以下关于备份恢复的说法正确的有？（多选）\nA. vb_probackup支持全量和增量备份\nB. vb_dump是逻辑备份工具\nC. WAL归档用于PITR恢复\nD. 增量备份占用空间比全量备份大',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'vb_probackup支持全量/增量备份，vb_dump是逻辑备份，WAL归档用于PITR；增量备份占用空间比全量备份小。')
+                .addMultiple(DB2, '以下关于性能调优的说法正确的有？（多选）\nA. 瓶颈分析使用top/iostat/vmstat\nB. 参数调整修改postgresql.conf\nC. SQL调优使用EXPLAIN\nD. 性能调优必须重启数据库',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], '瓶颈分析用top/iostat/vmstat，参数调整修改postgresql.conf，SQL调优用EXPLAIN；部分参数无需重启。')
+                .addMultiple(DB2, '以下属于优化器开关参数的有？（多选）\nA. enable_opfusion\nB. vb_enable_plsql_opfusion\nC. enable_generated_column_prune\nD. enable_memory_limit',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为Vastbase优化器开关参数。')
+                .addMultiple(DB2, '以下属于IO调优参数的有？（多选）\nA. pagewriter_sleep\nB. bgwriter_delay\nC. max_io_capacity\nD. shared_buffers',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'pagewriter_sleep、bgwriter_delay、max_io_capacity属于IO调优参数；shared_buffers属于内存参数。')
+                .addMultiple(DB2, '以下关于故障排查的说法正确的有？（多选）\nA. 数据库无法启动先查看pg_log日志\nB. 连接数超限查看pg_stat_activity\nC. SQL执行慢用EXPLAIN分析\nD. 磁盘空间不足用df -h检查',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为故障排查的正确方法。')
+                .addMultiple(DB2, '以下属于操作系统级排查命令的有？（多选）\nA. top\nB. iostat\nC. vmstat\nD. ping',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], 'top、iostat、vmstat、ping均为操作系统级排查命令。')
+                .addMultiple(DB2, '以下属于数据库级排查手段的有？（多选）\nA. pg_log日志\nB. pg_stat_activity\nC. pg_settings\nD. pg_stat_replication',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为数据库级排查手段。')
+                .addMultiple(DB2, '以下关于vb_ctl命令参数的说法正确的有？（多选）\nA. -D指定数据目录路径\nB. -w等待事务完成再返回\nC. -W不等待事务完成立即返回\nD. -M指定数据库运行角色',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为vb_ctl命令的正确参数说明。')
+                .addMultiple(DB2, '以下关于vb_dump输出格式的说法正确的有？（多选）\nA. p=明文（plain）默认格式\nB. c=自定义（custom）压缩格式\nC. d=目录（directory）支持并行\nD. t=tar包格式',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为vb_dump支持的输出格式。')
+                .addMultiple(DB2, '以下关于对象命名规范的说法正确的有？（多选）\nA. 最大长度不超过128个字符\nB. tmp_前缀表示临时表\nC. 禁止以redis_、mlog_为前缀\nD. 建议使用双引号区分大小写',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], '最大长度128字符，tmp_前缀表示临时表，禁止redis_/mlog_前缀；不建议使用双引号。')
+                .addMultiple(DB2, '以下关于密码复杂度的说法正确的有？（多选）\nA. ≥8字符\nB. 包含大写、小写、数字、特殊字符中的三类\nC. 不能与用户名相同\nD. 不能与用户名倒序相同',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为Vastbase密码复杂度要求。')
+                .addMultiple(DB2, '以下关于物理备份工具对比的说法正确的有？（多选）\nA. vb_probackup用于周期性备份\nB. vb_basebackup用于搭建备库\nC. vb_probackup支持PITR\nD. vb_basebackup支持流复制模式传输WAL',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为物理备份工具的正确对比。')
+                .addMultiple(DB2, '以下关于Vastbase数据库参数的说法正确的有？（多选）\nA. listen_addresses服务器侦听地址\nB. port默认5432\nC. max_connections最小值为10\nD. work_mem所有进程共享',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'listen_addresses、port默认5432、max_connections最小值为10均正确；work_mem是每个进程独享。')
+                .addMultiple(DB2, '以下关于分区表的说法正确的有？（多选）\nA. RANGE适合按时间区间\nB. LIST适合按固定值列表\nC. HASH适合数据均匀分散\nD. 分区表数据存储在主表中',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'RANGE适合时间区间、LIST适合固定值列表、HASH适合均匀分散；分区表数据实际存储在子表中。')
+                .addMultiple(DB2, '以下关于视图基本操作的说法正确的有？（多选）\nA. CREATE VIEW创建视图\nB. DROP VIEW删除视图\nC. CREATE MATERIALIZED VIEW创建物化视图\nD. REFRESH MATERIALIZED VIEW刷新物化视图',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为视图基本操作的正确语法。')
+                                // ---- 第三部分：判断题（第71-100题，共30题） ----
+                .addJudge(DB2, 'Vastbase是基于openGauss内核自主研发的企业级关系型数据库。', true, 'Vastbase基于华为开源的openGauss内核自主研发。')
+                .addJudge(DB2, 'Vastbase完全兼容PostgreSQL协议。', true, 'Vastbase技术血统链路为PostgreSQL→openGauss→Vastbase，完全兼容PostgreSQL协议。')
+                .addJudge(DB2, 'vbpostmaster是Vastbase的主进程，负责监听端口和接收客户端连接。', true, 'vbpostmaster是"总管家"，负责启动、监听端口、接收客户端连接请求并派活给子进程。')
+                .addJudge(DB2, 'walwriter负责把内存中的脏数据刷到磁盘。', false, 'walwriter负责写WAL日志，checkpointer负责把脏数据刷到磁盘。')
+                .addJudge(DB2, 'bgwriter负责把脏数据提前写到磁盘，减轻checkpointer压力。', true, 'bgwriter是"后台写手"，把内存中的脏数据提前写到磁盘，减轻存盘专员的压力。')
+                .addJudge(DB2, 'SM2用于密码存储和数据完整性校验。', false, 'SM2用于数字签名和密钥交换，SM3用于密码存储和数据完整性校验。')
+                .addJudge(DB2, 'Vastbase生产环境推荐内存为8GB（一主两备）。', true, '生产环境（一主两备）推荐内存为8GB。')
+                .addJudge(DB2, 'Vastbase安装时必须使用普通用户，不能用root。', true, 'Vastbase安装必须使用vastbase普通用户，不能用root。')
+                .addJudge(DB2, '安装Vastbase时选N表示仅装软件，需后续手工执行vb_initdb初始化。', true, '选N=仅装软件，需手工vb_initdb初始化。')
+                .addJudge(DB2, 'Vastbase的兼容模式在安装后可以通过配置文件随时切换。', false, '兼容模式在安装时确定，不可更改。')
+                .addJudge(DB2, 'RemoveIPC设置需在/etc/systemd/logind.conf和systemd-logind.service两个文件中配置。', true, '需配置两个文件：/etc/systemd/logind.conf和/usr/lib/systemd/system/systemd-logind.service。')
+                .addJudge(DB2, 'kernel.sem包含4个参数：SEMMSL、SEMMNS、SEMOPM、SEMMNI。', true, 'kernel.sem包含4个信号量参数。')
+                .addJudge(DB2, 'work_mem是每个进程独享的查询操作内存。', true, 'work_mem是每个进程独享的，用于排序、哈希等操作。')
+                .addJudge(DB2, 'vb_ctl reload命令用于重新加载配置文件，无需重启数据库。', true, 'vb_ctl reload重新加载配置文件，无需重启数据库。')
+                .addJudge(DB2, '使用kill -9可以快速安全关闭Vastbase数据库。', false, '必须使用vb_ctl stop，禁用kill -9，否则可能导致数据损坏。')
+                .addJudge(DB2, '\\l元命令用于列出所有数据库。', true, '\\l列出所有数据库。')
+                .addJudge(DB2, '\\db元命令用于列出所有数据库。', false, '\\db列表空间，\\l列数据库。')
+                .addJudge(DB2, '\\du和\\dg功能相同，都是列出所有用户/角色。', true, '\\du和\\dg功能相同，都列出所有用户/角色。')
+                .addJudge(DB2, 'VDS基于JDBC协议连接数据库。', true, 'VDS基于JDBC协议连接数据库。')
+                .addJudge(DB2, '创建用户时会自动生成一个同名的Schema。', true, '创建用户时，会在当前数据库中自动生成一个同名Schema。')
+                .addJudge(DB2, '删除用户时同名Schema自动保留。', false, '删除用户时同名Schema同步删除。')
+                .addJudge(DB2, '普通视图是虚拟表，不存储真实数据。', true, '普通视图是虚拟表，只存储查询定义，不存储数据。')
+                .addJudge(DB2, '物化视图的数据是实时的，不需要手动刷新。', false, '物化视图需手动刷新（REFRESH MATERIALIZED VIEW），数据不实时。')
+                .addJudge(DB2, 'CREATE INDEX CONCURRENTLY会阻塞表的读写操作。', false, 'CONCURRENTLY创建索引不阻塞读写操作，是在线建索引的关键。')
+                .addJudge(DB2, 'PRIMARY KEY约束包含了NOT NULL和UNIQUE的特性。', true, 'PRIMARY KEY = NOT NULL + UNIQUE。')
+                .addJudge(DB2, 'Vastbase对象命名最大长度不超过128个字符。', true, 'Vastbase对象命名最大长度128个字符。')
+                .addJudge(DB2, 'TPC-C核心指标为tpmC（每分钟新订单数）。', true, 'TPC-C核心指标为tpmC，衡量每分钟新订单处理数。')
+                .addJudge(DB2, '鲲鹏服务器下Vastbase可达154万tpmC。', true, '鲲鹏服务器下Vastbase实测可达154万tpmC。')
+                .addJudge(DB2, '三权分立中系统管理员可以给自己授予任何权限。', false, '系统管理员无权管理权限，权限由安全管理员（sso）管理。')
+                .addJudge(DB2, '全量备份+增量备份+WAL归档三者结合可恢复到任意时间点（PITR）。', true, '全量打底、增量补充、WAL保实时，三者结合可实现PITR。')
+                                // ---- 第三部分：单选题（第101-140题，共40题） ----
+                .addSingle(DB2, 'Vastbase数据库是基于哪个开源内核自主研发的？\nA. MySQL\nB. PostgreSQL\nC. openGauss\nD. Oracle',
+                    ['A', 'B', 'C', 'D'], 2, 'Vastbase基于华为开源的openGauss内核自主研发。')
+                .addSingle(DB2, 'Vastbase的技术血统链路是？\nA. MySQL→openGauss→Vastbase\nB. PostgreSQL→openGauss→Vastbase\nC. Oracle→openGauss→Vastbase\nD. SQL Server→openGauss→Vastbase',
+                    ['A', 'B', 'C', 'D'], 1, '技术血统链路：PostgreSQL→openGauss→Vastbase。')
+                .addSingle(DB2, 'Vastbase数据库默认监听端口是？\nA. 3306\nB. 5432\nC. 1521\nD. 1433',
+                    ['A', 'B', 'C', 'D'], 1, 'Vastbase默认监听端口为5432。')
+                .addSingle(DB2, 'Vastbase采用哪种进程架构？\nA. 单进程多线程\nB. 多进程架构\nC. 单进程单线程\nD. 多进程多线程',
+                    ['A', 'B', 'C', 'D'], 1, 'Vastbase采用多进程架构。')
+                .addSingle(DB2, 'Vastbase中负责接收客户端连接请求并派活给子进程的是哪个进程？\nA. vbworker\nB. checkpointer\nC. vbpostmaster\nD. walwriter',
+                    ['A', 'B', 'C', 'D'], 2, 'vbpostmaster是"总管家"，负责监听端口、接收客户端连接请求并派活给子进程。')
+                .addSingle(DB2, '以下哪个是Vastbase的国密非对称加密算法？\nA. SM2\nB. SM3\nC. SM4\nD. AES',
+                    ['A', 'B', 'C', 'D'], 0, 'SM2是国密非对称加密算法，用于数字签名和密钥交换。')
+                .addSingle(DB2, 'SM3算法在Vastbase中主要用于？\nA. 数据加密存储\nB. 数字签名\nC. 密码存储和数据完整性校验\nD. 传输加密',
+                    ['A', 'B', 'C', 'D'], 2, 'SM3是哈希摘要算法，用于密码存储和数据完整性校验。')
+                .addSingle(DB2, 'Vastbase安装时，以下哪种用户权限是正确的？\nA. root用户安装\nB. 普通用户安装\nC. 任何用户均可\nD. 必须用管理员',
+                    ['A', 'B', 'C', 'D'], 1, 'Vastbase安装必须使用vastbase普通用户，不能用root。')
+                .addSingle(DB2, 'Vastbase兼容模式中，默认模式是？\nA. 模式A（Oracle）\nB. 模式B（MySQL）\nC. 模式PG（PostgreSQL）\nD. 模式MSSQL',
+                    ['A', 'B', 'C', 'D'], 0, '模式A（Oracle）是Vastbase的默认兼容模式。')
+                .addSingle(DB2, 'Vastbase兼容模式在什么时候确定？\nA. 安装时确定，不可更改\nB. 随时可切换\nC. 首次连接时确定\nD. 重启后生效',
+                    ['A', 'B', 'C', 'D'], 0, '兼容模式在安装时确定，不可更改。')
+                .addSingle(DB2, '以下哪个是安装前必须关闭的系统配置？\nA. SELinux\nB. RemoveIPC\nC. 防火墙\nD. 以上都是',
+                    ['A', 'B', 'C', 'D'], 3, 'SELinux、RemoveIPC、防火墙都是安装前必须关闭的配置。')
+                .addSingle(DB2, 'RemoveIPC不关闭可能导致什么问题？\nA. 数据库性能下降\nB. 数据库崩溃或无法启动\nC. 数据丢失\nD. 网络中断',
+                    ['A', 'B', 'C', 'D'], 1, 'RemoveIPC不关闭会导致数据库崩溃或无法启动。')
+                .addSingle(DB2, 'Vastbase中shared_buffers参数推荐设置为物理内存的多少？\nA. 10%~15%\nB. 25%~40%\nC. 50%~70%\nD. 80%~90%',
+                    ['A', 'B', 'C', 'D'], 1, 'shared_buffers推荐设置为物理内存的25%~40%。')
+                .addSingle(DB2, '以下哪个vb_ctl命令用于重新加载配置文件而无需重启数据库？\nA. vb_ctl start\nB. vb_ctl stop\nC. vb_ctl reload\nD. vb_ctl restart',
+                    ['A', 'B', 'C', 'D'], 2, 'vb_ctl reload用于重新加载配置文件，无需重启数据库。')
+                .addSingle(DB2, 'vb_ctl stop命令中，官方推荐的关闭模式是？\nA. smart\nB. fast\nC. immediate\nD. normal',
+                    ['A', 'B', 'C', 'D'], 1, '官方推荐使用fast模式关闭数据库。')
+                .addSingle(DB2, '以下哪个命令用于将备库提升为主库？\nA. vb_ctl promote\nB. vb_ctl start\nC. vb_ctl failover\nD. vb_ctl switchover',
+                    ['A', 'B', 'C', 'D'], 0, 'vb_ctl promote用于将备库提升为主库。')
+                .addSingle(DB2, 'vsql中，查看所有数据库的元命令是？\nA. \\dt\nB. \\l\nC. \\dT\nD. \\du',
+                    ['A', 'B', 'C', 'D'], 1, '\\l用于列出所有数据库。')
+                .addSingle(DB2, 'vsql中，查看表结构的元命令是？\nA. \\dt\nB. \\l\nC. \\d 表名\nD. \\du',
+                    ['A', 'B', 'C', 'D'], 2, '\\d 表名用于查看表结构。')
+                .addSingle(DB2, 'VDS（Vastbase Data Studio）是什么类型的工具？\nA. 命令行客户端\nB. 图形化管理工具\nC. 物理备份工具\nD. 逻辑备份工具',
+                    ['A', 'B', 'C', 'D'], 1, 'VDS是图形化管理工具。')
+                .addSingle(DB2, 'Schema是数据库对象的什么？\nA. 物理存储单元\nB. 逻辑分组和命名空间\nC. 备份文件\nD. 进程名称',
+                    ['A', 'B', 'C', 'D'], 1, 'Schema是数据库对象的逻辑分组和命名空间。')
+                .addSingle(DB2, '以下哪个是Vastbase默认的索引类型？\nA. Hash\nB. B-Tree\nC. GIN\nD. GiST',
+                    ['A', 'B', 'C', 'D'], 1, 'Vastbase默认索引类型为B-Tree。')
+                .addSingle(DB2, '生产环境创建索引时，为避免锁表应使用哪个关键字？\nA. UNIQUE\nB. IF NOT EXISTS\nC. CONCURRENTLY\nD. DESC',
+                    ['A', 'B', 'C', 'D'], 2, 'CREATE INDEX CONCURRENTLY不阻塞读写操作。')
+                .addSingle(DB2, '查看当前所有连接和查询的系统视图是？\nA. pg_settings\nB. pg_stat_replication\nC. pg_stat_activity\nD. pg_is_in_recovery',
+                    ['A', 'B', 'C', 'D'], 2, 'pg_stat_activity用于查看当前所有连接和查询。')
+                .addSingle(DB2, '判断数据库节点是主库还是备库的函数是？\nA. pg_is_in_recovery()\nB. pg_stat_replication\nC. pg_stat_activity\nD. pg_settings',
+                    ['A', 'B', 'C', 'D'], 0, 'pg_is_in_recovery()返回f表示主库，t表示备库。')
+                .addSingle(DB2, 'Vastbase物理备份工具是？\nA. vb_dump\nB. vb_dumpall\nC. vb_probackup\nD. pg_basebackup',
+                    ['A', 'B', 'C', 'D'], 2, 'vb_probackup是Vastbase物理备份工具。')
+                .addSingle(DB2, 'Vastbase逻辑备份工具是？\nA. vb_probackup\nB. vb_basebackup\nC. vb_dump\nD. vb_ctl',
+                    ['A', 'B', 'C', 'D'], 2, 'vb_dump是Vastbase逻辑备份工具。')
+                .addSingle(DB2, 'TPC-C测试的核心指标是？\nA. QPS\nB. TPS\nC. tpmC\nD. IOPS',
+                    ['A', 'B', 'C', 'D'], 2, 'TPC-C核心指标为tpmC（每分钟新订单数）。')
+                .addSingle(DB2, '以下哪种情况可能导致数据库无法启动？\nA. License过期\nB. RemoveIPC未关闭\nC. 端口被占用\nD. 以上都是',
+                    ['A', 'B', 'C', 'D'], 3, 'License过期、RemoveIPC未关闭、端口被占用都可能导致数据库无法启动。')
+                .addSingle(DB2, '三权分立中，负责用户创建、角色分配、权限授予的是？\nA. 系统管理员\nB. 安全管理员\nC. 审计管理员\nD. 数据库管理员',
+                    ['A', 'B', 'C', 'D'], 1, '安全管理员（sso）负责用户创建、角色分配、权限授予。')
+                .addSingle(DB2, 'Vastbase完全兼容哪个数据库的协议？\nA. MySQL\nB. Oracle\nC. PostgreSQL\nD. SQL Server',
+                    ['A', 'B', 'C', 'D'], 2, 'Vastbase完全兼容PostgreSQL协议。')
+                .addSingle(DB2, 'SM4算法在Vastbase中主要用于？\nA. 数字签名\nB. 密码存储\nC. 数据加密存储和传输加密\nD. 密钥交换',
+                    ['A', 'B', 'C', 'D'], 2, 'SM4是对称加密算法，用于数据加密存储和传输加密。')
+                .addSingle(DB2, '以下哪个是安装前必须关闭的RemoveIPC配置位置？\nA. 仅/etc/systemd/logind.conf\nB. 仅/usr/lib/systemd/system/systemd-logind.service\nC. 两个文件都需配置\nD. 无需配置',
+                    ['A', 'B', 'C', 'D'], 2, 'RemoveIPC需在两个文件中配置：/etc/systemd/logind.conf和systemd-logind.service。')
+                .addSingle(DB2, 'work_mem参数的特点是什么？\nA. 所有进程共享\nB. 每个进程独享\nC. 仅主进程可用\nD. 仅备库进程可用',
+                    ['A', 'B', 'C', 'D'], 1, 'work_mem是每个进程独享的查询操作内存。')
+                .addSingle(DB2, '以下哪个元命令用于列出所有表空间？\nA. \\l\nB. \\dt\nC. \\db\nD. \\dn',
+                    ['A', 'B', 'C', 'D'], 2, '\\db用于列出所有表空间。')
+                .addSingle(DB2, 'VDS基于什么协议连接数据库？\nA. ODBC\nB. JDBC\nC. OCI\nD. TCP',
+                    ['A', 'B', 'C', 'D'], 1, 'VDS基于JDBC协议连接数据库。')
+                .addSingle(DB2, '以下哪种分区方式适合按时间区间存储订单数据？\nA. LIST分区\nB. HASH分区\nC. RANGE分区\nD. 复合分区',
+                    ['A', 'B', 'C', 'D'], 2, 'RANGE分区适合按时间区间存储订单数据。')
+                .addSingle(DB2, 'CREATE INDEX CONCURRENTLY的主要优势是？\nA. 创建速度更快\nB. 不阻塞读写操作\nC. 占用空间更小\nD. 支持更多索引类型',
+                    ['A', 'B', 'C', 'D'], 1, 'CONCURRENTLY的主要优势是不阻塞读写操作。')
+                .addSingle(DB2, '删除用户时，同名Schema会怎样？\nA. 自动保留\nB. 同步删除\nC. 需手动删除\nD. 转移给其他用户',
+                    ['A', 'B', 'C', 'D'], 1, '删除用户时同名Schema同步删除。')
+                .addSingle(DB2, '以下哪个是vb_ctl start的常用参数？\nA. -D 指定数据目录\nB. -X 指定堆内存\nC. -P 指定端口\nD. -U 指定用户',
+                    ['A', 'B', 'C', 'D'], 0, '-D用于指定数据目录路径。')
+                .addSingle(DB2, '以下哪个是WAL日志的核心作用？\nA. 加速查询\nB. 故障恢复保障事务ACID\nC. 缓存数据\nD. 索引优化',
+                    ['A', 'B', 'C', 'D'], 1, 'WAL日志的核心作用是故障恢复，保障事务ACID特性。')
+                // ---- 第四部分：多选题（第141-170题，共30题） ----
+                .addMultiple(DB2, 'Vastbase的核心特性包括？（多选）\nA. 高兼容\nB. 高性能\nC. 高可用\nD. 高安全\nE. 多模态',
+                    ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4], 'Vastbase五大核心特性：高兼容、高性能、高可用、高安全、多模态。')
+                .addMultiple(DB2, 'Vastbase实例进程架构中的关键进程包括？（多选）\nA. vbpostmaster\nB. vbworker\nC. checkpointer\nD. bgwriter\nE. walwriter',
+                    ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4], '五项均为Vastbase关键进程。')
+                .addMultiple(DB2, 'Vastbase支持的国密算法包括？（多选）\nA. SM2\nB. SM3\nC. SM4\nD. AES',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'SM2、SM3、SM4为国密算法；AES不是国密算法。')
+                .addMultiple(DB2, '安装Vastbase前需要关闭的系统配置有？（多选）\nA. 防火墙\nB. SELinux\nC. RemoveIPC\nD. 网络服务',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], '需要关闭防火墙、SELinux、RemoveIPC；网络服务非必须关闭。')
+                .addMultiple(DB2, '以下哪些是Vastbase安装规划中需要创建的目录？（多选）\nA. 软件安装目录\nB. 数据存储目录\nC. 归档日志目录\nD. 备份目录',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为Vastbase安装规划需要创建的目录。')
+                .addMultiple(DB2, 'Vastbase支持的分区表方式包括？（多选）\nA. 范围分区（RANGE）\nB. 列表分区（LIST）\nC. 哈希分区（HASH）\nD. 复合分区',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'Vastbase支持RANGE、LIST、HASH三种分区方式。')
+                .addMultiple(DB2, '三权分立中的三种角色包括？（多选）\nA. 系统管理员（sysadmin）\nB. 安全管理员（sso）\nC. 审计管理员（auditadmin）\nD. 普通用户',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], '三权分立三种角色：系统管理员、安全管理员、审计管理员。')
+                .addMultiple(DB2, 'vb_ctl stop命令的关闭模式包括？（多选）\nA. smart\nB. fast\nC. immediate\nD. normal',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'vb_ctl stop支持smart、fast、immediate三种模式。')
+                .addMultiple(DB2, 'vsql中常用的元命令包括？（多选）\nA. \\l\nB. \\dt\nC. \\d 表名\nD. \\du\nE. \\dn',
+                    ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4], '五项均为vsql常用元命令。')
+                .addMultiple(DB2, '以下哪些是Vastbase支持的索引类型？（多选）\nA. B-Tree\nB. GIN\nC. GiST\nD. Hash\nE. 唯一索引',
+                    ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4], '五项均为Vastbase支持的索引类型。')
+                .addMultiple(DB2, 'Vastbase支持的约束类型包括？（多选）\nA. NOT NULL\nB. UNIQUE\nC. PRIMARY KEY\nD. FOREIGN KEY\nE. CHECK',
+                    ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4], '五项均为Vastbase支持的约束类型。')
+                .addMultiple(DB2, '以下哪些是Vastbase的备份方式？（多选）\nA. 全量备份\nB. 增量备份\nC. WAL归档\nD. 逻辑备份',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为Vastbase支持的备份方式。')
+                .addMultiple(DB2, '性能调优的三阶段流程包括？（多选）\nA. 瓶颈分析\nB. 参数调整\nC. SQL调优\nD. 硬件升级',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], '三阶段为瓶颈分析、参数调整、SQL调优。')
+                .addMultiple(DB2, '以下哪些是Vastbase数据库内存参数？（多选）\nA. shared_buffers\nB. work_mem\nC. wal_buffers\nD. max_connections',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为Vastbase数据库内存/连接参数。')
+                .addMultiple(DB2, 'SQL调优的核心工具包括？（多选）\nA. ANALYZE\nB. EXPLAIN\nC. EXPLAIN PERFORMANCE\nD. EXPLAIN (ANALYZE, BUFFERS)',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为SQL调优核心工具。')
+                .addMultiple(DB2, '以下哪些属于操作系统级排查手段？（多选）\nA. top\nB. iostat\nC. vmstat\nD. ping',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为操作系统级排查手段。')
+                .addMultiple(DB2, '以下哪些是数据库级排查的关键命令/视图？（多选）\nA. pg_stat_activity\nB. pg_settings\nC. pg_stat_replication\nD. pg_is_in_recovery()',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为数据库级排查的关键命令/视图。')
+                .addMultiple(DB2, 'vb_dump支持的输出格式包括？（多选）\nA. 明文（plain）\nB. 自定义（custom）\nC. 目录（directory）\nD. tar包（tar）',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], 'vb_dump支持plain、custom、directory、tar四种输出格式。')
+                .addMultiple(DB2, '以下哪些是Vastbase的配置文件？（多选）\nA. postgresql.conf\nB. pg_hba.conf\nC. pg_ident.conf\nD. pg_log',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'postgresql.conf、pg_hba.conf、pg_ident.conf为配置文件；pg_log是日志目录。')
+                .addMultiple(DB2, 'Vastbase密码复杂度要求包括？（多选）\nA. ≥8字符\nB. 包含大写、小写、数字、特殊字符中的三类\nC. 不能与用户名相同\nD. 不能与用户名倒序相同',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为Vastbase密码复杂度要求。')
+                .addMultiple(DB2, '以下关于Schema的说法正确的有？（多选）\nA. Schema是数据库对象的逻辑分组\nB. 创建用户时自动生成同名Schema\nC. 删除用户时同名Schema同步删除\nD. Schema可跨数据库共享',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'Schema不可跨数据库共享。')
+                .addMultiple(DB2, '以下关于序列（Sequence）的说法正确的有？（多选）\nA. 序列是数据库对象\nB. nextval()获取下一个值并递增\nC. currval()查看当前值不递增\nD. 事务回滚后已分配的序列值会被重新使用',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], '事务回滚后已分配的序列值不会被重新使用。')
+                .addMultiple(DB2, '以下关于索引的说法正确的有？（多选）\nA. 默认索引类型是B-Tree\nB. 索引必须先于表存在\nC. CONCURRENTLY可避免锁表\nD. 索引越多查询越快',
+                    ['A', 'B', 'C', 'D'], [0, 2], '索引在表之后创建，且索引越多写入性能越差。')
+                .addMultiple(DB2, '以下关于视图的说法正确的有？（多选）\nA. 普通视图是虚拟表不存数据\nB. 物化视图物理存储数据\nC. 物化视图需手动刷新\nD. 视图和表完全相同',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], '视图和表不完全相同。')
+                .addMultiple(DB2, '以下关于三权分立的说法正确的有？（多选）\nA. sysadmin管启停备份\nB. sso管用户权限\nC. auditadmin管审计日志\nD. sysadmin可给自己授权',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2], 'sysadmin不能给自己授权，权限由sso管理。')
+                .addMultiple(DB2, '以下关于备份恢复的说法正确的有？（多选）\nA. 全量备份占用空间大\nB. 增量备份只备份变更数据\nC. WAL归档用于实时备份操作日志\nD. 全量+增量+WAL可实现PITR',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为备份恢复的正确说法。')
+                .addMultiple(DB2, '以下属于内核参数的有？（多选）\nA. kernel.sem\nB. kernel.shmall\nC. vm.swappiness\nD. fs.aio-max-nr',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为Vastbase内核参数。')
+                .addMultiple(DB2, '以下关于vb_ctl命令的说法正确的有？（多选）\nA. start启动实例\nB. stop停止实例\nC. reload重新加载配置\nD. promote将备库升为主库',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为vb_ctl命令的正确用法。')
+                .addMultiple(DB2, '以下关于VDS的说法正确的有？（多选）\nA. VDS是图形化管理工具\nB. VDS基于JDBC连接\nC. VDS免安装解压即用\nD. VDS是C/S架构',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为VDS的正确说法。')
+                .addMultiple(DB2, '以下关于故障排查的说法正确的有？（多选）\nA. 数据库无法启动先查看pg_log日志\nB. 连接数超限查看pg_stat_activity\nC. SQL执行慢用EXPLAIN分析\nD. 主备复制中断查看pg_stat_replication',
+                    ['A', 'B', 'C', 'D'], [0, 1, 2, 3], '四项均为故障排查的正确方法。')
+                // ---- 第五部分：判断题（第171-200题，共30题） ----
+                .addJudge(DB2, 'Vastbase是基于PostgreSQL内核自主研发的。', false, 'Vastbase基于openGauss内核自主研发，而非直接基于PostgreSQL。')
+                .addJudge(DB2, 'Vastbase采用多进程架构。', true, 'Vastbase采用多进程架构。')
+                .addJudge(DB2, 'SM4是Vastbase的哈希摘要算法。', false, 'SM4是对称加密算法，SM3是哈希摘要算法。')
+                .addJudge(DB2, 'Vastbase安装时必须使用root用户。', false, 'Vastbase安装必须使用vastbase普通用户。')
+                .addJudge(DB2, 'Vastbase兼容模式在安装后可以通过配置文件修改。', false, '兼容模式在安装时确定，不可更改。')
+                .addJudge(DB2, 'RemoveIPC不关闭可能导致数据库崩溃无法启动。', true, 'RemoveIPC不关闭会导致数据库崩溃或无法启动。')
+                .addJudge(DB2, 'shared_buffers推荐设置为物理内存的25%~40%。', true, 'shared_buffers推荐设置为物理内存的25%~40%。')
+                .addJudge(DB2, 'vb_ctl reload命令需要重启数据库才能生效。', false, 'vb_ctl reload无需重启数据库即可生效。')
+                .addJudge(DB2, '生产环境创建索引时应使用CREATE INDEX CONCURRENTLY避免锁表。', true, 'CONCURRENTLY不阻塞读写操作。')
+                .addJudge(DB2, 'pg_is_in_recovery()返回f表示当前节点是备库。', false, '返回f表示主库，t表示备库。')
+                .addJudge(DB2, 'Vastbase物理备份工具是vb_dump。', false, '物理备份工具是vb_probackup，vb_dump是逻辑备份。')
+                .addJudge(DB2, '三权分立中，审计管理员负责查看日志和审计记录。', true, '审计管理员（auditadmin）负责查看日志和审计记录。')
+                .addJudge(DB2, 'Vastbase密码要求至少包含三类字符且长度不少于8位。', true, '密码要求≥8字符，包含大写、小写、数字、特殊字符中的三类。')
+                .addJudge(DB2, '创建索引可以早于表存在。', false, '索引必须在表创建之后才能创建。')
+                .addJudge(DB2, 'Vastbase对象命名最大长度为256个字符。', false, '最大长度为128个字符。')
+                .addJudge(DB2, 'Vastbase默认端口为5432。', true, 'Vastbase默认端口为5432。')
+                .addJudge(DB2, 'checkpointer进程负责写WAL日志。', false, 'walwriter负责写WAL日志，checkpointer负责刷脏数据。')
+                .addJudge(DB2, '使用kill -9可以安全关闭Vastbase数据库。', false, '必须使用vb_ctl stop，禁用kill -9。')
+                .addJudge(DB2, '\\l元命令用于列出所有数据库。', true, '\\l列出所有数据库。')
+                .addJudge(DB2, '\\du和\\dg功能不同，一个列用户一个列角色。', false, '\\du和\\dg功能相同，都列出用户/角色。')
+                .addJudge(DB2, 'SM2是国密非对称加密算法。', true, 'SM2是国密非对称加密算法。')
+                .addJudge(DB2, 'Vastbase支持Oracle、MySQL、PostgreSQL三种兼容模式。', true, 'Vastbase支持Oracle、MySQL、PostgreSQL三种兼容模式。')
+                .addJudge(DB2, '\\db元命令用于列出所有数据库。', false, '\\db列表空间，\\l列数据库。')
+                .addJudge(DB2, '物化视图需要手动刷新才能更新数据。', true, '物化视图需执行REFRESH MATERIALIZED VIEW手动刷新。')
+                .addJudge(DB2, '开启归档后就不需要再做全量备份了。', false, '归档不能替代全量备份，需配合使用。')
+                .addJudge(DB2, 'VDS基于ODBC驱动连接数据库。', false, 'VDS基于JDBC连接数据库。')
+                .addJudge(DB2, 'Schema只属于创建它的数据库，不可跨数据库共享。', true, 'Schema只属于创建它的数据库，不可跨数据库共享。')
+                .addJudge(DB2, '三权分立中安全管理员可以修改业务数据。', false, '安全管理员管权限，不能修改业务数据。')
+                .addJudge(DB2, '全量备份+增量备份+WAL归档可实现任意时间点恢复（PITR）。', true, '三者结合可实现PITR。')
+                .addJudge(DB2, 'TPC-C是衡量数据库OLTP事务处理能力的国际标准测试。', true, 'TPC-C是衡量OLTP事务处理能力的国际标准测试。')
+                ;
+                ;
+                    ;
           
         })();
 
