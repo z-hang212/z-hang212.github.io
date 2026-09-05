@@ -4851,7 +4851,923 @@ QuestionBank
                 .addJudge(DB2, 'Watchdog超时会导致数据库自动重启。', false, 'Watchdog 超时会导致系统自动复位，数据库强制中断，不是自动重启。')
                 ;
                 ;
-          
+                // ============================================================
+// 新增分类：数据库（2）（对应 数据库2.txt 全部140题）
+// 包含：85单选 + 35多选 + 20判断 = 140题
+// ============================================================
+
+QuestionBank
+    // ============================================================
+    // 第一部分：单选题（第1-25题）
+    // ============================================================
+    .addSingle(DB2, 'Vastbase G100 的默认兼容模式是以下哪种？\nA. MySQL 兼容模式\nB. Oracle 兼容模式\nC. PostgreSQL 兼容模式\nD. SQL Server 兼容模式',
+        ['A', 'B', 'C', 'D'], 1,
+        'Vastbase 默认兼容模式为 A模式（Oracle），安装时确定，安装后不可更改。')
+    .addSingle(DB2, 'Vastbase 安装时，以下哪个操作是正确的？\nA. 使用 root 用户执行安装\nB. 使用普通用户执行安装\nC. 安装前无需关闭防火墙\nD. 安装路径可以不为空',
+        ['A', 'B', 'C', 'D'], 1,
+        'Vastbase 必须使用普通用户安装，不能用 root。安装前需关闭防火墙，安装路径必须为空。')
+    .addSingle(DB2, 'Vastbase 中，以下哪个参数用于控制共享缓冲区大小？\nA. work_mem\nB. shared_buffers\nC. wal_buffers\nD. max_connections',
+        ['A', 'B', 'C', 'D'], 1,
+        'shared_buffers 控制共享缓冲区大小，推荐设置为物理内存的 25%~40%。')
+    .addSingle(DB2, '以下哪个命令用于在 Vastbase 中重新加载配置文件而无需重启数据库？\nA. vb_ctl start\nB. vb_ctl stop\nC. vb_ctl reload\nD. vb_ctl restart',
+        ['A', 'B', 'C', 'D'], 2,
+        'vb_ctl reload 重新加载 postgresql.conf 或 pg_hba.conf，无需重启数据库。')
+    .addSingle(DB2, 'Vastbase 中，pg_is_in_recovery() 函数返回 f 表示什么？\nA. 节点是备库\nB. 节点是主库\nC. 节点正在恢复\nD. 节点已宕机',
+        ['A', 'B', 'C', 'D'], 1,
+        'pg_is_in_recovery() 返回 f=主库，t=备库。f 表示 not in recovery（主库）。')
+    .addSingle(DB2, 'Vastbase 故障排查时，数据库无法启动，首先应该查看哪个位置的日志？\nA. /var/log/messages\nB. 数据目录下的 pg_log 目录\nC. /tmp/vastbase.log\nD. 系统 journal 日志',
+        ['A', 'B', 'C', 'D'], 1,
+        'pg_log 目录（数据目录下）是所有数据库故障排查的第一站。')
+    .addSingle(DB2, 'Vastbase 中，以下哪个目录存储 WAL 日志？\nA. pg_log/\nB. pg_wal/\nC. pg_audit/\nD. base/',
+        ['A', 'B', 'C', 'D'], 1,
+        'pg_wal/ 存储预写式日志（WAL），是事务持久化和故障恢复的核心。')
+    .addSingle(DB2, '以下哪个是 Vastbase 的物理备份工具？\nA. vb_dump\nB. vb_dumpall\nC. vb_probackup\nD. pg_dump',
+        ['A', 'B', 'C', 'D'], 2,
+        'vb_probackup 是 Vastbase 自带的物理备份工具，支持全量和增量备份。')
+    .addSingle(DB2, '以下哪个是 Vastbase 的逻辑备份工具？\nA. vb_probackup\nB. vb_basebackup\nC. vb_dump\nD. vb_ctl',
+        ['A', 'B', 'C', 'D'], 2,
+        'vb_dump / vb_dumpall 是逻辑备份工具，vb_probackup 是物理备份工具。')
+    .addSingle(DB2, 'Vastbase 中，work_mem 参数的分配方式是？\nA. 所有会话共享\nB. 每个进程独享\nC. 由操作系统统一分配\nD. 由数据库自动调整',
+        ['A', 'B', 'C', 'D'], 1,
+        'work_mem 是每个查询/进程独享的内存，设置过高且并发量大时可能导致 OOM。')
+    .addSingle(DB2, '以下哪个不是 Vastbase 支持的分区表方式？\nA. 范围分区（RANGE）\nB. 列表分区（LIST）\nC. 哈希分区（HASH）\nD. 复合分区（COMPOSITE）',
+        ['A', 'B', 'C', 'D'], 3,
+        'Vastbase 支持范围分区、列表分区、哈希分区三种，不支持复合分区。')
+    .addSingle(DB2, 'Vastbase 中，kernel.sem 参数包含几个值？\nA. 2个\nB. 3个\nC. 4个\nD. 5个',
+        ['A', 'B', 'C', 'D'], 2,
+        'kernel.sem 包含 4个值：SEMMSL、SEMMNS、SEMOPM、SEMMNI。')
+    .addSingle(DB2, 'Vastbase 中，wal_buffers 参数的默认值是？\nA. 16MB\nB. 32MB\nC. 64MB\nD. -1（自适应）',
+        ['A', 'B', 'C', 'D'], 3,
+        'wal_buffers 默认值为 -1，表示由系统自适应调整。')
+    .addSingle(DB2, '以下哪个是 Vastbase 的客户端认证配置文件？\nA. postgresql.conf\nB. pg_hba.conf\nC. pg_ident.conf\nD. postmaster.pid',
+        ['A', 'B', 'C', 'D'], 1,
+        'pg_hba.conf 是客户端认证配置文件，控制哪些 IP/用户可连接数据库。')
+    .addSingle(DB2, '以下哪个不是配置文件？\nA. postgresql.conf\nB. pg_hba.conf\nC. pg_ident.conf\nD. postmaster.pid',
+        ['A', 'B', 'C', 'D'], 3,
+        'postmaster.pid 是进程ID文件，不是配置文件，用于判断数据库是否正在运行。')
+    .addSingle(DB2, 'Vastbase 中，以下哪个进程负责定期将内存数据刷到磁盘？\nA. vbpostmaster\nB. vbworker\nC. checkpointer\nD. walwriter',
+        ['A', 'B', 'C', 'D'], 2,
+        'checkpointer 是"存盘专员"，定期把内存中的数据刷到磁盘上，防止断电丢数据。')
+    .addSingle(DB2, '以下哪个 vb_ctl 命令用于查看数据库运行状态？\nA. vb_ctl start\nB. vb_ctl stop\nC. vb_ctl status\nD. vb_ctl reload',
+        ['A', 'B', 'C', 'D'], 2,
+        'vb_ctl status 用于查看数据库运行状态。')
+    .addSingle(DB2, 'Vastbase 中，max_connections 参数的最小值为？\nA. 1\nB. 5\nC. 10\nD. 20',
+        ['A', 'B', 'C', 'D'], 2,
+        'max_connections 最小值为 10。')
+    .addSingle(DB2, 'Vastbase 中，以下哪个不是安装前需要关闭的系统配置？\nA. 防火墙\nB. SELinux\nC. RemoveIPC\nD. 网络服务',
+        ['A', 'B', 'C', 'D'], 3,
+        '安装前需要关闭防火墙、禁用 SELinux、关闭 RemoveIPC，网络服务不需要关闭。')
+    .addSingle(DB2, 'Vastbase 中，vb_initdb 命令的作用是？\nA. 启动数据库\nB. 停止数据库\nC. 初始化数据库\nD. 重启数据库',
+        ['A', 'B', 'C', 'D'], 2,
+        'vb_initdb 用于初始化数据库，非实例化安装后需手工执行。')
+    .addSingle(DB2, '在 Vastbase 中，以下哪个视图用于查看当前所有活跃连接和查询？\nA. information_schema.processlist\nB. pg_stat_activity\nC. sys.processlist\nD. v$session',
+        ['A', 'B', 'C', 'D'], 1,
+        'pg_stat_activity 是 Vastbase/PostgreSQL 中查看当前所有连接和查询的系统视图。')
+    .addSingle(DB2, 'Vastbase 中，以下哪个参数用于开启 SQL by pass 加速？\nA. enable_opfusion\nB. vb_enable_plsql_opfusion\nC. enable_generated_column_prune\nD. enable_memory_limit',
+        ['A', 'B', 'C', 'D'], 0,
+        'enable_opfusion 开启 SQL by pass 加速，简单查询可跳过优化器开销。')
+    .addSingle(DB2, 'Vastbase 中，对象命名的最大长度为？\nA. 64字符\nB. 128字符\nC. 256字符\nD. 512字符',
+        ['A', 'B', 'C', 'D'], 1,
+        'Vastbase 对象命名最大长度为 128 个字符，超出会报错。')
+    .addSingle(DB2, 'Vastbase 中，effective_cache_size 参数的作用是？\nA. 分配 OS 缓存大小\nB. 影响执行计划选择\nC. 控制 WAL 缓冲区\nD. 限制最大连接数',
+        ['A', 'B', 'C', 'D'], 1,
+        'effective_cache_size 是评估值，告诉优化器操作系统有多少可用缓存，不分配内存。')
+    .addSingle(DB2, 'Vastbase 中，以下哪个是生成 WDR 性能诊断报告的函数？\nA. pg_stat_activity\nB. pg_stat_replication\nC. generate_wdr_report()\nD. pg_is_in_recovery()',
+        ['A', 'B', 'C', 'D'], 2,
+        'generate_wdr_report() 生成 WDR 性能诊断报告，分析全库性能。')
+
+    // ============================================================
+    // 第二部分：多选题（第26-35题，共10题）
+    // ============================================================
+    .addMultiple(DB2, 'Vastbase 的核心特性包括以下哪些？（多选）\nA. 高兼容\nB. 高性能\nC. 高可用\nD. 高安全\nE. 多模态',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4],
+        'Vastbase 核心特性包括高兼容、高性能、高可用、高并发、高安全、多模态、易迁移、易运维，全选。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 实例进程架构中的关键进程？（多选）\nA. vbpostmaster\nB. vbworker\nC. checkpointer\nD. bgwriter\nE. walwriter',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4],
+        '五个关键进程全选：vbpostmaster（主进程）、vbworker（一线服务）、checkpointer（存盘）、bgwriter（后台写）、walwriter（日志写）。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 支持的国密算法？（多选）\nA. SM2\nB. SM3\nC. SM4\nD. AES',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        'Vastbase 支持 SM2（非对称）、SM3（哈希）、SM4（对称）三种国密算法。AES 是国际算法，不是国密。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 的配置文件？（多选）\nA. postgresql.conf\nB. pg_hba.conf\nC. pg_ident.conf\nD. pg_log',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '三大配置文件为 postgresql.conf、pg_hba.conf、pg_ident.conf。pg_log 是日志目录，不是配置文件。')
+    .addMultiple(DB2, '以下哪些属于 Vastbase 的备份方式？（多选）\nA. 全量备份\nB. 增量备份\nC. WAL归档\nD. 逻辑备份',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'Vastbase 支持全量备份、增量备份、WAL归档（物理备份体系）和逻辑备份（vb_dump），全选。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 支持的索引类型？（多选）\nA. B-Tree\nB. GIN\nC. GiST\nD. Hash\nE. 唯一索引',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4],
+        'Vastbase 支持 B-Tree、GIN、GiST、Hash、唯一索引、多字段索引、部分索引、表达式索引等多种索引类型。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 性能调优的三阶段流程？（多选）\nA. 瓶颈分析\nB. 参数调整\nC. SQL调优\nD. 硬件升级',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '性能调优三阶段为瓶颈分析、参数调整、SQL调优。硬件升级不属于调优流程。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 数据库级排查的关键命令/视图？（多选）\nA. pg_stat_activity\nB. pg_settings\nC. pg_stat_replication\nD. pg_is_in_recovery()',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'pg_stat_activity（连接）、pg_settings（参数）、pg_stat_replication（主备同步）、pg_is_in_recovery()（主备角色）都是数据库级排查的关键。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 的高可用特性？（多选）\nA. 主备部署\nB. RPO保障\nC. RTO保障\nD. VIP漂移',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'Vastbase 高可用包括主备部署、RPO/RTO保障、VIP漂移（应用无感知切换），全选。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 密码复杂度要求？（多选）\nA. ≥8字符\nB. 包含大写字母、小写字母、数字、特殊字符中的三类\nC. 不能与用户名相同\nD. 不能与用户名倒序相同',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '密码要求≥8字符，至少包含三类字符，不能与用户名及用户名倒序相同，全选。')
+
+    // ============================================================
+    // 第三部分：判断题（第36-40题，共5题）
+    // ============================================================
+    .addJudge(DB2, 'Vastbase 是基于 PostgreSQL 内核自主研发的。', false,
+        'Vastbase 基于开源 openGauss 内核自主研发。PostgreSQL → openGauss → Vastbase 是技术血统链路。')
+    .addJudge(DB2, 'Vastbase 中，vb_ctl reload 命令需要重启数据库才能生效。', false,
+        'vb_ctl reload 无需重启数据库，重新加载配置文件即可生效。')
+    .addJudge(DB2, 'Vastbase 中，pg_is_in_recovery() 返回 t 表示当前节点是主库。', false,
+        '返回 t=备库，f=主库。f 表示 not in recovery（主库）。')
+    .addJudge(DB2, 'Vastbase 中，VACUUM FULL 执行期间不会锁表，可以业务高峰期运行。', false,
+        'VACUUM FULL 会锁表，业务高峰禁止执行。VACUUM（不带FULL）才不锁表。')
+    .addJudge(DB2, 'Vastbase 中，effective_cache_size 参数会直接影响操作系统缓存的实际分配大小。', false,
+        'effective_cache_size 是评估值，告诉优化器操作系统有多少可用缓存，不分配内存，只影响执行计划选择。')
+
+    // ============================================================
+    // 第四部分：单选题（第41-100题，共60题）
+    // ============================================================
+    .addSingle(DB2, 'Vastbase G100 是基于哪个开源数据库内核自主研发的？\nA. MySQL\nB. PostgreSQL\nC. openGauss\nD. Oracle',
+        ['A', 'B', 'C', 'D'], 2,
+        'Vastbase 是北京海量数据公司基于开源 openGauss 内核自主研发的企业级关系型数据库。技术血统链路为 PostgreSQL → openGauss → Vastbase。')
+    .addSingle(DB2, 'Vastbase G100 完全兼容哪个数据库的协议？\nA. MySQL\nB. Oracle\nC. PostgreSQL\nD. SQL Server',
+        ['A', 'B', 'C', 'D'], 2,
+        'Vastbase 完全兼容 PostgreSQL 协议，这是其核心兼容性优势之一。')
+    .addSingle(DB2, 'Vastbase G100 的默认监听端口是？\nA. 3306\nB. 5432\nC. 1521\nD. 1433',
+        ['A', 'B', 'C', 'D'], 1,
+        'Vastbase 默认端口为 5432（PostgreSQL 生态标准端口）。3306 是 MySQL，1521 是 Oracle，1433 是 SQL Server。')
+    .addSingle(DB2, 'Vastbase 采用哪种进程架构？\nA. 单进程多线程\nB. 多进程架构\nC. 单进程单线程\nD. 多进程多线程',
+        ['A', 'B', 'C', 'D'], 1,
+        'Vastbase 采用多进程架构，一个主进程（vbpostmaster）管全局，多个子进程（vbworker、checkpointer 等）各干各的活。')
+    .addSingle(DB2, 'Vastbase 中负责接收客户端连接请求并派活给子进程的是哪个进程？\nA. vbworker\nB. checkpointer\nC. vbpostmaster\nD. walwriter',
+        ['A', 'B', 'C', 'D'], 2,
+        'vbpostmaster 是总管家（主进程），负责启动、监听端口（5432）、接收客户端连接请求，然后派活给子进程。')
+    .addSingle(DB2, 'Vastbase 中负责执行客户端 SQL 语句的是哪个进程？\nA. vbpostmaster\nB. vbworker\nC. checkpointer\nD. bgwriter',
+        ['A', 'B', 'C', 'D'], 1,
+        'vbworker 是一线服务员，每个客户端连接对应一个 worker 进程，负责执行 SQL 语句。')
+    .addSingle(DB2, 'Vastbase 中，bgwriter 进程的作用是？\nA. 接收客户端连接\nB. 执行 SQL 语句\nC. 把内存中的脏数据提前写到磁盘\nD. 把操作日志写入磁盘',
+        ['A', 'B', 'C', 'D'], 2,
+        'bgwriter（后台写手）把内存中的脏数据提前写到磁盘，减轻 checkpointer 的压力。')
+    .addSingle(DB2, 'Vastbase 中，checkpointer 进程的作用是？\nA. 接收客户端连接\nB. 执行 SQL 语句\nC. 定期把内存数据刷到磁盘\nD. 把操作日志写入磁盘',
+        ['A', 'B', 'C', 'D'], 2,
+        'checkpointer 是"存盘专员"，定期把内存中的数据刷到磁盘上，防止断电丢数据。')
+    .addSingle(DB2, 'Vastbase 中，walwriter 进程的作用是？\nA. 接收客户端连接\nB. 执行 SQL 语句\nC. 定期把内存数据刷到磁盘\nD. 把操作日志（WAL）写入磁盘',
+        ['A', 'B', 'C', 'D'], 3,
+        'walwriter 是"日志写手"，把操作日志（WAL）写入磁盘，用于故障恢复。')
+    .addSingle(DB2, '以下哪个是 Vastbase 的国密非对称加密算法？\nA. SM2\nB. SM3\nC. SM4\nD. AES',
+        ['A', 'B', 'C', 'D'], 0,
+        'SM2 是非对称加密算法（公钥/私钥），用于数字签名、密钥交换。SM3 是哈希摘要，SM4 是对称加密。')
+    .addSingle(DB2, '以下哪个是 Vastbase 的哈希摘要算法？\nA. SM2\nB. SM3\nC. SM4\nD. RSA',
+        ['A', 'B', 'C', 'D'], 1,
+        'SM3 是哈希摘要算法（类似 MD5/SHA），用于密码存储和数据完整性校验。')
+    .addSingle(DB2, '以下哪个是 Vastbase 的对称加密算法？\nA. SM2\nB. SM3\nC. SM4\nD. RSA',
+        ['A', 'B', 'C', 'D'], 2,
+        'SM4 是对称加密算法（同一个密钥），用于数据加密存储和传输加密。')
+    .addSingle(DB2, 'Vastbase 安装时，以下哪种用户权限是正确的？\nA. root 用户安装\nB. 普通用户安装\nC. 任何用户均可\nD. 必须用管理员',
+        ['A', 'B', 'C', 'D'], 1,
+        '必须用普通用户安装，不能用 root。这是考试高频易错点。')
+    .addSingle(DB2, 'Vastbase 默认兼容模式是？\nA. 模式 A（Oracle）\nB. 模式 B（MySQL）\nC. 模式 PG（PostgreSQL）\nD. 模式 MSSQL',
+        ['A', 'B', 'C', 'D'], 0,
+        'A=Oracle 是默认兼容模式。')
+    .addSingle(DB2, 'Vastbase 兼容模式在什么时候确定？\nA. 安装时确定，不可更改\nB. 随时可切换\nC. 首次连接时确定\nD. 重启后生效',
+        ['A', 'B', 'C', 'D'], 0,
+        '兼容模式在安装时确定，安装后不可更改。')
+    .addSingle(DB2, 'Vastbase 支持以下哪种 CPU 架构？\nA. RISC-V\nB. LoongArch\nC. x86_64\nD. B 和 C',
+        ['A', 'B', 'C', 'D'], 3,
+        'Vastbase 支持 X86_64、鲲鹏（ARM）、飞腾（ARM）、龙芯（LoongArch）等。RISC-V 不在官方适配列表中。')
+    .addSingle(DB2, '以下哪个是安装前必须关闭的系统配置？\nA. SELinux\nB. RemoveIPC\nC. 防火墙\nD. 以上都是',
+        ['A', 'B', 'C', 'D'], 3,
+        '安装前必须关闭防火墙、禁用 SELinux、关闭 RemoveIPC，全选。')
+    .addSingle(DB2, 'RemoveIPC 不关闭可能导致什么问题？\nA. 数据库性能下降\nB. 数据库崩溃或无法启动\nC. 数据丢失\nD. 网络中断',
+        ['A', 'B', 'C', 'D'], 1,
+        'RemoveIPC 不关闭会导致数据库崩溃或无法启动，是安装前必做的系统配置。')
+    .addSingle(DB2, 'Vastbase 中 shared_buffers 参数推荐设置为物理内存的多少？\nA. 10%~15%\nB. 25%~40%\nC. 50%~70%\nD. 80%~90%',
+        ['A', 'B', 'C', 'D'], 1,
+        'shared_buffers 推荐设置为物理内存的 25%~40%。这是模拟题反复出现的高频考点。')
+    .addSingle(DB2, 'kernel.sem 参数包含几个值？\nA. 2个\nB. 3个\nC. 4个\nD. 5个',
+        ['A', 'B', 'C', 'D'], 2,
+        'kernel.sem 包含 4个值：SEMMSL、SEMMNS、SEMOPM、SEMMNI。')
+    .addSingle(DB2, 'Vastbase 中 max_connections 参数的最小值为？\nA. 1\nB. 5\nC. 10\nD. 20',
+        ['A', 'B', 'C', 'D'], 2,
+        'max_connections（最大并发连接数）最小值为 10。')
+    .addSingle(DB2, 'work_mem 参数的分配方式是？\nA. 所有会话共享\nB. 每个进程独享\nC. 全局共享\nD. 由操作系统分配',
+        ['A', 'B', 'C', 'D'], 1,
+        'work_mem 是每个进程/查询独享的，需按并发数反推，设置过高可能导致 OOM。')
+    .addSingle(DB2, 'effective_cache_size 参数的作用是？\nA. 分配 OS 缓存大小\nB. 影响执行计划选择\nC. 控制 WAL 缓冲区\nD. 限制最大连接数',
+        ['A', 'B', 'C', 'D'], 1,
+        'effective_cache_size 是评估值，告诉优化器操作系统有多少可用缓存，不分配内存。')
+    .addSingle(DB2, '以下哪个是 Vastbase 的主配置文件？\nA. pg_hba.conf\nB. postgresql.conf\nC. pg_ident.conf\nD. postmaster.pid',
+        ['A', 'B', 'C', 'D'], 1,
+        'postgresql.conf 是数据库主配置文件，配置端口、内存、连接数等所有核心参数。')
+    .addSingle(DB2, '以下哪个是 Vastbase 的客户端认证配置文件？\nA. postgresql.conf\nB. pg_hba.conf\nC. pg_ident.conf\nD. postmaster.pid',
+        ['A', 'B', 'C', 'D'], 1,
+        'pg_hba.conf 是客户端认证配置文件，控制哪些 IP/用户可连接数据库。')
+    .addSingle(DB2, '以下哪个不是配置文件？\nA. postgresql.conf\nB. pg_hba.conf\nC. pg_ident.conf\nD. postmaster.pid',
+        ['A', 'B', 'C', 'D'], 3,
+        'postmaster.pid 是进程 ID 文件，不是配置文件，用于判断数据库是否正在运行。')
+    .addSingle(DB2, 'WAL 日志存储在哪个目录？\nA. pg_log/\nB. pg_wal/\nC. pg_audit/\nD. base/',
+        ['A', 'B', 'C', 'D'], 1,
+        'pg_wal/ 存储预写式日志（WAL）文件，是事务持久化和故障恢复的核心。')
+    .addSingle(DB2, '以下哪个目录存储数据库运行日志（错误日志）？\nA. pg_log/\nB. pg_wal/\nC. base/\nD. global/',
+        ['A', 'B', 'C', 'D'], 0,
+        'pg_log/ 存储数据库运行日志，是故障排查第一站。')
+    .addSingle(DB2, 'Vastbase 故障排查时，数据库无法启动，首先应该查看哪个位置的日志？\nA. /var/log/messages\nB. 数据目录下的 pg_log 目录\nC. /tmp/vastbase.log\nD. 系统 journal 日志',
+        ['A', 'B', 'C', 'D'], 1,
+        'pg_log 目录是所有数据库故障排查的第一站。')
+    .addSingle(DB2, '以下哪个文件用于判断数据库是否正在运行？\nA. postgresql.conf\nB. pg_hba.conf\nC. postmaster.pid\nD. pg_ident.conf',
+        ['A', 'B', 'C', 'D'], 2,
+        'postmaster.pid 是进程 ID 文件，用于判断数据库是否正在运行。')
+    .addSingle(DB2, 'vb_ctl start 命令中，最常用的参数是？\nA. -w\nB. -W\nC. -D\nD. -M',
+        ['A', 'B', 'C', 'D'], 2,
+        '-D 指定数据目录路径，是所有 vb_ctl 命令中最常用的参数，必记。')
+    .addSingle(DB2, 'vb_ctl stop 官方推荐的关闭模式是？\nA. smart\nB. fast\nC. immediate\nD. normal',
+        ['A', 'B', 'C', 'D'], 1,
+        'fast 模式回滚所有未提交事务，强制断开连接后关闭，兼顾安全与效率，是官方推荐模式。')
+    .addSingle(DB2, 'vb_ctl stop -m immediate 的风险是？\nA. 关闭速度慢\nB. 可能丢失数据\nC. 需要手动重启\nD. 不影响数据',
+        ['A', 'B', 'C', 'D'], 1,
+        'immediate 模式强行关闭，下次启动需故障恢复，有数据丢失风险，非紧急不用。')
+    .addSingle(DB2, '以下哪个命令用于将备库提升为主库？\nA. vb_ctl promote\nB. vb_ctl start\nC. vb_ctl failover\nD. vb_ctl switchover',
+        ['A', 'B', 'C', 'D'], 0,
+        'vb_ctl promote 用于将备库提升为主库。failover 是故障强制切换，switchover 是计划内主动切换。')
+    .addSingle(DB2, '以下哪个命令用于计划内主动切换主备？\nA. vb_ctl promote\nB. vb_ctl failover\nC. vb_ctl switchover\nD. vb_ctl reload',
+        ['A', 'B', 'C', 'D'], 2,
+        'switchover 用于计划内主动切换主备（升级/维护场景）。failover 用于主节点宕机后的强制切换。')
+    .addSingle(DB2, '以下哪个命令用于重新加载配置文件而无需重启数据库？\nA. vb_ctl start\nB. vb_ctl stop\nC. vb_ctl reload\nD. vb_ctl restart',
+        ['A', 'B', 'C', 'D'], 2,
+        'vb_ctl reload 重新加载 postgresql.conf 或 pg_hba.conf，无需重启数据库。')
+    .addSingle(DB2, 'vsql 中，查看所有数据库的元命令是？\nA. \\dt\nB. \\l\nC. \\dT\nD. \\du',
+        ['A', 'B', 'C', 'D'], 1,
+        '\\l 列出所有数据库。\\dt 列出所有表，\\du 列出所有用户。')
+    .addSingle(DB2, 'vsql 中，查看表结构的元命令是？\nA. \\dt\nB. \\l\nC. \\d 表名\nD. \\du',
+        ['A', 'B', 'C', 'D'], 2,
+        '\\d 表名 查看表结构。\\dt 只列出所有表。')
+    .addSingle(DB2, 'vsql 中，切换数据库的元命令是？\nA. \\l\nB. \\c 库名\nC. \\dt\nD. \\du',
+        ['A', 'B', 'C', 'D'], 1,
+        '\\c 库名 用于切换数据库。')
+    .addSingle(DB2, 'vsql 最简登录命令是？\nA. vsql -r -d vastbase -p 5432\nB. vsql -r -d vastbase\nC. vsql\nD. vsql -d vastbase',
+        ['A', 'B', 'C', 'D'], 2,
+        '最简登录命令为 vsql（默认连接 vastbase 库）。')
+    .addSingle(DB2, 'VDS（Vastbase Data Studio）基于什么协议连接数据库？\nA. ODBC\nB. JDBC\nC. OCI\nD. ADO.NET',
+        ['A', 'B', 'C', 'D'], 1,
+        'VDS 基于 JDBC 连接数据库。')
+    .addSingle(DB2, 'VDS 的安装方式是？\nA. 需要安装程序\nB. 解压即完成（免安装）\nC. 需要编译安装\nD. 需要注册表注册',
+        ['A', 'B', 'C', 'D'], 1,
+        'VDS 解压即完成（免安装），启动文件为 Vastbase Data Studio.exe。')
+    .addSingle(DB2, 'Schema 是数据库对象的什么？\nA. 物理存储单元\nB. 逻辑分组和命名空间\nC. 备份文件\nD. 进程名称',
+        ['A', 'B', 'C', 'D'], 1,
+        'Schema（模式）是数据库对象的集合，是数据库内部的逻辑分组和命名空间。')
+    .addSingle(DB2, '创建用户时，会自动创建什么？\nA. 同名的数据库\nB. 同名的 Schema\nC. 同名的表空间\nD. 同名的角色',
+        ['A', 'B', 'C', 'D'], 1,
+        '创建用户时，会在当前数据库中自动创建一个同名的 Schema。')
+    .addSingle(DB2, '删除用户时，同名 Schema 会怎样？\nA. 自动同步删除\nB. 不会自动删除，需手动清理\nC. 数据库会报错\nD. 自动转移给其他用户',
+        ['A', 'B', 'C', 'D'], 1,
+        '删除用户时，同名 Schema 不会自动删除，需要手动执行 DROP SCHEMA 清理。')
+    .addSingle(DB2, '以下哪个是 Vastbase 默认的索引类型？\nA. Hash\nB. B-Tree\nC. GIN\nD. GiST',
+        ['A', 'B', 'C', 'D'], 1,
+        'Vastbase 默认索引类型为 B-Tree。')
+    .addSingle(DB2, '生产环境创建索引时，为避免锁表应使用哪个关键字？\nA. UNIQUE\nB. IF NOT EXISTS\nC. CONCURRENTLY\nD. DESC',
+        ['A', 'B', 'C', 'D'], 2,
+        'CREATE INDEX CONCURRENTLY 在线建索引，不阻塞读写操作，生产环境推荐使用。')
+    .addSingle(DB2, '查看当前所有连接和查询的系统视图是？\nA. pg_settings\nB. pg_stat_replication\nC. pg_stat_activity\nD. pg_is_in_recovery',
+        ['A', 'B', 'C', 'D'], 2,
+        'pg_stat_activity 用于查看当前所有连接和查询（连接数超限时排查）。')
+    .addSingle(DB2, '查看主备同步状态的系统视图是？\nA. pg_stat_activity\nB. pg_stat_replication\nC. pg_settings\nD. pg_is_in_recovery',
+        ['A', 'B', 'C', 'D'], 1,
+        'pg_stat_replication 用于查看主备同步状态，排查主备复制问题。')
+    .addSingle(DB2, '判断数据库节点是主库还是备库的函数是？\nA. pg_is_in_recovery()\nB. pg_stat_replication\nC. pg_stat_activity\nD. pg_settings',
+        ['A', 'B', 'C', 'D'], 0,
+        'pg_is_in_recovery() 返回 f=主库，t=备库。')
+    .addSingle(DB2, 'Vastbase 物理备份工具是？\nA. vb_dump\nB. vb_dumpall\nC. vb_probackup\nD. pg_basebackup',
+        ['A', 'B', 'C', 'D'], 2,
+        'vb_probackup 是 Vastbase 自带的物理备份工具，支持全量备份和增量备份。')
+    .addSingle(DB2, 'Vastbase 逻辑备份工具是？\nA. vb_probackup\nB. vb_basebackup\nC. vb_dump\nD. vb_ctl',
+        ['A', 'B', 'C', 'D'], 2,
+        'vb_dump / vb_dumpall 是逻辑备份工具。vb_probackup 是物理备份工具。')
+    .addSingle(DB2, 'vb_dump 的默认输出格式是？\nA. 自定义（custom）\nB. 目录（directory）\nC. 明文（plain）\nD. tar包（tar）',
+        ['A', 'B', 'C', 'D'], 2,
+        'vb_dump 默认输出格式为明文（plain），输出标准 SQL 文本，可用 vsql 直接执行。')
+    .addSingle(DB2, 'TPC-C 测试的核心指标是？\nA. QPS\nB. TPS\nC. tpmC\nD. IOPS',
+        ['A', 'B', 'C', 'D'], 2,
+        'TPC-C 核心指标为 tpmC（每分钟新订单数），衡量数据库 OLTP 事务处理能力。')
+    .addSingle(DB2, '以下哪种情况可能导致数据库无法启动？\nA. License 过期\nB. RemoveIPC 未关闭\nC. 端口被占用\nD. 以上都是',
+        ['A', 'B', 'C', 'D'], 3,
+        'License 过期、RemoveIPC 未关闭、端口被占用都会导致数据库无法启动。')
+    .addSingle(DB2, '三权分立中，负责用户创建、角色分配、权限授予的是？\nA. 系统管理员\nB. 安全管理员\nC. 审计管理员\nD. 数据库管理员',
+        ['A', 'B', 'C', 'D'], 1,
+        '安全管理员（sso）负责用户创建、角色分配、权限授予。')
+    .addSingle(DB2, '三权分立中，负责数据库启停、备份恢复、性能调优的是？\nA. 系统管理员\nB. 安全管理员\nC. 审计管理员\nD. 数据库管理员',
+        ['A', 'B', 'C', 'D'], 0,
+        '系统管理员（sysadmin）负责数据库启停、备份恢复、性能调优。')
+    .addSingle(DB2, '以下哪个是 Vastbase 的优化器开关参数，用于开启 SQL by pass 加速？\nA. enable_opfusion\nB. vb_enable_plsql_opfusion\nC. enable_generated_column_prune\nD. enable_memory_limit',
+        ['A', 'B', 'C', 'D'], 0,
+        'enable_opfusion 开启 SQL by pass 加速（简单查询跳过优化器开销）。')
+    .addSingle(DB2, '执行 vb_initdb 的作用是？\nA. 启动数据库\nB. 停止数据库\nC. 初始化数据库\nD. 重启数据库',
+        ['A', 'B', 'C', 'D'], 2,
+        'vb_initdb 用于初始化数据库（非实例化安装后的手工初始化）。')
+    .addSingle(DB2, 'Vastbase 对象命名最大长度为？\nA. 64 字符\nB. 128 字符\nC. 256 字符\nD. 512 字符',
+        ['A', 'B', 'C', 'D'], 1,
+        '对象命名最大长度为 128 个字符，超出会报错。')
+
+    // ============================================================
+    // 第五部分：多选题（第101-125题，共25题）
+    // ============================================================
+    .addMultiple(DB2, 'Vastbase 的核心特性包括以下哪些？（多选）\nA. 高兼容\nB. 高性能\nC. 高可用\nD. 高安全\nE. 多模态',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4],
+        'Vastbase 核心特性包括高兼容、高性能、高可用、高并发、高安全、多模态、易迁移、易运维，全选。')
+    .addMultiple(DB2, 'Vastbase 深度兼容的三大数据库体系是？（多选）\nA. Oracle\nB. MySQL\nC. PostgreSQL\nD. SQL Server',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        'Vastbase 深度兼容 Oracle、MySQL、PostgreSQL 三大体系，SQL Server 不在其中。')
+    .addMultiple(DB2, 'Vastbase 的多模态引擎包括？（多选）\nA. GIS 空间数据\nB. 时序数据\nC. 向量检索\nD. 图数据库',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        'Vastbase 多模态支持 GIS 空间数据、时序数据、向量检索三种引擎。图数据库不在其中。')
+    .addMultiple(DB2, 'Vastbase 实例进程架构中的关键进程包括？（多选）\nA. vbpostmaster\nB. vbworker\nC. checkpointer\nD. bgwriter\nE. walwriter',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4],
+        '五个关键进程全选：vbpostmaster（主进程）、vbworker（一线服务）、checkpointer（存盘）、bgwriter（后台写）、walwriter（日志写）。')
+    .addMultiple(DB2, 'Vastbase 支持的国密算法包括？（多选）\nA. SM2\nB. SM3\nC. SM4\nD. AES',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        'Vastbase 支持 SM2（非对称）、SM3（哈希）、SM4（对称）三种国密算法。AES 是国际算法，不是国密。')
+    .addMultiple(DB2, '安装 Vastbase 前需要关闭的系统配置有？（多选）\nA. 防火墙\nB. SELinux\nC. RemoveIPC\nD. 网络服务',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '安装前必须关闭防火墙、禁用 SELinux、关闭 RemoveIPC。网络服务不需要关闭。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 的配置文件？（多选）\nA. postgresql.conf\nB. pg_hba.conf\nC. pg_ident.conf\nD. pg_log',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '三大配置文件为 postgresql.conf、pg_hba.conf、pg_ident.conf。pg_log 是日志目录。')
+    .addMultiple(DB2, '以下哪些目录位于数据目录下？（多选）\nA. base/\nB. global/\nC. pg_wal/\nD. pg_log/',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'base/（数据文件）、global/（全局系统表）、pg_wal/（WAL日志）、pg_log/（运行日志）都在数据目录下。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 的备份方式？（多选）\nA. 全量备份\nB. 增量备份\nC. WAL 归档\nD. 逻辑备份',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'Vastbase 支持全量备份、增量备份、WAL 归档（物理备份体系）和逻辑备份（vb_dump），全选。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 支持的索引类型？（多选）\nA. B-Tree\nB. GIN\nC. GiST\nD. Hash\nE. 唯一索引',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4],
+        'Vastbase 支持 B-Tree、GIN、GiST、Hash、唯一索引、多字段索引、部分索引、表达式索引等多种索引类型。')
+    .addMultiple(DB2, 'Vastbase 支持的约束类型包括？（多选）\nA. NOT NULL\nB. UNIQUE\nC. PRIMARY KEY\nD. FOREIGN KEY\nE. CHECK',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4],
+        'Vastbase 支持 NOT NULL、UNIQUE、PRIMARY KEY、FOREIGN KEY、CHECK 五种约束，全选。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 数据库内存参数？（多选）\nA. shared_buffers\nB. work_mem\nC. wal_buffers\nD. max_connections',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'shared_buffers（共享缓冲区）、work_mem（查询内存）、wal_buffers（WAL缓冲区）、max_connections（最大连接数）都是数据库内存/资源参数。')
+    .addMultiple(DB2, '以下哪些属于操作系统级内核参数？（多选）\nA. kernel.sem\nB. vm.swappiness\nC. shared_buffers\nD. fs.aio-max-nr',
+        ['A', 'B', 'C', 'D'], [0, 1, 3],
+        'kernel.sem、vm.swappiness、fs.aio-max-nr 都是操作系统级内核参数。shared_buffers 是数据库级内存参数。')
+    .addMultiple(DB2, '以下哪些关于 effective_cache_size 的说法是正确的？（多选）\nA. 它是一个评估值，告诉优化器操作系统有多少可用缓存\nB. 它会直接影响操作系统缓存的实际分配大小\nC. 设置越高，优化器越倾向于使用索引扫描\nD. 它属于数据库级内存参数',
+        ['A', 'B', 'C', 'D'], [0, 2, 3],
+        'effective_cache_size 是评估值，不分配内存，只影响执行计划选择。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 性能调优的三阶段流程？（多选）\nA. 瓶颈分析\nB. 参数调整\nC. SQL 调优\nD. 硬件升级',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '性能调优三阶段为瓶颈分析、参数调整、SQL调优。硬件升级不属于调优流程。')
+    .addMultiple(DB2, 'SQL 调优的核心工具包括？（多选）\nA. ANALYZE\nB. EXPLAIN\nC. EXPLAIN PERFORMANCE\nD. EXPLAIN (ANALYZE, BUFFERS)',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'ANALYZE（收集统计信息）、EXPLAIN（预估执行计划）、EXPLAIN PERFORMANCE（实际耗时）、EXPLAIN (ANALYZE, BUFFERS)（含缓存命中）都是 SQL 调优工具。')
+    .addMultiple(DB2, '以下哪些是操作系统级排查手段？（多选）\nA. top\nB. iostat\nC. vmstat\nD. ping',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'top（CPU）、iostat（IO）、vmstat（内存）、ping（网络连通性）都是操作系统级排查手段。')
+    .addMultiple(DB2, '以下哪些是数据库级排查的关键命令/视图？（多选）\nA. pg_stat_activity\nB. pg_settings\nC. pg_stat_replication\nD. pg_is_in_recovery()',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'pg_stat_activity（连接）、pg_settings（参数）、pg_stat_replication（主备同步）、pg_is_in_recovery()（主备角色）都是数据库级排查的关键。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 的高可用特性？（多选）\nA. 主备部署\nB. RPO 保障\nC. RTO 保障\nD. VIP 漂移',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'Vastbase 高可用包括主备部署、RPO/RTO 保障、VIP 漂移（应用无感知切换），全选。')
+    .addMultiple(DB2, '以下哪些是高可用相关命令？（多选）\nA. vb_ctl promote\nB. vb_ctl failover\nC. vb_ctl switchover\nD. vb_ctl start',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        'promote（备库升主）、failover（故障强制切换）、switchover（计划内切换）都是高可用相关命令。start 是普通启动命令。')
+    .addMultiple(DB2, '以下哪些关于视图的说法是正确的？（多选）\nA. 视图是虚拟表\nB. 视图不存储数据\nC. 物化视图需要手动刷新\nD. 普通视图实时查询',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '视图是虚拟表，不存储数据，查询时动态生成。物化视图物理存储需手动刷新。普通视图是实时查询的"窗户"。')
+    .addMultiple(DB2, 'vb_dump 支持的输出格式包括？（多选）\nA. 明文（plain）\nB. 自定义（custom）\nC. 目录（directory）\nD. tar 包（tar）',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'vb_dump 支持四种输出格式：p（明文/默认）、c（自定义/压缩）、d（目录/多文件）、t（tar包），全选。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 密码复杂度要求？（多选）\nA. ≥8 字符\nB. 包含大写字母、小写字母、数字、特殊字符中的三类\nC. 不能与用户名相同\nD. 不能与用户名倒序相同',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '密码要求≥8字符，至少包含三类字符，不能与用户名及用户名倒序相同，全选。')
+    .addMultiple(DB2, '以下哪些是 Vastbase 支持的分区表方式？（多选）\nA. 范围分区（RANGE）\nB. 列表分区（LIST）\nC. 哈希分区（HASH）\nD. 复合分区（COMPOSITE）',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        'Vastbase 支持范围分区、列表分区、哈希分区三种方式。复合分区不在支持列表中。')
+    .addMultiple(DB2, '以下哪些关于 WAL 日志的说法是正确的？（多选）\nA. WAL 是预写式日志\nB. WAL 用于事务持久化\nC. WAL 用于主备复制\nD. WAL 用于 PITR 恢复',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'WAL（预写式日志）用于事务持久化、主备复制、PITR（时间点恢复），是数据库故障恢复的核心机制，全选。')
+
+    // ============================================================
+    // 第六部分：判断题（第126-140题，共15题）
+    // ============================================================
+    .addJudge(DB2, 'Vastbase 是基于 PostgreSQL 内核自主研发的。', false,
+        'Vastbase 基于开源 openGauss 内核自主研发。PostgreSQL → openGauss → Vastbase 是技术血统链路。')
+    .addJudge(DB2, 'Vastbase 采用多进程架构。', true,
+        'Vastbase 采用多进程架构，vbpostmaster 主进程管理多个子进程。')
+    .addJudge(DB2, 'SM4 是 Vastbase 的哈希摘要算法。', false,
+        'SM4 是对称加密算法，SM3 才是哈希摘要算法。')
+    .addJudge(DB2, 'Vastbase 安装时必须使用 root 用户。', false,
+        '必须使用普通用户安装，不能用 root。')
+    .addJudge(DB2, 'Vastbase 兼容模式在安装后可以通过配置文件修改。', false,
+        '兼容模式在安装时确定，安装后不可更改。')
+    .addJudge(DB2, 'RemoveIPC 不关闭可能导致数据库崩溃无法启动。', true,
+        'RemoveIPC 不关闭会导致数据库崩溃或无法启动，是安装前必做的系统配置。')
+    .addJudge(DB2, 'shared_buffers 推荐设置为物理内存的 25%~40%。', true,
+        'shared_buffers 推荐设置为物理内存的 25%~40%。')
+    .addJudge(DB2, 'vb_ctl reload 命令需要重启数据库才能生效。', false,
+        'vb_ctl reload 无需重启数据库，重新加载配置文件即可生效。')
+    .addJudge(DB2, '生产环境创建索引时应使用 CREATE INDEX CONCURRENTLY 避免锁表。', true,
+        'CREATE INDEX CONCURRENTLY 在线建索引，不阻塞读写操作，生产环境推荐使用。')
+    .addJudge(DB2, 'pg_is_in_recovery() 返回 f 表示当前节点是备库。', false,
+        'pg_is_in_recovery() 返回 f=主库，t=备库。')
+    .addJudge(DB2, 'Vastbase 物理备份工具是 vb_dump。', false,
+        'vb_dump 是逻辑备份工具，物理备份工具是 vb_probackup。')
+    .addJudge(DB2, '三权分立中，审计管理员负责查看日志和审计记录。', true,
+        '审计管理员（auditadmin）负责查看日志、审计谁干了什么（事后查监控）。')
+    .addJudge(DB2, '创建索引可以早于表存在。', false,
+        '索引必须在表创建之后才能创建，不能先于表存在。')
+    .addJudge(DB2, 'Vastbase 对象命名最大长度为 256 个字符。', false,
+        '对象命名最大长度为 128 个字符，超过会报错。')
+    .addJudge(DB2, 'effective_cache_size 参数的设置会直接影响操作系统缓存的实际分配大小。', false,
+        'effective_cache_size 是评估值，不分配内存，只影响执行计划选择。')
+    ;
+          // ============================================================
+// 新增分类：中间件（2）（对应 中间件2.txt 全部160题）
+// 包含：95单选 + 40多选 + 25判断 = 160题
+// ============================================================
+const MIDDLEWARE2 = '中间件';
+// 注意：直接追加到已有的 '中间件' 分类中，使用相同的分类名
+
+QuestionBank
+    // ============================================================
+    // 第一部分：单选题（第1-35题）
+    // ============================================================
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，对静态资源访问性能提升最明显的是以下哪种手段？\nA. 开启预压缩\nB. 开启文件高速缓存\nC. 增大线程池\nD. 开启标签缓存池',
+        ['A', 'B', 'C', 'D'], 1,
+        '文件高速缓存将静态资源（图片、CSS、JS）缓存在内存中，减少重复磁盘读取，对静态资源访问性能提升最明显。预压缩减少的是CPU消耗，不是IO消耗。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，当请求数超过最大线程池设置时，新请求会如何处理？\nA. 直接拒绝\nB. 放入等待队列\nC. 创建临时线程\nD. 转发到其他服务器',
+        ['A', 'B', 'C', 'D'], 1,
+        '当服务器达到最大线程池设置时，新请求会推迟处理，放入等待队列中，直到活跃请求数低于最大值。')
+    .addSingle(MIDDLEWARE2, '以下哪个参数用于控制中创应用服务器的管理控制台端口？\nA. http-listener-1\nB. admin-listener\nC. http-listener-2\nD. https-listener',
+        ['A', 'B', 'C', 'D'], 1,
+        '管理控制台端口的监听程序名为 admin-listener，对应端口 8060。http-listener-1 是 8080，http-listener-2 是 8181。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，server.log 日志文件默认位于哪个目录？\nA. as/logs/\nB. domains/domain1/logs/\nC. as/domains/domain1/logs/\nD. domains/domain1/config/',
+        ['A', 'B', 'C', 'D'], 1,
+        'server.log 位于 domains/domain1/logs/ 目录下（或 as/domains/domain1/logs/，取决于是否在 as 目录下执行）。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，类冲突时设置 delegate=false 的作用是？\nA. 让中间件优先加载自己的类\nB. 让应用优先加载自己的类\nC. 禁用类加载\nD. 启用类加载缓存',
+        ['A', 'B', 'C', 'D'], 1,
+        '设置 delegate=false 表示优先加载应用中的类（即应用的 jar 包优先），解决应用与中间件之间的 jar 包冲突问题。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个是异步日志的配置参数？\nA. -DperRequestConnectionShare=true\nB. -DconnectionAutoClose=true\nC. -Dcom.cvicse.long.enterprise.server.logging.AsyncLoggerEnabled=true\nD. -DConnectionPool.DataStructure.type=xxx',
+        ['A', 'B', 'C', 'D'], 2,
+        '异步日志的 JVM 参数为 -Dcom.cvicse.long.enterprise.server.logging.AsyncLoggerEnabled=true，将日志记录操作从主线程分离，高并发下减少性能影响。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器支持的数据源类型中，以下哪种数据库类型需要将驱动包放入 as/lib/ 目录？\nA. H2\nB. Derby\nC. Kingbase\nD. SQLite',
+        ['A', 'B', 'C', 'D'], 2,
+        'Kingbase（人大金仓）是国产数据库，使用 JDBC 驱动连接，驱动包需放入 as/lib/ 目录。H2、Derby、SQLite 通常作为嵌入式数据库使用，不在中创应用服务器的典型数据库支持列表中。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，reload-interval=-1 配置的作用是？\nA. 禁止 JSP 实时编译\nB. 设置 JSP 编译间隔为 -1 秒\nC. 开启 JSP 实时编译\nD. 禁用 JSP 缓存',
+        ['A', 'B', 'C', 'D'], 0,
+        'reload-interval=-1 表示禁止 JSP 实时编译，JSP 文件仅在第一次请求时编译，之后直接返回编译好的 servlet，降低响应时延。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，enablePooling=true 配置的作用是？\nA. 开启线程池\nB. 开启 JDBC 连接池\nC. 开启 JSP 标签缓存池\nD. 开启 EJB 池',
+        ['A', 'B', 'C', 'D'], 2,
+        'enablePooling=true 开启 JSP 自定义标签缓存池，JSP 容器会重用已编译和初始化的标签实例，而不是为每个请求创建新实例。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，快照的主要用途是？\nA. 查看历史性能趋势\nB. 深度分析死锁和内存泄漏\nC. 实时监控 CPU 使用率\nD. 备份应用配置',
+        ['A', 'B', 'C', 'D'], 1,
+        '快照是静态的，包含线程堆栈、堆内存分布等信息，用于深度分析死锁、线程阻塞、内存泄漏等问题。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，waitQueueLength 监控指标持续增长时，最可能的原因是？\nA. 线程池最大线程数设置过小\nB. 线程池最小线程数设置过小\nC. 连接池最大池大小设置过小\nD. 缓存大小设置过大',
+        ['A', 'B', 'C', 'D'], 0,
+        'waitQueueLength 是等待队列长度，持续增长说明请求积压，最可能是最大线程数设置过小，请求无法及时处理。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，JDBC 连接池测试失败时，以下哪个排查方向优先级最高？\nA. 检查应用代码\nB. 检查数据库驱动是否放对位置\nC. 检查 JVM 参数\nD. 检查防火墙',
+        ['A', 'B', 'C', 'D'], 1,
+        'JDBC 连接池测试失败的排查顺序为：①数据库是否启动 → ②URL是否正确 → ③驱动是否放对位置（as/lib/ 目录）。驱动问题是最常见原因之一。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，startserv 和 asadmin start-domain 的核心区别是？\nA. startserv 只能启动一次，asadmin 可以多次启动\nB. startserv 是前台启动，asadmin 是后台启动\nC. startserv 直接启动，asadmin 更灵活支持多种参数\nD. 两者功能完全相同',
+        ['A', 'B', 'C', 'D'], 2,
+        './startserv 是直接启动脚本，而 sh asadmin start-domain 更灵活，支持 -v（前台调试）、-D 指定域等多种参数。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，监控服务开启后，RESTful 监控接口建议使用哪个账户认证？\nA. inforsAdmin\nB. monitoringAdmin\nC. root\nD. admin',
+        ['A', 'B', 'C', 'D'], 1,
+        'RESTful 监控接口建议使用监控员账户 monitoringAdmin，而不是系统管理员 inforsAdmin，符合权限最小化原则。')
+    .addSingle(MIDDLEWARE2, '以下哪种负载均衡算法可以实现会话保持（同一用户始终分配到同一台服务器）？\nA. 轮询\nB. 最少连接\nC. IP_Hash\nD. 加权轮询',
+        ['A', 'B', 'C', 'D'], 2,
+        'IP_Hash 算法对客户端 IP 进行哈希运算，结果对服务器数量取模，同一 IP 的请求始终分配到同一台服务器，实现会话保持。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，http-listener-2 的默认状态是？\nA. 默认开启\nB. 默认不开启\nC. 需要 license 才能开启\nD. 已废弃',
+        ['A', 'B', 'C', 'D'], 1,
+        'http-listener-2 是应用 HTTPS 访问端口（8181），默认不开启。HTTP 访问端口（8080）和管理端口（8060）是默认开启的。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，域（Domain）的核心作用是？\nA. 管理单个 JVM 进程\nB. 一组服务器资源的集合，共享一套配置\nC. 管理物理机器\nD. 管理数据库连接',
+        ['A', 'B', 'C', 'D'], 1,
+        '域是一组服务器资源的集合，共享一套配置。一个域可包含多个服务器/集群，是应用服务器的管理边界。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，开启预压缩功能后，以下哪种文件类型不会被预压缩？\nA. html\nB. css\nC. js\nD. jsp',
+        ['A', 'B', 'C', 'D'], 3,
+        '预压缩针对的是静态文件（html、css、js），JSP 是动态文件，需要实时编译后输出，不属于预压缩范畴。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，初次启动时系统管理员密码的复杂度要求是？\nA. ≥6位，至少2种组合\nB. ≥8位，至少3种组合\nC. ≥10位，至少4种组合\nD. ≥8位，大小写字母即可',
+        ['A', 'B', 'C', 'D'], 1,
+        '密码要求≥8位，含大小写字母、数字、特殊字符至少3种，且不能与默认密码 Cvics@as123 一致。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪种 GC 类型适合大内存应用场景？\nA. 串行GC\nB. 并行GC\nC. G1 GC\nD. ZGC',
+        ['A', 'B', 'C', 'D'], 2,
+        'G1 GC 适合大内存应用，能有效减少 Full GC 停顿时间。串行GC适合小内存，并行GC适合高吞吐量场景，ZGC适合低延迟场景（JDK11+）。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，访问日志（access.log）的默认状态是？\nA. 默认开启\nB. 默认关闭，需手动开启\nC. 默认写入 server.log\nD. 默认写入 audit.log',
+        ['A', 'B', 'C', 'D'], 1,
+        'access.log 是访问日志，需要手动开启配置。server.log 是主日志，audit.log 是审计日志。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个端口对应的监听程序是 http-listener-1？\nA. 8060\nB. 8080\nC. 8181\nD. 8443',
+        ['A', 'B', 'C', 'D'], 1,
+        'http-listener-1 对应 8080 端口（应用 HTTP 访问）。admin-listener 对应 8060，http-listener-2 对应 8181。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，numconsumed 监控指标接近最大值时，最可能的原因是？\nA. 线程池耗尽\nB. 连接池耗尽\nC. 内存不足\nD. CPU 过高',
+        ['A', 'B', 'C', 'D'], 1,
+        'numconsumed 是 JDBC 连接池中当前正在使用的连接数。接近最大值说明连接池即将或已经耗尽，需要调大最大池大小或检查代码中是否及时关闭连接。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，日志级别 SEVERE、WARNING、INFO 从高到低的顺序是？\nA. INFO > WARNING > SEVERE\nB. SEVERE > WARNING > INFO\nC. WARNING > SEVERE > INFO\nD. SEVERE > INFO > WARNING',
+        ['A', 'B', 'C', 'D'], 1,
+        '日志级别从高到低为 SEVERE > WARNING > INFO > CONFIG > FINE > FINER > FINEST。级别越高，输出越少。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，BIN 安装包默认创建的域类型是？\nA. 测试域（T）\nB. 生产域（P）\nC. 开发域（D）\nD. 不创建域',
+        ['A', 'B', 'C', 'D'], 1,
+        'BIN 包默认创建生产域（P），但可在安装过程中输入 T 改为测试域。RPM/DEB 包默认 P 不可更改，ZIP 包是安装后手动选择。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个命令用于查看当前使用的版本？\nA. jps -lm\nB. sh asadmin version\nC. sh asadmin status\nD. sh asadmin list-domains',
+        ['A', 'B', 'C', 'D'], 1,
+        '查看版本命令为 sh asadmin version 或 ./asadmin version，在安装目录的 as/bin 下执行。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，JDBC 连接池的 JVM 参数应在哪个文件中配置？\nA. server.xml\nB. web.xml\nC. domain.xml 的 <jvm-options> 标签\nD. application.xml',
+        ['A', 'B', 'C', 'D'], 2,
+        'JDBC 连接池相关的 JVM 参数应在 domain.xml 的 <jvm-options> 标签中配置，不是控制台界面配置项。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，自调优线程池的主要优势是？\nA. 固定线程数不变化\nB. 无需人工调参，系统自动调整\nC. 只能手动调整\nD. 不支持动态调整',
+        ['A', 'B', 'C', 'D'], 1,
+        '自调优线程池可根据系统资源使用情况、吞吐量趋势、任务处理时长等动态调整线程池大小，无需人工调参。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，启动报"版权控制错误"时，需要替换哪个文件？\nA. domain.xml\nB. license.infor\nC. server.log\nD. admin-keyfile',
+        ['A', 'B', 'C', 'D'], 1,
+        '"版权控制错误"表示授权文件过期或不存在，需要替换 domains/domain1/config/license.infor 授权文件。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，控制台登录密码错误时，应修改哪个文件？\nA. domain.xml\nB. server.log\nC. admin-keyfile\nD. license.infor',
+        ['A', 'B', 'C', 'D'], 2,
+        '忘记控制台密码时修改 domains/域名/config/admin-keyfile，清空密码字段或替换为初始密码 Cvics@as123。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个不属于 HTTP 调优的手段？\nA. 文件高速缓存\nB. 预压缩\nC. 启用自调优线程池\nD. 静态资源缓存路径配置',
+        ['A', 'B', 'C', 'D'], 2,
+        'HTTP 调优的手段是文件高速缓存和预压缩。启用自调优线程池属于线程池调优，不属于 HTTP 调优。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，JNDI 命名服务的核心作用是？\nA. 管理数据库连接池\nB. 给资源起标准名字，应用通过名字查找资源\nC. 处理 HTTP 请求\nD. 管理事务',
+        ['A', 'B', 'C', 'D'], 1,
+        'JNDI 命名服务给所有资源（数据源、EJB、JMS 等）起一个标准名字，应用通过 lookup 查找资源。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，development=false 配置的作用是？\nA. 开启开发模式\nB. 关闭开发模式，禁止实时编译\nC. 开启实时编译\nD. 开启调试模式',
+        ['A', 'B', 'C', 'D'], 1,
+        'development=false 关闭开发模式，禁止实时编译 JSP，配合 reload-interval=-1 使用，降低响应时延。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个命令用于后台启动应用服务器？\nA. ./startserv\nB. sh asadmin start-domain -v domain1\nC. sh asadmin start-domain domain1\nD. ./stopserv',
+        ['A', 'B', 'C', 'D'], 2,
+        'sh asadmin start-domain domain1 是后台启动。./startserv 是直接启动，-v 是前台调试模式。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，文件高速缓存的默认缓存大小和默认文件数分别是？\nA. 10MB、1024\nB. 1MB、512\nC. 100MB、2048\nD. 10MB、512',
+        ['A', 'B', 'C', 'D'], 0,
+        '文件高速缓存的默认最大缓存大小为 10485760 字节（10MB），默认最大文件数为 1024 个。')
+
+    // ============================================================
+    // 第二部分：多选题（第36-50题，共15题）
+    // ============================================================
+    .addMultiple(MIDDLEWARE2, '以下哪些属于中创应用服务器的监控级别？（多选）\nA. 高\nB. 中\nC. 低\nD. 关闭',
+        ['A', 'B', 'C', 'D'], [0, 2, 3],
+        '监控级别只有"高/低/关闭"，没有"中"级。"中"是考试常见干扰项。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于中创应用服务器性能调优的五大维度？（多选）\nA. HTTP调优\nB. 线程池调优\nC. Web容器调优\nD. 数据库调优\nE. JVM调优',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 4],
+        '五大调优维度为 HTTP调优、线程池调优、Web容器调优、JDBC连接池调优、JVM调优。数据库调优不属于中间件性能调优范畴。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于消息中间件的核心技术能力？（多选）\nA. 事务消息\nB. 延迟消息\nC. 死信队列\nD. 主从复制',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '事务消息、延迟消息、死信队列都是消息中间件的能力。主从复制是数据缓存中间件（Redis）的能力。')
+    .addMultiple(MIDDLEWARE2, '以下哪些是应用服务器中间件高可用性的典型特性？（多选）\nA. 宕机重启\nB. 弹性伸缩\nC. 会话集中存储\nD. 监控回放',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '宕机重启、弹性伸缩、会话集中存储都是高可用性特性。监控回放属于运维监控，不属于高可用性。')
+    .addMultiple(MIDDLEWARE2, '以下哪些负载均衡算法可以实现会话保持？（多选）\nA. 轮询\nB. 权重\nC. IP_Hash\nD. 主备',
+        ['A', 'B', 'C', 'D'], [2, 3],
+        'IP_Hash 和主备算法可以实现会话保持。轮询和权重算法每次请求可能分配到不同服务器，无法保证同一用户始终分配到同一服务器。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于数据缓存中间件的核心能力？（多选）\nA. 数据分片存储\nB. 主从复制\nC. 哨兵模式\nD. 死信队列',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '数据分片存储、主从复制、哨兵模式都是数据缓存中间件的能力。死信队列是消息中间件的。')
+    .addMultiple(MIDDLEWARE2, '以下哪些是中创应用服务器支持的安装包格式？（多选）\nA. ZIP\nB. RPM\nC. DEB\nD. EXE',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '安装包格式有 ZIP、RPM、DEB、BIN。EXE 是 Windows 可执行文件格式，不是中创的安装包格式。')
+    .addMultiple(MIDDLEWARE2, '以下哪些场景适合使用文件高速缓存提升性能？（多选）\nA. 访问静态 HTML 页面\nB. 访问 JSP 动态页面\nC. 访问 CSS 样式文件\nD. 访问 JS 脚本文件',
+        ['A', 'B', 'C', 'D'], [0, 2, 3],
+        '文件高速缓存针对的是静态资源（html、css、js、图片等），JSP 是动态页面，需要编译执行，不属于静态资源缓存范畴。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于 JDBC 连接池调优相关的 JVM 参数？（多选）\nA. -DperRequestConnectionShare=true\nB. -DconnectionAutoClose=true\nC. -DConnectionPool.DataStructure.type=BlockingDequeDataStructure\nD. -Xmx16g',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        'A、B、C 都是连接池相关的 JVM 参数。D（-Xmx）是通用 JVM 内存参数，不属于连接池专用参数。')
+    .addMultiple(MIDDLEWARE2, '以下哪些情况下，中创应用服务器启动失败的可能性较大？（多选）\nA. 端口 8060 被占用\nB. JVM 参数配置错误\nC. 授权文件过期\nD. 操作系统版本不匹配',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '端口占用、JVM 参数错误、授权文件过期都会导致启动失败。操作系统版本不匹配通常不会直接导致启动失败，可能导致应用访问失败。')
+    .addMultiple(MIDDLEWARE2, '以下哪些中创应用服务器目录位于 domains/domain1/config/ 下？（多选）\nA. domain.xml\nB. license.infor\nC. admin-keyfile\nD. server.log',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        'domain.xml（主配置文件）、license.infor（授权文件）、admin-keyfile（密码文件）都在 config/ 目录下。server.log 在 logs/ 目录下。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于负载均衡中间件的核心功能？（多选）\nA. 反向代理\nB. 健康检查\nC. 会话保持\nD. 数据分片存储',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '反向代理、健康检查、会话保持都是负载均衡的核心能力。数据分片存储是数据缓存中间件的。')
+    .addMultiple(MIDDLEWARE2, '以下哪些关于 JSP 实时编译的说法是正确的？（多选）\nA. 每次请求都编译 JSP 会降低性能\nB. 禁止实时编译 JSP 可以降低响应时延\nC. reload-interval=-1 可以禁止实时编译\nD. development=true 是生产环境推荐配置',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        'A、B、C 都正确。D 错误——development=true 开启开发模式，生产环境应设置为 false 配合 reload-interval=-1 使用。')
+    .addMultiple(MIDDLEWARE2, '以下哪些说法关于负载均衡中间件是正确的？（多选）\nA. 位于客户端与应用程序之间\nB. 可隐藏客户端真实身份\nC. 支持 SSL 卸载\nD. 正向代理是核心功能',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '负载均衡中间件位于客户端与应用程序之间，可隐藏客户端身份，支持 SSL 卸载。正向代理不属于负载均衡中间件的核心功能，核心是反向代理。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于监控回放可回放的指标类型？（多选）\nA. CPU 使用率变化趋势\nB. 线程池状态变化趋势\nC. JVM 内存变化趋势\nD. 应用代码行数',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '监控回放可回放 CPU、物理内存、线程池、HTTP 监听、JVM Memory、JDBC 资源、JVM 内存池等。应用代码行数不可回放。')
+
+    // ============================================================
+    // 第三部分：判断题（第51-60题，共10题）
+    // ============================================================
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，文件高速缓存的默认缓存大小为 10MB。', true,
+        '文件高速缓存的默认最大缓存大小为 10485760 字节（10MB），默认最大文件数为 1024 个。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，自调优线程池不需要人工调参，系统自动调整。', true,
+        '自调优线程池可根据系统资源使用情况、吞吐量趋势等动态调整线程池大小，无需人工调参。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，development=true 是生产环境的推荐配置。', false,
+        'development=true 是开发模式配置，生产环境应设置为 development=false，配合 reload-interval=-1 禁止 JSP 实时编译。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，快照的存储占用通常比监控回放小。', false,
+        '快照存储占用较大（堆 dump 可达数 GB），监控回放存储占用较小（时序数据压缩存储）。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，jps | grep ASMain 可以验证应用服务器是否启动成功。', true,
+        'jps | grep ASMain 看到 ASMain 进程即为应用服务器启动成功。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，预压缩功能可以替代文件高速缓存的功能。', false,
+        '预压缩是提前压缩静态文件减少 CPU 消耗，文件高速缓存是将静态文件缓存在内存中减少磁盘 IO。两者功能不同，不能互相替代。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，access.log 默认开启，记录所有 HTTP 请求日志。', false,
+        'access.log 需要手动开启配置，不是默认开启。默认开启的是 server.log（主日志）和 audit.log（审计日志）。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，JDBC 连接池相关的 JVM 参数应在控制台界面配置。', false,
+        'JDBC 连接池相关的 JVM 参数应在 domain.xml 的 <jvm-options> 标签中配置，不是控制台界面配置项。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，inforsAdmin 是默认监控管理员用户名。', false,
+        'inforsAdmin 是默认系统管理员用户名。监控管理员是 monitoringAdmin，默认禁用。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，禁止实时编译 JSP 会降低响应时延。', true,
+        '禁止实时编译避免每次请求都编译 JSP，降低了响应时延，提升了性能。')
+
+    // ============================================================
+    // 第四部分：单选题（第61-120题，共60题）
+    // ============================================================
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，文件高速缓存的默认最大文件数是？\nA. 512\nB. 1024\nC. 2048\nD. 4096',
+        ['A', 'B', 'C', 'D'], 1,
+        '文件高速缓存的默认最大文件数为 1024 个，默认最大缓存大小为 10485760 字节（10MB）。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，-DperRequestConnectionShare=true 参数的作用是？\nA. 开启连接自动关闭\nB. 开启事务内连接共享\nC. 开启高性能数据结构存储连接\nD. 开启预压缩',
+        ['A', 'B', 'C', 'D'], 1,
+        '-DperRequestConnectionShare=true 开启事务内连接共享，同一事务中多次数据库请求使用同一条连接，减少创建开销。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个不是 JDBC 连接池调优的参数？\nA. 最大池大小\nB. 空闲超时\nC. 连接超时时间\nD. 最大线程数',
+        ['A', 'B', 'C', 'D'], 3,
+        '最大线程数是线程池调优的参数，不是 JDBC 连接池调优的参数。连接池调优参数包括最大池大小、空闲超时、连接超时时间等。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，numconnfree 监控指标的含义是？\nA. 当前正在使用的连接数\nB. 当前空闲的连接数\nC. 等待队列长度\nD. 最大连接数',
+        ['A', 'B', 'C', 'D'], 1,
+        'numconnfree 是 JDBC 连接池中当前空闲的连接数。numconsumed 是在使用的连接数，waitQueueLength 是等待队列长度。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，预压缩功能支持的压缩算法不包括？\nA. gzip\nB. lzma\nC. Brotti\nD. zip',
+        ['A', 'B', 'C', 'D'], 3,
+        '预压缩支持的算法包括 gzip、lzma、Brotti。zip 是归档格式，不是预压缩算法。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个配置文件用于配置 JVM 参数？\nA. server.xml\nB. domain.xml\nC. web.xml\nD. application.xml',
+        ['A', 'B', 'C', 'D'], 1,
+        'JVM 参数在 domain.xml 的 <jvm-options> 标签中配置。server.xml 是 Tomcat 的配置文件。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，as/lib/ 目录的主要作用是？\nA. 存放启动脚本\nB. 存放数据库驱动等类库\nC. 存放应用服务器模块 jar 包\nD. 存放日志文件',
+        ['A', 'B', 'C', 'D'], 1,
+        'as/lib/ 目录存放类库，包括数据库驱动等第三方 jar 包。modules/ 存放应用服务器模块 jar 包，bin/ 存放启动脚本。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，RESTful 监控接口的访问地址是？\nA. https://IP:8060/console/monitoring\nB. https://IP:端口/monitoring/domain\nC. https://IP:8080/monitoring\nD. https://IP:8060/status',
+        ['A', 'B', 'C', 'D'], 1,
+        'RESTful 监控接口地址为 https://IP:管理端口/monitoring/domain，用于对接第三方监控平台。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，ZGC 垃圾回收器的适用场景是？\nA. 小内存应用\nB. 高吞吐量服务器\nC. 大内存应用\nD. 低延迟高响应性应用（JDK 11+）',
+        ['A', 'B', 'C', 'D'], 3,
+        'ZGC 适用于低延迟、高响应性场景，需要 JDK 11+ 支持。G1 GC 适用于大内存应用，并行 GC 适用于高吞吐量场景。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，admin-keyfile 文件的作用是？\nA. 存储应用服务器主配置\nB. 存储系统管理员密码\nC. 存储授权信息\nD. 存储日志配置',
+        ['A', 'B', 'C', 'D'], 1,
+        'admin-keyfile 是控制台密码文件，存储系统管理员的密码信息。忘记密码时修改此文件重置。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个操作可以解决 jar 包冲突问题？\nA. 删除冲突的 jar 包\nB. 在 WEB-INF/ 下创建 inforsuite-web.xml 设置 delegate=false\nC. 重启应用服务器\nD. 修改 domain.xml',
+        ['A', 'B', 'C', 'D'], 1,
+        'jar 包冲突时，在应用的 WEB-INF/ 目录下创建 inforsuite-web.xml，设置 delegate=false 优先加载应用中的类。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，控制台访问地址的默认协议是？\nA. HTTP\nB. HTTPS\nC. FTP\nD. TCP',
+        ['A', 'B', 'C', 'D'], 1,
+        '控制台访问地址为 https://IP:8060/console，使用 HTTPS 协议保证通信安全。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个参数用于开启异步日志？\nA. -DperRequestConnectionShare=true\nB. -DconnectionAutoClose=true\nC. -Dcom.cvicse.long.enterprise.server.logging.AsyncLoggerEnabled=true\nD. -DConnectionPool.DataStructure.type=xxx',
+        ['A', 'B', 'C', 'D'], 2,
+        '异步日志的参数为 -Dcom.cvicse.long.enterprise.server.logging.AsyncLoggerEnabled=true，高并发下减少日志对性能的影响。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，HTTP 调优中的文件高速缓存默认存活时间是？\nA. 10秒\nB. 30秒\nC. 60秒\nD. 120秒',
+        ['A', 'B', 'C', 'D'], 1,
+        '文件高速缓存的默认最长存活时间为 30 秒。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，-DconnectionAutoClose=true 参数的作用是？\nA. 开启事务内连接共享\nB. 开启连接自动关闭\nC. 使用高性能数据结构存储连接\nD. 开启连接验证',
+        ['A', 'B', 'C', 'D'], 1,
+        '-DconnectionAutoClose=true 开启连接自动关闭，若应用未主动关闭连接，请求结束时自动关闭，及时释放资源。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，线程池最大队列的默认值是？\nA. 256\nB. 1024\nC. 4096\nD. -1（无限制）',
+        ['A', 'B', 'C', 'D'], 3,
+        '线程池最大队列默认值为 -1（无限制），官方推荐值为 4096。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，JMX 监控基于什么协议？\nA. HTTP\nB. RMI\nC. TCP\nD. UDP',
+        ['A', 'B', 'C', 'D'], 1,
+        'JMX（Java Management Extensions）基于 RMI（远程方法调用）协议，通过 Jconsole 远程连接查看 MBean 信息。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，enablePooling=true 和 reload-interval=-1 分别属于哪个调优维度？\nA. 都是 HTTP 调优\nB. 都是 Web 容器调优\nC. enablePooling=true 是 Web 容器调优，reload-interval=-1 是 HTTP 调优\nD. enablePooling=true 是 JVM 调优，reload-interval=-1 是 Web 容器调优',
+        ['A', 'B', 'C', 'D'], 1,
+        '两者都属于 Web 容器调优。reload-interval=-1 禁止实时编译 JSP，enablePooling=true 开启标签缓存池。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个不属于应用服务器中间件的核心服务？\nA. Web 容器\nB. EJB 容器\nC. JDBC 连接池\nD. 数据分片存储',
+        ['A', 'B', 'C', 'D'], 3,
+        '数据分片存储是数据缓存中间件的核心能力。Web 容器、EJB 容器、JDBC 连接池都是应用服务器的核心服务。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，jstack 命令的主要用途是？\nA. 查看 Java 进程\nB. 查看线程堆栈分析死锁\nC. 查看 GC 状态\nD. 查看堆内存分布',
+        ['A', 'B', 'C', 'D'], 1,
+        'jstack 用于查看线程堆栈，分析死锁、线程阻塞等问题。jps 看进程，jstat 看 GC，jmap 看堆内存。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，sh asadmin start-domain -v domain1 中 -v 参数的作用是？\nA. 后台运行\nB. 前台运行并打印详细日志\nC. 指定域名称\nD. 指定数据目录',
+        ['A', 'B', 'C', 'D'], 1,
+        '-v 表示 verbose 模式，前台运行并打印详细日志到控制台，用于调试启动问题。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个是标准版不支持的功能？\nA. Web 容器\nB. 数据源\nC. EJB 容器\nD. 集群',
+        ['A', 'B', 'C', 'D'], 2,
+        '标准版支持 Web 容器 + 数据源 + 集群，但不支持 EJB 容器。EJB 容器是企业版才有的全功能特性。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，domains/domain1/config/ 目录下不包含以下哪个文件？\nA. domain.xml\nB. license.infor\nC. admin-keyfile\nD. server.log',
+        ['A', 'B', 'C', 'D'], 3,
+        'server.log 在 logs/ 目录下，不在 config/ 目录下。domain.xml、license.infor、admin-keyfile 都在 config/ 目录下。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，自调优线程池的类名称在管理控制台中应选择？\nA. 默认线程池\nB. 自调优线程池\nC. 自定义线程池\nD. 固定线程池',
+        ['A', 'B', 'C', 'D'], 1,
+        '在管理控制台编辑线程池时，类名称选择"自调优线程池"即可启用，无需手动调参。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，401 HTTP 状态码的含义是？\nA. 请求参数错误\nB. 未登录/凭证失效\nC. 无权限访问\nD. 接口找不到',
+        ['A', 'B', 'C', 'D'], 1,
+        '401 表示未登录或凭证失效。403 表示已登录但无权限，404 表示接口找不到，400 表示请求参数错误。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个命令用于停止应用服务器？\nA. sh asadmin start-domain domain1\nB. sh asadmin stop-domain domain1\nC. sh asadmin restart-domain domain1\nD. sh asadmin status domain1',
+        ['A', 'B', 'C', 'D'], 1,
+        '停止命令为 sh asadmin stop-domain domain1。./stopserv 也可停止。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，-DConnectionPool.DataStructure.type 参数配置的是？\nA. 连接池类型\nB. 连接池数据结构存储类型\nC. 连接池大小\nD. 连接池超时时间',
+        ['A', 'B', 'C', 'D'], 1,
+        '-DConnectionPool.DataStructure.type 配置连接池的数据结构存储类型，高并发下使用 BlockingDequeDataStructure 可提升性能。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，监控级别"低"代表什么？\nA. 采集该模块的全部监控指标\nB. 只采集该模块的常用监控指标\nC. 不采集监控数据\nD. 只采集错误指标',
+        ['A', 'B', 'C', 'D'], 1,
+        '"低"只采集该模块的常用监控指标。"高"采集全部指标，"关闭"不采集。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，消息中间件的"削峰填谷"应用场景是指？\nA. 将请求分发到多台服务器\nB. 在流量高峰期将请求暂存，平滑处理\nC. 缓存热点数据\nD. 隐藏客户端真实身份',
+        ['A', 'B', 'C', 'D'], 1,
+        '削峰填谷是消息中间件的典型应用场景——在流量高峰期将请求暂存在消息队列中，后端系统按自己的能力慢慢消费，避免系统被瞬间高峰流量冲垮。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，预压缩筛选条件指定的是？\nA. 要进行预压缩的服务器\nB. 要进行预压缩的文件类型\nC. 要进行预压缩的时间段\nD. 要进行预压缩的客户端',
+        ['A', 'B', 'C', 'D'], 1,
+        '预压缩筛选条件指定要进行预压缩的文件类型，如 html、css、js 等，符合筛选条件的文件才会进行预压缩。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个不是中创应用服务器的版本？\nA. 企业版\nB. 标准版\nC. 社区版\nD. 嵌入式版',
+        ['A', 'B', 'C', 'D'], 2,
+        '中创应用服务器版本包括企业版、标准版、容器版、嵌入式版，没有社区版。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，jstat -gcutil <pid> 1000 命令的作用是？\nA. 每秒查看一次 GC 状态\nB. 每秒查看一次线程堆栈\nC. 每秒查看一次堆内存分布\nD. 每秒查看一次进程状态',
+        ['A', 'B', 'C', 'D'], 0,
+        'jstat -gcutil <pid> 1000 每秒打印一次 GC 状态信息，用于监控垃圾回收情况。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个目录存放应用服务器模块 jar 包？\nA. as/lib/\nB. as/modules/\nC. as/bin/\nD. as/nodes/',
+        ['A', 'B', 'C', 'D'], 1,
+        'as/modules/ 存放应用服务器模块 jar 包，as/lib/ 存放数据库驱动等第三方类库，as/bin/ 存放启动脚本。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，静态资源缓存路径配置支持什么格式？\nA. 仅支持具体文件路径\nB. 仅支持目录路径\nC. 支持通配符如 /test/*.html\nD. 支持正则表达式',
+        ['A', 'B', 'C', 'D'], 2,
+        '静态资源缓存路径支持通配符，如 /test/*.html 表示缓存 test 目录下所有 html 文件。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个是消息中间件的技术能力？\nA. 数据分片存储\nB. 哨兵模式\nC. 消息回溯\nD. 主从复制',
+        ['A', 'B', 'C', 'D'], 2,
+        '消息回溯是消息中间件的能力——已消费的消息可以重新消费。数据分片存储、哨兵模式、主从复制都是数据缓存中间件的能力。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，-Xms 参数的推荐值是？\nA. 系统内存的 1/64\nB. 系统内存的 1/4\nC. 系统内存的 1/2\nD. 系统内存的 3/4',
+        ['A', 'B', 'C', 'D'], 0,
+        '-Xms（初始堆内存）推荐值为系统内存的 1/64。-Xmx（最大堆内存）推荐值为系统内存的 1/4。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，应用部署成功后，访问地址的格式是？\nA. http://IP:8060/应用名/\nB. http://IP:8080/应用名/\nC. https://IP:8060/应用名/\nD. http://IP:8080/',
+        ['A', 'B', 'C', 'D'], 1,
+        '部署成功后通过 http://IP:8080/应用名/ 访问应用。8060 是管理控制台端口，不是应用访问端口。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，快照的存储位置默认是？\nA. domains/domain1/config/\nB. domains/domain1/snapshots/\nC. domains/domain1/logs/\nD. as/snapshots/',
+        ['A', 'B', 'C', 'D'], 1,
+        '快照默认存储在 domains/domain1/snapshots/ 目录下。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，负载均衡中间件的"SSL 卸载"功能可以减轻哪方面的压力？\nA. 网络带宽压力\nB. 后端服务器 CPU 压力\nC. 数据库连接压力\nD. 磁盘 IO 压力',
+        ['A', 'B', 'C', 'D'], 1,
+        'SSL 卸载将 HTTPS 加解密交给负载均衡器处理，后端服务器只用 HTTP，减轻后端服务器的 CPU 压力。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个是配置异步日志的完整 JVM 参数？\nA. -DperRequestConnectionShare=true\nB. -DconnectionAutoClose=true\nC. -Dcom.cvicse.long.enterprise.server.logging.AsyncLoggerEnabled=true\nD. -XX:+UseG1GC',
+        ['A', 'B', 'C', 'D'], 2,
+        '异步日志参数为 -Dcom.cvicse.long.enterprise.server.logging.AsyncLoggerEnabled=true。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，waitQueueLength 监控指标属于哪个模块？\nA. HTTP 模块\nB. JDBC 连接池/线程池\nC. JVM 内存\nD. EJB 容器',
+        ['A', 'B', 'C', 'D'], 1,
+        'waitQueueLength 是等待队列长度，属于 JDBC 连接池和线程池的监控指标。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，BIN 安装包与 RPM/DEB 安装包在域创建上的区别是？\nA. BIN 包默认创建测试域，RPM/DEB 默认创建生产域\nB. BIN 包可输入 T 改为测试域，RPM/DEB 默认 P 不可更改\nC. 两者都默认创建生产域\nD. 两者都默认创建测试域',
+        ['A', 'B', 'C', 'D'], 1,
+        'BIN 包默认创建生产域（P），可输入 T 改为测试域。RPM/DEB 包默认创建生产域（P），不可更改。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，JNDI 命名服务中应用通过什么方式查找资源？\nA. DriverManager.getConnection()\nB. InitialContext.lookup()\nC. Class.forName()\nD. new DataSource()',
+        ['A', 'B', 'C', 'D'], 1,
+        '应用通过 InitialContext.lookup("java:comp/env/...") 查找 JNDI 资源，这是 JNDI 命名服务的标准用法。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个不属于负载均衡中间件的分发算法？\nA. 轮询\nB. 最小连接数\nC. 先来先服务\nD. IP_Hash',
+        ['A', 'B', 'C', 'D'], 2,
+        '先来先服务（FCFS）是操作系统的调度算法，不是负载均衡的分发算法。负载均衡算法包括轮询、权重、IP_Hash、主备、最小连接数。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，RPM/DEB 包安装前需要导入什么文件？\nA. license.infor\nB. Q7 签名文件\nC. domain.xml\nD. admin-keyfile',
+        ['A', 'B', 'C', 'D'], 1,
+        'RPM/DEB 包安装前需导入对应环境的 Q7 签名文件，这是信创环境安全要求。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，监控回放主要用于？\nA. 深度分析死锁原因\nB. 查看历史性能趋势，锁定故障时间段\nC. 查看当前实时监控数据\nD. 导出堆 dump 文件',
+        ['A', 'B', 'C', 'D'], 1,
+        '监控回放用于查看历史时序指标数据（CPU、内存、线程池等变化趋势），锁定故障时间段。深度分析死锁是快照的功能。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，-DConnectionPool.DataStructure.type 使用什么数据结构可提升高并发性能？\nA. ArrayList\nB. LinkedList\nC. BlockingDequeDataStructure\nD. HashMap',
+        ['A', 'B', 'C', 'D'], 2,
+        '高并发环境下配置 -DConnectionPool.DataStructure.type=com.cvicse.long.enterprise.resource.pool.datastructure.BlockingDequeDataStructure 可提升性能。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个不是 Web 容器调优的手段？\nA. 禁止实时编译 JSP\nB. 开启标签缓存池\nC. 开启预压缩\nD. 关闭开发模式',
+        ['A', 'B', 'C', 'D'], 2,
+        '预压缩是 HTTP 调优的手段，不是 Web 容器调优。Web 容器调优包括禁止实时编译 JSP、开启标签缓存池、关闭开发模式。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，jmap -dump:live,format=b,file=heap.hprof <pid> 命令的作用是？\nA. 查看线程堆栈\nB. 导出堆内存快照文件\nC. 查看 GC 状态\nD. 查看 Java 进程',
+        ['A', 'B', 'C', 'D'], 1,
+        'jmap -dump:live,format=b,file=heap.hprof <pid> 导出堆内存快照文件，用于分析内存泄漏和大对象。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，消息中间件的消息持久化存储在哪里？\nA. 内存\nB. 磁盘文件（WAL 方式）\nC. 数据库\nD. 缓存',
+        ['A', 'B', 'C', 'D'], 1,
+        '消息持久化通过 WAL（预写日志）方式存储到磁盘文件，确保宕机后可恢复，不丢失消息。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，reload-interval 参数在哪个文件中配置？\nA. domain.xml\nB. default-web.xml\nC. server.xml\nD. web.xml',
+        ['A', 'B', 'C', 'D'], 1,
+        'reload-interval 在 $domain-dir/config/default-web.xml 中配置，用于控制 JSP 编译行为。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，-Xmx 参数的最大值不能超过什么？\nA. 系统内存的 1/4\nB. 系统内存\nC. 系统内存的 1/2\nD. 无限制',
+        ['A', 'B', 'C', 'D'], 1,
+        '-Xmx（最大堆内存）最大值不能超过系统内存，否则 JVM 无法启动。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，502 HTTP 状态码的含义是？\nA. 后端代码报错\nB. 坏网关，Nginx 连不上后端服务\nC. 服务不可用\nD. 网关超时',
+        ['A', 'B', 'C', 'D'], 1,
+        '502 表示坏网关，Nginx 无法连接到后端服务（服务挂了）。500 是后端代码报错，503 是服务不可用，504 是网关超时。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，audit.log 日志文件记录的是？\nA. 所有 HTTP 请求日志\nB. 错误和警告信息\nC. 用户操作行为审计记录\nD. 实例运行日志',
+        ['A', 'B', 'C', 'D'], 2,
+        'audit.log 是审计日志，记录谁做了什么操作。server.log 是主日志记录错误和警告，access.log 记录 HTTP 请求。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，消息中间件的"延迟消息"典型应用场景是？\nA. 订单 30 分钟未支付自动取消\nB. 下单扣库存\nC. 支付失败消息待人工处理\nD. 价格变动通知所有订阅者',
+        ['A', 'B', 'C', 'D'], 0,
+        '延迟消息的典型场景是订单 30 分钟未支付自动取消——消息不是立即发送，而是指定时间后才被消费者收到。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，集群是什么的集合？\nA. 节点\nB. 域\nC. 实例\nD. 主机',
+        ['A', 'B', 'C', 'D'], 2,
+        '集群是多个实例的集合，共享同一套应用和配置。节点是物理机器，实例是 JVM 进程。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，JDBC 连接池的初始和最小池大小推荐值为？\nA. 单实例并发数 × 1.5\nB. 单实例并发数 ÷ 1.5\nC. 单实例并发数 × 2\nD. 固定值 50',
+        ['A', 'B', 'C', 'D'], 1,
+        '初始和最小池大小推荐为单实例并发数 ÷ 1.5（约 32）。最大池大小推荐为单实例并发数 × 1.5（约 128）。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，asadmin 命令的 -v 参数和后台启动的关系是？\nA. -v 是后台启动参数\nB. -v 是前台调试参数，不加 -v 是后台启动\nC. -v 和后台启动可以同时使用\nD. -v 是停止参数',
+        ['A', 'B', 'C', 'D'], 1,
+        '-v 是前台调试参数（verbose 模式），控制台打印详细日志。不加 -v 默认后台启动。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，以下哪个是国产信创环境专用的安装包格式？\nA. ZIP\nB. EXE\nC. RPM/DEB\nD. MSI',
+        ['A', 'B', 'C', 'D'], 2,
+        'RPM/DEB 是信创专用格式（龙芯/麒麟），需匹配 CPU 架构。EXE 和 MSI 是 Windows 格式。')
+    .addSingle(MIDDLEWARE2, '中创应用服务器中，top -Hp <pid> 命令的作用是？\nA. 查看系统整体 CPU 使用率\nB. 查看指定进程内各线程的 CPU 使用情况\nC. 查看内存使用情况\nD. 查看磁盘 IO 情况',
+        ['A', 'B', 'C', 'D'], 1,
+        'top -Hp <pid> 查看指定进程内各线程的 CPU 使用情况，用于排查线程级别的 CPU 消耗问题。')
+
+    // ============================================================
+    // 第五部分：多选题（第121-145题，共25题）
+    // ============================================================
+    .addMultiple(MIDDLEWARE2, '以下哪些属于中创应用服务器的核心目录？（多选）\nA. bin/\nB. lib/\nC. modules/\nD. nodes/\nE. domains/',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4],
+        'as/ 目录下包括 bin/、lib/、modules/、nodes/、domains/、licenses/、templates/，全选。')
+    .addMultiple(MIDDLEWARE2, '以下哪些是 JDBC 连接池调优的常规参数？（多选）\nA. 最大池大小\nB. 初始和最小池大小\nC. 空闲超时\nD. 最大线程数',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '最大池大小、初始和最小池大小、空闲超时都是 JDBC 连接池调优的常规参数。最大线程数是线程池调优的参数。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于监控回放可回放的指标类型？（多选）\nA. CPU 使用率变化趋势\nB. 线程池状态变化趋势\nC. JVM 内存变化趋势\nD. 应用代码行数',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '监控回放可回放 CPU、物理内存、线程池、HTTP 监听、JVM Memory、JDBC 资源、JVM 内存池等。应用代码行数不可回放。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于中创应用服务器的 JVM 调优手段？（多选）\nA. 调整 -Xmx 参数\nB. 调整 -Xms 参数\nC. 选择 G1 GC\nD. 配置异步日志',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'JVM 调优包括内存分配（-Xmx、-Xms）、GC 选择（G1 GC）、日志调优（异步日志），全选。')
+    .addMultiple(MIDDLEWARE2, '以下哪些说法关于中创应用服务器的监控是正确的？（多选）\nA. 监控服务默认关闭\nB. 监控级别有"高/低/关闭"三种\nC. RESTful 接口建议用 monitoringAdmin 账户\nD. JMX 监控基于 RMI 协议',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '监控服务默认关闭、监控级别有"高/低/关闭"三种、RESTful 接口建议用 monitoringAdmin、JMX 基于 RMI 协议，全选正确。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于消息中间件的应用场景？（多选）\nA. 削峰填谷\nB. 异步通讯\nC. 数据采集\nD. 会话保持',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '消息中间件应用场景包括削峰填谷、异步通讯、数据采集、事件驱动、流式计算等。会话保持是负载均衡中间件的功能。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于中创应用服务器的核心服务？（多选）\nA. Web 容器\nB. EJB 容器\nC. JDBC 连接池\nD. JTA 事务管理',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '应用服务器提供 Web 容器、EJB 容器、JDBC 连接池、JTA 事务管理、JMS 消息服务、JAAS 安全服务、JNDI 命名服务等，全选。')
+    .addMultiple(MIDDLEWARE2, '以下哪些是负载均衡中间件的核心能力？（多选）\nA. 反向代理\nB. 健康检查\nC. 会话保持\nD. 数据分片存储',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '反向代理、健康检查、会话保持都是负载均衡的核心能力。数据分片存储是数据缓存中间件的。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于数据缓存中间件的核心能力？（多选）\nA. 数据分片存储\nB. 主从复制\nC. 哨兵模式\nD. 死信队列',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '数据分片存储、主从复制、哨兵模式都是数据缓存中间件的能力。死信队列是消息中间件的。')
+    .addMultiple(MIDDLEWARE2, '以下哪些命令可以用于中创应用服务器的故障排查？（多选）\nA. jstack\nB. jstat\nC. jmap\nD. netstat',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'jstack（线程堆栈）、jstat（GC 状态）、jmap（堆内存）、netstat（网络端口）都是故障排查常用命令。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于垃圾回收器（GC）类型？（多选）\nA. 串行 GC\nB. 并行 GC\nC. G1 GC\nD. ZGC',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '四种 GC 类型全选。串行 GC（小内存）、并行 GC（高吞吐量）、G1 GC（大内存推荐）、ZGC（低延迟，JDK 11+）。')
+    .addMultiple(MIDDLEWARE2, '以下哪些是应用服务器中间件高可用性的典型特性？（多选）\nA. 宕机重启\nB. 弹性伸缩\nC. 会话集中存储\nD. 监控回放',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '宕机重启、弹性伸缩、会话集中存储都是高可用性特性。监控回放属于运维监控，不属于高可用性。')
+    .addMultiple(MIDDLEWARE2, '以下哪些是 HTTP 状态码 5xx 表示服务端错误的类型？（多选）\nA. 500 后端代码报错\nB. 502 坏网关\nC. 503 服务不可用\nD. 504 网关超时',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '500、502、503、504 都属于 5xx 服务端错误。500 是后端代码报错，502 是坏网关，503 是服务不可用，504 是网关超时。')
+    .addMultiple(MIDDLEWARE2, '以下哪些说法关于负载均衡中间件是正确的？（多选）\nA. 位于客户端与应用程序之间\nB. 可隐藏客户端真实身份\nC. 支持 SSL 卸载\nD. 正向代理是核心功能',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '负载均衡中间件位于客户端与应用程序之间，可隐藏客户端身份，支持 SSL 卸载。正向代理不属于负载均衡中间件的核心功能，核心是反向代理。')
+    .addMultiple(MIDDLEWARE2, '以下哪些是数据缓存中间件支持的数据结构？（多选）\nA. String\nB. Hash\nC. List\nD. Table',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '缓存中间件支持 String、Hash、List、Set、ZSet。Table（关系表）是关系型数据库的，不属于缓存中间件。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于中创应用服务器的安装包格式？（多选）\nA. ZIP\nB. RPM\nC. DEB\nD. BIN',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        'ZIP、RPM、DEB、BIN 都是中创应用服务器的安装包格式，全选。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于 JDBC 连接池相关的 JVM 参数？（多选）\nA. -DperRequestConnectionShare=true\nB. -DconnectionAutoClose=true\nC. -DConnectionPool.DataStructure.type=BlockingDequeDataStructure\nD. -Xmx16g',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        'A、B、C 都是连接池相关的 JVM 参数。D（-Xmx）是通用 JVM 内存参数，不属于连接池专用参数。')
+    .addMultiple(MIDDLEWARE2, '以下哪些场景适合使用消息中间件？（多选）\nA. 系统间异步通信\nB. 流量削峰填谷\nC. 数据采集和流式计算\nD. 会话保持',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '系统间异步通信、削峰填谷、数据采集和流式计算都是消息中间件的应用场景。会话保持是负载均衡中间件的功能。')
+    .addMultiple(MIDDLEWARE2, '以下哪些说法关于中创应用服务器产品版本是正确的？（多选）\nA. 企业版支持 EJB 容器\nB. 标准版支持 Web 容器和集群\nC. 容器版支持 EJB 容器\nD. 嵌入式版仅支持 Web 容器',
+        ['A', 'B', 'C', 'D'], [0, 1, 3],
+        'A 正确（企业版全功能），B 正确（标准版支持 Web+集群，无 EJB），D 正确（嵌入式版仅 Web 容器）。C 错误——容器版无 EJB 无集群。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于中创应用服务器性能调优的五大维度？（多选）\nA. HTTP 调优\nB. 线程池调优\nC. Web 容器调优\nD. JDBC 连接池调优\nE. JVM 调优',
+        ['A', 'B', 'C', 'D', 'E'], [0, 1, 2, 3, 4],
+        '性能调优五大维度为 HTTP 调优、线程池调优、Web 容器调优、JDBC 连接池调优、JVM 调优，全选。')
+    .addMultiple(MIDDLEWARE2, '以下哪些说法关于监控回放和快照是正确的？（多选）\nA. 监控回放是时序指标数据\nB. 快照是静态数据\nC. 监控回放用于趋势分析\nD. 快照用于深度分析',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '监控回放是时序指标数据，用于趋势分析；快照是静态数据（线程堆栈、堆内存），用于深度分析。全选正确。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于中创应用服务器支持的数据库类型？（多选）\nA. Oracle\nB. MySQL\nC. Kingbase\nD. DM',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '中创应用服务器支持 Oracle、MySQL、Oscar、Kingbase、Highgo、Gauss、DM、Vastbase 等，全选。')
+    .addMultiple(MIDDLEWARE2, '以下哪些说法关于中创应用服务器启动是正确的？（多选）\nA. 首次启动自动创建 domain1\nB. 默认密码为 Cvics@as123\nC. 密码不能与默认密码一致\nD. 密码复杂度要求≥8位且至少3种组合',
+        ['A', 'B', 'C', 'D'], [0, 2, 3],
+        'A、C、D 正确。B 是默认密码，但初次启动强制修改，修改后的密码不能与默认密码一致。')
+    .addMultiple(MIDDLEWARE2, '以下哪些属于应用服务器中间件的规范？（多选）\nA. Servlet\nB. JSP\nC. EJB\nD. JDBC',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '中创应用服务器遵循 Java EE / Jakarta EE 规范，包括 Servlet、JSP、EJB、JDBC、JTA、JMS 等，全选。')
+    .addMultiple(MIDDLEWARE2, '以下哪些说法关于数据缓存中间件是正确的？（多选）\nA. 数据缓存中间件与数据库不直接连接\nB. 支持过期策略（TTL）\nC. 支持数据持久化\nD. 支持关系表（Table）',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '数据缓存中间件与数据库不直接连接，支持过期策略（TTL）和数据持久化（RDB/AOF）。D 错误——不支持关系表。')
+
+    // ============================================================
+    // 第六部分：判断题（第146-160题，共15题）
+    // ============================================================
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，文件高速缓存的最大缓存大小默认是 10MB。', true,
+        '文件高速缓存的默认最大缓存大小为 10485760 字节（10MB）。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，-DperRequestConnectionShare=true 的作用是开启连接自动关闭。', false,
+        '-DperRequestConnectionShare=true 是开启事务内连接共享。连接自动关闭是 -DconnectionAutoClose=true。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，numconsumed 接近最大值且 waitQueueLength 持续增长表示连接池耗尽。', true,
+        'numconsumed 接近最大值表示连接几乎用尽，waitQueueLength 持续增长表示有大量请求在等待连接，两者结合说明连接池耗尽。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，inforsAdmin 是默认的监控管理员用户名。', false,
+        'inforsAdmin 是默认系统管理员用户名。监控管理员是 monitoringAdmin，默认禁用。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，预压缩功能可以降低 CPU 消耗。', true,
+        '预压缩提前将静态文件压缩，避免每次请求时实时压缩，减少系统资源（CPU）损耗。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，jps | grep ASMain 可以查看应用服务器的进程是否运行。', true,
+        'jps | grep ASMain 看到 ASMain 进程即为应用服务器启动成功，是验证启动的正确命令。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，development=true 是生产环境的推荐配置。', false,
+        'development=true 是开发模式，生产环境应设置为 development=false 配合 reload-interval=-1 禁止 JSP 实时编译。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，RESTful 监控接口的认证方式建议使用 inforsAdmin 账户。', false,
+        'RESTful 监控接口建议使用监控员账户 monitoringAdmin，而不是系统管理员 inforsAdmin。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，快照功能包含历史时序监控数据。', false,
+        '快照是静态的（线程堆栈、堆内存、配置），不包含历史时序数据。历史时序数据属于监控回放。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，jmap -dump:live,format=b,file=heap.hprof <pid> 可以导出堆内存快照。', true,
+        'jmap -dump:live,format=b,file=heap.hprof <pid> 导出堆内存快照，用于分析内存泄漏和大对象。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，消息中间件是同步可靠通信。', false,
+        '消息中间件是异步可靠通信，发送方和接收方不需要同时在线。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，RPM/DEB 安装包默认创建生产域（P）。', true,
+        'RPM/DEB 包默认创建生产域（P），不可更改。BIN 包默认 P 可输 T 改测试域。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，access.log 默认开启，记录所有 HTTP 请求日志。', false,
+        'access.log 需要手动开启配置，不是默认开启。默认开启的是 server.log 和 audit.log。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，自调优线程池无需人工调参，系统自动调整。', true,
+        '自调优线程池可根据系统资源使用情况、吞吐量趋势等动态调整线程池大小，无需人工调参。')
+    .addJudge(MIDDLEWARE2, '中创应用服务器中，reload-interval=-1 禁止 JSP 实时编译。', true,
+        'reload-interval=-1 表示禁止 JSP 实时编译，JSP 仅在第一次请求时编译，之后直接返回 servlet。')
+    ;
         })();
 
         // ================================================================
@@ -5091,24 +6007,36 @@ html += `<div class="${fbClass}">${fbText}</div>`;
                         render();
                     });
                 });
-                const confirmBtn = document.getElementById('confirmMultiBtn');
-                if (confirmBtn) {
-                    confirmBtn.addEventListener('click', function() {
-    const record = state.records[q.id];
-    if (record.revealed) return;
-    if (!record.selected || record.selected.length === 0) {
-        alert('请至少选择一个选项！');
-        return;
-    }
-    record.revealed = true;
-    if (!record.counted) {
-        state.totalAnswered += 1;
-        if (isAnswerCorrect(q, record)) state.totalRight += 1;
-        record.counted = true;
-    }
-    render();
-});
-                }
+               const confirmBtn = document.getElementById('confirmMultiBtn');
+if (confirmBtn) {
+    confirmBtn.addEventListener('click', function() {
+        const record = state.records[q.id];
+        if (record.revealed) return;
+        if (!record.selected || record.selected.length === 0) {
+            alert('请至少选择一个选项！');
+            return;
+        }
+        record.revealed = true;
+        let correct = false;
+        if (!record.counted) {
+            state.totalAnswered += 1;
+            correct = isAnswerCorrect(q, record);
+            if (correct) state.totalRight += 1;
+            record.counted = true;
+        }
+        render();
+
+        // ✅ 答对自动跳转下一题
+        if (correct) {
+            setTimeout(() => {
+                const filtered = getFiltered();
+                if (filtered.length === 0) return;
+                state.currentIndex = (state.currentIndex + 1) % filtered.length;
+                render();
+            }, 400);
+        }
+    });
+}
             }
         }
 
@@ -5123,8 +6051,19 @@ html += `<div class="${fbClass}">${fbText}</div>`;
     const q = QuestionBank.getQuestions().find(item => item.id === questionId);
     if (q && !record.counted) {
         state.totalAnswered += 1;
-        if (isAnswerCorrect(q, record)) state.totalRight += 1;
+        const correct = isAnswerCorrect(q, record);
+        if (correct) state.totalRight += 1;
         record.counted = true;
+
+        // ✅ 答对自动跳转下一题
+        if (correct) {
+            setTimeout(() => {
+                const filtered = getFiltered();
+                if (filtered.length === 0) return;
+                state.currentIndex = (state.currentIndex + 1) % filtered.length;
+                render();
+            }, 400); // 延迟400ms让用户看到反馈
+        }
     }
     render();
 }
@@ -5136,8 +6075,19 @@ function handleJudgeSelect(questionId, selectedValue) {
     const q = QuestionBank.getQuestions().find(item => item.id === questionId);
     if (q && !record.counted) {
         state.totalAnswered += 1;
-        if (isAnswerCorrect(q, record)) state.totalRight += 1;
+        const correct = isAnswerCorrect(q, record);
+        if (correct) state.totalRight += 1;
         record.counted = true;
+
+        // ✅ 答对自动跳转下一题
+        if (correct) {
+            setTimeout(() => {
+                const filtered = getFiltered();
+                if (filtered.length === 0) return;
+                state.currentIndex = (state.currentIndex + 1) % filtered.length;
+                render();
+            }, 400);
+        }
     }
     render();
 }
