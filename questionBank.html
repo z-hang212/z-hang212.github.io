@@ -610,9 +610,10 @@
                         <button class="btn btn-outline" id="nextBtn">下一题 ➡</button>
                     </div>
                     <div class="btn-group">
-                        <button class="btn btn-outline" id="resetBtn">🔄 重新开始</button>
-                        <button class="btn btn-primary" id="showAnswerBtn">💡 显示答案</button>
-                    </div>
+    <button class="btn btn-outline" id="resetBtn">🔄 重新开始</button>
+    <button class="btn btn-outline" id="showAllAnswersBtn">📖 查看本章全部答案</button>
+    <button class="btn btn-primary" id="showAnswerBtn">💡 显示答案</button>
+</div>
                 </div>
             </div>
         </div>
@@ -8975,914 +8976,808 @@ QuestionBank
         '不开启archive_mode，WAL文件会循环覆盖，无法做PITR恢复。'
     )
 ;
-const MOCK4 = '模拟八';
+// ============================================================
+// 新增分类：模拟八（对应 8.txt 全部题目）
+// 包含：60单选 + 20多选 + 20判断 = 100题
+// ============================================================
+const MOCK8_NEW = '模拟八';
 
 // ============================================================
-// 第1-60题：模拟四 单选题
+// 第1-60题：模拟八 单选题
 // ============================================================
 QuestionBank
-    // 1
-    .addSingle(MOCK4, '某单位将业务系统从WebLogic迁移到中创InforSuiteAS后，部署EJB应用时出现javax.naming.NoInitialContextException。经排查，应用代码中的JNDI查找方式与原环境一致。以下分析最合理的是？\nA. 中创AS企业版不支持EJB容器，需换用标准版\nB. 迁移时未正确配置EJB的JNDI绑定，需在中创AS中创建EJB引用并调整lookup名称\nC. WebLogic使用RMI-IIOP协议，中创AS使用T3协议，二者完全不兼容\nD. EJB 3.0规范在中创AS中不被支持，需降级为EJB 2.1',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，企业版支持EJB；B正确，EJB的JNDI命名空间规则在WebLogic和中创AS间存在差异，需重新配置EJB引用；C错误，可通过协议适配解决；D错误，中创AS企业版支持EJB 3.0。'
+    .addSingle(MOCK8_NEW, 'Vastbase中shared_buffers与effective_cache_size的本质区别是？\nA. 前者分配内存，后者不分配\nB. 前者不分配，后者分配\nC. 两者都分配\nD. 两者都不分配',
+        ['A', 'B', 'C', 'D'], 0,
+        'shared_buffers实际分配共享内存；effective_cache_size是评估值，只影响执行计划。'
     )
-    // 2
-    .addSingle(MOCK4, '龙芯3A6000的LA664核心支持六发射乱序执行。以下关于该技术的理解，正确的是？\nA. 六发射意味着CPU有6个ALU单元，可同时执行6条算术指令\nB. 乱序执行允许CPU跳过缓存未命中的指令，先执行后续不依赖的指令\nC. 六发射表示每个时钟周期最多可解码6条指令，但受限于前端解码宽度\nD. 乱序执行可完全消除流水线冒险（pipeline hazard）带来的性能损失',
+    .addSingle(MOCK8_NEW, '龙芯3A6000相比3C5000，内存通道数的差异是？\nA. 3A6000双通道，3C5000四通道\nB. 3A6000四通道，3C5000双通道\nC. 两者都是双通道\nD. 两者都是四通道',
+        ['A', 'B', 'C', 'D'], 0,
+        '3A6000双通道DDR4-3200，3C5000四通道DDR4-3200。'
+    )
+    .addSingle(MOCK8_NEW, '迁移中JNI本地库不兼容的典型报错是？\nA. ClassNotFoundException\nB. UnsatisfiedLinkError\nC. OutOfMemoryError\nD. StackOverflowError',
+        ['A', 'B', 'C', 'D'], 1,
+        'JNI本地库不兼容会报UnsatisfiedLinkError，需确认.so文件架构。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中wal_level=minimal的后果是？\nA. 支持主备复制\nB. 不支持主备复制\nC. 支持逻辑复制\nD. 支持归档恢复',
+        ['A', 'B', 'C', 'D'], 1,
+        'minimal最少日志，不支持主备复制；主备集群必须设为replica或logical。'
+    )
+    .addSingle(MOCK8_NEW, '中创应用服务器中，reload-interval=-1和enablePooling=true的共同作用是？\nA. 提升JSP处理性能\nB. 调整线程池大小\nC. 优化JDBC连接池\nD. 启用监控服务',
+        ['A', 'B', 'C', 'D'], 0,
+        '前者禁止实时编译JSP，后者开启标签缓存池，都用于提升JSP处理性能。'
+    )
+    .addSingle(MOCK8_NEW, 'exBase中，反向增量迁移的核心用途是？\nA. 加速正向迁移\nB. 割接失败后的回退\nC. 数据校验\nD. 全量迁移',
+        ['A', 'B', 'C', 'D'], 1,
+        '反向增量迁移用于割接失败后的回退，保证两库数据一致。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中kernel.shmmax建议设置为？\nA. 系统内存×80%/PAGE_SIZE\nB. 系统内存×0.5\nC. 系统内存×25%\nD. 固定1048576',
+        ['A', 'B', 'C', 'D'], 1,
+        'kernel.shmmax单个共享内存段最大尺寸，推荐系统内存×0.5。'
+    )
+    .addSingle(MOCK8_NEW, '龙芯平台安装系统时，全盘自动安装会？\nA. 保留原有数据分区\nB. 清空整块硬盘所有文件\nC. 只格式化根分区\nD. 只格式化/home分区',
+        ['A', 'B', 'C', 'D'], 1,
+        '全盘自动安装会清空整块硬盘所有文件，存量业务服务器应手动分区。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中pg_hba.conf和pg_ident.conf的区别是？\nA. 前者控制客户端认证，后者做操作系统用户到数据库用户的映射\nB. 前者做主配置文件，后者控制客户端认证\nC. 两者都是主配置文件\nD. 前者做用户映射，后者控制客户端认证',
+        ['A', 'B', 'C', 'D'], 0,
+        'pg_hba.conf控制哪些IP/用户可连接，pg_ident.conf做OS用户到DB用户的映射。'
+    )
+    .addSingle(MOCK8_NEW, '迁移中MySQL的REPLACE INTO在Vastbase中应改为？\nA. INSERT INTO\nB. INSERT ... ON CONFLICT\nC. UPDATE\nD. MERGE INTO',
+        ['A', 'B', 'C', 'D'], 1,
+        'MySQL的REPLACE INTO在Vastbase中应改为INSERT ... ON CONFLICT，语法完全不同。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中vb_ctl promote的作用是？\nA. 计划内主动切换\nB. 故障强制切换\nC. 备库提升为主库（底层操作）\nD. 重启集群',
         ['A', 'B', 'C', 'D'], 2,
-        'A错误，发射宽度是指令分发宽度，不等于ALU数量；B错误，乱序执行不能跳过缓存未命中的指令，只能重排独立指令顺序；C正确，六发射是前端解码/发射宽度；D错误，乱序执行可以减少但无法完全消除流水线冒险。'
+        'promote是备库提升为主库的底层操作，failover和switchover都会调用。'
     )
-    // 3
-    .addSingle(MOCK4, '某Vastbase数据库使用同步复制模式搭建一主一备。备库所在机房发生网络抖动，导致备库响应延迟从5ms上升到200ms。此时主库业务事务提交延迟同步上升。以下优化方案中，既能保证数据不丢失又能有效降低提交延迟的是？\nA. 将同步复制改为异步复制，牺牲可靠性换取性能\nB. 增加第二个备库部署在不同机房，改为半同步复制模式\nC. 将synchronous_commit参数从on改为remote_write\nD. 调整wal_keep_segments参数为更大的值',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，异步复制会牺牲RPO；B正确，半同步复制只需至少一个备库确认即可提交，多个备库中哪个先响应就用哪个，降低单点网络抖动影响且不丢数据；C错误，remote_write只保证备库收到但未落盘，有数据丢失风险；D错误，wal_keep_segments与提交延迟无关。'
-    )
-    // 4
-    .addSingle(MOCK4, '某应用从MySQL迁移到Vastbase后，原代码中使用的LIMIT m, n分页语句报语法错误。以下关于该问题的说法，正确的是？\nA. Vastbase的MySQL兼容模式（模式B）完全支持LIMIT m, n语法，报错说明兼容模式选错\nB. 应将LIMIT m, n改为LIMIT n OFFSET m，且需要注意参数顺序（偏移量和行数）\nC. 应改为LIMIT m, n在Vastbase中对应TOP n OFFSET m语法\nD. 只需在postgresql.conf中添加enable_mysql_compatible=true即可支持',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，MySQL兼容模式也需改写，不支持直接使用LIMIT m,n；B正确，标准改写方式，注意n是行数，m是偏移量；C错误，TOP是SQL Server语法；D错误，不存在该配置项。'
-    )
-    // 5
-    .addSingle(MOCK4, '中创AS中，配置JDBC连接池时设置max-pool-size=100，idle-timeout-in-seconds=180。业务高峰期发现应用偶尔报"Connection is not available, request timed out after 30000ms"。以下排查方向最有效的是？\nA. 将max-pool-size从100调大至200，这是连接数不足的直接解决方式\nB. 检查业务代码中数据库连接是否在finally块中正确关闭，排查连接泄漏\nC. 将idle-timeout-in-seconds从180改为60，加速空闲连接释放\nD. 检查数据库中max_connections参数是否小于100',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，盲目调大可能掩盖连接泄漏问题；B正确，连接超时最常见原因是连接泄漏，应检查代码是否正确关闭连接；C错误，调小空闲超时可能增加连接创建开销；D错误，若数据库max_connections小于100则在创建连接池时即会报错而非运行时超时。'
-    )
-    // 6
-    .addSingle(MOCK4, '龙芯平台上，执行yum install -y gcc时报错"No package gcc available"。YUM源已配置且yum repolist显示仓库正常。以下分析最合理的是？\nA. 软件源中不包含gcc包，需检查源配置是否完整或添加EPEL仓库\nB. 龙芯平台上gcc包名为gcc-loongarch64，不能用gcc直接安装\nC. gcc已被预装在系统中，无需安装\nD. YUM缓存损坏，需执行yum clean all后重试',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，仓库中确实没有该包时，需要检查repo配置是否包含完整的软件包仓库；B错误，gcc包名在龙芯平台就是gcc（提供loongarch64架构版本）；C错误，基本系统可能不自带gcc开发工具；D错误，yum repolist正常说明缓存无问题。'
-    )
-    // 7
-    .addSingle(MOCK4, 'Vastbase中，执行CREATE TABLE new_table AS SELECT * FROM old_table;后，以下说法正确的是？\nA. 新表会复制原表的数据、表结构和所有索引和约束\nB. 新表会复制原表的数据和表结构，但不会复制索引和约束（主键、外键等）\nC. 该语句在Vastbase中不支持，应改用CREATE TABLE new_table (LIKE old_table INCLUDING ALL)\nD. 新表与原表共享同一份数据存储，修改任一表会影响另一表',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，CREATE TABLE AS SELECT不复制索引和约束；B正确，只复制数据和列定义，不包含索引、主键、外键、默认值等；C错误，Vastbase支持该语法（基于PostgreSQL）；D错误，新表是独立的数据副本，修改互不影响。'
-    )
-    // 8
-    .addSingle(MOCK4, '中创AS部署的应用在银河麒麟V10上运行，某日用户反馈页面加载缓慢，server.log中出现大量"Full GC (Allocation Failure)"日志。以下排查操作顺序最合理的是？\nA. 立即增大-Xmx参数→重启应用→观察效果\nB. 使用jstat -gcutil <pid>查看GC频率和各代占用率→使用jmap -dump导出堆dump→分析内存泄漏\nC. 重启中间件→清理日志文件→观察是否恢复\nD. 检查数据库连接池配置→调整最大连接数→重启连接池',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，盲目调大内存可能掩盖内存泄漏问题；B正确，先通过jstat定位GC问题，再jmap dump分析根因，是标准排查流程；C错误，重启只能临时缓解；D错误，Full GC是JVM内存问题，与连接池无直接关联。'
-    )
-    // 9
-    .addSingle(MOCK4, '龙芯3C5000服务器与3D5000服务器在内存规格上的差异是？\nA. 3C5000支持4通道DDR4，3D5000支持8通道DDR4\nB. 3C5000支持8通道DDR4，3D5000支持4通道DDR4\nC. 两者均支持4通道DDR4\nD. 3C5000支持DDR5，3D5000支持DDR4',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，3C5000为4通道DDR4内存，3D5000为8通道DDR4内存；B错误，说反了；C错误，两者通道数不同；D错误，两者均不支持DDR5。'
-    )
-    // 10
-    .addSingle(MOCK4, 'Vastbase的pg_stat_replication视图中，write_lsn、flush_lsn、replay_lsn三个字段的含义，以下说法正确的是？\nA. write_lsn表示备库已写入磁盘的WAL位置，flush_lsn表示已重放的位置\nB. write_lsn表示备库已收到但未写入磁盘的WAL位置，flush_lsn表示已写入磁盘的位置，replay_lsn表示已重放的位置\nC. 三个字段数值相等时表示主备完全同步\nD. replay_lsn落后于flush_lsn表示备库应用WAL的速度跟不上写入速度',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，write_lsn≠已写入磁盘；B正确，write=已收到未落盘，flush=已落盘，replay=已重放；C错误，三者数值理论上write≥flush≥replay（可能相等但不一定同步）；D错误，replay落后于flush是正常状态（应用滞后于写入），落后于write才是应用跟不上。'
-    )
-    // 11
-    .addSingle(MOCK4, '迁移适配中，应用从Tomcat迁移到中创AS时，以下关于配置文件迁移的说法，正确的是？\nA. Tomcat的server.xml可直接复制到中创AS的配置目录中，无需修改\nB. Tomcat的context.xml中的数据源配置需迁移到中创AS的JDBC连接池和资源定义中\nC. 应用中的web.xml完全不需要任何修改即可在中创AS上运行\nD. 中创AS不识别META-INF/context.xml，该文件应删除',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，server.xml是Tomcat特有格式，中创AS使用domain.xml；B正确，Tomcat的数据源配置需迁移至中创AS的JDBC连接池体系；C错误，某些web.xml配置可能需要调整（如JNDI引用格式）；D错误，META-INF/context.xml可以保留或迁移其中的配置。'
-    )
-    // 12
-    .addSingle(MOCK4, '龙芯平台安装统信UOS时，手动分区方案为：/boot 500MB、EFI 200MB、/ 40GB、/home 剩余空间、swap 4GB。安装完成后重启，系统卡在GRUB引导界面无法进入系统。以下原因最可能的是？\nA. /boot分区容量不足，内核文件无法完整写入\nB. EFI分区容量不足，引导文件写入失败或不完整\nC. swap分区应放在/home分区之后，分区顺序错误导致引导失败\nD. /分区应使用XFS格式而非EXT4',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，/boot 500MB足够；B正确，EFI分区200MB偏小，UEFI引导文件和内核镜像可能写入不全，建议512MB以上；C错误，分区顺序不影响引导；D错误，EXT4是龙芯平台推荐的默认文件系统。'
-    )
-    // 13
-    .addSingle(MOCK4, '在Vastbase中，关于vb_ctl reload命令的使用，以下说法正确的是？\nA. 该命令可以修改数据库的端口号和共享缓冲区大小，无需重启\nB. 该命令仅使部分配置参数生效，修改内存相关参数仍需重启数据库\nC. 该命令可以动态调整max_connections参数，无需重启\nD. 该命令执行后会自动备份当前的postgresql.conf文件',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，端口号和shared_buffers需重启生效；B正确，reload仅对部分无需重启的参数生效，内存参数需重启；C错误，max_connections需重启生效；D错误，reload不会自动备份配置文件。'
-    )
-    // 14
-    .addSingle(MOCK4, '某系统使用exBase从MySQL迁移到Vastbase，选择在线迁移模式。源库为MySQL 5.7，数据量约500GB。迁移启动后全量迁移正常完成，但增量同步启动时报错"binlog does not contain expected events"。以下分析最可能的是？\nA. MySQL 5.7的binlog格式为STATEMENT，CDC需要ROW格式才能正确解析\nB. MySQL的binlog保留时间过短，全量迁移期间产生的binlog已被清理\nC. exBase的CDC用户没有REPLICATION SLAVE权限\nD. 源库和目标库的字符集不一致导致binlog解析失败',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，MySQL 5.7默认可能是MIXED或ROW，STATEMENT可能部分支持但不是最可能原因；B正确，全量迁移耗时较长时，MySQL的binlog_expire_logs_seconds默认可能只保留较短时间，导致CDC启动时需要的起始binlog已被清理；C错误，权限不足会在开始时直接报错；D错误，字符集问题不会导致"expected events"类型的错误。'
-    )
-    // 15
-    .addSingle(MOCK4, '龙芯LoongArch架构中，以下关于LAT（Loongson Architecture Translator）二进制翻译技术的说法，正确的是？\nA. LAT可将x86_64 Linux应用程序翻译为龙芯指令集运行，无需修改即可执行\nB. LAT主要用于在龙芯上运行Windows应用程序，配合Wine兼容层使用\nC. LAT是硬件级指令翻译，与QEMU等软件模拟方案性能相当\nD. LAT支持全架构指令翻译，包括ARM64到龙芯的二进制翻译',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，LAT针对Windows应用程序，Linux x86_64应用仍需重新编译或使用其他方案；B正确，LAT是龙芯自研的Windows应用兼容方案，配合Wine运行Windows程序；C错误，LAT是软件二进制翻译，性能优于纯模拟但不如原生，描述不准确；D错误，LAT主要面向x86 Windows，不支持ARM64→龙芯。'
-    )
-    // 16
-    .addSingle(MOCK4, '中创AS的应用服务器安全配置中，忘记管理员控制台密码后的标准重置方式是？\nA. 重新运行安装程序，覆盖安装\nB. 修改domains/domain1/config/admin-keyfile文件，清空密码字段或重置为初始密码\nC. 删除domains/domain1/config/目录，重启后自动重新生成\nD. 使用asadmin change-admin-password命令交互式重置',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，覆盖安装会丢失配置；B正确，admin-keyfile是密码存储文件，可通过修改该文件重置密码；C错误，删除config目录会导致域配置丢失；D错误，change-admin-password需要知道旧密码，忘记密码时无法使用。'
-    )
-    // 17
-    .addSingle(MOCK4, 'Vastbase中，以下关于序列（SEQUENCE）的说法，正确的是？\nA. 序列与表的自增列绑定，删除表时序列会自动删除\nB. nextval()函数每次调用都会生成一个新值，且不可回退\nC. currval()函数可以在任何会话中查看任意序列的当前值\nD. 序列的值在事务回滚时会自动恢复到回滚前的值',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，序列是独立对象，删除表不会自动删除序列；B正确，nextval()生成值不可回滚，即使事务回滚该值已被消耗；C错误，currval()只能查看当前会话中上次nextval()的值；D错误，序列值不回滚，这是设计特性。'
-    )
-    // 18
-    .addSingle(MOCK4, '龙芯平台YUM源配置中，以下关于repo文件配置的说法，正确的组合是？\n① baseurl使用file://协议 ② gpgcheck=1表示跳过校验 ③ enabled=1表示仓库启用 ④ 本地源可同时配置多个\nA. ①②③\nB. ①③④\nC. ②③④\nD. ①②④',
-        ['A', 'B', 'C', 'D'], 1,
-        '①正确，本地源使用file://；②错误，gpgcheck=1表示开启校验，=0才是关闭；③正确，enabled=1表示启用；④正确，可配置多个repo文件。正确答案为B（①③④）。'
-    )
-    // 19
-    .addSingle(MOCK4, '某Vastbase集群主库硬盘损坏，备库执行vb_ctl failover升为主库后，业务恢复。但应用发现部分最新数据丢失（约5分钟）。以下分析最合理的是？\nA. 同步复制模式下备库数据与主库完全一致，数据丢失应归因于应用缓存\nB. 该集群配置为异步复制模式，故障时尚未同步的WAL随主库硬盘损坏而丢失\nC. 备库的recovery.conf中primary_conninfo配置了application_name但未正确匹配\nD. wal_keep_segments设置为0导致备库WAL丢失',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，同步复制不会丢数据，说明集群是异步模式；B正确，异步复制模式下，主库提交后不等待备库确认，故障时未同步的事务WAL随主库硬盘损坏丢失，产生RPO>0；C错误，application_name错误会导致复制无法建立而非数据丢失；D错误，wal_keep_segments=0会保留最小WAL，但不是导致RPO>0的根本原因（根本是异步模式本身）。'
-    )
-    // 20
-    .addSingle(MOCK4, '中创AS的线程池自调优功能启用后，以下现象中哪个表明该功能工作正常？\nA. 线程池大小始终保持在32-256之间动态调整\nB. 线程池大小根据系统CPU使用率和请求排队情况动态调整到较优区间\nC. 线程池大小固定为最大值的50%\nD. 线程池大小在业务低谷期缩小为0以节省资源',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，32-256只是默认范围而非自调优的调整逻辑；B正确，自调优线程池根据系统负载动态调整大小以达到CPU/吞吐量平衡；C错误，自调优不会固定为某个比例；D错误，不会缩小为0。'
-    )
-    // 21
-    .addSingle(MOCK4, 'Vastbase中，以下关于FOREIGN KEY约束在分区表上的限制，说法正确的是？\nA. 分区表不支持外键约束，创建时会报错\nB. 分区表的外键约束只能引用父表，不能引用其他分区表\nC. 分区表支持外键约束，但引用表也必须是分区表且分区键必须一致\nD. 分区表支持外键约束，但ON DELETE CASCADE操作在分区表上性能较差',
+    .addSingle(MOCK8_NEW, '中创应用服务器中，标准版相比企业版缺少的核心能力是？\nA. Web容器\nB. 数据源\nC. EJB容器\nD. HTTP服务',
         ['A', 'B', 'C', 'D'], 2,
-        'A错误，分区表支持外键但有限制；B错误，外键可引用其他表但需满足条件；C正确，分区表外键约束要求被引用表也分区且分区键对齐，这是Vastbase/PostgreSQL分区表外键的限制；D错误，ON DELETE CASCADE在分区表上支持有限。'
+        '标准版没有EJB容器，企业版全功能，容器版没EJB没集群。'
     )
-    // 22
-    .addSingle(MOCK4, '龙芯3A6000处理器在2.5GHz满载时典型功耗约40W。以下关于该功耗水平的理解，正确的是？\nA. 40W是峰值功耗（PL2），持续运行实际功耗约60W\nB. 40W是该CPU在所有工作负载下的固定功耗值\nC. 40W仅发生在全核满载运行特定CPU密集型指令时，日常办公功耗通常低于此值\nD. 40W是包含内存、主板等整机功耗的总和',
-        ['A', 'B', 'C', 'D'], 2,
-        'A错误，40W是典型满载功耗而非峰值，峰值可能更高但数值不对；B错误，功耗随负载变化，不是固定值；C正确，典型满载功耗指特定负载场景，日常办公功耗更低；D错误，40W是CPU本身功耗，不含内存等外围设备。'
-    )
-    // 23
-    .addSingle(MOCK4, '中创AS中，应用部署后访问出现HTTP 500错误，但server.log中无ERROR级别日志。以下排查方向最可能有效的是？\nA. 应用使用了日志框架（如Log4j、Logback），错误被输出到应用的日志文件而非server.log\nB. HTTP 500错误不会记录到任何日志中，需要通过浏览器调试工具查看\nC. 中创AS的日志级别设置为SEVERE，过滤掉了WARNING和INFO级别的错误\nD. 该错误发生在请求到达中间件之前，由操作系统直接返回',
+    .addSingle(MOCK8_NEW, 'exBase中，CDC正常延迟应保持在什么范围？\nA. <1秒\nB. <5秒\nC. <10秒\nD. <30秒',
         ['A', 'B', 'C', 'D'], 0,
-        'A正确，应用自身的日志框架可能将错误输出到应用日志文件（如logs/app.log），需检查应用日志配置；B错误，HTTP 500会记录日志；C错误，SEVERE只输出严重错误但应用异常通常会被记录为SEVERE或WARNING，不会完全丢失；D错误，500错误发生在应用内部，请求已到达中间件。'
+        'CDC正常延迟<1秒，超过10秒需排查原因。'
     )
-    // 24
-    .addSingle(MOCK4, '以下关于龙芯LoongArch架构与x86架构在JDK兼容性方面的说法，正确的是？\nA. LoongArch平台可直接使用x86_64的OpenJDK，通过LAT翻译执行\nB. LoongArch平台必须使用专门编译的loongarch64架构JDK，如龙芯JDK或KonaJDK\nC. LoongArch平台可使用ARM64架构的JDK，因为二者同属RISC指令集\nD. LoongArch平台仅能使用Oracle官方JDK，不能使用OpenJDK',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，x86_64 JDK无法在龙芯上运行，LAT针对Windows程序而非Java运行时；B正确，必须使用loongarch64架构的JDK版本；C错误，ARM64和LoongArch虽然都是RISC但指令集不同，无法通用；D错误，可使用OpenJDK龙芯版。'
-    )
-    // 25
-    .addSingle(MOCK4, 'Vastbase中，执行VACUUM FULL与VACUUM的核心区别是？\nA. VACUUM FULL可以回收磁盘空间给操作系统，但执行期间会锁表\nB. VACUUM可以回收磁盘空间给操作系统，但执行期间不锁表\nC. 两者功能完全相同，只是VACUUM FULL执行更快\nD. VACUUM FULL只更新统计信息，不回收空间',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，VACUUM FULL重写表回收空间给OS，但加排他锁；B错误，普通VACUUM不回收空间给OS，只标记重用；C错误，功能不同且FULL更慢；D错误，FULL回收空间。'
-    )
-    // 26
-    .addSingle(MOCK4, '龙芯平台安装银河麒麟系统时，Root密码设置"Loongson2026!"。以下关于该密码是否符合安全规范的说法，正确的是？\nA. 符合要求，长度8位以上且包含大写、小写、数字、特殊字符四类\nB. 不符合要求，密码不能包含"Loongson"等与系统相关的词汇\nC. 符合要求，但需确认特殊字符"!"是否被系统允许\nD. 不符合要求，密码长度应至少12位',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，长度15位，包含大写L、小写oongson、数字2026、特殊字符!，满足四类至少包含三类的复杂度要求；B错误，文档中无"不能包含系统相关词汇"的要求；C错误，"!"是允许的特殊字符；D错误，规范要求8位以上，12位不是强制要求。'
-    )
-    // 27
-    .addSingle(MOCK4, '中创AS中，以下关于域（Domain）和集群（Cluster）关系的说法，正确的是？\nA. 一个域只能包含一个集群，不能多集群共存\nB. 一个域可以包含多个集群和独立实例，共享同一套配置边界\nC. 集群只能包含同一物理节点上的实例，不能跨节点\nD. 域和集群是同一概念的不同称呼',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，一个域可包含多个集群；B正确，域是管理边界，可包含多个集群和独立实例；C错误，集群可跨节点；D错误，域是管理边界，集群是实例集合，概念不同。'
-    )
-    // 28
-    .addSingle(MOCK4, 'Vastbase中，某表有500万行数据，执行DELETE FROM table WHERE status=\'deleted\';删除200万行后，再次查询该表的COUNT(*)速度未提升，磁盘空间也未释放。以下操作最合理的是？\nA. 执行VACUUM table;标记死元组可重用，但空间不释放\nB. 执行VACUUM FULL table;回收空间，但需在业务低峰期执行\nC. 执行REINDEX TABLE table;重建索引以提升查询速度\nD. 执行CLUSTER table USING index_name;重组表数据',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，VACUUM只标记重用，不释放空间给OS，COUNT(*)速度也不会因VACUUM提升；B正确，VACUUM FULL重写表回收空间并更新统计信息，但会锁表，需低峰期执行；C错误，REINDEX重建索引不解决表空间和统计信息问题；D错误，CLUSTER按索引重排数据，不释放空间。'
-    )
-    // 29
-    .addSingle(MOCK4, '龙芯3D5000处理器支持8通道DDR4内存，相比3C5000的4通道，以下分析最准确的是？\nA. 8通道内存带宽是4通道的2倍，适合内存密集型服务器工作负载\nB. 8通道内存容量是4通道的2倍，但内存带宽不变\nC. 8通道主要提升的是内存延迟而非带宽\nD. 3D5000的8通道设计纯粹是为了兼容更多内存插槽，无性能提升',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，8通道内存带宽理论上是4通道的2倍，适合3D5000双路/四路服务器的高内存吞吐需求；B错误，通道数增加同时提升带宽和容量上限；C错误，通道数主要影响带宽而非延迟；D错误，8通道有明显性能提升。'
-    )
-    // 30
-    .addSingle(MOCK4, '某系统从Oracle迁移到Vastbase后，应用程序报错"SQLException: Invalid column type: getInt() called on column with type numeric"。以下分析最可能的是？\nA. Vastbase中Oracle的NUMBER类型默认映射为numeric，但numeric类型不能用getInt()获取\nB. 该列实际存储的是字符串类型数据，应使用getString()获取\nC. Vastbase的JDBC驱动不支持getInt()方法，需改用getLong()\nD. 该列存在NULL值，getInt()无法处理NULL',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，NUMBER→numeric，numeric是精确数值类型，JDBC中应使用getBigDecimal()或getLong()而非getInt()；B错误，类型是numeric不是字符串；C错误，JDBC驱动支持getInt()但类型不匹配时抛出异常；D错误，getInt()可以处理NULL返回0。'
-    )
-    // 31
-    .addSingle(MOCK4, '中创AS的监控服务启用后，监控级别设置为"低"。以下关于该设置的影响，说法正确的是？\nA. 只采集该模块的常用监控指标，不采集详细指标\nB. 监控服务会采集全部指标但采样频率降低\nC. 该模块的监控数据完全不被采集\nD. 监控级别"低"与"关闭"效果相同',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，"低"级别只采集常用监控指标；B错误，"低"是减少采集指标数量而非降低频率；C错误，"关闭"才不采集；D错误，"低"仍采集常用指标，"关闭"不采集。'
-    )
-    // 32
-    .addSingle(MOCK4, '龙芯平台上配置本地离线YUM源时，以下步骤顺序最合理的是？\n① 创建repo文件 ② 挂载镜像或复制rpm包到本地目录 ③ yum clean all ④ yum makecache ⑤ yum repolist验证\nA. ②→①→③→④→⑤\nB. ①→②→③→④→⑤\nC. ②→③→①→④→⑤\nD. ①→③→②→④→⑤',
-        ['A', 'B', 'C', 'D'], 0,
-        '正确顺序是先准备好本地源数据（②），再创建repo文件指向该路径（①），然后清理缓存（③）、生成缓存（④），最后验证（⑤）。A顺序最合理。'
-    )
-    // 33
-    .addSingle(MOCK4, 'Vastbase中，以下关于pg_log目录和pg_wal目录的描述，错误的是？\nA. pg_log包含数据库运行日志，pg_wal包含预写式日志\nB. pg_log中的日志文件可以手动删除以释放空间\nC. pg_wal中的WAL文件在归档模式下可以被安全删除以释放空间\nD. pg_wal中的WAL文件用于故障恢复和主备复制',
-        ['A', 'B', 'C', 'D'], 2,
-        'A正确，两者功能不同；B正确，pg_log日志可清理；C错误，pg_wal中的WAL文件不能手动删除，即使归档模式下也可能需要用于恢复，删除可能导致数据丢失或复制中断；D正确，WAL用于恢复和复制。'
-    )
-    // 34
-    .addSingle(MOCK4, '中创AS中，以下关于asadmin命令行工具的用法，说法正确的是？\nA. asadmin start-domain -v domain1以后台模式启动域，-v参数启用详细输出\nB. asadmin stop-domain domain1可以强制停止域，无需等待事务完成\nC. asadmin list-applications可列出域中已部署的所有应用\nD. asadmin deploy --name myapp myapp.war部署应用后，默认不自动启动',
-        ['A', 'B', 'C', 'D'], 2,
-        'A错误，-v是前台启动显示控制台日志，非后台模式；B错误，stop-domain默认使用优雅停止，强制停止需加--force参数；C正确，list-applications是查看已部署应用的标准命令；D错误，deploy默认自动启动应用。'
-    )
-    // 35
-    .addSingle(MOCK4, '龙芯3A6000与3B6000M的向量扩展指令支持情况，以下说法正确的是？\nA. 两者均支持LSX128位和LASX256位向量扩展\nB. 3A6000支持LSX和LASX，3B6000M不支持向量扩展\nC. 3B6000M仅支持LSX，不支持LASX\nD. 两者均不支持向量扩展，需软件模拟',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，LA664核心均支持LSX128位和LASX256位向量扩展指令，3A6000和3B6000M共享核心架构；B错误，3B6000M也支持；C错误，两者均支持两组向量扩展；D错误，硬件原生支持。'
-    )
-    // 36
-    .addSingle(MOCK4, 'Vastbase中，以下关于pg_hba.conf配置导致数据库无法启动的说法，正确的是？\nA. pg_hba.conf配置错误会导致数据库启动失败，且无法通过任何方式绕过\nB. 可通过命令行参数-hba_file指定备用认证文件来启动数据库\nC. pg_hba.conf错误只影响客户端连接，不影响数据库启动\nD. 只有postgresql.conf错误才会导致启动失败，pg_hba.conf不会',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，可通过-hba_file绕过；B正确，指定备用认证文件是应急启动方式；C错误，pg_hba.conf严重错误时数据库可能启动失败；D错误，pg_hba.conf严重配置错误也会导致启动失败。'
-    )
-    // 37
-    .addSingle(MOCK4, '迁移适配中，某应用使用Spring Boot 2.x + MyBatis-Plus，数据源配置使用Druid连接池。迁移到Vastbase后，数据源初始化报错"Unknown driver class: org.postgresql.Driver"。以下解决方案最合理的是？\nA. 在pom.xml中添加PostgreSQL JDBC驱动依赖（groupId: org.postgresql, artifactId: postgresql）\nB. 将驱动类名改为com.vastbase.Driver，Vastbase有自己的驱动类\nC. 将Druid连接池替换为HikariCP，因为Druid不支持Vastbase\nD. 在application.properties中配置spring.datasource.driver-class-name=org.postgresql.Driver，并确保驱动jar包在classpath中',
+    .addSingle(MOCK8_NEW, 'Vastbase中fs.nr_open参数的推荐值是？\nA. 1024\nB. 4096\nC. 1048576\nD. 20480000',
         ['A', 'B', 'C', 'D'], 3,
-        'A错误，仅添加依赖不够，还需确认配置正确；B错误，Vastbase使用PostgreSQL驱动类名org.postgresql.Driver，不是com.vastbase.Driver；C错误，Druid支持Vastbase/PostgreSQL驱动；D正确，Vastbase JDBC驱动使用PostgreSQL驱动类名，需正确配置并确保依赖存在。'
+        'fs.nr_open单进程最大打开文件句柄数，推荐20480000。'
     )
-    // 38
-    .addSingle(MOCK4, '龙芯平台安装银河麒麟系统时，选择"全盘自动安装"模式后，以下说法错误的是？\nA. 会清空整块硬盘所有现有分区和数据\nB. 系统会自动创建EFI、/、/home、swap等分区\nC. 该模式适用于已有存量数据的业务服务器\nD. 该模式适用于全新空白硬盘的快速部署',
-        ['A', 'B', 'C', 'D'], 2,
-        'A正确，全盘模式清空全部数据；B正确，自动创建标准分区方案；C错误，有存量数据应使用手动分区模式，全盘模式会清空数据；D正确，适合空白硬盘。'
+    .addSingle(MOCK8_NEW, '龙芯3A6000的L3缓存和内存带宽分别是？\nA. 8MB、21GB/s\nB. 16MB、42GB/s\nC. 32MB、51.2GB/s\nD. 16MB、21GB/s',
+        ['A', 'B', 'C', 'D'], 1,
+        '3A6000固定16MB共享L3缓存，42GB/s内存带宽。'
     )
-    // 39
-    .addSingle(MOCK4, '中创AS与Vastbase数据库的JDBC连接配置中，以下关于JNDI名称规范的说法，正确的是？\nA. JNDI名称必须以jdbc/开头，如jdbc/myapp\nB. JNDI名称必须在java:comp/env/命名空间下，如java:comp/env/jdbc/myapp\nC. 中创AS对JNDI名称的格式无任何限制，可使用任意字符串\nD. 应用中使用java:comp/env/jdbc/myapp查找，资源配置时名称应为jdbc/myapp',
+    .addSingle(MOCK8_NEW, 'Vastbase中pg_stat_replication视图的主要用途是？\nA. 查看当前连接\nB. 查看主备同步状态\nC. 查看参数配置\nD. 判断主备角色',
+        ['A', 'B', 'C', 'D'], 1,
+        'pg_stat_replication查看主备同步状态，pg_is_in_recovery()判断角色。'
+    )
+    .addSingle(MOCK8_NEW, '迁移中，weblogic.xml迁移到中创AS时应转换为？\nA. web.xml\nB. infosuite-web.xml\nC. application.xml\nD. domain.xml',
+        ['A', 'B', 'C', 'D'], 1,
+        'WebLogic的weblogic.xml迁移到中创AS时转换为infosuite-web.xml。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中vb_dump的自定义格式代码是？\nA. p\nB. c\nC. d\nD. t',
+        ['A', 'B', 'C', 'D'], 1,
+        'p=明文，c=自定义（压缩格式），d=目录，t=tar包。'
+    )
+    .addSingle(MOCK8_NEW, '中创应用服务器中，-DconnectionAutoClose=true的作用是？\nA. 事务内共享连接\nB. 连接自动关闭，及时释放资源\nC. 使用高性能数据结构\nD. 启用G1GC',
+        ['A', 'B', 'C', 'D'], 1,
+        '-DconnectionAutoClose=true实现连接自动关闭，若应用未主动关闭，请求结束时自动关闭。'
+    )
+    .addSingle(MOCK8_NEW, '龙芯LoongArch架构独立于哪两大海外架构？\nA. RISC-V和MIPS\nB. X86和ARM\nC. PowerPC和SPARC\nD. CISC和RISC',
+        ['A', 'B', 'C', 'D'], 1,
+        'LoongArch独立于X86、ARM两大海外商业软硬件生态。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中archive_mode=on的作用是？\nA. 控制WAL日志级别\nB. 开启归档，否则无法做PITR恢复\nC. 保留WAL文件数量\nD. 定义归档脚本',
+        ['A', 'B', 'C', 'D'], 1,
+        'archive_mode=on开启归档，否则WAL循环覆盖，无法做PITR恢复。'
+    )
+    .addSingle(MOCK8_NEW, '迁移中，SpringBoot迁移到中创内嵌版时，业务代码应？\nA. 大量重写\nB. 基本保持不变\nC. 全部删除\nD. 只保留配置文件',
+        ['A', 'B', 'C', 'D'], 1,
+        '主要是替换依赖和调整配置，业务代码基本保持不变。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中work_mem和max_connections的关系是？\nA. max_connections越大，work_mem总消耗越大\nB. max_connections越大，work_mem总消耗越小\nC. 两者无关联\nD. work_mem是全局参数',
+        ['A', 'B', 'C', 'D'], 0,
+        'work_mem每个进程独享，max_connections越大，总消耗越大，需按并发数反推。'
+    )
+    .addSingle(MOCK8_NEW, '中创应用服务器中，jstat -gcutil <pid> 1000的作用是？\nA. 查看线程堆栈\nB. 每秒打印GC情况\nC. 导出堆内存\nD. 查看进程CPU',
+        ['A', 'B', 'C', 'D'], 1,
+        'jstat -gcutil <pid> 1000每秒打印GC情况，用于分析GC频率。'
+    )
+    .addSingle(MOCK8_NEW, '龙芯3C5000不支持以下哪项？\nA. 16颗LA664核心\nB. 4通道DDR4-3200\nC. ECC校验\nD. PCIe4.0',
         ['A', 'B', 'C', 'D'], 3,
-        'A错误，不是强制要求以jdbc/开头，但推荐；B错误，java:comp/env是应用查找时的标准前缀，资源配置名称不需要包含该前缀；C错误，有格式限制；D正确，资源名称为jdbc/myapp，查找时加java:comp/env前缀是标准做法。'
+        '3C5000硬件不支持PCIe4.0高速接口。'
     )
-    // 40
-    .addSingle(MOCK4, '龙芯3C5000服务器不支持PCIe4.0接口。以下关于此限制的影响分析，最准确的是？\nA. 无法使用任何NVMe SSD，只能使用SATA硬盘\nB. 所有PCIe设备性能仅为PCIe3.0水平，但大多数网卡和阵列卡在PCIe3.0下仍可正常工作\nC. 无法安装任何PCIe网卡，只能使用板载网卡\nD. 不支持GPU卡扩展，无法用于AI推理场景',
+    .addSingle(MOCK8_NEW, 'Vastbase中vb_ctl failover的适用场景是？\nA. 计划内维护\nB. 主节点已宕机\nC. 备库升主\nD. 重启集群',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，PCIe3.0也支持NVMe SSD，只是带宽较低；B正确，PCIe3.0性能对大多数企业级网卡和存储卡足够，且3C5000支持PCIe3.0；C错误，支持PCIe3.0网卡；D错误，PCIe3.0也支持GPU，只是带宽受限。'
+        'failover用于主节点已宕机的故障强制切换，switchover用于计划内维护。'
     )
-    // 41
-    .addSingle(MOCK4, 'Vastbase中，work_mem参数设置为128MB，同时有50个活跃连接执行排序操作。以下关于内存消耗的计算，说法正确的是？\nA. 总消耗固定为128MB，所有连接共享该内存\nB. 总消耗最多为128MB × 50 = 6400MB，若超过max_process_memory可能导致OOM\nC. 每个连接实际消耗取决于排序数据量，不会用完128MB\nD. work_mem是操作系统参数，不由数据库管理',
+    .addSingle(MOCK8_NEW, '迁移中，Oracle的CONNECT BY在Vastbase中应改为？\nA. JOIN\nB. WITH RECURSIVE\nC. UNION\nD. GROUP BY',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，work_mem是每个操作独享；B正确，最坏情况每个操作消耗128MB，50个并发操作最多消耗6.4GB，需确保不超过max_process_memory；C错误，可能消耗满；D错误，是数据库参数。'
+        'Oracle的CONNECT BY层次查询在Vastbase中应改为WITH RECURSIVE。'
     )
-    // 42
-    .addSingle(MOCK4, '龙芯平台上，以下关于系统镜像SHA256校验的说法，正确的是？\nA. SHA256校验可在镜像写入U盘后执行，验证写入是否成功\nB. SHA256校验应在下载镜像后、写入U盘前执行，确保镜像文件完整\nC. SHA256校验会在安装过程中自动执行，用户无需手动操作\nD. SHA256校验只对网络下载的镜像有效，本地拷贝的镜像无需校验',
+    .addSingle(MOCK8_NEW, 'Vastbase中bgwriter_delay和pagewriter_sleep的区别是？\nA. 前者控制checkpoint刷页，后者控制后台刷页\nB. 前者控制后台刷页，后者控制checkpoint刷页\nC. 两者都控制checkpoint刷页\nD. 两者都控制后台刷页',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，应在写入前校验；B正确，下载后写入前校验是标准流程；C错误，需手动校验；D错误，无论来源都需校验。'
+        'bgwriter_delay控制后台刷页频率，pagewriter_sleep控制checkpoint刷页频率。'
     )
-    // 43
-    .addSingle(MOCK4, '中创AS的应用部署中，将war包放入autodeploy目录后未自动部署，以下排查方向最可能有效的是？\nA. 检查war包文件名是否包含特殊字符或中文字符\nB. 检查autodeploy目录的权限是否为中创AS运行用户可读写\nC. 重启中创AS域，强制触发自动部署扫描\nD. 检查war包是否已损坏，尝试重新打包',
+    .addSingle(MOCK8_NEW, '中创应用服务器中，numconsumed接近最大值+waitQueueLength持续增长表示？\nA. 线程池耗尽\nB. 连接池耗尽\nC. JVM内存不足\nD. 磁盘空间不足',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，特殊字符可能导致问题但不是最常见原因；B正确，autodeploy目录需要运行用户有写入权限才能自动部署；C错误，自动部署无需重启；D错误，war损坏是可能性之一但权限问题是首要排查项。'
+        '连接池耗尽的典型指标组合，需调大最大池大小或检查连接释放。'
     )
-    // 44
-    .addSingle(MOCK4, '龙芯3A6000的主频范围为2.0GHz~2.5GHz，支持动态变频。以下关于动态变频的说法，正确的是？\nA. 动态变频由操作系统控制，CPU硬件不参与频率决策\nB. 动态变频根据负载自动调节频率，低负载时降低频率以节省功耗\nC. 动态变频开启后，CPU最高频率无法达到2.5GHz\nD. 动态变频仅影响CPU性能，不影响功耗',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，硬件和操作系统协同完成频率调节；B正确，动态变频根据负载动态调整频率，是节能机制；C错误，高负载时可达到2.5GHz；D错误，变频同时影响功耗和性能。'
-    )
-    // 45
-    .addSingle(MOCK4, 'Vastbase中，以下关于pg_settings视图的用途，说法正确的是？\nA. 该视图用于查看当前数据库的所有参数配置，包括默认值和修改值\nB. 该视图只显示管理员修改过的参数，不显示默认值\nC. 该视图可以修改参数配置，直接更改生效\nD. 该视图仅显示内存相关参数',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，pg_settings显示所有GUC参数及其当前值；B错误，显示所有参数包括默认值；C错误，视图只读，修改需通过ALTER SYSTEM或配置文件；D错误，显示所有类型参数。'
-    )
-    // 46
-    .addSingle(MOCK4, '龙芯平台离线环境中，使用rpm -ivh package.rpm安装软件时报错"failed to open: No such file or directory"，但文件确实存在。以下原因最可能的是？\nA. 文件权限不足，当前用户无读权限\nB. 文件虽然存在但已损坏\nC. 文件路径包含空格或特殊字符未被正确转义\nD. 该rpm包为x86_64架构，在龙芯上无法识别',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，"No such file"最常因权限不足（文件存在但不可读）或路径问题导致；B错误，损坏报"corrupt"而非"No such file"；C错误，空格问题可能但权限问题是首选排查；D错误，架构不匹配报"wrong architecture"而非"No such file"。'
-    )
-    // 47
-    .addSingle(MOCK4, '中创AS中，以下关于HTTP 503错误的说法，正确的是？\nA. 503表示后端应用代码异常抛出空指针\nB. 503表示服务不可用，可能因应用服务器过载或线程池耗尽导致\nC. 503表示请求的URL路径不存在\nD. 503表示数据库连接失败',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，500表示应用异常；B正确，503 Service Unavailable表示服务器过载或不可用；C错误，404表示路径不存在；D错误，数据库连接失败可能表现为500或连接超时。'
-    )
-    // 48
-    .addSingle(MOCK4, '龙芯3C6000相比3C5000的改进，以下说法正确的是？\nA. 3C6000核心数从16核提升为32核\nB. 3C6000支持PCIe4.0，而3C5000不支持\nC. 3C6000为桌面处理器，3C5000为服务器处理器\nD. 3C6000采用MIPS架构，3C5000采用LoongArch架构',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，3C6000仍是16核；B正确，3C6000支持PCIe4.0是相比3C5000（仅PCIe3.0）的重要升级；C错误，两者均为服务器处理器；D错误，两者均采用LoongArch架构。'
-    )
-    // 49
-    .addSingle(MOCK4, 'Vastbase中，执行ALTER TABLE t ADD CONSTRAINT pk_id PRIMARY KEY (id);时，若表有1000万行数据，以下说法正确的是？\nA. 该操作会获取行级锁，不影响其他会话对表的读写\nB. 该操作会获取排他锁，阻塞所有对该表的读写操作直到索引创建完成\nC. 该操作会自动使用CONCURRENTLY方式，不阻塞读写\nD. 该操作只锁表结构，不锁数据，其他会话可继续读取数据',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，ADD PRIMARY KEY会获取排他锁；B正确，DDL操作（包括添加主键）获取AccessExclusiveLock，阻塞所有读写；C错误，CONCURRENTLY不支持主键添加；D错误，会阻塞读写。'
-    )
-    // 50
-    .addSingle(MOCK4, '龙芯平台上，以下关于SELinux状态影响应用服务器运行的说法，正确的是？\nA. SELinux默认启用，不会影响中创AS的运行\nB. SELinux在龙芯平台上默认关闭，无需处理\nC. SELinux若未正确配置，可能阻止中创AS访问文件或监听端口\nD. SELinux只影响文件系统，不影响网络通信',
-        ['A', 'B', 'C', 'D'], 2,
-        'A错误，SELinux可能影响应用运行；B错误，龙芯平台上SELinux状态与发行版相关，不能一概而论；C正确，SELinux会限制进程的文件访问和网络端口绑定；D错误，SELinux也影响网络（端口绑定、socket通信）。'
-    )
-    // 51
-    .addSingle(MOCK4, 'Vastbase中，以下关于archive_command配置的说法，正确的是？\nA. archive_command配置错误会导致数据库无法启动\nB. archive_command中可使用%p和%f占位符，分别表示WAL文件路径和文件名\nC. archive_command指定的脚本执行成功与否不影响主库正常工作，失败只是归档延迟\nD. archive_command配置后无需重启数据库，执行reload即可生效',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，archive_command错误会导致归档失败但数据库可启动；B正确，%p为带路径的WAL文件名，%f为文件名；C错误，归档失败不会阻塞主库操作但会导致WAL堆积，最终可能耗尽磁盘空间；D错误，archive_command是postgresql.conf参数，修改后需重启或reload（reload对此参数有效）。'
-    )
-    // 52
-    .addSingle(MOCK4, '中创AS的JVM参数调优中，以下关于GC选择与LoongArch平台适配的说法，正确的是？\nA. LoongArch平台不支持G1GC，只能使用串行GC\nB. LoongArch平台支持G1GC，大内存应用推荐使用G1GC\nC. LoongArch平台对GC的支持与平台无关，所有GC策略性能相同\nD. 龙芯平台应使用ParallelGC而非G1GC',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，LoongArch平台JDK支持G1GC；B正确，G1GC在大内存服务器上是推荐选择；C错误，不同GC策略性能差异显著；D错误，G1GC在大内存场景优于ParallelGC。'
-    )
-    // 53
-    .addSingle(MOCK4, '龙芯3D5000双路服务器配置中，以下关于CPU互连技术的说法，正确的是？\nA. 3D5000使用标准PCIe总线进行CPU间互连\nB. 3D5000使用龙芯自研"龙链"高速互连技术连接多颗CPU\nC. 3D5000不支持多路扩展，仅支持单路部署\nD. 3D5000使用QPI总线协议进行CPU互连',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，PCIe带宽不足以支撑CPU间高速互连；B正确，"龙链"是龙芯自研的高速CPU互连技术；C错误，3D5000支持双路/四路扩展；D错误，QPI是Intel的互连协议。'
-    )
-    // 54
-    .addSingle(MOCK4, 'Vastbase中，以下关于物理备份与逻辑备份适用场景的说法，错误的是？\nA. 物理备份适合大规模数据库快速恢复\nB. 逻辑备份适合跨版本、跨平台迁移\nC. 物理备份支持增量备份和时间点恢复\nD. 逻辑备份恢复速度通常快于物理备份',
+    .addSingle(MOCK8_NEW, '龙芯平台系统引导损坏的三大诱因不包括？\nA. 异常断电\nB. 错误修改分区表\nC. 跨架构软件\nD. 正常重启',
         ['A', 'B', 'C', 'D'], 3,
-        'A正确，物理备份恢复速度快；B正确，逻辑备份与平台/版本无关；C正确，vb_probackup支持增量+PITR；D错误，逻辑备份恢复通常慢于物理备份，因为需要解析SQL重新执行。'
+        '正常开关机和系统重启不会损坏系统引导。'
     )
-    // 55
-    .addSingle(MOCK4, '龙芯平台统信UOS系统中，以下关于文件系统EXT4在龙芯上的表现，说法正确的是？\nA. EXT4是龙芯平台默认文件系统，稳定性良好\nB. 龙芯平台使用XFS替代EXT4作为默认文件系统\nC. EXT4在龙芯上存在兼容性问题，需改用F2FS\nD. 龙芯平台系统分区必须使用Btrfs',
+    .addSingle(MOCK8_NEW, 'Vastbase中enable_opfusion和vb_enable_plsql_opfusion的区别是？\nA. 前者用于普通查询，后者用于PL/pgSQL\nB. 前者用于PL/pgSQL，后者用于普通查询\nC. 两者功能相同\nD. 两者都用于分区剪枝',
         ['A', 'B', 'C', 'D'], 0,
-        'A正确，龙芯平台国产系统默认使用EXT4；B错误，XFS是X86麒麟的默认文件系统而非龙芯；C错误，EXT4在龙芯上稳定；D错误，Btrfs非必须。'
+        'enable_opfusion开启SQL by pass加速（简单查询），vb_enable_plsql_opfusion允许PL/pgSQL中使用。'
     )
-    // 56
-    .addSingle(MOCK4, '中创AS的日志调优中，以下关于异步日志配置的说法，正确的是？\nA. 异步日志通过-Dcom.cvicse.long.enterprise.server.logging.AsyncLoggerEnabled=true启用\nB. 异步日志默认开启，无需额外配置\nC. 异步日志会丢失部分日志信息以提升性能\nD. 异步日志只能在JVM启动参数中配置，不能在domain.xml中配置',
+    .addSingle(MOCK8_NEW, '迁移中，MySQL的TINYINT(1)在Vastbase中映射为？\nA. SMALLINT\nB. BOOLEAN\nC. INTEGER\nD. CHARACTER',
+        ['A', 'B', 'C', 'D'], 1,
+        'MySQL的TINYINT(1)映射为BOOLEAN，布尔类型映射需确认。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中pg_settings视图和pg_stat_activity视图的区别是？\nA. 前者查看参数配置，后者查看当前连接和查询\nB. 前者查看当前连接，后者查看参数配置\nC. 两者都查看参数配置\nD. 两者都查看当前连接',
         ['A', 'B', 'C', 'D'], 0,
-        'A正确，这是配置异步日志的JVM参数；B错误，需手动配置启用；C错误，异步日志不丢失日志信息，只是将日志写入操作异步化；D错误，可在domain.xml的jvm-options中配置。'
+        'pg_settings查看参数配置，pg_stat_activity查看当前所有连接和查询。'
     )
-    // 57
-    .addSingle(MOCK4, '龙芯3A6000支持国密SM2/SM3/SM4硬件加速。以下关于该特性的应用场景，说法正确的是？\nA. 硬件加速仅对操作系统内核的加密API有效，用户态应用无法使用\nB. 用户态应用可通过OpenSSL龙芯优化版调用硬件加速接口\nC. 国密硬件加速只支持SM4，不支持SM2和SM3\nD. 国密硬件加速需要额外付费购买授权才能启用',
+    .addSingle(MOCK8_NEW, '中创应用服务器中，jmap -dump:live,format=b,file=heap.hprof <pid>的作用是？\nA. 查看线程堆栈\nB. 导出堆内存\nC. 查看GC状态\nD. 查看进程CPU',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，用户态应用也可调用硬件加速；B正确，OpenSSL龙芯优化版支持调用硬件加密指令加速国密算法；C错误，支持SM2/SM3/SM4全部；D错误，硬件加速是CPU内置功能，无需额外授权。'
+        'jmap导出堆内存，用于分析内存泄漏或大对象。'
     )
-    // 58
-    .addSingle(MOCK4, 'Vastbase中，以下关于逻辑备份vb_dump的-F t（tar格式）与-F c（custom格式）对比，说法正确的是？\nA. tar格式支持并行恢复，custom格式不支持\nB. custom格式支持压缩和并行恢复，tar格式不支持并行恢复\nC. 两种格式均支持并行恢复，且压缩率相同\nD. tar格式是默认格式，custom需显式指定',
+    .addSingle(MOCK8_NEW, '龙芯3D5000的内存通道数和核心数分别是？\nA. 4通道、16核\nB. 8通道、32核\nC. 4通道、32核\nD. 8通道、16核',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，custom支持并行恢复，tar不支持；B正确，custom支持并行恢复且可压缩；C错误，tar不支持并行恢复，压缩率也不同；D错误，默认是plain格式（-F p）。'
+        '3D5000支持8通道DDR4，双硅片各16核，组合实现32核。'
     )
-    // 59
-    .addSingle(MOCK4, '龙芯平台上，以下关于卸载x86架构软件包残留影响的说法，正确的是？\nA. x86软件包无法安装在龙芯上，因此不存在残留问题\nB. 使用rpm -e --nodeps可完全清理x86软件包的所有痕迹\nC. 强行安装x86包可能破坏系统动态链接库，即使卸载也可能留下损坏的依赖关系\nD. 卸载x86包后系统会自动恢复所有被覆盖的系统文件',
+    .addSingle(MOCK8_NEW, 'Vastbase中wal_keep_segments设置过小的后果是？\nA. 主备断开\nB. 无法归档\nC. 无法启动\nD. 内存溢出',
+        ['A', 'B', 'C', 'D'], 0,
+        'wal_keep_segments保留WAL文件数量，备库落后过多、WAL被循环覆盖会造成主备断开。'
+    )
+    .addSingle(MOCK8_NEW, '迁移中，Vastbase兼容模式在何时确定？\nA. 安装时确定，不可更改\nB. 迁移前随时可改\nC. 首次连接时\nD. 由客户端决定',
+        ['A', 'B', 'C', 'D'], 0,
+        'Vastbase兼容模式在安装时确定，不可更改，迁移前必须确认兼容模式选择。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中vb_probackup和vb_basebackup的区别是？\nA. 前者用于周期性备份，后者用于搭建备库\nB. 前者用于搭建备库，后者用于周期性备份\nC. 两者都是逻辑备份\nD. 两者功能相同',
+        ['A', 'B', 'C', 'D'], 0,
+        'vb_probackup用于周期性备份（全量/增量，支持PITR），vb_basebackup用于搭建备库。'
+    )
+    .addSingle(MOCK8_NEW, '中创应用服务器中，-Xms和-Xmx的关系是？\nA. -Xms不能超过-Xmx\nB. -Xmx不能超过-Xms\nC. 两者必须相等\nD. 无关系',
+        ['A', 'B', 'C', 'D'], 0,
+        '-Xms不能超过-Xmx，通常设为-Xmx的一半。'
+    )
+    .addSingle(MOCK8_NEW, '龙芯平台无法联网的最常见原因是？\nA. CPU损坏\nB. 网卡驱动不匹配\nC. 内存损坏\nD. 硬盘损坏',
+        ['A', 'B', 'C', 'D'], 1,
+        '主机无法联网绝大多数原因为缺少龙芯适配网卡驱动。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中pg_wal目录存储的内容是？\nA. 数据库运行日志\nB. WAL日志，用于事务持久化和主备复制\nC. 审计日志\nD. 事务提交日志',
+        ['A', 'B', 'C', 'D'], 1,
+        'pg_wal存储WAL日志，用于事务持久化、主备复制、PITR恢复。'
+    )
+    .addSingle(MOCK8_NEW, '迁移中，以下哪个改造点兼容性风险最高？\nA. 字符串引号\nB. 表字段类型\nC. 存储过程\nD. SQL方言',
         ['A', 'B', 'C', 'D'], 2,
-        'A错误，可使用--nodeps强制安装x86包（虽然无法运行）；B错误，--nodeps卸载可能遗漏依赖关系；C正确，跨架构安装风险在于可能覆盖系统库文件，卸载后也无法自动恢复；D错误，系统不会自动恢复被覆盖的文件。'
+        '存储过程是重灾区，MySQL使用DELIMITER等语法，Vastbase使用PL/pgSQL，基本没有自动转换可能。'
     )
-    // 60
-    .addSingle(MOCK4, '中创AS中，管理员忘记控制台密码，修改admin-keyfile后重启域，但密码仍未生效。以下最可能的原因是？\nA. admin-keyfile修改后需要执行asadmin reload-keyfile命令重新加载\nB. admin-keyfile的格式错误，密码字段的加密方式不正确\nC. 修改admin-keyfile后需要重启整个操作系统而非仅重启域\nD. admin-keyfile已被移动，修改的文件不是实际生效的文件',
+    .addSingle(MOCK8_NEW, 'Vastbase中work_mem设置过高可能导致？\nA. 磁盘空间不足\nB. OOM\nC. 网络延迟\nD. WAL堆积',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，中创AS没有reload-keyfile命令；B正确，admin-keyfile中的密码是加密存储的，直接清空或替换为初始密码的加密值才有效，格式错误会导致不生效；C错误，只需重启域即可；D错误，admin-keyfile位置是固定的。'
+        'work_mem每个查询独享，设置过高+并发数大时总内存消耗过大，可能OOM。'
+    )
+    .addSingle(MOCK8_NEW, '中创应用服务器中，infosuite-web.xml的作用是？\nA. 替换web.xml\nB. 解决类/jar包冲突，设置delegate=false优先加载应用类\nC. 配置JDBC连接池\nD. 配置线程池',
+        ['A', 'B', 'C', 'D'], 1,
+        '当应用中的类与中间件冲突时，添加infosuite-web.xml设置delegate=false。'
+    )
+    .addSingle(MOCK8_NEW, '龙芯3A6000的典型功耗和频率分别是？\nA. 20W@2.0GHz\nB. 40W@2.5GHz\nC. 60W@2.5GHz\nD. 40W@2.0GHz',
+        ['A', 'B', 'C', 'D'], 1,
+        '3A6000在2.5GHz满载时典型功耗为40W。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中vb_ctl build的作用是？\nA. 重建备机或级联备机的数据\nB. 启动数据库\nC. 停止数据库\nD. 查看集群状态',
+        ['A', 'B', 'C', 'D'], 0,
+        'vb_ctl build在主机上用于重建备机或级联备机的数据。'
+    )
+    .addSingle(MOCK8_NEW, '迁移中，exBase支持的源端数据库不包括？\nA. Oracle\nB. MySQL\nC. SQL Server\nD. Vastbase',
+        ['A', 'B', 'C', 'D'], 3,
+        'Vastbase是exBase的目标端数据库，不是源端。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中effective_cache_size设置越高，优化器越倾向于？\nA. 全表扫描\nB. 索引扫描\nC. 哈希连接\nD. 排序',
+        ['A', 'B', 'C', 'D'], 1,
+        'effective_cache_size设置越高，优化器越倾向于使用索引扫描。'
+    )
+    .addSingle(MOCK8_NEW, '中创应用服务器中，top -Hp <pid>的作用是？\nA. 查看Java进程\nB. 查看进程内线程CPU使用情况\nC. 查看网络连接\nD. 查看文件句柄',
+        ['A', 'B', 'C', 'D'], 1,
+        'top -Hp <pid>查看进程内线程CPU使用情况，用于定位高CPU线程。'
+    )
+    .addSingle(MOCK8_NEW, '龙芯3B6000M相比3A6000最显著的特点是？\nA. 核心数增加\nB. 集成自研GPGPU，支持AI推理加速和4K硬解\nC. 支持DDR5\nD. 主频提升到3.0GHz',
+        ['A', 'B', 'C', 'D'], 1,
+        '3B6000M集成自研GPGPU图形核心，原生支持AI推理加速、4K硬件视频编解码。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中archive_command的作用是？\nA. 控制WAL日志级别\nB. 保留WAL文件数量\nC. 定义WAL归档脚本\nD. 是否开启归档',
+        ['A', 'B', 'C', 'D'], 2,
+        'archive_command定义归档复制脚本，archive_mode控制是否开启归档。'
+    )
+    .addSingle(MOCK8_NEW, '迁移中，应用双写方案的RPO是？\nA. 0\nB. 1\nC. 取决于网络\nD. 无法确定',
+        ['A', 'B', 'C', 'D'], 0,
+        '应用双写RPO=0，同时写入两端，可随时回退。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中pagewriter_sleep参数影响的是？\nA. 后台刷页频率\nB. checkpoint刷页频率，影响RTO和xlog堆积\nC. WAL缓冲区大小\nD. 最大连接数',
+        ['A', 'B', 'C', 'D'], 1,
+        'pagewriter_sleep控制checkpoint刷页频率，影响RTO和xlog堆积。'
+    )
+    .addSingle(MOCK8_NEW, '中创应用服务器中，RESTful监控接口建议使用的认证账户是？\nA. inforsAdmin\nB. monitoringAdmin\nC. root\nD. admin',
+        ['A', 'B', 'C', 'D'], 1,
+        '建议用监控员账户monitoringAdmin，而不是系统管理员inforsAdmin。'
+    )
+    .addSingle(MOCK8_NEW, '龙芯平台YUM源配置中，本地离线源使用的协议是？\nA. http://\nB. https://\nC. file://\nD. ftp://',
+        ['A', 'B', 'C', 'D'], 2,
+        '本地离线源使用file://本地磁盘目录路径，无需http网络协议。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中pg_audit目录存储的内容是？\nA. 数据库运行日志\nB. WAL日志\nC. 审计日志，记录用户操作行为\nD. 事务提交日志',
+        ['A', 'B', 'C', 'D'], 2,
+        'pg_audit目录存储审计日志，记录用户操作行为（需开启审计）。'
+    )
+    .addSingle(MOCK8_NEW, '迁移中，以下哪个属于中间件层兼容性验证的内容？\nA. JVM参数在ARM64下的表现\nB. SQL语法兼容\nC. 页面展示正常\nD. 国密加密链路',
+        ['A', 'B', 'C', 'D'], 0,
+        '中间件层验证JVM配置、日志配置、HTTP配置、线程池配置等；SQL语法属于数据库层，页面展示属于应用层。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中vb_ctl switchover的适用场景是？\nA. 主节点宕机后强制切换\nB. 计划内维护主动切换\nC. 备库提升为主库\nD. 重启集群',
+        ['A', 'B', 'C', 'D'], 1,
+        'switchover用于计划内主动切换（升级/维护场景），failover用于故障强制切换。'
+    )
+    .addSingle(MOCK8_NEW, '中创应用服务器中，jstack <pid>的作用是？\nA. 查看GC状态\nB. 查看线程堆栈，分析死锁/线程阻塞\nC. 导出堆内存\nD. 查看进程CPU',
+        ['A', 'B', 'C', 'D'], 1,
+        'jstack查看线程堆栈，用于分析死锁/线程阻塞。'
+    )
+    .addSingle(MOCK8_NEW, 'Vastbase中work_mem、shared_buffers、wal_buffers三者中，属于每个进程独享的是？\nA. work_mem\nB. shared_buffers\nC. wal_buffers\nD. 三者都是',
+        ['A', 'B', 'C', 'D'], 0,
+        'work_mem每个进程独享，shared_buffers和wal_buffers是全局共享。'
     )
 
 // ============================================================
-// 第61-75题：模拟四 多选题
+// 第61-80题：模拟八 多选题
 // ============================================================
 QuestionBank
-    .addMultiple(MOCK4, '关于龙芯LoongArch架构与应用服务器中间件迁移适配，以下说法正确的有？\nA. LoongArch平台必须使用loongarch64架构的JDK，不能使用x86_64或ARM64版本\nB. 中创AS龙芯版在启动时若报"cannot execute binary file"，通常是因为执行了x86架构的启动脚本\nC. 迁移后应用中的JNI本地库（.so文件）需要在LoongArch平台上重新编译\nD. 龙芯平台上的JDK堆内存调优策略与x86平台完全相同',
+    .addMultiple(MOCK8_NEW, '关于Vastbase中shared_buffers、work_mem、effective_cache_size三个参数，以下说法正确的有？\nA. shared_buffers实际分配共享内存\nB. work_mem每个进程独享\nC. effective_cache_size是评估值，不直接分配内存\nD. effective_cache_size设置越高，优化器越倾向于索引扫描',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '四项都是三个参数的正确描述。'
+    )
+    .addMultiple(MOCK8_NEW, '关于龙芯3A6000和3B6000M的对比，以下说法正确的有？\nA. 3A6000是政企桌面主力处理器\nB. 3B6000M集成自研GPGPU图形核心\nC. 3B6000M原生支持AI推理加速和4K硬件视频编解码\nD. 两者都支持DDR5内存',
         ['A', 'B', 'C', 'D'], [0, 1, 2],
-        'A正确，跨架构JDK无法运行；B正确，二进制格式错误表示架构不匹配；C正确，JNI库包含机器码需重新编译；D错误，ARM/LoongArch架构下的JVM调优策略（如GC选择）与x86有差异，不能完全照搬。'
+        '龙芯3A6000不支持DDR5，D错误。'
     )
-    .addMultiple(MOCK4, '关于Vastbase数据库的高可用架构参数，以下说法正确的有？\nA. wal_level必须设置为replica或logical才能支持主备复制\nB. archive_mode=on开启归档后，支持PITR时间点恢复\nC. synchronous_commit参数可设置为on、remote_write、off等不同级别\nD. wal_keep_segments设置越大越安全，但会占用更多磁盘空间',
+    .addMultiple(MOCK8_NEW, '关于迁移中JNI本地库不兼容的问题，以下说法正确的有？\nA. 典型报错是UnsatisfiedLinkError\nB. 需确认.so文件是否为ARM64/LoongArch架构编译\nC. 原生库（.so）需重新编译，不能直接复制\nD. 若回退到纯C实现，压缩/加密等操作性能可能下降40%以上',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，replica/logical支持复制；B正确，归档是PITR的前提；C正确，synchronous_commit有多个级别；D正确，wal_keep_segments越大越安全但占用空间多。'
+        '四项都是JNI本地库不兼容的正确描述。'
     )
-    .addMultiple(MOCK4, '龙芯平台国产操作系统安装过程中，以下关于分区规划的说法正确的有？\nA. EFI引导分区是UEFI模式安装的强制要求，缺失将无法引导系统\nB. /home分区独立划分可确保重装系统时用户数据不丢失\nC. swap分区作为虚拟内存，物理内存足够时可省略\nD. /boot分区建议单独划分，避免内核文件与根分区混杂',
-        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，UEFI强制要求EFI分区；B正确，/home独立划分的核心价值；C正确，内存充足时可省略swap；D正确，/boot单独划分有利于多内核管理。'
-    )
-    .addMultiple(MOCK4, '以下关于Vastbase数据库故障排查流程的说法，正确的有？\nA. 数据库无法启动时应首先查看pg_log目录下的错误日志\nB. RemoveIPC未关闭是数据库启动失败的常见原因之一\nC. 连接数超限时可通过pg_stat_activity查看连接状态\nD. 内存不足(OOM)通常由work_mem设置过高或shared_buffers过大导致',
-        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，pg_log是故障第一站；B正确，RemoveIPC是高频故障点；C正确，pg_stat_activity查看连接；D正确，内存参数配置不当是OOM主因。'
-    )
-    .addMultiple(MOCK4, '关于中创AS的性能调优，以下说法正确的有？\nA. 文件高速缓存默认大小为10MB，大量静态资源场景需调大\nB. 线程池最大线程数默认256，设置过小会导致请求排队\nC. 关闭JSP实时编译（reload-interval=-1）可降低响应时延\nD. 开启JSP标签缓存池（enablePooling=true）可提升吞吐量',
-        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，默认10MB；B正确，最大线程数默认256；C正确，禁止实时编译降低时延；D正确，标签缓存提升吞吐量。'
-    )
-    .addMultiple(MOCK4, '关于exBase迁移工具在数据迁移阶段的说法，正确的有？\nA. 全量迁移阶段一次性将所有历史数据从源端迁移到目标端\nB. 增量迁移阶段通过解析源库日志（如MySQL binlog）持续同步变更数据\nC. 全量和增量同时开启可确保迁移过程中源库的新数据不丢失\nD. 数据校验仅核对总行数即可确认迁移准确性',
+    .addMultiple(MOCK8_NEW, '关于Vastbase中wal_level参数，以下说法正确的有？\nA. minimal最少日志，不支持主备复制\nB. replica支持主备复制，集群必须设置\nC. logical支持逻辑复制\nD. 主备集群环境可设置为minimal以节省空间',
         ['A', 'B', 'C', 'D'], [0, 1, 2],
-        'A正确，全量迁移的定义；B正确，CDC基于日志解析；C正确，全增量衔接保证不丢数据；D错误，必须校验行数+字段值+CRC32，仅核总行数不够。'
+        '主备集群必须设置replica或logical，不能是minimal，D错误。'
     )
-    .addMultiple(MOCK4, '龙芯平台运维中，以下关于YUM软件源配置的说法正确的有？\nA. 可同时配置网络在线源和本地离线源，网络源优先\nB. 内网环境建议使用本地离线源，配置gpgcheck=0跳过签名校验\nC. yum repolist命令可查看当前所有已启用的软件仓库\nD. 本地离线源的baseurl应使用file://协议',
-        ['A', 'B', 'C', 'D'], [1, 2, 3],
-        'A错误，优先级由repo文件中的priority参数或顺序决定，并非网络源总是优先；B正确，内网环境跳过校验是常见做法；C正确，yum repolist查看已启用仓库；D正确，本地源使用file://协议。'
-    )
-    .addMultiple(MOCK4, '关于Vastbase数据库SQL调优工具和手段，以下说法正确的有？\nA. EXPLAIN显示预估执行计划，不执行SQL\nB. EXPLAIN ANALYZE显示实际执行计划和统计信息\nC. ANALYZE命令用于收集表统计信息，帮助优化器选择执行计划\nD. EXPLAIN PERFORMANCE比EXPLAIN ANALYZE更详细',
+    .addMultiple(MOCK8_NEW, '关于中创应用服务器的版本差异，以下说法正确的有？\nA. 企业版支持Web+EJB+集群+完整JavaEE规范\nB. 标准版没有EJB容器\nC. 容器版没有EJB和集群，仅有Web容器\nD. 嵌入式版仅支持Web',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，EXPLAIN只显示计划；B正确，ANALYZE执行SQL并显示实际统计；C正确，ANALYZE收集统计信息；D正确，PERFORMANCE输出更详细。'
+        '四个版本的核心能力差异均正确。'
     )
-    .addMultiple(MOCK4, '以下关于迁移项目中割接方案的对比，说法正确的有？\nA. 应用双写方案RPO=0，可随时回退，但实现复杂度高\nB. 灰度分流切换逐步切流，先验证再全切，风险可控\nC. 直接全量切换停机时间长且不可回退，适合低风险场景\nD. 滚动分批迁移按模块分批切换，适合模块间耦合度低的系统',
+    .addMultiple(MOCK8_NEW, '关于exBase的反向增量迁移，以下说法正确的有？\nA. 完成A→B全量迁移后，可同时运行正向和反向增量迁移\nB. 反向增量迁移用于割接失败后的回退\nC. 反向作业出现严重问题时，支持基于原作业创建反向逃生通道\nD. 反向增量迁移会加速正向迁移速度',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '反向增量迁移用于保证两库数据一致和回退，不会加速正向迁移，D错误。'
+    )
+    .addMultiple(MOCK8_NEW, '关于Vastbase中kernel.shmmax和kernel.shmall，以下说法正确的有？\nA. kernel.shmmax是单个共享内存段最大尺寸\nB. kernel.shmall是共享内存总页数\nC. kernel.shmmax推荐系统内存×0.5\nD. kernel.shmall推荐系统内存×80%/PAGE_SIZE',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，双写RPO=0且可回退；B正确，灰度切换风险可控；C正确，直接切换特点；D正确，滚动分批适合低耦合系统。'
+        '四个参数的含义和推荐值均正确。'
     )
-    .addMultiple(MOCK4, '关于龙芯平台国产操作系统安装故障的排查，以下说法正确的有？\nA. 安装界面提示"无法检测到磁盘"时，应检查BIOS硬盘模式是否为RAID\nB. 系统引导损坏的常见原因包括安装断电、误删EFI分区、跨架构软件安装\nC. 显示器分辨率异常时，应更新龙芯架构的显卡驱动\nD. 系统时间异常时应检查时区设置和NTP服务',
+    .addMultiple(MOCK8_NEW, '关于龙芯平台系统安装，以下说法正确的有？\nA. 全盘自动安装会清空整块硬盘所有文件\nB. 存量业务服务器应使用手动分区，保留原有用户数据分区\nC. UEFI模式安装必须单独划分EFI引导分区\nD. /home分区的作用是隔离系统文件与用户业务文档',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，硬盘RAID模式是龙芯BIOS推荐配置；B正确，三大引导损坏诱因；C正确，分辨率异常需更新显卡驱动；D正确，时区和NTP是时间问题的常见原因。'
+        '四项都是龙芯平台系统安装的正确描述。'
     )
-    .addMultiple(MOCK4, 'Vastbase中，以下关于表空间（TABLESPACE）的说法正确的有？\nA. 系统默认表空间为pg_default（用户数据）和pg_global（全局系统对象）\nB. 创建表空间需要对应目录已存在且vastbase用户有读写权限\nC. DROP TABLESPACE删除表空间时，若表空间非空则报错\nD. 表空间可将表和索引分布在不同物理磁盘上，提升I/O性能',
+    .addMultiple(MOCK8_NEW, '关于Vastbase中pg_hba.conf、pg_ident.conf、postgresql.conf三个配置文件，以下说法正确的有？\nA. postgresql.conf是主配置文件，设置端口、内存等核心参数\nB. pg_hba.conf是客户端认证配置，控制哪些IP/用户可连接\nC. pg_ident.conf做操作系统用户到数据库用户的映射\nD. postmaster.pid是进程ID文件，不是配置文件',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，两个默认表空间；B正确，目录需预创建且有权限；C正确，非空表空间不能删除；D正确，表空间的核心价值是I/O隔离和性能优化。'
+        '四项都是Vastbase配置文件的正确描述。'
     )
-    .addMultiple(MOCK4, '关于中创AS故障排查，以下说法正确的有？\nA. jps | grep ASMain可快速判断应用服务器进程是否存在\nB. netstat -tlnp | grep 8060可检查管理控制台端口是否监听\nC. 访问控制台出现404错误时应检查防火墙是否放行8060端口\nD. server.log是故障排查的主日志文件',
+    .addMultiple(MOCK8_NEW, '关于迁移中MySQL到Vastbase的改造，以下说法正确的有？\nA. REPLACE INTO改为INSERT ... ON CONFLICT\nB. TINYINT(1)映射为BOOLEAN\nC. CONNECT BY改为WITH RECURSIVE\nD. 存储过程可直接复制使用',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '存储过程需重写为PL/pgSQL，不能直接复制，D错误。'
+    )
+    .addMultiple(MOCK8_NEW, '关于Vastbase中vb_ctl的高可用命令，以下说法正确的有？\nA. failover用于主节点故障后的强制切换\nB. switchover用于计划内主动切换\nC. promote是备库提升为主库的底层操作\nD. failover和switchover都会调用promote',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '四项都是Vastbase高可用命令的正确描述。'
+    )
+    .addMultiple(MOCK8_NEW, '关于中创应用服务器中reload-interval=-1和enablePooling=true，以下说法正确的有？\nA. 前者禁止实时编译JSP\nB. 后者开启标签缓存池\nC. 两者都用于提升JSP处理性能\nD. 前者用于调整线程池大小',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        'reload-interval=-1禁止实时编译JSP，enablePooling=true开启标签缓存池，两者都提升JSP处理性能，D错误。'
+    )
+    .addMultiple(MOCK8_NEW, '关于exBase中CDC增量同步，以下说法正确的有？\nA. 正常延迟<1秒\nB. 超过10秒需排查原因\nC. CDC期间必须停止源库写入\nD. CDC支持断点续传',
         ['A', 'B', 'C', 'D'], [0, 1, 3],
-        'A正确，jps查看ASMain进程；B正确，检查8060端口监听；C错误，404是页面不存在，防火墙问题通常表现为连接超时或拒绝连接而非404；D正确，server.log是主日志文件。'
+        'CDC不需要停止源库写入，这正是CDC的核心价值，C错误。'
     )
-    .addMultiple(MOCK4, '以下关于龙芯平台开发工具链迁移的说法，正确的有？\nA. GCC编译器在龙芯平台上需要loongarch64版本\nB. Maven/Gradle等Java构建工具在龙芯平台上可直接运行（使用loongarch64 JDK）\nC. Python/PHP等脚本语言通常无需重新编译，但依赖的C扩展模块需重新编译',
-        ['A', 'B', 'C', 'D'], [0, 2, 3],
-        'A正确，GCC需loongarch64架构版本；B选项缺失；C正确，Java工具运行在JDK之上，JDK正确即可；D正确，脚本语言本身跨平台，但C扩展需适配。'
-    )
-    .addMultiple(MOCK4, '关于龙芯3A6000在信创办公场景中的性能优势，以下说法正确的有？\nA. 4核8线程设计可满足日常办公多任务并行需求\nB. 16MB L3缓存可提升多应用切换时的数据命中率\nC. 国密SM2/SM3/SM4硬件加速可提升加密办公场景性能\nD. 42GB/s内存带宽可支持4K视频编辑等内存密集型任务',
+    .addMultiple(MOCK8_NEW, '关于Vastbase中fs.aio-max-nr和fs.nr_open，以下说法正确的有？\nA. fs.aio-max-nr是最大异步IO请求数\nB. fs.aio-max-nr推荐值1048576\nC. fs.nr_open是单进程最大打开文件句柄数\nD. fs.nr_open推荐值20480000',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，4核8线程满足多任务；B正确，L3缓存提升多应用性能；C正确，国密硬件加速提升加密性能；D正确，高内存带宽支持内存密集型任务。'
+        '四个参数的含义和推荐值均正确。'
     )
-    .addMultiple(MOCK4, '以下关于龙芯产品线发展战略的理解，正确的有？\nA. 龙芯已完全抛弃MIPS架构，全面转向自研LoongArch\nB. 3A6000、3B6000M、3C6000被称为新一代"三剑客"\nC. 龙芯产品线覆盖物联网（1K）、工控（2K）、桌面（3A）、服务器（3C/3D）全场景\nD. LoongArch拥有完整自主知识产权，不受海外专利限制',
+    .addMultiple(MOCK8_NEW, '关于龙芯3A6000的LAT二进制翻译技术，以下说法正确的有？\nA. 搭配Wine兼容层运行Windows桌面软件\nB. 无需虚拟机即可运行绝大多数Windows桌面程序\nC. 龙芯硬件底层无X86指令执行单元\nD. LAT技术可原生安装Windows操作系统',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '龙芯硬件底层无X86指令执行单元，无法原生安装Windows，D错误。'
+    )
+    .addMultiple(MOCK8_NEW, '关于Vastbase中vb_ctl build和vb_ctl query，以下说法正确的有？\nA. vb_ctl build在主机上用于重建备机或级联备机的数据\nB. vb_ctl query查询主备节点之间的状态信息\nC. vb_ctl build只能在备机上执行\nD. vb_ctl query用于查看集群状态',
+        ['A', 'B', 'C', 'D'], [0, 1, 3],
+        'vb_ctl build在主机上执行，不是备机，C错误。'
+    )
+    .addMultiple(MOCK8_NEW, '关于迁移中SpringBoot迁移到中创内嵌版，以下说法正确的有？\nA. 移除内嵌Tomcat包\nB. 引入中创内嵌版依赖\nC. 对标修改配置文件\nD. 大量重写业务代码',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '主要是替换依赖和调整配置，业务代码基本保持不变，D错误。'
+    )
+    .addMultiple(MOCK8_NEW, '关于Vastbase中pg_stat_activity、pg_stat_replication、pg_settings三个视图，以下说法正确的有？\nA. pg_stat_activity用于查看当前所有连接和查询\nB. pg_stat_replication用于查看主备同步状态\nC. pg_settings用于查看当前所有数据库参数配置\nD. pg_stat_activity可用于连接数超限时排查',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，已抛弃MIPS转向LoongArch；B正确，三剑客为3A6000、3B6000M、3C6000；C正确，全产品线覆盖；D正确，完全自主知识产权。'
+        '四项都是三个系统视图的正确用途。'
+    )
+    .addMultiple(MOCK8_NEW, '关于中创应用服务器故障排查常用命令，以下说法正确的有？\nA. jstack查看线程堆栈，分析死锁/线程阻塞\nB. jstat查看GC状态\nC. jmap导出堆内存\nD. top -Hp <pid>查看进程内线程CPU使用情况',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '四项都是中创应用服务器故障排查常用命令的正确用途。'
+    )
+    .addMultiple(MOCK8_NEW, '关于Vastbase中vb_dump的输出格式，以下说法正确的有？\nA. p=明文（plain），默认格式\nB. c=自定义（custom），压缩格式\nC. d=目录（directory），多文件目录格式\nD. t=tar包（tar），打包格式',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '四种输出格式的代码和特点均正确。'
     )
 
 // ============================================================
-// 第76-95题：模拟四 判断题
+// 第81-100题：模拟八 判断题
 // ============================================================
 QuestionBank
-    .addJudge(MOCK4, '龙芯LoongArch平台可直接安装x86_64架构的银河麒麟操作系统镜像。', false,
-        '龙芯LoongArch仅支持loongarch64架构镜像，x86_64镜像指令集不兼容，无法安装。'
+    .addJudge(MOCK8_NEW, 'Vastbase中shared_buffers实际分配共享内存，而effective_cache_size只是评估值，不直接分配内存。', true,
+        'shared_buffers实际分配，effective_cache_size只影响执行计划选择。'
     )
-    .addJudge(MOCK4, 'Vastbase数据库的默认监听端口是5432，与管理控制台端口8060不同。', true,
-        'Vastbase默认端口5432，这与中创AS管理控制台端口8060是不同的端口，不要混淆。'
+    .addJudge(MOCK8_NEW, '龙芯3A6000支持双通道DDR4-3200，3C5000支持4通道DDR4-3200，两者都不支持DDR5。', true,
+        '3A6000双通道，3C5000四通道，均不支持DDR5。'
     )
-    .addJudge(MOCK4, '中创AS的jps | grep ASMain命令可用于验证应用服务器进程是否正常运行。', true,
-        'jps查看Java进程，ASMain是中创AS的主进程类名。'
+    .addJudge(MOCK8_NEW, '迁移中JNI本地库不兼容的典型报错是UnsatisfiedLinkError，需确认.so文件是否为ARM64/LoongArch架构编译。', true,
+        'JNI本地库不兼容会报UnsatisfiedLinkError，需重新编译对应架构的.so文件。'
     )
-    .addJudge(MOCK4, '龙芯平台上，x86架构的rpm包可使用--nodeps参数强制安装并正常运行。', false,
-        '--nodeps只能跳过依赖检查，不能解决x86指令与LoongArch不兼容的问题，强制安装的x86软件无法运行。'
+    .addJudge(MOCK8_NEW, 'Vastbase中wal_level=minimal支持主备复制，主备集群环境可设置为minimal以节省空间。', false,
+        'minimal最少日志，不支持主备复制，主备集群必须设置为replica或logical。'
     )
-    .addJudge(MOCK4, '迁移项目中，数据校验仅核对总行数通过即可视为数据一致性验证完成。', false,
-        '数据校验必须包含行数、具体字段值和CRC32三重校验，仅核对总行数不足以保证数据一致性。'
+    .addJudge(MOCK8_NEW, '中创应用服务器中，标准版没有EJB容器，容器版没有EJB和集群，嵌入式版仅支持Web。', true,
+        '四个版本的核心能力差异均正确。'
     )
-    .addJudge(MOCK4, 'Vastbase中，effective_cache_size参数会直接影响操作系统缓存的实际分配大小。', false,
-        'effective_cache_size只影响优化器执行计划选择，是评估值，不实际分配内存。'
+    .addJudge(MOCK8_NEW, 'exBase的反向增量迁移用于割接失败后的回退，反向作业出现严重问题时支持创建反向逃生通道。', true,
+        '反向增量迁移用于回退，反向逃生通道用于重新同步数据。'
     )
-    .addJudge(MOCK4, '中创AS出现性能瓶颈时，应同时检查操作系统资源限制（文件描述符、最大进程数）和中间件自身配置。', true,
-        '系统资源限制和中间件配置都是影响性能的重要因素，需同时检查。'
+    .addJudge(MOCK8_NEW, 'Vastbase中kernel.shmmax推荐系统内存×0.5，kernel.shmall推荐系统内存×80%/PAGE_SIZE。', true,
+        '两个内核参数的推荐值均正确。'
     )
-    .addJudge(MOCK4, '龙芯3A6000的满载功耗40W是指包含内存和主板在内的整机功耗。', false,
-        '40W是CPU本身在2.5GHz满载时的功耗，不包含内存、主板等外围设备。'
+    .addJudge(MOCK8_NEW, '龙芯平台全盘自动安装会清空整块硬盘所有文件，存量业务服务器应使用手动分区保留原有用户数据分区。', true,
+        '全盘自动安装会清空整块硬盘，存量业务服务器应用手动分区。'
     )
-    .addJudge(MOCK4, 'Vastbase中，work_mem参数修改后执行vb_ctl reload即可生效，无需重启数据库。', false,
-        'work_mem属于内存相关参数，修改后需要重启数据库才能生效，reload不支持。'
+    .addJudge(MOCK8_NEW, 'Vastbase中postmaster.pid是主配置文件，用于设置端口、内存等核心参数。', false,
+        'postmaster.pid是进程ID文件，不是配置文件，用于判断数据库是否正在运行。'
     )
-    .addJudge(MOCK4, '龙芯平台安装系统时，时区应选择"亚洲/上海"，而非"UTC"或其他时区。', true,
-        '国产系统安装标准要求时区选择"亚洲/上海"。'
+    .addJudge(MOCK8_NEW, '迁移中MySQL的REPLACE INTO在Vastbase中应改为INSERT ... ON CONFLICT。', true,
+        'MySQL的REPLACE INTO在Vastbase中应改为INSERT ... ON CONFLICT，语法完全不同。'
     )
-    .addJudge(MOCK4, 'exBase在线迁移中，如果只勾选"全量数据"不勾选"增量数据"，全量迁移期间源库产生的新数据不会自动同步到目标端。', true,
-        '在线迁移必须同时勾选"库表结构+全量数据+增量数据"，否则全量迁移过程中产生的新数据会丢失。'
+    .addJudge(MOCK8_NEW, 'Vastbase中vb_ctl promote是备库提升为主库的底层操作，failover和switchover都会调用。', true,
+        'promote是底层操作，failover和switchover都会调用。'
     )
-    .addJudge(MOCK4, '中创AS的管理控制台默认访问端口是8080，应用HTTP访问端口是8060。', false,
-        '说反了，管理控制台是8060，应用HTTP是8080。'
+    .addJudge(MOCK8_NEW, '中创应用服务器中，reload-interval=-1用于调整线程池大小。', false,
+        'reload-interval=-1禁止实时编译JSP，用于提升JSP处理性能。'
     )
-    .addJudge(MOCK4, '龙芯LoongArch平台必须使用配套的loongarch64架构JDK，不能使用x86_64或ARM64版本的JDK。', true,
-        'JDK包含JVM和本地代码，架构必须匹配，跨架构JDK无法运行。'
+    .addJudge(MOCK8_NEW, 'exBase中CDC增量同步期间必须停止源库写入，否则会导致数据不一致。', false,
+        'CDC不需要停止源库写入，这正是CDC的核心价值。'
     )
-    .addJudge(MOCK4, 'Vastbase中，VACUUM FULL命令执行期间会锁表，因此应在业务低峰期执行。', true,
-        'VACUUM FULL获取排他锁，阻塞读写，需在低峰期执行。'
+    .addJudge(MOCK8_NEW, 'Vastbase中fs.aio-max-nr推荐值为1048576，fs.nr_open推荐值为20480000。', true,
+        '两个内核参数的推荐值均正确。'
     )
-    .addJudge(MOCK4, '中创AS中，修改日志级别后需要重启域才能生效。', false,
-        '日志级别可通过管理控制台动态调整，无需重启域。'
+    .addJudge(MOCK8_NEW, '龙芯硬件底层无X86指令执行单元，无法原生安装Windows操作系统，依靠LAT+Wine运行Windows软件。', true,
+        '龙芯硬件底层无X86指令执行单元，无法原生安装Windows。'
     )
-    .addJudge(MOCK4, '龙芯3C5000服务器处理器支持PCIe4.0高速接口，可用于扩展高性能NVMe SSD。', false,
-        '龙芯3C5000硬件不支持PCIe4.0，仅支持PCIe3.0。'
+    .addJudge(MOCK8_NEW, 'Vastbase中vb_ctl build只能在备机上执行，用于重建备机数据。', false,
+        'vb_ctl build在主机上执行，用于重建备机或级联备机的数据。'
     )
-    .addJudge(MOCK4, 'Vastbase中，主备集群切换后应用可通过VIP（虚拟IP）自动连接到新的主节点，无需修改应用连接配置。', true,
-        'VIP在主备切换时漂移至新主库，应用连接VIP无需修改配置。'
+    .addJudge(MOCK8_NEW, '迁移中SpringBoot迁移到中创内嵌版时，主要是替换依赖和调整配置，业务代码基本保持不变。', true,
+        'SpringBoot迁移主要是替换依赖和调整配置，业务代码基本不变。'
     )
-    .addJudge(MOCK4, '龙芯平台上，YUM本地离线源的baseurl应使用file://协议开头。', true,
-        '本地离线源使用file://协议指向本地目录路径。'
+    .addJudge(MOCK8_NEW, 'Vastbase中pg_stat_activity视图可用于连接数超限时排查，查看当前所有连接和查询。', true,
+        'pg_stat_activity查看当前所有连接和查询，连接数超限时排查用。'
     )
-    .addJudge(MOCK4, 'MySQL迁移到Vastbase时，字符串引号从双引号改为单引号属于高风险改造点。', false,
-        '两者均使用单引号，无需改造，风险等级为"低"而非"高"。'
+    .addJudge(MOCK8_NEW, '中创应用服务器中，jstack用于查看GC状态，jstat用于查看线程堆栈。', false,
+        'jstack查看线程堆栈，jstat查看GC状态，两者说反了。'
     )
-    .addJudge(MOCK4, '中创AS的类加载机制默认优先加载应用自身的类，因此不会出现jar包冲突。', false,
-        '中创AS默认优先加载自身模块类，可能导致应用jar包冲突，需通过设置delegate=false让应用优先加载自己的类。'
+    .addJudge(MOCK8_NEW, 'Vastbase中vb_dump的默认输出格式是明文（plain），输出SQL文本，可用vsql直接执行。', true,
+        'vb_dump默认输出格式为明文（plain），输出SQL文本，可用vsql直接执行。'
     )
 ;
+// ============================================================
+// 新增分类：模拟九（对应 9.txt 全部题目）
+// 包含：60单选 + 20多选 + 20判断 = 100题
+// ============================================================
+const MOCK9_NEW = '模拟九';
+
+// ============================================================
+// 第1-60题：模拟九 单选题
+// ============================================================
 QuestionBank
-    // 1
-    .addSingle(MOCK3, '某信创项目采用Vastbase作为目标数据库，源数据库为Oracle。项目组在评估阶段发现存储过程中大量使用了ROWNUM进行分页查询。以下关于改造方案的说法，正确的是？\nA. 将ROWNUM直接替换为ROW_NUMBER()，二者功能完全相同\nB. Vastbase的Oracle兼容模式（模式A）下ROWNUM语法完全兼容，无需修改\nC. 需要将ROWNUM改造为LIMIT语法，同时分页逻辑需重新验证\nD. 只需在postgresql.conf中开启oracle_compatible=true即可自动转换',
-        ['A', 'B', 'C', 'D'], 2,
-        'A错误，ROWNUM是伪列，ROW_NUMBER()是窗口函数，功能不同；B错误，Vastbase虽兼容Oracle模式但不支持ROWNUM语法；C正确，ROWNUM→LIMIT是标准改造方案，且分页逻辑需重新验证；D错误，无此配置项，兼容模式安装时确定不可更改。'
-    )
-    // 2
-    .addSingle(MOCK3, '某运维人员发现Vastbase数据库启动失败，pg_log目录下报错信息为"RemoveIPC=no not set"。以下关于该问题的说法，最准确的是？\nA. 这是systemd的RemoveIPC机制导致共享内存被清理，需在/etc/systemd/logind.conf中设置RemoveIPC=no并重启systemd-logind服务\nB. 这是操作系统OOM Killer误杀数据库进程，需调大max_process_memory\nC. 这是授权文件过期导致，需在postgresql.conf中更新license_path\nD. 这是由于kernel.sem参数配置不当导致信号量不足',
+    .addSingle(MOCK9_NEW, 'Vastbase中shared_buffers推荐值与effective_cache_size推荐值分别是？\nA. 25%~40%、50%~70%\nB. 50%~70%、25%~40%\nC. 25%~40%、25%~40%\nD. 50%~70%、50%~70%',
         ['A', 'B', 'C', 'D'], 0,
-        'B错误，OOM Killer不会报RemoveIPC错误；C错误，授权过期报"License expired, database start failed"；D错误，信号量不足报其他错误；A正确，RemoveIPC机制会清理共享内存/信号量，导致数据库进程异常，需正确配置。'
+        'shared_buffers为25%~40%，effective_cache_size为50%~70%。'
     )
-    // 3
-    .addSingle(MOCK3, '某应用从Tomcat迁移到中创InforSuiteAS后，部署war包启动正常，但访问页面时出现java.lang.ClassNotFoundException，报错类名为某个第三方库的类。该jar包已确认存在于as/lib/目录下。以下排查思路最合理的是？\nA. 该第三方jar包版本与中创AS冲突，需降级jar包版本\nB. 中创AS的类加载机制默认优先加载自身模块，需在应用的WEB-INF/下创建inforsuite-web.xml并设置delegate=false\nC. 该jar包需放在domains/domain1/lib/而非as/lib/目录下\nD. Tomcat迁移到中创AS时，web.xml中的<listener>配置不兼容，需全部移除',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，不是版本问题，是类加载优先级问题；B正确，中创AS默认优先加载自身类，设置delegate=false让应用优先加载自己的类；C错误，as/lib/是全局库目录，位置正确；D错误，web.xml配置需迁移而非移除。'
-    )
-    // 4
-    .addSingle(MOCK3, '关于Vastbase的work_mem参数，以下说法正确的是？\nA. work_mem是全局共享内存区域，所有会话共同使用，建议设为物理内存的40%\nB. 该参数控制每个排序或哈希操作可用的内存，若设置过高且并发量大时可能导致OOM\nC. work_mem的默认值为64MB，与wal_buffers相同\nD. 修改work_mem后无需重启数据库，执行vb_ctl reload即可生效',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，work_mem是每个进程/查询独享，非全局共享；B正确，work_mem是每个操作独享内存，高并发下总消耗=work_mem×并发操作数，设置过高会OOM；C错误，work_mem默认值通常为4MB，wal_buffers默认-1自适应；D错误，work_mem属于postgresql.conf参数，修改后需要重启（reload不生效）。'
-    )
-    // 5
-    .addSingle(MOCK3, '某系统使用exBase从MySQL迁移到Vastbase，选择了在线迁移模式（全量+增量CDC）。源库为MySQL 8.0，binlog格式已设置为ROW。迁移任务运行2小时后，增量同步延迟持续增长至300秒且无法追平。以下分析最可能的是？\nA. MySQL binlog格式为ROW导致CDC解析效率过低，应改为STATEMENT格式\nB. 源库存在大事务或DDL操作，Kafka队列积压，需检查源库负载和网络带宽\nC. 目标端Vastbase的max_connections不足，导致CDC连接被拒绝\nD. exBase的评估阶段未勾选"增量数据"选项，导致全量和增量未衔接',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，CDC要求binlog格式为ROW，STATEMENT格式无法正确解析；B正确，大事务产生大量binlog、网络带宽不足、Kafka积压都是CDC延迟的典型原因；C错误，延迟持续增长通常不是连接数问题；D错误，在线迁移若未勾选增量数据则全量完成后无增量同步，不会出现延迟增长。'
-    )
-    // 6
-    .addSingle(MOCK3, '龙芯3A6000处理器完成系统安装后，执行uname -m返回loongarch64。此时管理员需要安装一个第三方闭源软件，该软件官方仅提供了x86_64架构的rpm包。以下操作方案中，最合理的是？\nA. 直接使用rpm -ivh --nodeps强制安装x86_64包，运行时依靠LAT翻译执行\nB. 下载x86_64包后使用ar解压，手工提取可执行文件并复制到/usr/bin/\nC. 联系软件厂商获取loongarch64架构的适配版本，或使用LAT+Wine运行Windows版本\nD. 在龙芯上安装VirtualBox虚拟机，虚拟x86环境后安装该软件',
-        ['A', 'B', 'C', 'D'], 2,
-        'A错误，--nodeps只能跳过依赖检查，但x86指令在龙芯上无法直接执行，LAT是二进制翻译但针对的是Windows程序而非Linux RPM包；B错误，解压提取也无法解决指令不兼容问题；C正确，最合理方案是获取官方loongarch64适配版本，或通过LAT+Wine运行Windows版；D错误，龙芯平台无原生VirtualBox且虚拟化x86效率极低。'
-    )
-    // 7
-    .addSingle(MOCK3, 'Vastbase的三权分立架构中，某日审计管理员登录数据库后发现审计日志大量缺失。经排查，安全管理员在前一天执行了DROP USER auditadmin CASCADE;。以下说法正确的是？\nA. 安全管理员无权删除审计管理员账户，该操作被数据库禁止\nB. 删除审计管理员账户后，系统会自动启用系统管理员兼任审计职责\nC. 安全管理员有权删除用户，包括审计管理员，但删除前应确保审计日志已导出\nD. 审计管理员被删除后，其之前记录的审计日志会自动清除',
-        ['A', 'B', 'C', 'D'], 2,
-        'A错误，安全管理员负责用户管理和权限分配，有权删除用户；B错误，系统不会自动启用兼任机制；C正确，三权分立中安全管理员管权限，删除用户是合理权限范围，但应做好审计日志备份；D错误，审计日志存储在磁盘上，删除用户不影响已有日志文件。'
-    )
-    // 8
-    .addSingle(MOCK3, '某系统从WebLogic迁移到中创InforSuiteAS企业版，原应用使用EJB 3.0。迁移后部署成功，但调用EJB时报javax.naming.NameNotFoundException。排查发现JNDI查找名称与原环境一致。以下原因最可能的是？\nA. 中创AS企业版不支持EJB容器，需要降级使用标准版\nB. EJB的JNDI绑定命名空间规则与WebLogic不同，需修改weblogic.xml为inforsuite-web.xml并调整EJB引用配置\nC. 迁移时未正确迁移weblogic的域配置文件，导致EJB容器未初始化\nD. WebLogic的EJB采用RMI协议，中创AS采用IIOP协议，二者完全不兼容需重写EJB',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，企业版支持EJB；B正确，WebLogic的JNDI命名空间规则与中创AS不同，需通过配置文件转换EJB引用，weblogic.xml→inforsuite-web.xml是标准迁移步骤；C错误，域配置迁移属于服务器配置迁移，EJB容器是标准组件无需额外初始化；D错误，RMI和IIOP可通过配置适配，不需要完全重写。'
-    )
-    // 9
-    .addSingle(MOCK3, '使用Vastbase的vb_probackup工具进行物理备份时，管理员配置了全量备份策略为每周日02:00执行，增量备份为每日02:00执行，WAL归档持续开启。周三上午10:00系统发生故障，需要恢复到周二19:30的状态。以下恢复方案最合理的是？\nA. 直接恢复周日全量备份，再应用周日至周三的所有WAL日志\nB. 恢复周三凌晨的增量备份即可，因为增量备份已包含所有变化\nC. 先恢复周日全量备份，再恢复周一、周二的增量备份，最后应用WAL归档到周二19:30\nD. 直接使用vb_ctl promote将备库升主，无需恢复',
-        ['A', 'B', 'C', 'D'], 2,
-        'A错误，直接全量+所有WAL会恢复到周三故障前，无法回到周二19:30；B错误，增量备份只含变化，需先有全量基础；C正确，PITR标准流程：全量打底→增量补充→WAL应用到目标时间点；D错误，备库数据可能已同步到故障点，无法回到周二19:30。'
-    )
-    // 10
-    .addSingle(MOCK3, '龙芯3A6000的LA664核心采用六发射乱序执行架构。以下关于"六发射"和"乱序执行"的理解，正确的是？\nA. 六发射表示CPU有6个物理核心，乱序执行表示指令可以不按编程顺序执行\nB. 六发射表示每个时钟周期最多可同时发射6条指令，乱序执行可优化指令执行顺序提升IPC\nC. 六发射表示ALU有6个运算单元，乱序执行表示可跳过缓存直接访问内存\nD. 六发射表示支持SMT6超线程技术，乱序执行表示可预测分支跳转',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，六发射指指令发射宽度而非物理核心数；B正确，发射宽度=每周期可同时分发的指令数，乱序执行可重排指令顺序减少流水线停顿；C错误，发射宽度与ALU数量不是同一概念，乱序执行不跳过缓存；D错误，3A6000是SMT2而非SMT6，分支预测与乱序执行是不同技术。'
-    )
-    // 11
-    .addSingle(MOCK3, 'Vastbase中，管理员通过vb_ctl start -M standby -D /vastdata/data启动备库，但启动后日志显示"FATAL: could not connect to the primary server: connection refused"。以下排查顺序最合理的是？\nA. 检查备库的recovery.conf中primary_conninfo配置→检查主库pg_hba.conf是否允许备库连接→检查网络连通性\nB. 检查主库的postgresql.conf中wal_level是否为minimal→改为replica后重启主库\nC. 检查备库的pg_wal/目录是否存在WAL文件→若存在则手动应用\nD. 直接执行vb_ctl promote将备库升为主库，再重新搭建备库',
+    .addSingle(MOCK9_NEW, '龙芯3A6000的LA664核心与3C5000的LA664核心的关系是？\nA. 同一核心架构\nB. 不同核心架构\nC. 3A6000为四发射，3C5000为六发射\nD. 3A6000为六发射，3C5000为四发射',
         ['A', 'B', 'C', 'D'], 0,
-        'A正确，备库启动失败无法连接主库，标准排查顺序：检查连接配置（primary_conninfo）→检查主库认证（pg_hba.conf）→检查网络；B错误，wal_level=replica是主库配置，且应提前设置，非首要排查项；C错误，pg_wal是接收WAL后的存储位置，连接都失败说明尚未建立流复制；D错误，promote是备库升主操作用于故障切换，非连接问题的解决方案。'
+        '两者均采用LA664核心，3A6000为4核，3C5000为16核。'
     )
-    // 12
-    .addSingle(MOCK3, '某信创项目从MySQL迁移到Vastbase（模式B），原表结构中有大量enum(\'A\',\'B\',\'C\')类型字段。以下关于类型迁移的说法，正确的是？\nA. Vastbase完全兼容MySQL的enum类型，直接使用CREATE TABLE ... enum(...)即可\nB. enum类型应映射为character varying并额外添加CHECK约束保证取值合法性\nC. enum类型应映射为SET类型，Vastbase的SET与MySQL的SET功能一致\nD. enum类型应映射为ARRAY类型，通过ARRAY[\'A\',\'B\',\'C\']定义合法值',
+    .addSingle(MOCK9_NEW, '迁移中，以下哪种情况必须重新编译原生库？\nA. 更换JDBC驱动\nB. 从X86迁移到ARM\nC. 修改数据库连接字符串\nD. 调整日志级别',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，Vastbase不直接支持MySQL的enum语法；B正确，Vastbase将enum映射为varchar+check约束是标准做法；C错误，Vastbase的SET和MySQL的SET行为不同，且SET也不是enum的对应类型；D错误，ARRAY是存储多值集合，与enum的单值选择语义不符。'
+        'X86到ARM架构变更，原生库（.so）需重新编译，不能直接复制。'
     )
-    // 13
-    .addSingle(MOCK3, '中创AS的RESTful监控接口对接Zabbix时，以下关于认证方式和账户选择的说法，正确的是？\nA. 应使用系统管理员账户inforsAdmin进行认证，该账户拥有所有监控权限\nB. 应使用monitoringAdmin监控员账户进行认证，遵循最小权限原则\nC. RESTful接口无需认证，可直接通过HTTP GET获取监控数据\nD. 只能使用证书认证方式，不支持用户名密码认证',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，inforsAdmin权限过大，违反最小权限原则；B正确，建议使用monitoringAdmin监控专用账户；C错误，RESTful接口需要身份验证；D错误，支持用户名密码认证方式。'
-    )
-    // 14
-    .addSingle(MOCK3, 'Vastbase使用异步复制模式搭建一主两备集群。某日主库硬盘故障损坏，需要将备库升主。执行vb_ctl failover后业务恢复，但约10分钟的数据丢失（RPO≈10分钟）。以下分析最合理的是？\nA. 异步复制模式下主库提交事务无需等待备库确认，故障时未同步的WAL日志随主库硬盘损坏而丢失\nB. 备库的wal_keep_segments设置过小，导致WAL被提前清理，无法追平数据\nC. 主库的archive_mode未开启，导致未归档的WAL日志丢失\nD. 备库的recovery.conf中primary_conninfo配置错误，导致部分时间段复制中断',
+    .addSingle(MOCK9_NEW, 'Vastbase中vb_ctl reload和vb_ctl restart的本质区别是？\nA. 前者无需重启，后者本质是stop+start\nB. 前者本质是stop+start，后者无需重启\nC. 两者完全相同\nD. 前者用于启动，后者用于停止',
         ['A', 'B', 'C', 'D'], 0,
-        'A正确，异步复制模式下主库提交即返回，备库异步追赶，故障时未同步的WAL随主库硬盘丢失，导致数据丢失，RPO不为0；B错误，wal_keep_segments影响备库落后时的WAL保留，不是RPO产生的根本原因；C错误，archive_mode影响归档能力而非主备复制；D错误，复制中断会导致备库落后，但问题根源是异步复制模式的固有特性。'
+        'reload重新加载配置无需重启；restart本质是stop+start。'
     )
-    // 15
-    .addSingle(MOCK3, '龙芯平台上配置本地YUM源后，执行yum repolist显示"0 repo"且无报错。以下哪种情况最可能导致该问题？\nA. YUM源配置文件中的路径使用了http://协议而非file://\nB. repo文件中的enabled=0导致仓库被禁用\nC. GPG密钥未导入导致仓库被自动跳过\nD. /etc/yum.conf中gpgcheck=1强制校验导致本地源不可用',
+    .addSingle(MOCK9_NEW, '中创应用服务器中，主日志文件server.log和审计日志audit.log的共同路径是？\nA. as/logs/\nB. domains/domain1/logs/\nC. as/config/\nD. nodes/domain1/logs/',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，http协议会导致连接失败报错而非显示0 repo；B正确，enabled=0时仓库被禁用，yum repolist不会显示，但不会报错；C错误，GPG校验失败会报错而非静默跳过；D错误，gpgcheck=1仅校验包签名，不影响仓库识别。'
+        '两者都在domains/domain1/logs/目录下。'
     )
-    // 16
-    .addSingle(MOCK3, 'Vastbase中，某查询SQL执行缓慢，执行EXPLAIN (ANALYZE, BUFFERS)后发现大量"Buffers: shared hit=0, read=100000"。以下分析正确的是？\nA. 数据全部在共享缓冲区中命中，无需优化\nB. shared hit=0说明shared_buffers设置过小，应调大至物理内存80%\nC. 大量read说明发生了大量磁盘I/O，可能缺少合适的索引或统计信息过时\nD. 该查询使用了顺序扫描，read值高是正常现象，无需处理',
+    .addSingle(MOCK9_NEW, 'exBase中，全量迁移和增量迁移必须同时勾选的原因是什么？\nA. 加速迁移速度\nB. 避免丢失增量开启前源库产生的数据变更\nC. 减少存储空间\nD. 简化操作流程',
+        ['A', 'B', 'C', 'D'], 1,
+        '全量迁移需要时间，期间源库持续写入，只有全量+增量同时开启才能无缝衔接。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中kernel.sem的4个值依次代表什么？\nA. SEMMSL、SEMMNS、SEMOPM、SEMMNI\nB. SEMMNS、SEMMSL、SEMMNI、SEMOPM\nC. SEMOPM、SEMMNI、SEMMSL、SEMMNS\nD. SEMMNI、SEMOPM、SEMMNS、SEMMSL',
+        ['A', 'B', 'C', 'D'], 0,
+        'kernel.sem包含SEMMSL、SEMMNS、SEMOPM、SEMMNI四个值。'
+    )
+    .addSingle(MOCK9_NEW, '龙芯平台安装系统时，BIOS中CPU节能开关是否需要修改？\nA. 必须关闭\nB. 必须开启\nC. 无需修改\nD. 根据系统版本决定',
         ['A', 'B', 'C', 'D'], 2,
-        'A错误，shared hit=0说明缓存命中率极低；B错误，shared_buffers建议25%~40%，80%过高会导致系统内存不足；C正确，大量磁盘I/O说明数据在内存中未命中，常见原因缺少索引或统计信息过期导致优化器选择了低效执行计划；D错误，顺序扫描在OLTP场景下通常效率低下，需要优化。'
+        'CPU节能开关无需修改，不影响系统安装流程。'
     )
-    // 17
-    .addSingle(MOCK3, '中创AS启动时出现OutOfMemoryError: Java heap space，经排查堆内存配置为-Xms2g -Xmx4g，GC日志显示频繁Full GC。以下操作中，最不应首先采取的是？\nA. 使用jmap -dump:live,format=b,file=heap.hprof <pid>导出堆dump分析内存泄漏\nB. 立即将-Xmx从4g调大至16g以缓解OOM\nC. 使用jstat -gcutil <pid>查看各代GC频率和耗时\nD. 检查业务代码是否存在资源未释放问题，尤其是数据库连接',
+    .addSingle(MOCK9_NEW, 'Vastbase中pg_hba.conf文件的作用是？\nA. 主配置文件\nB. 客户端认证配置\nC. 用户映射文件\nD. 日志文件',
         ['A', 'B', 'C', 'D'], 1,
-        'A正确，堆dump是定位内存泄漏的标准手段；B错误，不应盲目调大堆内存而不分析根因，可能导致系统其他组件内存不足或掩盖内存泄漏问题；C正确，GC统计是分析内存问题的必备工具；D正确，连接未释放是OOM的常见原因。'
+        'pg_hba.conf控制哪些IP/用户可连接，是客户端认证配置。'
     )
-    // 18
-    .addSingle(MOCK3, '某Vastbase数据库使用主备同步复制模式，备库响应延迟偶尔升高导致主库事务提交变慢。业务方希望在不丢失数据的前提下提升提交速度。以下方案最合理的是？\nA. 将同步复制改为异步复制，牺牲数据可靠性换取性能\nB. 将同步复制改为半同步复制，至少一个备库确认即可提交\nC. 增加备库数量，让主库只需等待半数以上备库确认\nD. 降低wal_level从replica改为minimal，减少WAL日志量',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，异步复制会牺牲数据可靠性（RPO>0），业务要求不丢数据；B正确，半同步复制只需至少一个备库确认即可提交，比全同步复制等待所有备库响应更快，且比异步复制更可靠；C错误，同步复制模式下增加备库会增加等待时间；D错误，minimal不支持主备复制，集群无法运行。'
-    )
-    // 19
-    .addSingle(MOCK3, '龙芯3C5000服务器和3D5000服务器进行算力对比时，以下说法正确的是？\nA. 3C5000采用单硅片32核设计，3D5000采用双硅片64核设计\nB. 两者均采用LA664核心，但3D5000通过龙链高速互联实现了双路扩展\nC. 3C5000支持PCIe4.0接口，3D5000仅支持PCIe3.0\nD. 两者均支持8通道DDR4-3200内存',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，3C5000是16核单硅片，3D5000是双硅片32核而非64核；B正确，两者均使用LA664核心，3D5000通过龙链互联技术支持多路扩展；C错误，两者均不支持PCIe4.0；D错误，3C5000是4通道，3D5000是8通道。'
-    )
-    // 20
-    .addSingle(MOCK3, '某应用从MySQL迁移到Vastbase，原代码中大量使用REPLACE INTO语句。以下关于改造方案的说法，正确的是？\nA. Vastbase的MySQL兼容模式（模式B）完全支持REPLACE INTO，无需修改\nB. 需要改为INSERT ... ON CONFLICT DO UPDATE，且需注意冲突检测的语法差异\nC. REPLACE INTO在Vastbase中会报语法错误，需要改为MERGE INTO\nD. 只需将REPLACE INTO改为INSERT IGNORE即可，语义完全等价',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，Vastbase不完全支持REPLACE INTO语法；B正确，INSERT ... ON CONFLICT是PostgreSQL/Vastbase的标准UPSERT语法，但语法细节需验证（冲突目标、更新列等）；C错误，MERGE INTO语义不同且语法更复杂；D错误，INSERT IGNORE是忽略冲突而非替换，语义不等价。'
-    )
-    // 21
-    .addSingle(MOCK3, 'Vastbase中，执行CREATE INDEX CONCURRENTLY idx_name ON table_name(column_name);时，以下说法正确的是？\nA. 该命令会在创建索引期间对表加排他锁，阻塞所有读写操作\nB. 该命令会使用两阶段创建流程，第一阶段扫描表创建索引但允许读写，第二阶段短暂获取锁后完成索引创建\nC. 该命令执行期间若发生错误，系统会自动回滚并清理所有中间状态\nD. 该命令只能在业务低峰期执行，因为无论如何都会短暂阻塞写操作',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，CONCURRENTLY正是为了不阻塞读写而设计的；B正确，CONCURRENTLY分两阶段：第一阶段扫描表并允许DML，第二阶段短暂获取锁完成索引创建；C错误，CONCURRENTLY执行失败可能留下无效索引，需要手动清理；D错误，虽然第二阶段有短暂锁，但远短于普通CREATE INDEX。'
-    )
-    // 22
-    .addSingle(MOCK3, '龙芯平台安装银河麒麟V10时，手动分区方案选择了：/boot 1GB（ext4）、/ 50GB（ext4）、/home 100GB（ext4）、swap 8GB。重启后系统无法引导，屏幕显示"Operating System Not Found"。以下原因最可能的是？\nA. /boot分区容量不足，内核文件无法完整写入\nB. 未单独划分EFI引导分区，UEFI模式下无法找到引导程序\nC. swap分区过大导致引导程序加载失败\nD. /home分区与/分区使用了相同的ext4格式导致冲突',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，/boot 1GB足够存放内核；B正确，UEFI模式安装需要EFI分区存放引导程序，缺少EFI分区系统无法找到启动文件；C错误，swap分区大小不影响引导；D错误，分区格式相同不会导致冲突。'
-    )
-    // 23
-    .addSingle(MOCK3, '中创AS的日志级别体系中，以下关于日志级别的说法正确的是？\nA. 日志级别优先级从低到高为：FINE → FINER → FINEST → INFO → WARNING → SEVERE\nB. 生产环境推荐使用SEVERE级别，以获取最详细的排查信息\nC. SEVERE > WARNING > INFO > CONFIG > FINE > FINER > FINEST，级别越高输出越少\nD. 日志级别在domain.xml中配置后需要重启服务器才能生效',
+    .addSingle(MOCK9_NEW, '迁移中MySQL的int unsigned在Vastbase中应映射为？\nA. integer\nB. smallint\nC. bigint\nD. numeric',
         ['A', 'B', 'C', 'D'], 2,
-        'A错误，FINE > FINER > FINEST（优先级从高到低），从低到高应为FINEST→FINER→FINE→CONFIG→INFO→WARNING→SEVERE；B错误，SEVERE输出最少，生产环境一般用INFO或WARNING；C正确，这是Vastbase资料中给出的日志级别顺序；D错误，日志级别修改后可通过管理控制台动态调整，无需重启。'
+        'MySQL的int unsigned在Vastbase中应映射为bigint，无符号→有符号需扩大类型。'
     )
-    // 24
-    .addSingle(MOCK3, '某Vastbase数据库出现连接数超限故障（当前连接数接近max_connections=200）。执行pg_stat_activity发现有大量state=\'idle in transaction\'的连接。以下处理措施最合理的是？\nA. 直接重启数据库，所有连接断开后问题自然解决\nB. 执行SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE state=\'idle in transaction\';终止空闲事务连接，并排查应用事务是否正确提交/回滚\nC. 将max_connections从200调大至500，无需处理空闲连接\nD. 执行vb_ctl reload重新加载配置，系统会自动清理空闲连接',
+    .addSingle(MOCK9_NEW, 'Vastbase中pg_is_in_recovery()返回f和t分别代表什么？\nA. f=备库，t=主库\nB. f=主库，t=备库\nC. f=正常，t=异常\nD. f=启动，t=停止',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，重启可临时解决但会中断业务，且未处理根因；B正确，idle in transaction连接持有锁资源且占用连接数，应先终止再排查应用代码中的事务管理问题；C错误，调大max_connections能缓解但不能根治，且连接数增加会消耗更多内存；D错误，reload不会自动清理空闲连接。'
+        'f=主库，t=备库。'
     )
-    // 25
-    .addSingle(MOCK3, '使用exBase从Oracle迁移到Vastbase时，评估阶段某存储过程的兼容性评估结果为"可转换"。以下理解正确的是？\nA. 该存储过程需要人工完全重写，exBase无法提供任何帮助\nB. exBase会自动按转换规则改写该存储过程，但转换后需人工验证业务逻辑正确性\nC. 该存储过程直接兼容，无需任何修改即可运行\nD. 该存储过程不兼容且无转换规则，需跳过该对象',
+    .addSingle(MOCK9_NEW, '中创应用服务器中，jps | grep ASMain命令的作用是？\nA. 查看端口\nB. 验证ASMain进程是否存在\nC. 查看日志\nD. 查看GC状态',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，"可转换"意味着exBase可自动转换而非完全人工；B正确，"可转换"表示exBase有转换规则可自动改写，但转换后仍需验证；C错误，"可转换"不是"兼容"，仍需转换；D错误，"不兼容"才是需人工介入且无转换规则。'
+        'jps | grep ASMain验证ASMain进程是否存在，确认中间件是否启动。'
     )
-    // 26
-    .addSingle(MOCK3, '龙芯3A6000运行某个CPU密集型应用时，管理员发现虽然8个逻辑核都已满载，但性能仍不如预期的单核性能×8。以下分析最合理的是？\nA. 超线程（SMT2）的8个逻辑核心共享物理核心资源，性能约为物理核心的1.3~1.5倍而非2倍\nB. LA664核心的六发射能力在超线程模式下被禁用，只能使用单发射模式\nC. 该应用为单线程应用，无法利用多核优势\nD. 3A6000的L3缓存容量不足，多核竞争缓存导致性能下降',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，SMT2的8个逻辑核共享4个物理核心的运算资源，理论上单物理核的2个逻辑核性能约为1.3~1.5倍物理核性能，而非2倍，总性能约为4×1.4=5.6倍单核，达不到8倍；B错误，SMT不影响发射宽度；C错误，题干说CPU密集型且8核满载，说明是多线程应用；D错误，16MB L3在桌面场景足够，不是主因。'
-    )
-    // 27
-    .addSingle(MOCK3, 'Vastbase中，以下关于postmaster.pid文件的说法正确的是？\nA. 该文件存储数据库主进程的PID，可用于判断数据库是否正在运行\nB. 该文件是数据库的主配置文件，包含端口和内存参数\nC. 该文件丢失时，数据库会自动重建，不影响正常运行\nD. 该文件记录了所有客户端连接的PID列表',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，postmaster.pid是进程ID文件，用于判断数据库是否运行；B错误，主配置文件是postgresql.conf，postmaster.pid不是配置文件；C错误，postmaster.pid在运行期间存在，删除后不会自动重建，但删除该文件不会导致数据库立即崩溃，但会影响某些管理工具判断；D错误，postmaster.pid只记录主进程的PID，不记录客户端连接。'
-    )
-    // 28
-    .addSingle(MOCK3, '中创AS的应用部署中，某war包放入autodeploy目录后，部署失败且未生成对应的部署目录。查看server.log发现"java.lang.OutOfMemoryError: PermGen space"。该环境使用JDK 8。以下解决方案中最有效的是？\nA. 将JDK升级到JDK 11，使用元空间自动管理取代PermGen\nB. 在domain.xml的jvm-options中添加-XX:MaxPermSize=256m参数\nC. 将war包拆分为多个小包分步部署，降低单次内存消耗\nD. 在as/config/asenv.conf中设置AS_JAVA_OPTS="-XX:MaxPermSize=512m"',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，升级JDK是方案之一但非最直接有效；B正确，JDK 8的PermGen是独立区域，应用部署时加载大量类可能耗尽PermGen，需调大MaxPermSize；C错误，拆分war不能解决类加载引起的PermGen问题；D错误，asenv.conf中的AS_JAVA用于指定JDK路径而非JVM参数，JVM参数应在domain.xml的jvm-options中配置。'
-    )
-    // 29
-    .addSingle(MOCK3, '某Vastbase数据库发生主备切换后，新主库业务正常，但原主库恢复后需要作为备库重新加入集群。以下操作步骤最合理的是？\nA. 在原主库执行vb_ctl promote，再执行vb_ctl build重建\nB. 在原主库执行vb_ctl stop，清理数据目录，使用vb_basebackup从新主库拉取全量数据，配置recovery后启动\nC. 直接在原主库执行vb_ctl restart，系统会自动检测并降级为备库\nD. 执行vb_ctl failover将原主库强制切换为备库',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，promote是备升主操作，原主库已无数据意义；B正确，原主库降级为备库的标准流程：清理数据→vb_basebackup全量拉取→配置recovery.conf→启动；C错误，restart不会自动降级；D错误，failover是故障切换命令，用于主库故障时备库升主，不能用于恢复后的备库重建。'
-    )
-    // 30
-    .addSingle(MOCK3, '龙芯LoongArch架构的LSX128位和LASX256位向量扩展指令，在以下哪种场景中性能提升最显著？\nA. 大量文件I/O操作\nB. 多媒体编解码、科学计算等数据并行处理\nC. 网络协议栈处理\nD. 数据库事务日志写入',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，文件I/O受限于存储性能，向量指令作用有限；B正确，向量扩展指令通过SIMD实现单指令多数据并行处理，在多媒体、科学计算等场景提升显著；C错误，网络协议栈主要由CPU逻辑运算和中断处理，向量指令收益有限；D错误，WAL写入是顺序磁盘I/O，向量指令无帮助。'
-    )
-    // 31
-    .addSingle(MOCK3, '以下关于Vastbase的wal_keep_segments参数的理解，正确的是？\nA. 该参数控制WAL日志段文件的总数量，超出后自动删除旧的WAL文件，影响数据库性能\nB. 该参数定义保留的WAL文件数量下限，备库落后超过该值时会导致复制中断，需重建备库\nC. 该参数设置后需重启数据库生效，且仅在archive_mode=on时才起作用\nD. 该参数设置越大越安全，建议设置为无限大以避免备库断开',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，wal_keep_segments是最低保留数量，不是总数量限制；B正确，备库落后超过wal_keep_segments，主库会删除备库尚未应用的WAL，导致复制中断需重建；C错误，该参数与archive_mode独立，且修改后需重启；D错误，设置过大占用磁盘空间，应合理设置，且"无限大"不可配置。'
-    )
-    // 32
-    .addSingle(MOCK3, '中创AS部署的应用出现HTTP 502错误（Bad Gateway），Nginx日志显示"upstream prematurely closed connection while reading response header from upstream"。以下分析最可能的是？\nA. 中创AS应用的数据库连接池耗尽，请求被拒绝\nB. 中创AS的线程池或连接超时设置太小，导致后端处理慢时被Nginx断开连接\nC. 应用代码抛出未捕获异常导致响应异常\nD. Nginx配置中proxy_pass地址错误，无法找到上游服务器',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，数据库连接池耗尽不会导致"prematurely closed connection"这种连接提前关闭的Nginx错误；B正确，Nginx与后端之间的连接超时（proxy_read_timeout）小于后端处理时间时，Nginx会主动断开连接，返回502；C错误，应用异常返回500而非502；D错误，proxy_pass地址错误导致的是连接失败而非连接提前关闭。'
-    )
-    // 33
-    .addSingle(MOCK3, 'Vastbase中使用vb_dump进行逻辑备份时，使用了-F c参数（自定义格式）。以下说法正确的是？\nA. 该格式生成的是SQL文本文件，可直接用vsql -f恢复\nB. 该格式支持并行恢复（使用vb_restore -j N），且备份文件体积通常比明文格式小\nC. 该格式生成的备份文件不可跨平台恢复\nD. 该格式是默认格式，不指定-F参数时默认使用custom格式',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，-F c是自定义二进制格式，不是SQL文本，需用vb_restore恢复；B正确，custom格式支持并行恢复（-j参数），且压缩存储体积更小；C错误，custom格式可跨平台恢复；D错误，默认格式是plain（-F p），custom需显式指定。'
-    )
-    // 34
-    .addSingle(MOCK3, '龙芯3A6000与3B6000M的主要设计目标差异是？\nA. 3A6000面向桌面，3B6000M面向工控安防\nB. 3A6000面向政企桌面办公，3B6000M在3A6000基础上集成GPGPU，支持AI推理和4K硬解\nC. 3A6000面向服务器，3B6000M面向物联网\nD. 3A6000采用LA664核心，3B6000M采用MIPS核心',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，工控安防是2K系列；B正确，3A6000是政企桌面主力，3B6000M是新一代"三剑客"之一，集成GPGPU扩展了AI能力；C错误，服务器是3C/3D系列；D错误，两者均采用LA664核心。'
-    )
-    // 35
-    .addSingle(MOCK3, 'Vastbase中，ANALYZE命令的执行时机和方式对性能有重要影响。以下说法正确的是？\nA. ANALYZE命令会在执行时对表加排他锁，建议在业务低峰期执行\nB. ANALYZE命令只收集表级统计信息，不收集列级统计信息\nC. 开启autovacuum后会自动执行ANALYZE，通常无需手动干预\nD. 对大表执行ANALYZE时，建议使用ANALYZE VERBOSE以提升采样精度',
-        ['A', 'B', 'C', 'D'], 2,
-        'A错误，ANALYZE只加读锁，不阻塞读写；B错误，ANALYZE收集表和列的统计信息，存储在pg_statistic中；C正确，autovacuum默认开启且会自动分析；D错误，VERBOSE只输出详细信息，不影响采样精度。'
-    )
-    // 36
-    .addSingle(MOCK3, '中创AS中配置JDBC连接池时，管理员设置了max-pool-size=128，idle-timeout-in-seconds=300，connection-validation-required=true。某日业务高峰时应用响应变慢，监控显示连接池numconsumed接近128，waitQueueLength持续增长。以下分析最合理的是？\nA. 应用代码存在连接泄漏，大量连接未归还，需检查代码中是否调用了connection.close()\nB. idle-timeout-in-seconds=300过大导致空闲连接不能及时释放，应调小为60秒\nC. connection-validation-required=true导致每次获取连接时验证性能开销过大\nD. 单实例128的连接池配置已超出数据库最大连接数限制',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，numconsumed接近最大值且等待队列持续增长是连接池耗尽的典型现象，最常见原因是连接未及时关闭；B错误，空闲超时300秒是合理设置，调小可能导致频繁创建/销毁连接；C错误，连接验证有少量性能开销但不会导致连接池耗尽；D错误，128的连接池配置通常不会超过数据库限制（max_connections最小值为10且通常配置更高）。'
-    )
-    // 37
-    .addSingle(MOCK3, '在Vastbase中，某表有1000万行数据，执行DELETE FROM table_name WHERE create_time < \'2025-01-01\';删除了300万行数据。删除完成后，磁盘空间未释放，且后续查询性能未见提升。以下措施最有效的是？\nA. 执行VACUUM FULL table_name;回收磁盘空间并更新统计信息\nB. 执行VACUUM table_name;回收磁盘空间\nC. 执行ANALYZE table_name;更新统计信息即可\nD. 执行REINDEX TABLE table_name;重建索引',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，VACUUM FULL可回收磁盘碎片空间并重写表，执行后会释放空间给操作系统，同时会更新统计信息；B错误，普通VACUUM只标记死元组为可重用，不释放磁盘空间给操作系统；C错误，ANALYZE只更新统计信息，不回收空间；D错误，REINDEX重建索引不回收表的数据文件空间。'
-    )
-    // 38
-    .addSingle(MOCK3, '龙芯平台上安装统信UOS后，网卡驱动正常识别，但无法获取IPv4地址（DHCP超时），手动配置静态IP后可以ping通网关但无法ping通外网DNS（114.114.114.114）。以下排查方向最合理的是？\nA. 路由器/交换机配置了MAC地址过滤，需将龙芯网卡MAC加入白名单\nB. DNS解析配置错误，检查/etc/resolv.conf是否配置了正确的DNS服务器\nC. 网卡驱动虽然识别但存在兼容性问题，需更新loongarch64架构专用驱动\nD. 系统的默认路由配置缺失，需手动添加ip route add default via <网关IP>',
+    .addSingle(MOCK9_NEW, 'exBase支持的源端数据库不包括？\nA. Oracle\nB. MySQL\nC. SQL Server\nD. Vastbase',
         ['A', 'B', 'C', 'D'], 3,
-        'A错误，能ping通网关说明交换机已允许该MAC通信；B错误，ping外网DNS使用IP地址不依赖DNS解析，能ping通网关但无法ping通外网说明是路由问题而非DNS；C错误，能ping通网关说明驱动工作正常；D正确，能通网关但不通外网通常是默认路由缺失，需检查路由表并添加默认路由。'
+        'Vastbase是exBase的目标端数据库，不是源端。'
     )
-    // 39
-    .addSingle(MOCK3, 'Vastbase中，关于pg_stat_replication视图的使用，以下说法正确的是？\nA. 该视图只能在主库上查询，备库上查询返回空\nB. 该视图显示当前所有WAL发送进程状态，可用于判断备库的同步延迟\nC. 该视图中的flush_lsn表示备库已写入磁盘的WAL位置\nD. 该视图的state字段为streaming表示备库正在恢复WAL',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，该视图在主库上查询才有数据，但备库查询不会返回空（返回空行而非报错）；B正确，pg_stat_replication显示WAL发送进程信息，包括sync_state、write_lsn、flush_lsn、replay_lsn可用于判断延迟；C错误，flush_lsn表示备库已flush到磁盘的位置，write_lsn是已写入OS缓存的位置，replay_lsn是已重放的位置，易混淆；D错误，state字段streaming表示流复制正在进行中，"恢复WAL"应用状态体现在replay_lsn的推进上。'
-    )
-    // 40
-    .addSingle(MOCK3, '龙芯3C5000服务器与通用X86服务器对比时，以下关于性能特征的描述，正确的是？\nA. 龙芯3C5000单核性能与同频X86处理器持平，多核并发性能远超X86\nB. 龙芯3C5000单核性能略低于同频X86，但多核并发优势明显，适合高并发场景\nC. 龙芯3C5000单核性能和多核性能均全面超越X86处理器\nD. 龙芯3C5000为低功耗设计，性能仅为X86的30%，仅适合轻量负载',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，同频单核性能龙芯与X86仍有差距；B正确，龙芯RISC架构在多核并发场景有优势，适合服务器高并发，但单核性能略低于X86；C错误，部分场景超越但非全面；D错误，3C5000定位服务器，性能远超轻量负载需求。'
-    )
-    // 41
-    .addSingle(MOCK3, '中创AS中，jps | grep ASMain命令执行后返回了进程PID，但netstat -tlnp | grep 8060无输出。以下分析最合理的是？\nA. 中创AS已启动但管理控制台端口未监听，可能因网络配置问题\nB. ASMain进程存在但8060端口被其他进程占用，导致控制台无法启动\nC. 中创AS只启动了应用端口8080，管理控制台端口8060默认不启用\nD. 这属于正常状态，因为中创AS的管理控制台使用JMX连接而非HTTP',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，jps有ASMain进程说明中间件已启动，但端口未监听说明网络层或配置有问题，需检查server.log；B错误，端口被占用会导致启动失败而非无监听；C错误，8060是管理控制台默认端口，默认启用；D错误，控制台使用HTTP/HTTPS协议而非JMX。'
-    )
-    // 42
-    .addSingle(MOCK3, 'Vastbase中，以下关于max_process_memory参数的说法，正确的是？\nA. 该参数是操作系统级参数，在/etc/sysctl.conf中配置，用于限制数据库进程总内存\nB. 该参数是数据库级参数，用于限制数据库可用最大物理内存，设置不当可能导致OOM\nC. 该参数与shared_buffers功能相同，二者取其一即可\nD. 该参数默认无限制，生产环境建议不设置以免限制性能',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，这是数据库参数，在postgresql.conf中配置；B正确，max_process_memory控制数据库整体可用物理内存上限，需合理设置避免OOM；C错误，shared_buffers是共享缓冲区，max_process_memory是进程总内存限制，功能不同；D错误，默认值可能需要调整，不设置可能导致内存耗尽。'
-    )
-    // 43
-    .addSingle(MOCK3, '龙芯LoongArch架构中，以下关于硬件虚拟化扩展的描述，正确的是？\nA. 龙芯硬件虚拟化仅支持KVM，不支持容器化技术如Docker\nB. 龙芯原生搭载硬件虚拟化扩展，可稳定部署虚拟机和容器云业务\nC. 龙芯的虚拟化实现依赖软件翻译层，性能低于X86硬件虚拟化\nD. 龙芯3A6000暂不支持硬件虚拟化，仅服务器型号3C/3D系列支持',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，硬件虚拟化既支持KVM等虚拟机，也支持容器；B正确，LoongArch原生搭载硬件虚拟化扩展；C错误，龙芯有硬件虚拟化而非软件翻译；D错误，3A6000同样支持硬件虚拟化，非服务器专属。'
-    )
-    // 44
-    .addSingle(MOCK3, 'Vastbase中，某表创建了分区（按月范围分区），执行查询SELECT * FROM orders WHERE order_date >= \'2025-06-01\' AND order_date < \'2025-07-01\';但执行计划仍显示全表扫描（Seq Scan on orders）。以下排查方向最可能有效的是？\nA. 分区键order_date上未建立索引，需创建分区索引\nB. 查询条件中的order_date使用了函数或类型不匹配，导致分区剪枝失效\nC. Vastbase不支持范围分区的剪枝优化，需改用列表分区\nD. 分区表的统计信息过时，需执行ANALYZE orders;',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，分区剪枝不依赖索引，是查询计划阶段确定目标分区；B正确，如果条件中的列与分区键类型不匹配或经过函数运算，分区剪枝会失效；C错误，Vastbase支持范围分区剪枝；D错误，ANALYZE不影响分区剪枝。'
-    )
-    // 45
-    .addSingle(MOCK3, '在龙芯平台上，配置本地YUM源时repo文件的正确格式是？\nA. baseurl=http://localhost/mnt/repo\nB. baseurl=file:///mnt/repo\nC. baseurl=/mnt/repo\nD. baseurl=ftp://127.0.0.1/repo',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，http协议用于网络源，本地源不应使用；B正确，本地源必须使用file://协议；C错误，虽然某些系统支持但标准格式应包含file://；D错误，ftp是远程协议。'
-    )
-    // 46
-    .addSingle(MOCK3, 'Vastbase中，关于pg_hba.conf配置文件的说法，以下正确的是？\nA. 该文件修改后，执行vb_ctl reload即可生效，无需重启数据库\nB. 该文件中的认证规则按优先级从低到高排列，最后匹配的规则生效\nC. 该文件配置错误导致数据库无法启动时，可通过修改postgresql.conf中的hba_file指向备份文件恢复\nD. 该文件在安装时自动生成，后续只能通过vb_initdb重新初始化来修改',
-        ['A', 'B', 'C', 'D'], 0,
-        'A正确，pg_hba.conf修改后执行reload可生效，是高频考点；B错误，认证规则按顺序匹配，第一条匹配的规则生效；C错误，hba_file是postgresql.conf中的配置项，若pg_hba.conf本身配置错误导致数据库无法启动，可通过命令行参数-hba_file指定备用认证文件启动，或直接修复pg_hba.conf；D错误，可手动修改，不需要重新初始化。'
-    )
-    // 47
-    .addSingle(MOCK3, '中创AS的标准版和企业版差异中，以下说法最准确的是？\nA. 标准版不支持集群部署，企业版支持集群\nB. 标准版支持Web容器+数据源+集群，但不支持EJB容器\nC. 标准版不支持JDBC数据源，需要额外安装模块\nD. 标准版仅支持部署静态HTML，不支持动态Web应用',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，标准版支持集群；B正确，标准版包含Web容器、数据源、集群功能，但无EJB容器；C错误，标准版支持JDBC数据源；D错误，标准版支持动态Web应用（Servlet/JSP）。'
-    )
-    // 48
-    .addSingle(MOCK3, 'Vastbase的vb_ctl stop -m fast与vb_ctl stop -m immediate的区别，以下说法正确的是？\nA. fast模式会等待所有客户端主动断开，immediate模式会回滚未提交事务\nB. fast模式回滚所有未提交事务并强制断开连接，immediate模式强行关闭可能导致数据丢失\nC. immediate模式是官方推荐的生产环境关闭方式\nD. 两种模式都会等待WAL日志全部落盘后再关闭',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，smart等待客户端主动断开，fast回滚事务并强制断开；B正确，fast是兼顾安全与效率的推荐方式，immediate强行关闭不保证数据已落盘，有丢失风险；C错误，fast是官方推荐，immediate仅非紧急情况使用；D错误，immediate不等待WAL落盘。'
-    )
-    // 49
-    .addSingle(MOCK3, '龙芯平台安装国产系统时，以下关于Secure Boot的说法正确的是？\nA. 龙芯BIOS的Secure Boot必须开启，以确保系统安装包的完整性校验\nB. Secure Boot在龙芯平台上默认关闭，无需用户手动干预\nC. 必须关闭Secure Boot，否则会拦截国产系统的引导程序导致无法安装\nD. Secure Boot只影响Windows系统安装，不影响Linux/国产系统',
+    .addSingle(MOCK9_NEW, 'Vastbase中fs.aio-max-nr的推荐值是多少？\nA. 1024\nB. 4096\nC. 1048576\nD. 20480000',
         ['A', 'B', 'C', 'D'], 2,
-        'A错误，必须关闭而非开启；B错误，默认状态不确定且需要手动检查关闭；C正确，Secure Boot会拦截未签名的国产系统引导程序；D错误，同样影响Linux/国产系统。'
+        'fs.aio-max-nr推荐值为1048576。'
     )
-    // 50
-    .addSingle(MOCK3, 'Vastbase中，执行vb_dump -F p -f backup.sql mydb后，使用vsql -f backup.sql恢复时报错"ERROR: relation \'xxx\' already exists"。以下分析正确的是？\nA. 备份文件backup.sql中包含了CREATE DATABASE语句，恢复前需先删除已有数据库\nB. -F p明文格式生成的备份文件默认包含DROP TABLE IF EXISTS语句，恢复前应先删除冲突对象\nC. 备份文件中包含建表语句，但目标数据库中已存在同名表，需在恢复命令中添加--clean选项或在恢复前清理目标数据库\nD. 该错误不影响恢复结果，表已存在时会自动跳过',
-        ['A', 'B', 'C', 'D'], 2,
-        'A错误，vb_dump默认不包含CREATE DATABASE；B错误，明文格式默认不包含DROP语句；C正确，恢复时表冲突需要清理目标数据库或在恢复时使用--clean选项先删除再创建；D错误，ERROR级别错误会中断恢复流程。'
-    )
-    // 51
-    .addSingle(MOCK3, '某公司计划将一批X86服务器替换为龙芯服务器，迁移前评估发现部分应用使用了JNI（Java Native Interface）调用本地C/C++库。以下关于迁移的说法，最合理的是？\nA. JNI库是平台无关的，在X86上编译的.so文件可以直接在龙芯上运行\nB. JNI库需要在龙芯平台上重新编译，且需要确认C/C++代码中无X86特有汇编指令\nC. 龙芯不支持JNI技术，需要完全移除本地库调用改为纯Java实现\nD. 可以在龙芯上安装X86模拟器，直接运行X86编译的JNI库',
+    .addSingle(MOCK9_NEW, '龙芯3A6000的L3缓存、内存带宽、功耗分别是？\nA. 8MB、21GB/s、20W\nB. 16MB、42GB/s、40W\nC. 32MB、51.2GB/s、60W\nD. 16MB、21GB/s、40W',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，JNI库包含机器码，平台相关不能直接复用；B正确，.so需在龙芯上重新编译（使用loongarch64架构的编译器和JDK），且需检查代码是否依赖X86特有指令；C错误，龙芯支持JNI；D错误，模拟器方案性能极差且不稳定。'
+        '3A6000为16MB L3、42GB/s内存带宽、40W@2.5GHz。'
     )
-    // 52
-    .addSingle(MOCK3, 'Vastbase中，关于pg_stat_activity视图的state字段，以下说法正确的是？\nA. active状态表示该连接正在执行查询，idle表示连接空闲，idle in transaction表示事务已提交但连接未释放\nB. active表示连接正在执行查询，idle表示空闲，idle in transaction表示事务未结束但当前无查询执行\nC. idle in transaction状态的连接完全无害，不会影响其他会话\nD. 所有idle状态连接都应立即终止，以释放资源',
+    .addSingle(MOCK9_NEW, 'Vastbase中pg_stat_replication视图的主要用途是？\nA. 查看当前连接\nB. 查看主备同步状态\nC. 查看参数配置\nD. 判断主备角色',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，idle in transaction是事务未结束（未commit/rollback），不是已提交；B正确，这是pg_stat_activity状态字段的正确理解；C错误，idle in transaction持有锁和事务ID，可能阻塞VACUUM；D错误，正常的idle连接无需终止，过长空闲可能需设置空闲超时参数。'
+        'pg_stat_replication查看主备同步状态。'
     )
-    // 53
-    .addSingle(MOCK3, '龙芯3D5000服务器处理器与3C5000相比，以下说法正确的是？\nA. 3D5000是双路处理器，3C5000是单路处理器\nB. 3D5000通过双硅片封装实现32核算力，3C5000为16核单硅片\nC. 3D5000为32核，3C5000为8核\nD. 两者均为32核设计，但3D5000支持DDR5而3C5000仅支持DDR4',
+    .addSingle(MOCK9_NEW, '迁移中，weblogic.xml迁移到中创AS时应转换为？\nA. web.xml\nB. infosuite-web.xml\nC. application.xml\nD. domain.xml',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，3D5000本身是处理器型号，不直接等同于"双路"，它可通过双路/四路扩展；B正确，3D5000双硅片各16核→32核，3C5000是16核单硅片；C错误，3C5000是16核而非8核；D错误，两者均不支持DDR5。'
+        'WebLogic的weblogic.xml迁移到中创AS时转换为infosuite-web.xml。'
     )
-    // 54
-    .addSingle(MOCK3, '中创AS的应用部署中，某应用使用Spring Boot框架，打包为war部署后正常启动，但访问RESTful接口返回404。controller类上的@RequestMapping路径在开发环境正常。以下排查方向最有效的是？\nA. 中创AS的Web容器不兼容Spring Boot的注解路由，需改用XML配置\nB. 检查应用是否成功扫描到Controller组件，查看server.log中是否有"Mapping"相关的DEBUG日志\nC. 中创AS的8080端口只支持静态资源，不支持RESTful接口\nD. 需在web.xml中手动注册所有Controller类',
+    .addSingle(MOCK9_NEW, 'Vastbase中vb_dump的自定义格式代码是？\nA. p\nB. c\nC. d\nD. t',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，中创AS兼容Spring Boot的注解路由；B正确，404通常是路由未注册，应检查spring组件扫描是否正常，server.log中的Mapping日志可确认；C错误，8080端口支持动态Web应用；D错误，Spring Boot无需在web.xml中注册Controller。'
+        'p=明文，c=自定义（压缩格式），d=目录，t=tar包。'
     )
-    // 55
-    .addSingle(MOCK3, '在Vastbase中，如果表空间ts_data对应的磁盘目录被误删除，执行查询涉及该表空间下的表时报错。以下恢复步骤最合理的是？\nA. 重新创建同名目录，重启数据库即可自动恢复\nB. 从备份中恢复该表空间的全部数据文件，再重启数据库\nC. 执行DROP TABLESPACE ts_data;删除表空间定义，再重新创建\nD. 修改postgresql.conf中的data_directory指向备份目录',
+    .addSingle(MOCK9_NEW, '中创应用服务器中，-DconnectionAutoClose=true的作用是？\nA. 事务内共享连接\nB. 连接自动关闭，及时释放资源\nC. 使用高性能数据结构\nD. 启用G1GC',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，仅重建目录不会恢复数据文件；B正确，表空间目录损坏需从备份恢复数据文件；C错误，DROP TABLESPACE要求表空间为空，表中包含对象无法删除；D错误，data_directory是数据库根目录，不是单个表空间路径。'
+        '-DconnectionAutoClose=true实现连接自动关闭，若应用未主动关闭，请求结束时自动关闭。'
     )
-    // 56
-    .addSingle(MOCK3, '龙芯平台上，YUM源配置中gpgcheck=1时，安装软件包报错"Public key for xxx.rpm is not installed"。以下操作中最合适的是？\nA. 安装loongarch64架构对应的GPG公钥包，或临时设置gpgcheck=0跳过校验\nB. 使用rpm -ivh --nodeps --force强制安装\nC. 将gpgcheck=1改为gpgcheck=0永久禁用校验\nD. 下载x86架构的GPG密钥导入系统',
+    .addSingle(MOCK9_NEW, '龙芯LoongArch架构独立于哪两大海外架构？\nA. RISC-V和MIPS\nB. X86和ARM\nC. PowerPC和SPARC\nD. CISC和RISC',
+        ['A', 'B', 'C', 'D'], 1,
+        'LoongArch独立于X86、ARM两大海外商业软硬件生态。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中archive_mode=on的作用是？\nA. 控制WAL日志级别\nB. 开启归档，否则无法做PITR恢复\nC. 保留WAL文件数量\nD. 定义归档脚本',
+        ['A', 'B', 'C', 'D'], 1,
+        'archive_mode=on开启归档，否则WAL循环覆盖，无法做PITR恢复。'
+    )
+    .addSingle(MOCK9_NEW, '迁移中，SpringBoot迁移到中创内嵌版时，业务代码应？\nA. 大量重写\nB. 基本保持不变\nC. 全部删除\nD. 只保留配置文件',
+        ['A', 'B', 'C', 'D'], 1,
+        '主要是替换依赖和调整配置，业务代码基本保持不变。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中work_mem和max_connections的关系是？\nA. max_connections越大，work_mem总消耗越大\nB. max_connections越大，work_mem总消耗越小\nC. 两者无关联\nD. work_mem是全局参数',
         ['A', 'B', 'C', 'D'], 0,
-        'A正确，gpgcheck=1需要公钥验证，安装对应公钥包或临时设置gpgcheck=0（内网环境）均可解决；B错误，--nodeps解决依赖问题而非签名问题，--force强制安装有风险；C错误，永久关闭校验存在安全风险；D错误，架构不匹配。'
+        'work_mem每个进程独享，max_connections越大，总消耗越大，需按并发数反推。'
     )
-    // 57
-    .addSingle(MOCK3, '以下关于Vastbase的vb_ctl promote命令的使用场景和注意事项，说法正确的是？\nA. promote命令用于将备库提升为主库，执行后原主库自动降级为备库\nB. promote命令在主库故障后执行，将备库提升为主库，原主库恢复后需手动重建为备库\nC. promote命令可用于任意节点，将当前节点由主库切换为备库\nD. promote命令执行后立即生效，无需重启数据库',
+    .addSingle(MOCK9_NEW, '中创应用服务器中，jstat -gcutil <pid> 1000的作用是？\nA. 查看线程堆栈\nB. 每秒打印GC情况\nC. 导出堆内存\nD. 查看进程CPU',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，promote只提升备库为主库，不会自动处理原主库；B正确，备库promote升主后，原主库需手动搭建为备库；C错误，promote是备升主，不是主降备；D错误，promote执行后数据库会重启完成角色切换。'
+        'jstat -gcutil <pid> 1000每秒打印GC情况，用于分析GC频率。'
     )
-    // 58
-    .addSingle(MOCK3, '中创AS的生产环境部署中，以下关于JVM参数-Xms和-Xmx的设置原则，说法正确的是？\nA. -Xms应设置为物理内存的80%以上，确保应用启动后有足够内存\nB. -Xmx和-Xms应设置为相同值，避免JVM动态扩容带来的性能抖动\nC. -Xms必须小于-Xmx，二者差值应大于堆内存的50%\nD. 生产环境应设置-Xms为0，让JVM按需分配内存',
-        ['A', 'B', 'C', 'D'], 1,
-        'A错误，-Xms过大浪费内存且可能导致其他进程OOM；B正确，生产环境通常将-Xms和-Xmx设为相同值避免动态扩容开销；C错误，-Xms可以等于-Xmx，且没有必须差值的强制要求；D错误，-Xms不能为0，且生产环境需要明确的最小堆内存保证。'
+    .addSingle(MOCK9_NEW, '龙芯3C5000不支持以下哪项？\nA. 16颗LA664核心\nB. 4通道DDR4-3200\nC. ECC校验\nD. PCIe4.0',
+        ['A', 'B', 'C', 'D'], 3,
+        '3C5000硬件不支持PCIe4.0高速接口。'
     )
-    // 59
-    .addSingle(MOCK3, '龙芯3A6000的内存带宽实测值为42GB/s，以下关于该数值的理解，正确的是？\nA. 42GB/s是单通道DDR4的理论最大带宽\nB. 42GB/s是双通道DDR4-3200的实际测试带宽值\nC. 42GB/s是所有内存访问场景下的恒定值\nD. 42GB/s是指CPU与L3缓存之间的数据传输速率',
+    .addSingle(MOCK9_NEW, 'Vastbase中vb_ctl failover的适用场景是？\nA. 计划内维护\nB. 主节点已宕机\nC. 备库升主\nD. 重启集群',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，单通道DDR4理论带宽约25.6GB/s；B正确，双通道DDR4-3200理论带宽约51.2GB/s，实测值42GB/s与理论值接近但略低；C错误，带宽随访问模式变化；D错误，42GB/s是内存带宽而非缓存带宽。'
+        'failover用于主节点已宕机的故障强制切换，switchover用于计划内维护。'
     )
-    // 60
-    .addSingle(MOCK3, '某Vastbase数据库从PostgreSQL迁移过来，原先大量使用VACUUM FULL维护表空间。迁移后发现VACUUM FULL执行时间比PostgreSQL长很多。以下分析最可能的是？\nA. Vastbase的VACUUM FULL实现机制与PostgreSQL不同，在重写表时会持有更长时间的锁\nB. Vastbase的VACUUM FULL与PostgreSQL行为一致，时间长是因为原数据库维护不当造成表膨胀严重\nC. Vastbase不支持VACUUM FULL，该命令会自动转为VACUUM并静默处理\nD. Vastbase的AUTOVACUUM默认关闭，需手动启用后VACUUM FULL才会加速',
+    .addSingle(MOCK9_NEW, '迁移中，Oracle的CONNECT BY在Vastbase中应改为？\nA. JOIN\nB. WITH RECURSIVE\nC. UNION\nD. GROUP BY',
         ['A', 'B', 'C', 'D'], 1,
-        'A错误，Vastbase基于openGauss/PostgreSQL，VACUUM FULL行为与PostgreSQL基本一致；B正确，迁移后首次VACUUM FULL耗时较长通常是因为源端长期未做维护导致表膨胀严重，迁移后需要一次彻底回收；C错误，Vastbase支持VACUUM FULL；D错误，AUTOVACUUM默认开启，不影响VACUUM FULL的执行。'
+        'Oracle的CONNECT BY层次查询在Vastbase中应改为WITH RECURSIVE。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中bgwriter_delay和pagewriter_sleep的区别是？\nA. 前者控制checkpoint刷页，后者控制后台刷页\nB. 前者控制后台刷页，后者控制checkpoint刷页\nC. 两者都控制checkpoint刷页\nD. 两者都控制后台刷页',
+        ['A', 'B', 'C', 'D'], 1,
+        'bgwriter_delay控制后台刷页频率，pagewriter_sleep控制checkpoint刷页频率。'
+    )
+    .addSingle(MOCK9_NEW, '中创应用服务器中，numconsumed接近最大值+waitQueueLength持续增长表示？\nA. 线程池耗尽\nB. 连接池耗尽\nC. JVM内存不足\nD. 磁盘空间不足',
+        ['A', 'B', 'C', 'D'], 1,
+        '连接池耗尽的典型指标组合，需调大最大池大小或检查连接释放。'
+    )
+    .addSingle(MOCK9_NEW, '龙芯平台系统引导损坏的三大诱因不包括？\nA. 异常断电\nB. 错误修改分区表\nC. 跨架构软件\nD. 正常重启',
+        ['A', 'B', 'C', 'D'], 3,
+        '正常开关机和系统重启不会损坏系统引导。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中enable_opfusion和vb_enable_plsql_opfusion的区别是？\nA. 前者用于普通查询，后者用于PL/pgSQL\nB. 前者用于PL/pgSQL，后者用于普通查询\nC. 两者功能相同\nD. 两者都用于分区剪枝',
+        ['A', 'B', 'C', 'D'], 0,
+        'enable_opfusion开启SQL by pass加速（简单查询），vb_enable_plsql_opfusion允许PL/pgSQL中使用。'
+    )
+    .addSingle(MOCK9_NEW, '迁移中，MySQL的TINYINT(1)在Vastbase中映射为？\nA. SMALLINT\nB. BOOLEAN\nC. INTEGER\nD. CHARACTER',
+        ['A', 'B', 'C', 'D'], 1,
+        'MySQL的TINYINT(1)映射为BOOLEAN，布尔类型映射需确认。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中pg_settings视图和pg_stat_activity视图的区别是？\nA. 前者查看参数配置，后者查看当前连接和查询\nB. 前者查看当前连接，后者查看参数配置\nC. 两者都查看参数配置\nD. 两者都查看当前连接',
+        ['A', 'B', 'C', 'D'], 0,
+        'pg_settings查看参数配置，pg_stat_activity查看当前所有连接和查询。'
+    )
+    .addSingle(MOCK9_NEW, '中创应用服务器中，jmap -dump:live,format=b,file=heap.hprof <pid>的作用是？\nA. 查看线程堆栈\nB. 导出堆内存\nC. 查看GC状态\nD. 查看进程CPU',
+        ['A', 'B', 'C', 'D'], 1,
+        'jmap导出堆内存，用于分析内存泄漏或大对象。'
+    )
+    .addSingle(MOCK9_NEW, '龙芯3D5000的内存通道数和核心数分别是？\nA. 4通道、16核\nB. 8通道、32核\nC. 4通道、32核\nD. 8通道、16核',
+        ['A', 'B', 'C', 'D'], 1,
+        '3D5000支持8通道DDR4，双硅片各16核，组合实现32核。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中wal_keep_segments设置过小的后果是？\nA. 主备断开\nB. 无法归档\nC. 无法启动\nD. 内存溢出',
+        ['A', 'B', 'C', 'D'], 0,
+        'wal_keep_segments保留WAL文件数量，备库落后过多、WAL被循环覆盖会造成主备断开。'
+    )
+    .addSingle(MOCK9_NEW, '迁移中，Vastbase兼容模式在何时确定？\nA. 安装时确定，不可更改\nB. 迁移前随时可改\nC. 首次连接时\nD. 由客户端决定',
+        ['A', 'B', 'C', 'D'], 0,
+        'Vastbase兼容模式在安装时确定，不可更改，迁移前必须确认兼容模式选择。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中vb_probackup和vb_basebackup的区别是？\nA. 前者用于周期性备份，后者用于搭建备库\nB. 前者用于搭建备库，后者用于周期性备份\nC. 两者都是逻辑备份\nD. 两者功能相同',
+        ['A', 'B', 'C', 'D'], 0,
+        'vb_probackup用于周期性备份（全量/增量，支持PITR），vb_basebackup用于搭建备库。'
+    )
+    .addSingle(MOCK9_NEW, '中创应用服务器中，-Xms和-Xmx的关系是？\nA. -Xms不能超过-Xmx\nB. -Xmx不能超过-Xms\nC. 两者必须相等\nD. 无关系',
+        ['A', 'B', 'C', 'D'], 0,
+        '-Xms不能超过-Xmx，通常设为-Xmx的一半。'
+    )
+    .addSingle(MOCK9_NEW, '龙芯平台无法联网的最常见原因是？\nA. CPU损坏\nB. 网卡驱动不匹配\nC. 内存损坏\nD. 硬盘损坏',
+        ['A', 'B', 'C', 'D'], 1,
+        '主机无法联网绝大多数原因为缺少龙芯适配网卡驱动。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中pg_wal目录存储的内容是？\nA. 数据库运行日志\nB. WAL日志，用于事务持久化和主备复制\nC. 审计日志\nD. 事务提交日志',
+        ['A', 'B', 'C', 'D'], 1,
+        'pg_wal存储WAL日志，用于事务持久化、主备复制、PITR恢复。'
+    )
+    .addSingle(MOCK9_NEW, '迁移中，以下哪个改造点兼容性风险最高？\nA. 字符串引号\nB. 表字段类型\nC. 存储过程\nD. SQL方言',
+        ['A', 'B', 'C', 'D'], 2,
+        '存储过程是重灾区，MySQL使用DELIMITER等语法，Vastbase使用PL/pgSQL，基本没有自动转换可能。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中work_mem设置过高可能导致？\nA. 磁盘空间不足\nB. OOM\nC. 网络延迟\nD. WAL堆积',
+        ['A', 'B', 'C', 'D'], 1,
+        'work_mem每个查询独享，设置过高+并发数大时总内存消耗过大，可能OOM。'
+    )
+    .addSingle(MOCK9_NEW, '中创应用服务器中，infosuite-web.xml的作用是？\nA. 替换web.xml\nB. 解决类/jar包冲突，设置delegate=false优先加载应用类\nC. 配置JDBC连接池\nD. 配置线程池',
+        ['A', 'B', 'C', 'D'], 1,
+        '当应用中的类与中间件冲突时，添加infosuite-web.xml设置delegate=false。'
+    )
+    .addSingle(MOCK9_NEW, '龙芯3A6000的典型功耗和频率分别是？\nA. 20W@2.0GHz\nB. 40W@2.5GHz\nC. 60W@2.5GHz\nD. 40W@2.0GHz',
+        ['A', 'B', 'C', 'D'], 1,
+        '3A6000在2.5GHz满载时典型功耗为40W。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中vb_ctl build的作用是？\nA. 重建备机或级联备机的数据\nB. 启动数据库\nC. 停止数据库\nD. 查看集群状态',
+        ['A', 'B', 'C', 'D'], 0,
+        'vb_ctl build在主机上用于重建备机或级联备机的数据。'
+    )
+    .addSingle(MOCK9_NEW, '迁移中，exBase支持的源端数据库不包括？\nA. Oracle\nB. MySQL\nC. SQL Server\nD. Vastbase',
+        ['A', 'B', 'C', 'D'], 3,
+        'Vastbase是exBase的目标端数据库，不是源端。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中effective_cache_size设置越高，优化器越倾向于？\nA. 全表扫描\nB. 索引扫描\nC. 哈希连接\nD. 排序',
+        ['A', 'B', 'C', 'D'], 1,
+        'effective_cache_size设置越高，优化器越倾向于使用索引扫描。'
+    )
+    .addSingle(MOCK9_NEW, '中创应用服务器中，top -Hp <pid>的作用是？\nA. 查看Java进程\nB. 查看进程内线程CPU使用情况\nC. 查看网络连接\nD. 查看文件句柄',
+        ['A', 'B', 'C', 'D'], 1,
+        'top -Hp <pid>查看进程内线程CPU使用情况，用于定位高CPU线程。'
+    )
+    .addSingle(MOCK9_NEW, '龙芯3B6000M相比3A6000最显著的特点是？\nA. 核心数增加\nB. 集成自研GPGPU，支持AI推理加速和4K硬解\nC. 支持DDR5\nD. 主频提升到3.0GHz',
+        ['A', 'B', 'C', 'D'], 1,
+        '3B6000M集成自研GPGPU图形核心，原生支持AI推理加速、4K硬件视频编解码。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中archive_command的作用是？\nA. 控制WAL日志级别\nB. 保留WAL文件数量\nC. 定义WAL归档脚本\nD. 是否开启归档',
+        ['A', 'B', 'C', 'D'], 2,
+        'archive_command定义归档复制脚本，archive_mode控制是否开启归档。'
+    )
+    .addSingle(MOCK9_NEW, '迁移中，应用双写方案的RPO是？\nA. 0\nB. 1\nC. 取决于网络\nD. 无法确定',
+        ['A', 'B', 'C', 'D'], 0,
+        '应用双写RPO=0，同时写入两端，可随时回退。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中pagewriter_sleep参数影响的是？\nA. 后台刷页频率\nB. checkpoint刷页频率，影响RTO和xlog堆积\nC. WAL缓冲区大小\nD. 最大连接数',
+        ['A', 'B', 'C', 'D'], 1,
+        'pagewriter_sleep控制checkpoint刷页频率，影响RTO和xlog堆积。'
+    )
+    .addSingle(MOCK9_NEW, '中创应用服务器中，RESTful监控接口建议使用的认证账户是？\nA. inforsAdmin\nB. monitoringAdmin\nC. root\nD. admin',
+        ['A', 'B', 'C', 'D'], 1,
+        '建议用监控员账户monitoringAdmin，而不是系统管理员inforsAdmin。'
+    )
+    .addSingle(MOCK9_NEW, '龙芯平台YUM源配置中，本地离线源使用的协议是？\nA. http://\nB. https://\nC. file://\nD. ftp://',
+        ['A', 'B', 'C', 'D'], 2,
+        '本地离线源使用file://本地磁盘目录路径，无需http网络协议。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中pg_audit目录存储的内容是？\nA. 数据库运行日志\nB. WAL日志\nC. 审计日志，记录用户操作行为\nD. 事务提交日志',
+        ['A', 'B', 'C', 'D'], 2,
+        'pg_audit目录存储审计日志，记录用户操作行为（需开启审计）。'
+    )
+    .addSingle(MOCK9_NEW, '迁移中，以下哪个属于中间件层兼容性验证的内容？\nA. JVM参数在ARM64下的表现\nB. SQL语法兼容\nC. 页面展示正常\nD. 国密加密链路',
+        ['A', 'B', 'C', 'D'], 0,
+        '中间件层验证JVM配置、日志配置、HTTP配置、线程池配置等；SQL语法属于数据库层，页面展示属于应用层。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中vb_ctl switchover的适用场景是？\nA. 主节点宕机后强制切换\nB. 计划内维护主动切换\nC. 备库提升为主库\nD. 重启集群',
+        ['A', 'B', 'C', 'D'], 1,
+        'switchover用于计划内主动切换（升级/维护场景），failover用于故障强制切换。'
+    )
+    .addSingle(MOCK9_NEW, '中创应用服务器中，jstack <pid>的作用是？\nA. 查看GC状态\nB. 查看线程堆栈，分析死锁/线程阻塞\nC. 导出堆内存\nD. 查看进程CPU',
+        ['A', 'B', 'C', 'D'], 1,
+        'jstack查看线程堆栈，用于分析死锁/线程阻塞。'
+    )
+    .addSingle(MOCK9_NEW, 'Vastbase中work_mem、shared_buffers、wal_buffers三者中，属于每个进程独享的是？\nA. work_mem\nB. shared_buffers\nC. wal_buffers\nD. 三者都是',
+        ['A', 'B', 'C', 'D'], 0,
+        'work_mem每个进程独享，shared_buffers和wal_buffers是全局共享。'
     )
 
 // ============================================================
-// 第61-80题：模拟三 多选题
+// 第61-80题：模拟九 多选题
 // ============================================================
 QuestionBank
-    // 61
-    .addMultiple(MOCK3, '某企业使用exBase从Oracle迁移到Vastbase，选择了在线迁移模式。以下关于exBase增量同步（CDC）的描述，正确的有？\nA. CDC增量同步基于解析源端数据库的归档日志/在线日志实现，无需停止业务写入\nB. 开启CDC时，源库账号需要具备SELECT、REPLICATION SLAVE、REPLICATION CLIENT、PROCESS权限\nC. CDC同步的延迟正常应小于1秒，超过10秒需要排查网络、Kafka积压或源库负载\nD. 在线迁移必须同时勾选"库表结构+全量数据+增量数据"，否则全量迁移过程中产生的新数据会丢失',
+    .addMultiple(MOCK9_NEW, '关于Vastbase中shared_buffers、work_mem、effective_cache_size三个参数，以下说法正确的有？\nA. shared_buffers实际分配共享内存\nB. work_mem每个进程独享\nC. effective_cache_size是评估值，不直接分配内存\nD. effective_cache_size设置越高，优化器越倾向于索引扫描',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，CDC基于日志解析不阻塞业务；B正确，exBase连接MySQL源库需这些权限；C正确，延迟<1秒正常，>10秒需排查；D正确，全增量衔接的关键规则。全部选项正确。'
+        '四项都是三个参数的正确描述。'
     )
-    // 62
-    .addMultiple(MOCK3, '关于中创AS应用服务器的部署与配置，以下说法正确的有？\nA. 标准版和企业版均支持Web容器、数据源和集群功能，但标准版不支持EJB容器\nB. 应用放入domains/domain1/autodeploy/目录可触发自动部署，无需管理控制台操作\nC. 管理控制台默认访问地址为https://IP:8060/console，默认系统管理员账号为inforsAdmin\nD. 修改domain.xml中的JVM参数后需重启域生效，修改日志级别后可通过控制台动态调整',
-        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，标准版无EJB；B正确，autodeploy支持热部署；C正确，8060端口和inforsAdmin是默认配置；D正确，JVM参数需重启，日志级别可动态调整。'
-    )
-    // 63
-    .addMultiple(MOCK3, '以下关于Vastbase数据库三权分立的描述，正确的有？\nA. 系统管理员（sysadmin）负责数据库的启停、备份恢复和性能调优\nB. 安全管理员（sso）负责用户创建、角色分配和权限授予\nC. 审计管理员（auditadmin）负责查看日志和审计记录\nD. 三权分立架构下，系统管理员可以绕过安全管理员直接为用户授予权限',
+    .addMultiple(MOCK9_NEW, '关于龙芯3A6000和3B6000M的对比，以下说法正确的有？\nA. 3A6000是政企桌面主力处理器\nB. 3B6000M集成自研GPGPU图形核心\nC. 3B6000M原生支持AI推理加速和4K硬件视频编解码\nD. 两者都支持DDR5内存',
         ['A', 'B', 'C', 'D'], [0, 1, 2],
-        'A正确，系统管理员管设备运行；B正确，安全管理员管权限分配；C正确，审计管理员管事后审计；D错误，三权分立的核心是相互制约，系统管理员不拥有授权权限。'
+        '龙芯3A6000不支持DDR5，D错误。'
     )
-    // 64
-    .addMultiple(MOCK3, '龙芯LoongArch架构国产操作系统的安装与适配中，以下做法正确的有？\nA. 下载安装镜像后需校验MD5/SHA256，确保镜像完整性\nB. BIOS需关闭Secure Boot，切换至UEFI模式，硬盘设置为RAID模式\nC. 分区方案应包含EFI引导分区（UEFI强制要求）、根分区/、推荐划分/home和swap\nD. 安装完成后可配置本地YUM源，repo文件使用file://协议',
+    .addMultiple(MOCK9_NEW, '关于迁移中JNI本地库不兼容的问题，以下说法正确的有？\nA. 典型报错是UnsatisfiedLinkError\nB. 需确认.so文件是否为ARM64/LoongArch架构编译\nC. 原生库（.so）需重新编译，不能直接复制\nD. 若回退到纯C实现，压缩/加密等操作性能可能下降40%以上',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，镜像校验是标准流程；B正确，这是龙芯BIOS的标准配置；C正确，UEFI需要EFI分区，/home推荐独立划分；D正确，本地YUM源使用file://协议。'
+        '四项都是JNI本地库不兼容的正确描述。'
     )
-    // 65
-    .addMultiple(MOCK3, 'Vastbase的物理备份工具vb_probackup与vb_basebackup的区别，以下说法正确的有？\nA. vb_probackup支持全量备份、增量备份和备份集管理，支持PITR恢复\nB. vb_basebackup主要用于从主库拉取全量数据镜像，常用于搭建备库\nC. vb_probackup支持备份压缩和并行恢复，vb_basebackup不支持\nD. vb_basebackup在搭建备库时可通过流复制模式传输WAL',
-        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，vb_probackup支持全量/增量/PITR；B正确，vb_basebackup用于搭建备库；C正确，vb_probackup支持压缩，vb_basebackup不支持；D正确，vb_basebackup支持流复制模式传输WAL。'
-    )
-    // 66
-    .addMultiple(MOCK3, '在应用迁移适配中，以下关于中间件迁移的描述，正确的有？\nA. Tomcat迁移到中创AS标准版时，主要调整数据源配置（JNDI名称）\nB. WebLogic迁移到中创AS企业版时，需要处理EJB组件并将weblogic.xml转换为inforsuite-web.xml\nC. SpringBoot应用迁移到中创内嵌版时，需移除内嵌Tomcat依赖并引入中创内嵌版依赖\nD. WebSphere迁移到中创AS的类加载机制差异较大，需重点关注',
-        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，Tomcat迁中创基本兼容，主要改JNDI；B正确，WebLogic迁移需处理EJB和配置文件转换；C正确，SpringBoot迁移需更换依赖；D正确，WebSphere类加载机制差异大，需要重点关注。'
-    )
-    // 67
-    .addMultiple(MOCK3, '关于Vastbase数据库的分区表功能，以下说法正确的有？\nA. Vastbase支持范围分区（RANGE）、列表分区（LIST）和哈希分区（HASH）\nB. 范围分区适合按时间维度拆分（如按年月分区），可提升查询效率\nC. 哈希分区适合无明确分区键、需要数据均匀分布的场景\nD. Vastbase支持复合分区（子分区），与Oracle的复合分区语法完全一致',
+    .addMultiple(MOCK9_NEW, '关于Vastbase中wal_level参数，以下说法正确的有？\nA. minimal最少日志，不支持主备复制\nB. replica支持主备复制，集群必须设置\nC. logical支持逻辑复制\nD. 主备集群环境可设置为minimal以节省空间',
         ['A', 'B', 'C', 'D'], [0, 1, 2],
-        'A正确，支持RANGE、LIST、HASH三种；B正确，时间维度的场景适合RANGE分区；C正确，哈希分区均匀分布数据；D错误，复习资料中Vastbase官方支持的分区方式不包括复合分区，复合分区不在官方支持列表中。'
+        '主备集群必须设置replica或logical，不能是minimal，D错误。'
     )
-    // 68
-    .addMultiple(MOCK3, '以下关于龙芯产品线应用分层的描述，正确的有？\nA. 龙芯1K系列是超低功耗MCU芯片，面向物联网、小型嵌入式智能终端\nB. 龙芯2K系列是一体化SOC，适配工控设备、安防监控终端\nC. 龙芯3A系列面向台式机、办公一体机、政企信创桌面终端\nD. 龙芯3C/3D系列面向服务器、云计算、数据中心算力节点',
+    .addMultiple(MOCK9_NEW, '关于中创应用服务器的版本差异，以下说法正确的有？\nA. 企业版支持Web+EJB+集群+完整JavaEE规范\nB. 标准版没有EJB容器\nC. 容器版没有EJB和集群，仅有Web容器\nD. 嵌入式版仅支持Web',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'ABCD全部正确，对应龙芯全产品线的四个层级：1K物联网→2K工控→3A桌面→3C/3D服务器。'
+        '四个版本的核心能力差异均正确。'
     )
-    // 69
-    .addMultiple(MOCK3, '某应用使用SpringBoot+MyBatis+MySQL，迁移到Vastbase时，以下需要改造的点和风险等级匹配正确的有？\nA. JDBC驱动类从com.mysql.jdbc.Driver改为org.postgresql.Driver——风险等级高\nB. AUTO_INCREMENT改为SERIAL——风险等级高\nC. 存储过程中MySQL的DELIMITER $$等语法改为PL/pgSQL语法——风险等级高\nD. 字符串引号从双引号改为单引号——风险等级高',
+    .addMultiple(MOCK9_NEW, '关于exBase的反向增量迁移，以下说法正确的有？\nA. 完成A→B全量迁移后，可同时运行正向和反向增量迁移\nB. 反向增量迁移用于割接失败后的回退\nC. 反向作业出现严重问题时，支持基于原作业创建反向逃生通道\nD. 反向增量迁移会加速正向迁移速度',
         ['A', 'B', 'C', 'D'], [0, 1, 2],
-        'A正确，驱动类替换是关键点，风险高；B正确，自增列语法不同，风险高；C正确，存储过程是迁移重灾区，风险高；D错误，字符串引号使用单引号两者一致，无需改造，风险等级低。'
+        '反向增量迁移用于保证两库数据一致和回退，不会加速正向迁移，D错误。'
     )
-    // 70
-    .addMultiple(MOCK3, '关于Vastbase的pg_hba.conf配置文件，以下说法正确的有？\nA. 该文件位于数据目录下，用于控制哪些IP和用户可连接数据库\nB. 修改该文件后执行vb_ctl reload即可生效，无需重启\nC. 该文件中的认证规则按顺序匹配，第一条匹配的规则生效\nD. 生产环境中该文件可配置为只允许特定应用服务器IP连接，增强安全性',
+    .addMultiple(MOCK9_NEW, '关于Vastbase中kernel.shmmax和kernel.shmall，以下说法正确的有？\nA. kernel.shmmax是单个共享内存段最大尺寸\nB. kernel.shmall是共享内存总页数\nC. kernel.shmmax推荐系统内存×0.5\nD. kernel.shmall推荐系统内存×80%/PAGE_SIZE',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，pg_hba.conf是客户端认证配置文件；B正确，reload可生效；C正确，按顺序匹配；D正确，生产环境应限制连接来源。'
+        '四个参数的含义和推荐值均正确。'
     )
-    // 71
-    .addMultiple(MOCK3, '以下关于中创AS性能调优的说法，正确的有？\nA. HTTP调优中，文件高速缓存可减少静态资源的磁盘读取，默认缓存大小为10MB\nB. 线程池调优中，最大线程池默认256，设置过小会导致请求排队，设置过大会耗尽系统资源\nC. Web容器调优中，reload-interval=-1可禁止JSP实时编译，降低响应时延\nD. JDBC连接池调优中，numconsumed接近最大值且waitQueueLength持续增长时需调大连接池或检查连接泄漏',
+    .addMultiple(MOCK9_NEW, '关于龙芯平台系统安装，以下说法正确的有？\nA. 全盘自动安装会清空整块硬盘所有文件\nB. 存量业务服务器应使用手动分区，保留原有用户数据分区\nC. UEFI模式安装必须单独划分EFI引导分区\nD. /home分区的作用是隔离系统文件与用户业务文档',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，默认10MB缓存；B正确，线程池大小的两难权衡；C正确，reload-interval=-1禁止实时编译；D正确，连接池耗尽的典型现象和处理思路。'
+        '四项都是龙芯平台系统安装的正确描述。'
     )
-    // 72
-    .addMultiple(MOCK3, '关于Vastbase中索引的使用，以下说法正确的有？\nA. Vastbase默认索引类型为B-Tree\nB. 创建索引时使用CONCURRENTLY选项可避免锁表，适合生产环境\nC. 索引必须在表创建之后才能创建\nD. 创建索引会增加数据插入和更新时的开销',
+    .addMultiple(MOCK9_NEW, '关于Vastbase中pg_hba.conf、pg_ident.conf、postgresql.conf三个配置文件，以下说法正确的有？\nA. postgresql.conf是主配置文件，设置端口、内存等核心参数\nB. pg_hba.conf是客户端认证配置，控制哪些IP/用户可连接\nC. pg_ident.conf做操作系统用户到数据库用户的映射\nD. postmaster.pid是进程ID文件，不是配置文件',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，默认B-Tree；B正确，CONCURRENTLY在线建索引不阻塞读写；C正确，索引依赖表存在；D正确，索引维护带来额外开销。'
+        '四项都是Vastbase配置文件的正确描述。'
     )
-    // 73
-    .addMultiple(MOCK3, '以下关于龙芯LoongArch架构的说法，正确的有？\nA. LoongArch拥有完整自主知识产权，不受海外专利约束\nB. LoongArch属于RISC精简指令集，指令长度统一\nC. LoongArch内置LSX128位和LASX256位向量扩展指令\nD. LoongArch架构设备仅能安装loongarch64架构的操作系统镜像',
-        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，完全自主知识产权；B正确，RISC指令集特征；C正确，两组向量扩展指令；D正确，跨架构不兼容。'
+    .addMultiple(MOCK9_NEW, '关于迁移中MySQL到Vastbase的改造，以下说法正确的有？\nA. REPLACE INTO改为INSERT ... ON CONFLICT\nB. TINYINT(1)映射为BOOLEAN\nC. CONNECT BY改为WITH RECURSIVE\nD. 存储过程可直接复制使用',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '存储过程需重写为PL/pgSQL，不能直接复制，D错误。'
     )
-    // 74
-    .addMultiple(MOCK3, '关于Vastbase的日志和WAL目录，以下说法正确的有？\nA. pg_log/目录存储数据库运行日志，是故障排查的第一站\nB. pg_wal/目录存储WAL预写日志，用于事务持久化和主备复制\nC. pg_audit/目录存储审计日志，需开启审计功能后才产生\nD. postmaster.pid文件存储在数据目录中，用于判断数据库运行状态',
+    .addMultiple(MOCK9_NEW, '关于Vastbase中vb_ctl的高可用命令，以下说法正确的有？\nA. failover用于主节点故障后的强制切换\nB. switchover用于计划内主动切换\nC. promote是备库提升为主库的底层操作\nD. failover和switchover都会调用promote',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，pg_log是运行日志；B正确，pg_wal是WAL日志；C正确，审计日志需开启审计；D正确，postmaster.pid是进程ID文件。'
+        '四项都是Vastbase高可用命令的正确描述。'
     )
-    // 75
-    .addMultiple(MOCK3, '中创AS故障排查中，以下关于日志和排查手段的说法，正确的有？\nA. 主日志文件为domains/domain1/logs/server.log，故障排查应优先查看\nB. 日志级别SEVERE > WARNING > INFO > CONFIG > FINE > FINER > FINEST，级别越高输出越少\nC. 部署后访问404应依次检查应用部署状态、端口监听状态、应用访问URL\nD. jar包冲突时，应在WEB-INF目录下创建inforsuite-web.xml并设置delegate=false',
-        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，server.log是主日志；B正确，日志级别顺序和输出量；C正确，404排查顺序；D正确，类冲突解决方案。'
+    .addMultiple(MOCK9_NEW, '关于中创应用服务器中reload-interval=-1和enablePooling=true，以下说法正确的有？\nA. 前者禁止实时编译JSP\nB. 后者开启标签缓存池\nC. 两者都用于提升JSP处理性能\nD. 前者用于调整线程池大小',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        'reload-interval=-1禁止实时编译JSP，enablePooling=true开启标签缓存池，两者都提升JSP处理性能，D错误。'
     )
-    // 76
-    .addMultiple(MOCK3, '关于Vastbase的WAL日志和归档机制，以下说法正确的有？\nA. 主备集群中wal_level必须设置为replica或logical，不能为minimal\nB. archive_mode=on开启归档后，archive_command定义归档命令，开启后支持PITR恢复\nC. 未开启归档时，WAL文件会被循环覆盖，无法恢复到过去的任意时间点\nD. 同步复制模式下，主库需等待备库确认WAL写入后才提交事务',
-        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，replica/logical支持复制；B正确，归档开启PITR；C正确，不归档则WAL循环覆盖；D正确，同步复制等待备库确认。'
+    .addMultiple(MOCK9_NEW, '关于exBase中CDC增量同步，以下说法正确的有？\nA. 正常延迟<1秒\nB. 超过10秒需排查原因\nC. CDC期间必须停止源库写入\nD. CDC支持断点续传',
+        ['A', 'B', 'C', 'D'], [0, 1, 3],
+        'CDC不需要停止源库写入，这正是CDC的核心价值，C错误。'
     )
-    // 77
-    .addMultiple(MOCK3, '以下关于龙芯国产操作系统安装过程的说法，正确的有？\nA. 时区应统一选择亚洲/上海\nB. Root密码需满足复杂度要求：8位以上，四类字符至少包含三类\nC. 存量业务服务器安装前必须全量备份数据\nD. 安装拷贝文件阶段严禁强制断电或重启，否则可能损坏分区表和引导程序',
+    .addMultiple(MOCK9_NEW, '关于Vastbase中fs.aio-max-nr和fs.nr_open，以下说法正确的有？\nA. fs.aio-max-nr是最大异步IO请求数\nB. fs.aio-max-nr推荐值1048576\nC. fs.nr_open是单进程最大打开文件句柄数\nD. fs.nr_open推荐值20480000',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，标准时区配置；B正确，密码复杂度要求；C正确，数据备份是必要前提；D正确，安装中断会损坏引导。'
+        '四个参数的含义和推荐值均正确。'
     )
-    // 78
-    .addMultiple(MOCK3, '关于Vastbase的vsql元命令，以下说法正确的有？\nA. \\l列出所有数据库，\\c 库名切换数据库\nB. \\dt列出当前schema下所有表，\\d 表名查看表结构\nC. \\du列出所有用户/角色，\\dn列出所有模式\nD. \\db列出所有表空间，\\dp列出表和视图的权限信息',
-        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'ABCD均为文档中vsql元命令的正确功能描述。'
+    .addMultiple(MOCK9_NEW, '关于龙芯3A6000的LAT二进制翻译技术，以下说法正确的有？\nA. 搭配Wine兼容层运行Windows桌面软件\nB. 无需虚拟机即可运行绝大多数Windows桌面程序\nC. 龙芯硬件底层无X86指令执行单元\nD. LAT技术可原生安装Windows操作系统',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '龙芯硬件底层无X86指令执行单元，无法原生安装Windows，D错误。'
     )
-    // 79
-    .addMultiple(MOCK3, '关于Vastbase的备份恢复工具和策略，以下说法正确的有？\nA. 全量备份备份全部数据文件，增量备份只备份变化的数据块\nB. vb_probackup支持全量/增量备份和PITR恢复\nC. vb_dump是逻辑备份工具，默认输出为明文SQL格式（plain）\nD. "全量打底，增量补充，WAL保实时"是推荐的备份策略',
-        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，全量和增量的定义；B正确，vb_probackup功能；C正确，vb_dump和默认格式；D正确，备份策略口诀。'
+    .addMultiple(MOCK9_NEW, '关于Vastbase中vb_ctl build和vb_ctl query，以下说法正确的有？\nA. vb_ctl build在主机上用于重建备机或级联备机的数据\nB. vb_ctl query查询主备节点之间的状态信息\nC. vb_ctl build只能在备机上执行\nD. vb_ctl query用于查看集群状态',
+        ['A', 'B', 'C', 'D'], [0, 1, 3],
+        'vb_ctl build在主机上执行，不是备机，C错误。'
     )
-    // 80
-    .addMultiple(MOCK3, '以下关于Vastbase安装部署的说法，正确的有？\nA. 生产环境推荐内存为8GB，CPU为16核，磁盘空间建议16GB以上\nB. 安装必须使用普通用户（如vastbase），不能用root\nC. 安装前必须关闭防火墙、SELinux和RemoveIPC\nD. 安装完成后需执行source ~/.bashrc加载环境变量，然后启动数据库',
+    .addMultiple(MOCK9_NEW, '关于迁移中SpringBoot迁移到中创内嵌版，以下说法正确的有？\nA. 移除内嵌Tomcat包\nB. 引入中创内嵌版依赖\nC. 对标修改配置文件\nD. 大量重写业务代码',
+        ['A', 'B', 'C', 'D'], [0, 1, 2],
+        '主要是替换依赖和调整配置，业务代码基本保持不变，D错误。'
+    )
+    .addMultiple(MOCK9_NEW, '关于Vastbase中pg_stat_activity、pg_stat_replication、pg_settings三个视图，以下说法正确的有？\nA. pg_stat_activity用于查看当前所有连接和查询\nB. pg_stat_replication用于查看主备同步状态\nC. pg_settings用于查看当前所有数据库参数配置\nD. pg_stat_activity可用于连接数超限时排查',
         ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
-        'A正确，生产环境推荐配置；B正确，必须用普通用户安装；C正确，关闭这三个是安装前必要条件；D正确，安装后加载环境变量再启动。'
+        '四项都是三个系统视图的正确用途。'
+    )
+    .addMultiple(MOCK9_NEW, '关于中创应用服务器故障排查常用命令，以下说法正确的有？\nA. jstack查看线程堆栈，分析死锁/线程阻塞\nB. jstat查看GC状态\nC. jmap导出堆内存\nD. top -Hp <pid>查看进程内线程CPU使用情况',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '四项都是中创应用服务器故障排查常用命令的正确用途。'
+    )
+    .addMultiple(MOCK9_NEW, '关于Vastbase中vb_dump的输出格式，以下说法正确的有？\nA. p=明文（plain），默认格式\nB. c=自定义（custom），压缩格式\nC. d=目录（directory），多文件目录格式\nD. t=tar包（tar），打包格式',
+        ['A', 'B', 'C', 'D'], [0, 1, 2, 3],
+        '四种输出格式的代码和特点均正确。'
     )
 
 // ============================================================
-// 第81-100题：模拟三 判断题
+// 第81-100题：模拟九 判断题
 // ============================================================
 QuestionBank
-    .addJudge(MOCK3, 'Vastbase数据库的共享缓冲区（shared_buffers）参数建议设置为物理内存的50%~70%。', false,
-        'shared_buffers建议25%~40%，50%~70%是effective_cache_size的推荐范围。两者易混淆。'
+    .addJudge(MOCK9_NEW, 'Vastbase中shared_buffers实际分配共享内存，而effective_cache_size只是评估值，不直接分配内存。', true,
+        'shared_buffers实际分配，effective_cache_size只影响执行计划选择。'
     )
-    .addJudge(MOCK3, '在LoongArch架构上，可通过LAT二进制翻译+Wine兼容层运行Windows exe程序，但龙芯硬件底层无法原生安装Windows操作系统。', true,
-        '龙芯无X86指令执行单元，无法原生运行Windows，只能通过LAT+Wine兼容运行Windows程序。'
+    .addJudge(MOCK9_NEW, '龙芯3A6000支持双通道DDR4-3200，3C5000支持4通道DDR4-3200，两者都不支持DDR5。', true,
+        '3A6000双通道，3C5000四通道，均不支持DDR5。'
     )
-    .addJudge(MOCK3, 'Vastbase数据库的vb_ctl failover命令用于计划内主备切换，vb_ctl switchover用于故障后强制切换。', false,
-        '说反了。failover是主节点故障后的强制切换，switchover是计划内主动切换。'
+    .addJudge(MOCK9_NEW, '迁移中JNI本地库不兼容的典型报错是UnsatisfiedLinkError，需确认.so文件是否为ARM64/LoongArch架构编译。', true,
+        'JNI本地库不兼容会报UnsatisfiedLinkError，需重新编译对应架构的.so文件。'
     )
-    .addJudge(MOCK3, '在龙芯平台离线安装软件时，如果缺少依赖包，可以下载x86_64架构的rpm包使用--nodeps强制安装，运行时龙芯会自动进行二进制翻译。', false,
-        'Linux环境下的x86_64 RPM包不适用LAT（LAT是针对Windows程序的），x86_64指令在龙芯上无法直接运行，--nodeps只能跳过依赖检查不能解决指令不兼容问题。'
+    .addJudge(MOCK9_NEW, 'Vastbase中wal_level=minimal支持主备复制，主备集群环境可设置为minimal以节省空间。', false,
+        'minimal最少日志，不支持主备复制，主备集群必须设置为replica或logical。'
     )
-    .addJudge(MOCK3, 'Vastbase在Oracle兼容模式（模式A）下，存储过程中使用的SYSDATE可以直接替换为CURRENT_TIMESTAMP，但需要注意时区和精度差异。', true,
-        'SYSDATE→CURRENT_TIMESTAMP是标准改造方案，但时区和精度可能有差异需要验证。'
+    .addJudge(MOCK9_NEW, '中创应用服务器中，标准版没有EJB容器，容器版没有EJB和集群，嵌入式版仅支持Web。', true,
+        '四个版本的核心能力差异均正确。'
     )
-    .addJudge(MOCK3, '中创AS的默认管理端口是8080，应用HTTP访问端口是8060。', false,
-        '说反了。8060是管理控制台端口，8080是应用HTTP访问端口。'
+    .addJudge(MOCK9_NEW, 'exBase的反向增量迁移用于割接失败后的回退，反向作业出现严重问题时支持创建反向逃生通道。', true,
+        '反向增量迁移用于回退，反向逃生通道用于重新同步数据。'
     )
-    .addJudge(MOCK3, 'Vastbase数据库的postgresql.conf配置文件修改后，可以执行vb_ctl reload使所有参数生效而无需重启。', false,
-        '只有部分参数（如pg_hba.conf、部分GUC参数）支持reload生效，内存参数（shared_buffers、work_mem等）需要重启数据库，不能一概而论。'
+    .addJudge(MOCK9_NEW, 'Vastbase中kernel.shmmax推荐系统内存×0.5，kernel.shmall推荐系统内存×80%/PAGE_SIZE。', true,
+        '两个内核参数的推荐值均正确。'
     )
-    .addJudge(MOCK3, '龙芯3A6000处理器不支持DDR5内存，仅支持双通道DDR4-3200。', true,
-        '龙芯全系列均不支持DDR5，3A6000仅支持双通道DDR4-3200。'
+    .addJudge(MOCK9_NEW, '龙芯平台全盘自动安装会清空整块硬盘所有文件，存量业务服务器应使用手动分区保留原有用户数据分区。', true,
+        '全盘自动安装会清空整块硬盘，存量业务服务器应用手动分区。'
     )
-    .addJudge(MOCK3, 'exBase迁移评估结果为"不兼容"时，exBase会自动跳过该对象并继续迁移，不会影响迁移任务整体进度。', false,
-        '"不兼容"表示目标库不支持且无转换规则，需人工介入改造。exBase不会自动跳过，需要人工处理。'
+    .addJudge(MOCK9_NEW, 'Vastbase中postmaster.pid是主配置文件，用于设置端口、内存等核心参数。', false,
+        'postmaster.pid是进程ID文件，不是配置文件，用于判断数据库是否正在运行。'
     )
-    .addJudge(MOCK3, '在Vastbase中，执行ALTER TABLE table_name ADD COLUMN col_name INTEGER;语句会获取排他锁（AccessExclusiveLock），业务高峰期执行会阻塞所有读写操作。', true,
-        'DDL语句（包括ALTER TABLE ADD COLUMN）会获取排他锁，阻塞所有读写操作，应在低峰期执行。'
+    .addJudge(MOCK9_NEW, '迁移中MySQL的REPLACE INTO在Vastbase中应改为INSERT ... ON CONFLICT。', true,
+        'MySQL的REPLACE INTO在Vastbase中应改为INSERT ... ON CONFLICT，语法完全不同。'
     )
-    .addJudge(MOCK3, '龙芯LoongArch架构属于CISC复杂指令集，与X86架构属于同一类别。', false,
-        'LoongArch属于RISC精简指令集，X86属于CISC复杂指令集，二者不同。'
+    .addJudge(MOCK9_NEW, 'Vastbase中vb_ctl promote是备库提升为主库的底层操作，failover和switchover都会调用。', true,
+        'promote是底层操作，failover和switchover都会调用。'
     )
-    .addJudge(MOCK3, 'Vastbase的pg_is_in_recovery()函数返回t表示当前节点为主库，返回f表示为备库。', false,
-        '说反了。返回f表示为主库，返回t表示为备库（在恢复中的节点即备库）。'
+    .addJudge(MOCK9_NEW, '中创应用服务器中，reload-interval=-1用于调整线程池大小。', false,
+        'reload-interval=-1禁止实时编译JSP，用于提升JSP处理性能。'
     )
-    .addJudge(MOCK3, '在中创AS中，监控快照（Snapshot）记录的是时序监控指标数据，用于查看历史趋势变化。', false,
-        '快照记录的是静态快照（线程堆栈、堆内存分布），用于深度分析；时序指标是监控回放的特性。两者功能易混淆。'
+    .addJudge(MOCK9_NEW, 'exBase中CDC增量同步期间必须停止源库写入，否则会导致数据不一致。', false,
+        'CDC不需要停止源库写入，这正是CDC的核心价值。'
     )
-    .addJudge(MOCK3, '使用exBase进行在线迁移时，源库MySQL的binlog格式必须设置为ROW格式，否则CDC增量同步无法正常解析。', true,
-        'CDC基于binlog解析，要求binlog格式为ROW，STATEMENT和MIXED格式无法保证正确解析。'
+    .addJudge(MOCK9_NEW, 'Vastbase中fs.aio-max-nr推荐值为1048576，fs.nr_open推荐值为20480000。', true,
+        '两个内核参数的推荐值均正确。'
     )
-    .addJudge(MOCK3, 'Vastbase的vb_ctl promote命令可用于将备库提升为主库，执行该命令后原主库会自动降级为备库。', false,
-        'promote只将备库提升为主库，不会自动处理原主库。原主库恢复后需要手动重建为备库。'
+    .addJudge(MOCK9_NEW, '龙芯硬件底层无X86指令执行单元，无法原生安装Windows操作系统，依靠LAT+Wine运行Windows软件。', true,
+        '龙芯硬件底层无X86指令执行单元，无法原生安装Windows。'
     )
-    .addJudge(MOCK3, '龙芯3C5000服务器处理器支持PCIe4.0高速接口，可用于高速NVMe SSD和GPU卡扩展。', false,
-        '复习资料明确3C5000硬件不支持PCIe4.0，最高仅支持PCIe3.0。'
+    .addJudge(MOCK9_NEW, 'Vastbase中vb_ctl build只能在备机上执行，用于重建备机数据。', false,
+        'vb_ctl build在主机上执行，用于重建备机或级联备机的数据。'
     )
-    .addJudge(MOCK3, '在Vastbase中，逻辑备份工具vb_dump的默认输出格式为custom（自定义格式），备份文件体积最小且支持并行恢复。', false,
-        'vb_dump默认输出格式是plain（明文SQL），不是custom。custom需显式指定-F c。'
+    .addJudge(MOCK9_NEW, '迁移中SpringBoot迁移到中创内嵌版时，主要是替换依赖和调整配置，业务代码基本保持不变。', true,
+        'SpringBoot迁移主要是替换依赖和调整配置，业务代码基本不变。'
     )
-    .addJudge(MOCK3, '中创AS的domain.xml文件是域的主配置文件，存储了端口、JVM参数、数据源等核心配置，应定期备份。', true,
-        'domain.xml是中创AS的核心配置文件，包含所有域配置，需要备份。'
+    .addJudge(MOCK9_NEW, 'Vastbase中pg_stat_activity视图可用于连接数超限时排查，查看当前所有连接和查询。', true,
+        'pg_stat_activity查看当前所有连接和查询，连接数超限时排查用。'
     )
-    .addJudge(MOCK3, '在Vastbase中，物化视图（Materialized View）与普通视图的核心区别在于物化视图物理存储数据，且支持自动增量刷新而无需手动操作。', false,
-        '物化视图确实物理存储数据，但刷新方式需要手动执行REFRESH MATERIALIZED VIEW（或配置定时刷新），不支持像Oracle那样自动增量刷新（ON COMMIT刷新在Vastbase中不支持或不完善）。'
+    .addJudge(MOCK9_NEW, '中创应用服务器中，jstack用于查看GC状态，jstat用于查看线程堆栈。', false,
+        'jstack查看线程堆栈，jstat查看GC状态，两者说反了。'
     )
-    .addJudge(MOCK3, '龙芯1K系列超低功耗MCU芯片和2K系列工控SOC芯片均不支持运行完整版国产操作系统（如银河麒麟桌面版），这类芯片通常运行嵌入式Linux或RTOS。', true,
-        '1K/2K系列为嵌入式/工控芯片，资源有限，一般运行嵌入式Linux或RTOS而非完整桌面版操作系统。桌面/服务器场景使用3A/3C/3D系列。'
-    );
+    .addJudge(MOCK9_NEW, 'Vastbase中vb_dump的默认输出格式是明文（plain），输出SQL文本，可用vsql直接执行。', true,
+        'vb_dump默认输出格式为明文（plain），输出SQL文本，可用vsql直接执行。'
+    )
+;
     // ============================================================
 // 新增分类：模拟十（对应 模拟八.txt 全部题目）
 // 包含：30单选 + 10多选 + 10判断 = 50题
@@ -10447,12 +10342,70 @@ function handleJudgeSelect(questionId, selectedValue) {
     record.revealed = true;
     render();
 }
+function revealCurrent() {
+    const filtered = getFiltered();
+    if (filtered.length === 0) return;
+    const q = filtered[state.currentIndex];
+    const record = state.records[q.id];
+    if (!record) return;
+    if (record.revealed) return;
+    if (record.selected === null || record.selected === undefined || (Array.isArray(record.selected) && record.selected.length === 0)) {
+        if (q.type === 'single') record.selected = 0;
+        else if (q.type === 'multiple') record.selected = [0];
+        else record.selected = true;
+    }
+    if (!record.counted) {
+        state.totalAnswered += 1;
+        if (isAnswerCorrect(q, record)) state.totalRight += 1;
+        record.counted = true;
+    }
+    record.revealed = true;
+    render();
+}
+
+function revealAllInCategory() {
+    const filtered = getFiltered();
+    if (filtered.length === 0) return;
+
+    filtered.forEach(q => {
+        if (!state.records[q.id]) {
+            state.records[q.id] = {
+                selected: (q.type === 'multiple' ? [] : null),
+                revealed: false,
+                counted: false
+            };
+        }
+        const record = state.records[q.id];
+
+        // 直接选中正确答案
+        if (q.type === 'single') {
+            record.selected = q.answer;
+        } else if (q.type === 'multiple') {
+            record.selected = [...q.answer];
+        } else if (q.type === 'judge') {
+            record.selected = q.answer;
+        }
+
+        record.revealed = true;
+
+        if (!record.counted) {
+            state.totalAnswered += 1;
+            state.totalRight += 1;
+            record.counted = true;
+        }
+    });
+
+    render();
+}
+
+function prevQuestion() {
         function prevQuestion() {
             const filtered = getFiltered();
             if (filtered.length === 0) return;
             state.currentIndex = (state.currentIndex - 1 + filtered.length) % filtered.length;
             render();
         }
+    }
 
         function nextQuestion() {
             const filtered = getFiltered();
@@ -10520,7 +10473,7 @@ function revealAllMockAnswers() {
         document.getElementById('prevBtn').addEventListener('click', prevQuestion);
         document.getElementById('nextBtn').addEventListener('click', nextQuestion);
         document.getElementById('resetBtn').addEventListener('click', resetAll);
-        document.getElementById('showAnswerBtn').addEventListener('click', revealCurrent);
+        document.getElementById('showAllAnswersBtn').addEventListener('click', revealAllInCategory);
         render();
     </script>
 </body>
